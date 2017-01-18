@@ -1,0 +1,196 @@
+
+html, body {
+            height: 100%;            
+        }
+
+        .container-fluid.content {
+            padding-top: 57px;
+            height: 100%;
+        }
+
+        .container-fluid.content > .row {
+                height: 100%;
+            }
+
+        .mainview, .leftview, .rightview {
+            padding-top: 15px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .mainview, .leftview, .rightview {
+            background-color: #fff;
+        }
+
+        @media (max-width: 767px) {
+            .mainview, .leftview, .rightview {
+                height: auto;
+            }
+        }
+	
+		.leftview {
+			width: 20%;
+			}
+			
+		.rightview {
+			width: 15%;
+			}
+		
+		.mainview {
+			width: 65%;
+			}
+		
+
+        .navbar-custom .icon-bar {
+            background-color: #fff;
+        }
+
+        .navbar-custom {            
+            background-color:#fff;
+            color: #fff;
+            
+        }
+
+
+        .nav navbar-nav navbar-right {
+			padding-right: 57px;
+
+		}
+        .navbar navbar-custom navbar-fixed-top {
+			padding-right: 57px;
+
+		}
+
+        .top-panel {
+            height: calc(55% - 15px);
+            width: calc(100% + 15px);
+            position: relative;
+            background-color: white;
+        }
+
+        .top-right-panel {
+            height: calc(55% - 15px);
+            width: 100%;
+            position: relative;
+            background-color: white;
+            padding-right: 57px;
+        }
+
+        .bottom-panel {
+            height: calc(45% - 15px);
+            width: calc(100% + 20px);
+            top: 15px;
+            position: relative;
+            background-color: white;            
+            
+        }
+
+        .bottom-left-panel {
+            height: calc(45% - 15px);
+            width: calc(100% + 20px);
+            top: 15px;
+            position: relative;
+            background-color: white;    
+            overflow-y:auto;
+            
+        }
+
+        .bottom-right-panel {
+            height: calc(45% - 15px);
+            width: 100%;
+            top: 15px;
+            position: relative;
+            background-color: white;
+        }
+
+        #map {
+            height: calc(100% - 20px);
+            width: calc(100% - 20px);
+            left: 10px;
+            top: 10px;            
+            position: relative;
+            background-color: #ddd;
+        }
+
+
+        .bottom-panel-menu {
+            left:5px; 
+            top:5px;
+            height: 55px;
+            width: 100%;            
+            position: relative;
+            background-color: white;
+        }
+
+
+        .bottom-panel-chart {
+            height: calc(100% - 55px);
+            width: 100%;
+            position: relative;
+            background-color: white;            
+        }
+
+       
+        #chartDiv {
+            height: 100%;
+            min-width: 450px;
+            position: relative;
+        }
+
+
+
+
+        .loading {
+          position: absolute;
+          left: 10px;
+          top: 10px;
+        }
+
+        .modal-header {
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    /*background-color: #1d1a2c;*/
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+     /*color:#fff;*/
+ }
+
+.legend-block {
+  width:20px;
+  height:20px;
+  margin-right:10px;
+  float: left;
+  border:#bbb solid 1px;
+  background-color:#D3D3D3;
+}
+
+
+
+         #saveKmlUI, #loadKmlUI {                         
+            background-color: #fff;
+            border: 2px solid #fff;
+            border-radius: 3px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.3);
+            cursor: pointer;
+            float: left;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+        #saveKmlText, #loadKmlText {
+            
+            color: rgb(25,25,25);
+            font-family: Roboto,Arial,sans-serif;
+            font-size: 15px;
+            line-height: 25px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        #loadKmlUI {
+        margin-left: 4px;
+      }
+
