@@ -424,7 +424,7 @@ function loadInitialData () {
     document.getElementById('totalArea').innerHTML = numberWithCommas(area) + " ha";
     document.getElementById('elevationRange').innerHTML = numberWithCommas(minElev) + " - " + numberWithCommas(maxElev) + " m";
   
-    createChartWclim();
+    //createChartWclim();
 
 
 }
