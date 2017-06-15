@@ -181,6 +181,19 @@ html, body {
   background-color:#D3D3D3;
 }
 
+.primitive-block {
+  width:20px;
+  height:20px;
+  margin-right:10px;
+  float: left;
+  border:#bbb solid 1px;
+  background-color:#D3D3D3;
+}
+
+.water #timeslider {
+  margin-left: 30px;
+  width: 60px;
+}
 
 
          #saveKmlUI, #loadKmlUI {                         
