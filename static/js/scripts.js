@@ -4,7 +4,7 @@ var outlineKmlLayer;
 var lc_mapType, elev_mapType;
 
 var DEFAULT_CENTER = new google.maps.LatLng(18.5, 98);
-var DEFAULT_ZOOM = 4
+var DEFAULT_ZOOM = 6
 var MAX_ZOOM = 15
 
 var infoWindow;

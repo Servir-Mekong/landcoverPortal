@@ -62,7 +62,7 @@ html, body {
 		}
 
         .top-panel {
-            height: calc(55% - 15px);
+            height: calc(95% - 15px);
             width: calc(100% + 15px);
             position: relative;
             background-color: white;
