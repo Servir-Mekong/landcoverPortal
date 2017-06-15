@@ -13,7 +13,7 @@ html, body {
             }
 
         .mainview, .leftview, .rightview {
-            padding-top: 15px;
+            padding-top: 30px;
             height: 100%;
             overflow: hidden;
         }
@@ -51,7 +51,6 @@ html, body {
             
         }
 
-
         .nav navbar-nav navbar-right {
 			padding-right: 57px;
 
@@ -60,6 +59,20 @@ html, body {
 			padding-right: 57px;
 
 		}
+
+        .bottombar-custom .icon-bar {
+            background-color: #000;
+        }
+
+        .bottombar-custom {            
+            background-color:#000;
+            color: #000;
+            
+        }
+        .bottombar bottombar-custom navbar-fixed-bottom {
+            padding-right: 57px;
+            
+        }
 
         .top-panel {
             height: calc(95% - 15px);
