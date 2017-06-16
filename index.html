@@ -30,9 +30,9 @@
     <script src="/static/js/kml.js"></script>
     <script src="/static/js/scripts.js"></script>
     
-	</head>
+    </head>
 
-	<body>
+    <body>
     
 
     <div class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -40,15 +40,16 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
             <div class="navbar-header">
-            <a class="navbar-brand" href="#">SERVIR-Mekong Land Cover Viewer</a>
+            <a class="navbar-brand" href="#">SERVIR-Mekong Land Cover Portal</a>
             </div>
             <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="#topContainer"></a></li>
             <li><a href="/static/html/map.html">Map</a></li>
             <li><a href="#">Documents</a></li>
-            <li><a href="#">Repository</a></li>
+            <li><a href="https://earthengine.googlesource.com/RLCMS/+/master">Repository</a></li>
             <li><a href="#">Mettings</a></li>
             <li><a href="http://ceo.sig-gis.com/">Collect Earth Online</a></li>
+            <li style="float:right"><a class="active" href="#About">About</a></li>
             </ul>
             </div>
         </nav>
@@ -58,296 +59,7 @@
 
     <div id="main-container" class="container-fluid content">
 
-
-<h1 id="layerPanel" style ="padding-top: 30px"> Coming Soon! </h1>
-
-                    <ul class="nav nav-tabs" style="padding-left: 5px; padding-top: 10px;">
-                        <li class="active"><a data-toggle="tab" href="#toc">Land cover</a></li>
-                        <li><a data-toggle="tab" href="#legend">Primitives</a></li>
-
-                    </ul>
-
-                    <div class="tab-content">
-                        <div id="toc" class="tab-pane fade in active">
-
-
-                            <div id="layerPanel" style="font-size: small; padding-left: 20px; padding-top: 30px; font-size: medium;">
-                            <!--  <div class="checkbox">
-                                    <label><input type="checkbox" checked="checked" id="outlineLayer" onclick="ShowHideKmlLayer();">HKH Outline</label>
-                                </div>                                 <div class="checkbox">
-                                    <label><input type="checkbox" id="lcoverLyr" onclick="ShowHideLayer();">Land Cover</label>
-                                </div>-->
-                            <div id="layerPanel" style="font-size: small; padding-left: 20px; padding-top: 20px; font-size: medium;">
-                            </div>
-
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #6f6f6f;"></div><label><input type="checkbox" class="lcbox" value="0" >Unknown</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #aec3d4;"></div><label><input type="checkbox" class="lcbox" value="1" >Water</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #111149;"></div><label><input type="checkbox" class="lcbox" value="2" >Mangrove</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #111149;"></div><label><input type="checkbox" class="lcbox" value="3" >Tree (other)</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #387242;"></div><label><input type="checkbox" class="lcbox" value="4" >Grass</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #f4a460;"></div><label><input type="checkbox" class="lcbox" value="5" >Shrub</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #800080;"></div><label><input type="checkbox" class="lcbox" value="6" >Built-up</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #cc0013;"></div><label><input type="checkbox" class="lcbox" value="7" >Crop</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #8dc33b;"></div><label><input type="checkbox" class="lcbox" value="8" >Rice</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #c3aa69;"></div><label><input type="checkbox" class="lcbox" value="9" >Plantation</label>
-							</div>
-							<div class="legend-value">
-								<div class="legend-block" style="background-color: #152106;"></div><label><input type="checkbox" class="lcbox" value="10" >Tree (deciduous)</label>
-							</div>
-								<div class="legend-value">
-								<div class="legend-block" style="background-color: #115420;"></div><label><input type="checkbox" class="lcbox" value="11" >Tree (evergreen)</label>
-							</div>
-							
-							
-
-                                <input type="file" id="fileOpen" style="visibility: hidden; width: 2px;" />
-                                
-                            </div>
-                        </div>
-                        <div id="legend" class="tab-pane fade" style="padding-top: 30px;">
-
-                            <table style="border: 0px;">
-								<div class="legend-value">
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="1" >Barren</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="2" >Builtup </label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="3" >Canopy</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="4" >Cropland</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="5" >Deciduous</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="6" >Ephemeral_water</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="7" >Evergreen</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="8" >Forest_cover </label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="9" >Grass</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="10" >Mangrove</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="11" >Mixed forest</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="12" >Rice</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="13" >Shrub </label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="14" >Snow ice</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="15" >Surface water</label>
-								</div>
-								
-								<div class="legend-value">
-								<label><input type="checkbox" class="mybox" value="16" >Tree height</label>			
-								</div>
-							
-							</div>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>                               
-                            </table>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="bottom-left-panel">
-
-				<input id="timeSlider" data-slider-id='timeSlider' type="text" data-slider-min="2000" data-slider-max="2015" data-slider-step="1" data-slider-value="2000"/>
-								
-                    <div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
-
-
-                        
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="col-sm-7 mainview">
-                <div class="top-panel">
-
-                    <div id="map"></div>
-                </div>
-            </div>
-
-            <div class="col-sm-3 rightview">
-                <div class="top-right-panel">
-
-
-                    <div style="padding-left:20px;padding-top:30px;">
-
-                        <div style="font-size: medium">
-                        </div>
-                        <table style="border: 0px;">
-
-                            <tr style="padding-top:20px;">
-                                <td style="width:80px">
-
-                                    <img src="static/img/icon_population.png" style="width: 50px; height: 50px; -webkit-border-radius: 25px; -moz-border-radius: 25px; border-radius: 25px; background-color: #e2843a; ">
-
-                                </td>
-                                <td>
-                                    <span style="color:#787878">Total population</span>
-                                    <h4 id="totalPop" style="color: #606060; font-size: 16px; font-weight: bold; "></h4>
-                                    <img src="static/img/loading.gif" id="loading-indicator-1" style="display:none" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                            </tr>
-							
-							<br>
-							<div id="sliderval1"></div>
-							<input type="range" min="2000" max="2015" step="1" value="2015", name="slider1" id="slider1">
-							</br>
-                        
-                        
-                        </table>
-
-                    </div>
-
-
-
-                    </div>
-                
-              
-
-
-                       
-                    </div>
-
-
-            </div>
-        </div>
-    </div>
-    
-</div>
-
-    <script>
-
-        $(document).ready(function () {
-
-            /**
-            * Here we get the mapid and token for the map tiles that were generated
-            * by Earth Engine using the Python script server.py and injected using
-            * the Jinja2 templating engine.
-            */
-            initialize('{{ mapid }}', '{{ token }}');
-
-            //initialize('{{ lcmapid }}', '{{ lctoken }}', '{{ elevmapid }}', '{{ elevtoken }}');
-
-            //Setup drawingManager and load chart and info-graphics
-            startupApp();
-
-        });
-
-    </script>
-
-
-
-
-    <!-- Modal -->
-    <div id="AboutSection" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class=" ">Resource Identification Tool</h3>
-                </div>
-                <div class="modal-body" style="font-size:small;">
-                    <p>This is a Google Earth Engine based application which allows extraction of information about various parameters (e.g. population, elevation, 
-                    temperature, precipitation, land cover, biodiversity, etc.) within the user defined area.
-
-                    </p>
-
-                    <p>
-                    When a user draws a polygon or rectangle on map and clicks the Compute button, the application carries out the analysis in the  
-                    Google Earth Engine, the Goolgle's cloud based platform, and presents the result in the form of charts and info-graphics.
-                        </p>
-                    
-                   <p>                      
-                       The list of datasets used in application are given below:
-                       <ul>
-                           <li><a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3">CIESIN 1KM World Population Grid 2015</a></li>
-                           <li><a href="http://www.worldclim.org">WorldClim 1km grid dataset of monthly mean temperature and precipitation for the period of 1950-2000 (24 raster data layers)</a> </li>
-                           <li><a href="http://chg.geog.ucsb.edu/data/chirps/">CHIRPS 5 day time series precipitation data for 2015 (72 raster data layers)</a> </li>
-                           <li><a href="https://lpdaac.usgs.gov/dataset_discovery/modis/modis_products_table/mcd12q1">MODIS 500m global land cover data for 2012</a></li>
-                           <li><a href="http://www.cgiar-csi.org/data/srtm-90m-digital-elevation-database-v4-1">SRTM 90m elevation data</a> </li>
-                           <li><a href="http://www.gbif.org/">Global Biodiversity Information Facility (GBIF) Occurrence data</a> </li>
-                       </ul>
-                       The aplication uses 7 different datasets and altogether some 100 data layers in the analysis. It uses an API provided by GBIF to query and access the occurrence
-                       information from their occurrence database. Likewise, the area of the user defined polygon is calculated using function provided by Google Maps API. Apart from these, 
-                       all other analyses are done in Google Earth Engine using Google Earth Engine API.
-                   </p> 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
+<h1 id="layerPanel" style ="padding-top: 30%"> Coming Soon! </h1>
 
 
 </body>
