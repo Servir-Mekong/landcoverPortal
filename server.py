@@ -64,9 +64,6 @@ class MainPage(webapp2.RequestHandler):
   def get(self):                             # pylint: disable=g-bad-name
     """Request an image from Earth Engine and render it to a web page."""
     
-    # initialize the EE
-    #ee.Initialize(config.EE_CREDENTIALS)
-
     # get the assemble landuse map
     lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
 
