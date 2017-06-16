@@ -67,10 +67,17 @@ var initialize = function (mapId, token) {
         // fillColor: 'green'
     });
 
+	// Check all boxes
+	$(".lcbox").prop("checked", true);
+	
+	// update the legend
+	updateLegend();
+	$('.lcbox').change(updateLegend);
+
     eventSlider();
 	var yearSlider = document.getElementById('slider').addEventListener("change", eventSlider);
 
-	$('.lcbox').change(getLegend);
+	//$('.lcbox').change(getLegend);
 
     //listen for click events
     map.data.addListener('click', function (event) {
@@ -97,6 +104,8 @@ var eventSlider = function() {
     
     var sliderValue = document.getElementById("slidervalue");
     slidervalue.innerHTML = year;
+    
+    updateLegend();
 		
 }
 
@@ -177,29 +186,6 @@ var getShapeArea = function (shape) {
 
 }
 
-var getLegend = function() {
-
-	legend = []
-	$('.lcbox').each(function(){
-		if (this.checked){
-			//alert($(this).val());}
-			legend.push(parseInt($(this).val(),10));}
-			})
-	
-	var mylegend = JSON.stringify(legend)
-	
-	$.get('/updateLandCover', {'lc': mylegend}).done(function (data) {
-		 if (data['error']) {
-		alert("Oops, an error! Please refresh the page!")
-    } else {
-	
-      var eeMapid = data["eeMapId"];
-      var eeToken = data["eeToken"];
-
-      refreshImage(eeMapid, eeToken);
-    }
-		})
-};
 
 
 /** Updates the image based on the current control panel config. */
@@ -225,153 +211,6 @@ function refreshImage(eeMapid, eeToken) {
 };
 
 
-function calculateSummary() {
-
-    if (currentShape){
-
-        var coords = getCoordinates(currentShape);
-
-        console.log(coords);
-
-        var polyCoords = '' + JSON.stringify(coords); //'' needed to force values to be treated as string
-       
-       
-        var area = getShapeArea(currentShape);
-        area_ha = Math.round(area / 10000);
-
-        document.getElementById('btnWclim').disabled = true;
-        document.getElementById('btnChirps').disabled = true;
-        document.getElementById('btnLandcover').disabled = true;
-
-        
-        ComputeSummary(polyCoords);
-
-        //Remove the current chart
-        if (chart){
-          chart.destroy();
-        }
-
-        ComputeWclim(polyCoords);
-        ComputeChirps(polyCoords);                
-        ComputeLandcover(polyCoords);
-    }
-    
-
-}
-
-
-
-function ComputeSummary(polyCoords) {
-
-    
-    $('#totalPop').hide();
-    $('#totalArea').hide();
-    $('#elevationRange').hide();
-
-    $('#loading-indicator-1').show();
-    $('#loading-indicator-2').show();
-    $('#loading-indicator-3').show();
-    
-
-
-    $.get('/getstats', { 'param': polyCoords }).done(function (data) {
-
-   
-        minElev = data['minElev'];
-        maxElev = data['maxElev'];
-        pop = data['pop'];
-
-
-
-        //console.log(minElev + ' - ' + maxElev);
-        //console.log('population: ' + pop);
-
-       
-        $('#totalPop').show();
-        $('#totalArea').show();
-        $('#elevationRange').show();
-
-        $('#loading-indicator-1').hide();
-        $('#loading-indicator-2').hide();
-        $('#loading-indicator-3').hide();
-
-        document.getElementById('totalPop').innerHTML = numberWithCommas(pop);
-        document.getElementById('totalArea').innerHTML = numberWithCommas(area_ha) + " ha";
-        document.getElementById('elevationRange').innerHTML = numberWithCommas(minElev) + " - " + numberWithCommas(maxElev) + " m";
- 
-
-    });
-
-
-}
-
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function ComputeLandcover(polyCoords) {
-    
-    $.get('/getlandcover', { 'param': polyCoords }).done(function (data) {
-
-        lcStats = data['lcStats'];
-
-        lcClassList = lcStats[0];
-        lcAreaList = lcStats[1];
-
-        
-        //createChartLandcover(lcClassList, lcAreaList);
-        createChartLandcover();
-
-        //console.log(lcClassList.join(", "));
-        //console.log(lcAreaList.join(", "));
-
-        document.getElementById('btnLandcover').disabled = false;
-
-    });
-
-
-}
-
-
-function ComputeWclim(polyCoords) {
-
-    $.get('/getwclim', { 'param': polyCoords }).done(function (data) {
-
-
-        wclimTempList = data['tmpList'];
-        wclimPPTList = data['pptList'];
-
-
-        //createChartWclim(wclimTempList, wclimPPTList);
-        createChartWclim();
-
-        //console.log(wclimTempList.join(", "));
-        //console.log(wclimPPTList.join(", "));
-
-        document.getElementById('btnWclim').disabled = false;
-
-
-    });
-
-}
-
-
-function ComputeChirps(polyCoords) {
-    $.get('/getchirps', { 'param': polyCoords }).done(function (data) {
-
-        chirpsDataList = data['chirpsDataList'];
-        chirpsDateList = chirpsDataList[0];
-        chirpsValueList = chirpsDataList[1];
-
-        createChartChirps(chirpsDateList, chirpsValueList);
-        
-        document.getElementById('btnChirps').disabled = false;
-        
-
-    });
-
-}
 
 
 var shapeToWKT = function (shape) {
@@ -397,55 +236,11 @@ var shapeToWKT = function (shape) {
 
 
 
-
-function loadInitialData () {
-
-    var population= 14969;
-    var minElev = 3962;
-    var maxElev = 7343;
-    var area = 38505;
-
-    var animalOccurrence = 73;
-    var plantOccurrence = 92;
-
-
-    // Define the LatLng coordinates for the polygon.
-    var initialPolyCoords = [
-        { lat: 20.522886832325796, lng: 104.98529624938965 },
-        { lat: 20.522886832325796, lng: 105.23798179626465 },
-        { lat: 20.661636331915222, lng: 105.23798179626465 },
-        { lat: 20.661636331915222, lng: 104.98529624938965 }
-    ];
-
-    currentShape = new google.maps.Polygon({ paths: initialPolyCoords});
-    currentShape.setMap(map);
-
-
-    chirpsDateList = [20150101, 20150106, 20150111, 20150116, 20150121, 20150126, 20150201, 20150206, 20150211, 20150216, 20150221, 20150226, 20150301, 20150306, 20150311, 20150316, 20150321, 20150326, 20150401, 20150406, 20150411, 20150416, 20150421, 20150426, 20150501, 20150506, 20150511, 20150516, 20150521, 20150526, 20150601, 20150606, 20150611, 20150616, 20150621, 20150626, 20150701, 20150706, 20150711, 20150716, 20150721, 20150726, 20150801, 20150806, 20150811, 20150816, 20150821, 20150826, 20150901, 20150906, 20150911, 20150916, 20150921, 20150926, 20151001, 20151006, 20151011, 20151016, 20151021, 20151026, 20151101, 20151106, 20151111, 20151116, 20151121, 20151126, 20151201, 20151206, 20151211, 20151216, 20151221, 20151226];
-    chirpsValueList = [0]*72;
-
-    wclimTempList = [0]*12;
-    wclimPPTList = [0]*12;
-
-    lcClassList = ["unknown","water","mangrove","tree (mixed evergreen/deciduous)","shrub","impervious surface","crop","tree (deciduous)","tree (evergreen: mixed broadleaf/needleleaf)","tree (evergreen: needleleaf)"];
-    lcAreaList = [0,0,0,0,0,0,0,0,0,0]
-
-    document.getElementById('totalPop').innerHTML = numberWithCommas(population);
-    document.getElementById('totalArea').innerHTML = numberWithCommas(area) + " ha";
-    document.getElementById('elevationRange').innerHTML = numberWithCommas(minElev) + " - " + numberWithCommas(maxElev) + " m";
-  
-    createChartWclim();
-
-
-}
-
-
 function startupApp() {
 
   
     //Added for drawing
     drawingManager = new google.maps.drawing.DrawingManager({
-        //drawingMode: google.maps.drawing.OverlayType.MARKER,
         drawingMode: null,
         drawingControl: true,
         drawingControlOptions: {
@@ -480,13 +275,9 @@ function startupApp() {
     customControlDiv.style['padding-right'] = '5px';
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
     
-
-
     //for browsing and reading the kml file
     document.getElementById('fileOpen').addEventListener('change', fileOpenDialog, false);
 
-
-    loadInitialData();
 }
 
 
@@ -536,5 +327,29 @@ function CustomControl(controlDiv, map) {
 
 
 
+var updateLegend = function() {
 
+	legend = []
+	$('.lcbox').each(function(){
+		if (this.checked){
+			legend.push(parseInt($(this).val(),10));}
+			})
+	
+	var mylegend = JSON.stringify(legend)
+	
+	alert("going to make a call")
+	
+	$.get('/updateLandCover', {'lc': mylegend, "year":year}).done(function (data) {
+		 if (data['error']) {
+		alert("Oops, an error! Please refresh the page!")
+    } else {
+	
+      var eeMapid = data["eeMapId"];
+      var eeToken = data["eeToken"];
+
+	  alert("going to refresh");
+      refreshImage(eeMapid, eeToken);
+    }
+		})
+};
 

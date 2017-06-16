@@ -112,8 +112,13 @@ class updateLandCover(webapp2.RequestHandler):
     # strip the unicode and put it into an array
     mylegend = mylegend.encode('ascii','ignore').strip("[").strip("]").split(",")
   
+    year = self.request.get('year')
+    start = year + '-01-01'
+    end = year + '-12-31'
+    
+    print start, end
     # load the landcover map
-    lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
+    lcover = ee.Image(landusemap.filterDate(start,end).mean())
     
   # PALETTE = [
 	#    '6f6f6f', // unknown
