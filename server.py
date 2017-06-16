@@ -15,8 +15,48 @@ import math
 import ast
 
 
+
+# ------------------------------------------------------------------------------------ #
+# Initialization
+# ------------------------------------------------------------------------------------ #
+
+# Memcache is used to avoid exceeding our EE quota. Entries in the cache expire
+# 24 hours after they are added. See:
+# https://cloud.google.com/appengine/docs/python/memcache/
+MEMCACHE_EXPIRATION = 60 * 60 * 24
+
+
+# The URL fetch timeout time (seconds).
+URL_FETCH_TIMEOUT = 60
+
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
+ee.Initialize(config.EE_CREDENTIALS)
+
+# define inputs
+
+# define land-use map
+landusemap = ee.ImageCollection("projects/servir-mekong/Assemblage/RegionalLC")
+
+# primitives
+P_barren = ee.ImageCollection("projects/servir-mekong/Primitives/P_barren")
+P_builtup = ee.ImageCollection("projects/servir-mekong/Primitives/P_builtup")
+P_canopy = ee.ImageCollection("projects/servir-mekong/Primitives/P_canopy")
+P_cropland = ee.ImageCollection("projects/servir-mekong/Primitives/P_cropland")
+P_deciduous = ee.ImageCollection("projects/servir-mekong/Primitives/P_deciduous")
+P_ephemeral_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_ephemeral_water")
+P_evergreen = ee.ImageCollection("projects/servir-mekong/Primitives/P_evergreen")
+P_forest_cover = ee.ImageCollection("projects/servir-mekong/Primitives/P_forest_cover")
+P_grass = ee.ImageCollection("projects/servir-mekong/Primitives/P_grass")
+P_mangrove = ee.ImageCollection("projects/servir-mekong/Primitives/P_mangrove")
+P_mixed_forest = ee.ImageCollection("projects/servir-mekong/Primitives/P_mixed_forest")
+P_rice = ee.ImageCollection("projects/servir-mekong/Primitives/P_rice")
+P_shrub = ee.ImageCollection("projects/servir-mekong/Primitives/P_shrub")
+P_snow_ice = ee.ImageCollection("projects/servir-mekong/Primitives/P_snow_ice")
+P_surface_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_surface_water")
+P_tree_height = ee.ImageCollection("projects/servir-mekong/Primitives/P_tree_height")
+
 
 
 class MainPage(webapp2.RequestHandler):
@@ -25,7 +65,7 @@ class MainPage(webapp2.RequestHandler):
     """Request an image from Earth Engine and render it to a web page."""
     
     # initialize the EE
-    ee.Initialize(config.EE_CREDENTIALS)
+    #ee.Initialize(config.EE_CREDENTIALS)
 
     # get the assemble landuse map
     lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
@@ -127,22 +167,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/updateLandCover',updateLandCover)], debug=True)
 
 
-#P_barren = ee.ImageCollection("projects/servir-mekong/Primitives/P_barren")
-#P_builtup = ee.ImageCollection("projects/servir-mekong/Primitives/P_builtup")
-#P_canopy = ee.ImageCollection("projects/servir-mekong/Primitives/P_canopy")
-#P_cropland = ee.ImageCollection("projects/servir-mekong/Primitives/P_cropland")
-#P_deciduous = ee.ImageCollection("projects/servir-mekong/Primitives/P_deciduous")
-#P_ephemeral_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_ephemeral_water")
-#P_evergreen = ee.ImageCollection("projects/servir-mekong/Primitives/P_evergreen")
-#P_forest_cover = ee.ImageCollection("projects/servir-mekong/Primitives/P_forest_cover")
-#P_grass = ee.ImageCollection("projects/servir-mekong/Primitives/P_grass")
-#P_mangrove = ee.ImageCollection("projects/servir-mekong/Primitives/P_mangrove")
-#P_mixed_forest = ee.ImageCollection("projects/servir-mekong/Primitives/P_mixed_forest")
-#P_rice = ee.ImageCollection("projects/servir-mekong/Primitives/P_rice")
-#P_shrub = ee.ImageCollection("projects/servir-mekong/Primitives/P_shrub")
-#P_snow_ice = ee.ImageCollection("projects/servir-mekong/Primitives/P_snow_ice")
-#P_surface_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_surface_water")
-#P_tree_height = ee.ImageCollection("projects/servir-mekong/Primitives/P_tree_height")
+
 
 ###############################################################################
 #                           Useful Functions                                  #
