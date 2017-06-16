@@ -30,7 +30,7 @@ class MainPage(webapp2.RequestHandler):
     # get the assemble landuse map
     lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
 
-	# var PALETTE = [
+	# PALETTE = [
 	#    '6f6f6f', // unknown
 	#    'aec3d4', // water
 	#    '111149', // mangrove
@@ -78,7 +78,7 @@ class updateLandCover(webapp2.RequestHandler):
     # load the landcover map
     lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
     
-  # var PALETTE = [
+  # PALETTE = [
 	#    '6f6f6f', // unknown
 	#    'aec3d4', // water
 	#    '111149', // mangrove
@@ -126,6 +126,23 @@ class updateLandCover(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/updateLandCover',updateLandCover)], debug=True)
 
+
+#P_barren = ee.ImageCollection("projects/servir-mekong/Primitives/P_barren")
+#P_builtup = ee.ImageCollection("projects/servir-mekong/Primitives/P_builtup")
+#P_canopy = ee.ImageCollection("projects/servir-mekong/Primitives/P_canopy")
+#P_cropland = ee.ImageCollection("projects/servir-mekong/Primitives/P_cropland")
+#P_deciduous = ee.ImageCollection("projects/servir-mekong/Primitives/P_deciduous")
+#P_ephemeral_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_ephemeral_water")
+#P_evergreen = ee.ImageCollection("projects/servir-mekong/Primitives/P_evergreen")
+#P_forest_cover = ee.ImageCollection("projects/servir-mekong/Primitives/P_forest_cover")
+#P_grass = ee.ImageCollection("projects/servir-mekong/Primitives/P_grass")
+#P_mangrove = ee.ImageCollection("projects/servir-mekong/Primitives/P_mangrove")
+#P_mixed_forest = ee.ImageCollection("projects/servir-mekong/Primitives/P_mixed_forest")
+#P_rice = ee.ImageCollection("projects/servir-mekong/Primitives/P_rice")
+#P_shrub = ee.ImageCollection("projects/servir-mekong/Primitives/P_shrub")
+#P_snow_ice = ee.ImageCollection("projects/servir-mekong/Primitives/P_snow_ice")
+#P_surface_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_surface_water")
+#P_tree_height = ee.ImageCollection("projects/servir-mekong/Primitives/P_tree_height")
 
 ###############################################################################
 #                           Useful Functions                                  #
