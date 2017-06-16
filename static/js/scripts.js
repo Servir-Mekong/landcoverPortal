@@ -4,7 +4,7 @@ var outlineKmlLayer;
 var lc_mapType, elev_mapType;
 
 var DEFAULT_CENTER = new google.maps.LatLng(18.5, 98);
-var DEFAULT_ZOOM = 6
+var DEFAULT_ZOOM = 4
 var MAX_ZOOM = 15
 
 var infoWindow;
@@ -18,7 +18,7 @@ var drawingManager;
 // The Google Map feature for the currently drawn polygon or rectangle, if any.
 var currentShape;
 
-
+var year = 2015;
 
 
 // Initialize the Google Map and add our custom layer overlay.
@@ -67,8 +67,9 @@ var initialize = function (mapId, token) {
         // fillColor: 'green'
     });
 
-	//ShowHideLayer();
-	//getLegend();
+    eventSlider();
+	var yearSlider = document.getElementById('slider').addEventListener("change", eventSlider);
+
 	$('.lcbox').change(getLegend);
 
     //listen for click events
@@ -86,9 +87,18 @@ var initialize = function (mapId, token) {
 };
 
 
+/**
+* function to close info screen
+* using the get started button
+ */
+var eventSlider = function() {
 
-
-
+    year = $("#slider").val();
+    
+    var sliderValue = document.getElementById("slidervalue");
+    slidervalue.innerHTML = year;
+		
+}
 
 
 
@@ -424,7 +434,7 @@ function loadInitialData () {
     document.getElementById('totalArea').innerHTML = numberWithCommas(area) + " ha";
     document.getElementById('elevationRange').innerHTML = numberWithCommas(minElev) + " - " + numberWithCommas(maxElev) + " m";
   
-    //createChartWclim();
+    createChartWclim();
 
 
 }
