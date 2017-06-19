@@ -72,10 +72,17 @@ var initialize = function (mapId, token) {
 	
 	// update the legend
 	updateLegend();
+	
+	// add handlers to buttons
 	$('.lcbox').change(updateLegend);
+	$('.mybox').change(updatePrimitives);
 
-    eventSlider();
-	var yearSlider = document.getElementById('slider').addEventListener("change", eventSlider);
+    eventSliderLuse();
+    eventSliderPrimitives();
+	
+	var yearSlider = document.getElementById('slider').addEventListener("change", eventSliderLuse);
+	var yearSliderPrimitive = document.getElementById('primitiveslider').addEventListener("change", eventSliderPrimitives);
+
 
 	//$('.lcbox').change(getLegend);
 
@@ -98,7 +105,7 @@ var initialize = function (mapId, token) {
 * function to close info screen
 * using the get started button
  */
-var eventSlider = function() {
+var eventSliderLuse = function() {
 
     year = $("#slider").val();
     
@@ -108,6 +115,23 @@ var eventSlider = function() {
     updateLegend();
 		
 }
+
+/**
+* function to close info screen
+* using the get started button
+ */
+var eventSliderPrimitives = function() {
+
+	
+    year = $("#primitiveslider").val();
+    
+    var sliderValue = document.getElementById("primitiveslidervalue");
+    slidervalue.innerHTML = year;
+    
+    updatePrimitives();
+		
+}
+
 
 
 
@@ -354,10 +378,16 @@ var updateLegend = function() {
 var updatePrimitives = function() {
 
 	legend = []
+
+	legend = []
+	$('.mybox').each(function(){
+		if (this.checked){
+			legend = parseInt($(this).val(),10);}
+			})
 	
 	var mylegend = JSON.stringify(legend)
 	
-	$.get('/updateLandCover', {'lc': mylegend, "year":year}).done(function (data) {
+	$.get('/updatePrimitives', {'lc': mylegend, "year":year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
@@ -368,4 +398,6 @@ var updatePrimitives = function() {
       refreshImage(eeMapid, eeToken);
     }
 		})
+		
+		
 };

@@ -11,6 +11,7 @@ import webapp2
 # added
 import json
 import math
+import random
 
 import ast
 
@@ -58,6 +59,12 @@ P_surface_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_surfac
 P_tree_height = ee.ImageCollection("projects/servir-mekong/Primitives/P_tree_height")
 
 
+primitiveList = [P_barren,P_builtup,P_canopy,P_cropland,P_deciduous,P_ephemeral_water,P_evergreen,P_forest_cover,P_grass,P_mangrove,P_mixed_forest,P_rice,P_shrub,P_snow_ice,P_surface_water,P_tree_height]
+
+
+countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw');
+country_names = ['Myanmar (Burma)','Thailand','Laos','Vietnam','Cambodia']; # Specify name of country. Ignored if "use_uploaded_fusion_table" == y
+mekongCountries = countries.filter(ee.Filter.inList('Country', country_names));
 
 class MainPage(webapp2.RequestHandler):
 
@@ -171,7 +178,28 @@ class updatePrimitives(webapp2.RequestHandler):
     
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
-    print mylegend
+    year = int(self.request.get('year'))
+    
+    # get the primitive
+    primitive =  primitiveList[int(mylegend)-1]
+    
+    myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year')).mean()
+    
+    myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
+    
+    PALETTE_list = gen_hex_colour_code()
+    
+    lc_mapid = myMap.getMapId({'min': 0, 'max': 1, 'palette': PALETTE_list})
+    
+    # set the template as library
+    template_values = {
+       'eeMapId': lc_mapid['mapid'],
+       'eeToken': lc_mapid['token']
+    }
+    
+    # send the result back
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.out.write(json.dumps(template_values))
 
 
 
@@ -188,3 +216,5 @@ app = webapp2.WSGIApplication([('/', MainPage),
 #                           Useful Functions                                  #
 ###############################################################################
 
+def gen_hex_colour_code():
+   return ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
