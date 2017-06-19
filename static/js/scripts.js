@@ -337,8 +337,6 @@ var updateLegend = function() {
 	
 	var mylegend = JSON.stringify(legend)
 	
-	alert("going to make a call")
-	
 	$.get('/updateLandCover', {'lc': mylegend, "year":year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
@@ -347,7 +345,6 @@ var updateLegend = function() {
       var eeMapid = data["eeMapId"];
       var eeToken = data["eeToken"];
 
-	  alert("going to refresh");
       refreshImage(eeMapid, eeToken);
     }
 		})
