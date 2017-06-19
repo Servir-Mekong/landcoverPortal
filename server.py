@@ -239,11 +239,7 @@ class downloadMapLuse(webapp2.RequestHandler):
     		'region': coords
     		});
     
-    print path
-	
-    downloadURL = downloadMap(polygon,coords,refLow,refHigh,studyLow,studyHigh)
-
-    content = json.dumps(downloadURL) 
+    content = json.dumps(URL) 
     self.response.headers['Content-Type'] = 'application/json'
     self.response.out.write(content)
 

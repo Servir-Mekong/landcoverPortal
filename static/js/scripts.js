@@ -164,25 +164,49 @@ var setRectanglePolygon = function (newShape) {
 var showButtons = function () {
 
 	if (mapCounter == 1){
-		var showlink = document.getElementById("Downloadlink1")
+		var showlink = document.getElementById("DownloadLinkLuse1")
 		showlink.style.display = 'block';
-		var DownloadButton = document.getElementById('Downloadlink1').addEventListener("click", exportMap1);
+		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMap1);
 	}
 	
 	if (mapCounter == 2){
-		var showlink = document.getElementById("Downloadlink2")
+		var showlink = document.getElementById("DownloadLinkPrimi1")
 		showlink.style.display = 'block';
-		var DownloadButton = document.getElementById('Downloadlink2').addEventListener("click", exportMap2);	
+		var DownloadButton = document.getElementById('DownloadPrimi1').addEventListener("click", exportMap2);	
 	}
 	
 }
 
+var showDownloadButtons = function () {
+
+	if (mapCounter == 1){
+		var showlink = document.getElementById("DownloadLinkLuse1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMap1);
+	}
+	
+	if (mapCounter == 2){
+		var showlink = document.getElementById("DownloadLinkPrimi1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadlinkPrimi1').addEventListener("click", exportMap2);	
+	}
+	
+}
+
+
 var hideButtons = function (){
-	var showlink1 = document.getElementById("Downloadlink1")
+	var showlink1 = document.getElementById("DownloadLinkLuse1")
 	showlink1.style.display = 'none';
     
-    var showlink2 = document.getElementById("Downloadlink2")
+    var showlink2 = document.getElementById("DownloadLinkPrimi1")
 	showlink2.style.display = 'none';
+
+	var showlink3 = document.getElementById("DownloadLinkLuse2")
+	showlink3.style.display = 'none';
+
+    var showlink4 = document.getElementById("DownloadLinkPrimi2")
+	showlink4.style.display = 'none';   
+
 }
 
 // Extract an array of coordinates for the given polygon.
@@ -433,7 +457,12 @@ var exportMap1 = function() {
 		alert("Oops, an error! Please refresh the page!")
     } else {
 	
-      console.log("success");
+      hideButtons();
+      
+      var downloadLink = document.getElementById("DownloadLinkLuse2")
+	  downloadLink.style.display = 'block';
+	  downloadLink.setAttribute("href",data); 
+    
     }
 		})	
 	
