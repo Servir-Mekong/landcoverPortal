@@ -73,6 +73,8 @@ class MainPage(webapp2.RequestHandler):
     
     # get the assemble landuse map
     lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
+    
+    currentMap = lcover
 
 	# PALETTE = [
 	#    '6f6f6f', // unknown
@@ -112,6 +114,8 @@ class MainPage(webapp2.RequestHandler):
 class updateLandCover(webapp2.RequestHandler):
 
   def get(self):
+	  
+    counter =1  
     
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
@@ -178,6 +182,10 @@ class updatePrimitives(webapp2.RequestHandler):
     
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
+    
+    if mylegend == "":
+		mylegend = 1
+    
     year = int(self.request.get('year'))
     
     # get the primitive
@@ -202,14 +210,91 @@ class updatePrimitives(webapp2.RequestHandler):
     self.response.out.write(json.dumps(template_values))
 
 
+# function to download the map
+# returns a download url
+class downloadMapLuse(webapp2.RequestHandler):
 
+  def get(self):
+	  
+    coords = []
+    
+    # get the array with boxes that are checked
+    mylegend = self.request.get('lc')
+   		
+    poly = json.loads(unicode(self.request.get('coords')))
+    
+    for items in poly:
+      coords.append([items[0],items[1]])    
+    
+    year = int(self.request.get('year'))
+        
+    lcover = ee.Image(landusemap.filter(ee.Filter.calendarRange(year, year, 'year')).mean())
+        
+    URL = lcover.getDownloadURL({
+     		'scale': 100,
+    		'crs': 'EPSG:4326',
+    		'region': coords
+    		});
+    
+    content = json.dumps(URL) 
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.out.write(content)
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/updateLandCover',updateLandCover),
+							   ('/downloadMapLuse',downloadMapLuse),
 							   ('/updatePrimitives',updatePrimitives)], debug=True)
 
 
+
+
+
+# function to download the map
+# returns a download url
+class downloadMapPrimitives(webapp2.RequestHandler):
+
+  def get(self):
+	
+    coords = []
+		
+    poly = json.loads(unicode(self.request.get('coords')))
+    
+    for items in poly:
+      coords.append([items[0],items[1]])    
+    
+        
+    year = int(self.request.get('year'))
+    
+    # get the array with boxes that are checked
+    mylegend = self.request.get('lc')
+    
+    # get the primitive
+    primitive =  primitiveList[int(mylegend)-1]
+       
+    myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year')).mean()
+    
+    myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
+           
+    URL = myMap.getDownloadURL({
+     		'scale': 100,
+    		'crs': 'EPSG:4326',
+    		'region': coords
+    		});
+    
+    
+    print URL
+    
+    content = json.dumps(URL) 
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.out.write(content)
+
+
+app = webapp2.WSGIApplication([('/', MainPage),
+							   ('/updateLandCover',updateLandCover),
+							   ('/downloadMapLuse',downloadMapLuse),
+							   ('/downloadMapPrimitives',downloadMapPrimitives),
+							   ('/updatePrimitives',updatePrimitives)], debug=True)
 
 
 ###############################################################################
@@ -218,3 +303,5 @@ app = webapp2.WSGIApplication([('/', MainPage),
 
 def gen_hex_colour_code():
    return ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
+
+

@@ -20,6 +20,7 @@ var currentShape;
 
 var year = 2015;
 
+var mapCounter = 0
 
 // Initialize the Google Map and add our custom layer overlay.
 var initialize = function (mapId, token) {
@@ -44,8 +45,10 @@ var initialize = function (mapId, token) {
     // Create the map type.
     lc_mapType = new google.maps.ImageMapType(eeMapOptions);
 
+	// do not show the download buttons
+	hideButtons();
+
     //var myLatLng = new google.maps.LatLng(30, 86);
-    
     var mapOptions = {
         center: DEFAULT_CENTER,
         zoom: DEFAULT_ZOOM,
@@ -56,7 +59,7 @@ var initialize = function (mapId, token) {
     map = new google.maps.Map(
         document.getElementById('map'), mapOptions);
 	
-  map.overlayMapTypes.push(lc_mapType);
+  //  map.overlayMapTypes.push(lc_mapType);
  
     infoWindow = new google.maps.InfoWindow({
         content: ""
@@ -71,32 +74,17 @@ var initialize = function (mapId, token) {
 	$(".lcbox").prop("checked", true);
 	
 	// update the legend
-	updateLegend();
+	//updateLegend();
 	
 	// add handlers to buttons
-	$('.lcbox').change(updateLegend);
 	$('.mybox').change(updatePrimitives);
-
+	$('.lcbox').change(updateLegend);
+	
+    //eventSliderPrimitives();
     eventSliderLuse();
-    eventSliderPrimitives();
 	
 	var yearSlider = document.getElementById('slider').addEventListener("change", eventSliderLuse);
 	var yearSliderPrimitive = document.getElementById('primitiveslider').addEventListener("change", eventSliderPrimitives);
-
-
-	//$('.lcbox').change(getLegend);
-
-    //listen for click events
-    map.data.addListener('click', function (event) {
-        //show an infowindow on click   
-        infoWindow.setContent(event.feature.getProperty("popupContent"));
-
-        infoWindow.setPosition(event.feature.getGeometry().get());
-        //var anchor = new google.maps.MVCObject();
-        //anchor.set("position", event.latLng);
-        infoWindow.open(map);
-    });
-   
 
 };
 
@@ -125,8 +113,8 @@ var eventSliderPrimitives = function() {
 	
     year = $("#primitiveslider").val();
     
-    var sliderValue = document.getElementById("primitiveslidervalue");
-    slidervalue.innerHTML = year;
+    var primitiveValue = document.getElementById("primitivevalue");
+    primitiveValue.innerHTML = year;
     
     updatePrimitives();
 		
@@ -164,8 +152,62 @@ var clearPolygon = function () {
 var setRectanglePolygon = function (newShape) {
     clearPolygon();
     currentShape = newShape;
+    
+    
+	showButtons()
+
+
 
 };
+
+
+var showButtons = function () {
+
+	if (mapCounter == 1){
+		var showlink = document.getElementById("DownloadLinkLuse1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMapLuse);
+	}
+	
+	if (mapCounter == 2){
+		var showlink = document.getElementById("DownloadLinkPrimi1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadLinkPrimi1').addEventListener("click", exportMapPrimitives);	
+	}
+	
+}
+
+var showDownloadButtons = function () {
+
+	if (mapCounter == 1){
+		var showlink = document.getElementById("DownloadLinkLuse1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMap1);
+	}
+	
+	if (mapCounter == 2){
+		var showlink = document.getElementById("DownloadLinkPrimi1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadlinkPrimi1').addEventListener("click", exportMap2);	
+	}
+	
+}
+
+
+var hideButtons = function (){
+	var showlink1 = document.getElementById("DownloadLinkLuse1")
+	showlink1.style.display = 'none';
+    
+    var showlink2 = document.getElementById("DownloadLinkPrimi1")
+	showlink2.style.display = 'none';
+
+	var showlink3 = document.getElementById("DownloadLinkLuse2")
+	showlink3.style.display = 'none';
+
+    var showlink4 = document.getElementById("DownloadLinkPrimi2")
+	showlink4.style.display = 'none';   
+
+}
 
 // Extract an array of coordinates for the given polygon.
 var getCoordinates = function (shape) {
@@ -191,29 +233,12 @@ var getCoordinates = function (shape) {
     }
 };
 
-var getShapeArea = function (shape) {
-    //Check if drawn shape is rectangle or polygon
-    if (shape.type == google.maps.drawing.OverlayType.RECTANGLE) {
-        var bounds = shape.getBounds();
-        var sw = bounds.getSouthWest();
-        var ne = bounds.getNorthEast();
-        var southWest = new google.maps.LatLng(sw.lat(), sw.lng());
-        var northEast = new google.maps.LatLng(ne.lat(), ne.lng());
-        var southEast = new google.maps.LatLng(sw.lat(), ne.lng());
-        var northWest = new google.maps.LatLng(ne.lat(), sw.lng());
-        return google.maps.geometry.spherical.computeArea([northEast, northWest, southWest, southEast]);
-
-    }
-    else {
-        return google.maps.geometry.spherical.computeArea(shape.getPath().getArray());
-    }
-
-}
-
-
 
 /** Updates the image based on the current control panel config. */
 function refreshImage(eeMapid, eeToken) {
+
+    hideButtons();
+    clearPolygon();
 
 	var eeMapOptions = {
         getTileUrl: function (tile, zoom) {
@@ -353,6 +378,8 @@ function CustomControl(controlDiv, map) {
 
 var updateLegend = function() {
 
+    mapCounter = 1;
+
 	legend = []
 	$('.lcbox').each(function(){
 		if (this.checked){
@@ -377,16 +404,22 @@ var updateLegend = function() {
 
 var updatePrimitives = function() {
 
-	legend = []
+    mapCounter = 2;
 
-	legend = []
+
 	$('.mybox').each(function(){
 		if (this.checked){
 			legend = parseInt($(this).val(),10);}
 			})
 	
-	var mylegend = JSON.stringify(legend)
 	
+	if (legend.length == 0){
+		legend = [1];
+		
+		}
+	
+	var mylegend = JSON.stringify(legend)
+
 	$.get('/updatePrimitives', {'lc': mylegend, "year":year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
@@ -399,5 +432,63 @@ var updatePrimitives = function() {
     }
 		})
 		
-		
 };
+
+
+// ---------------------------------------------------------------------------------- //
+// export function
+// ---------------------------------------------------------------------------------- //
+
+/**
+* function to close info screen
+* using the get started button
+ */
+var exportMapLuse = function() {
+
+	var coords = getCoordinates(currentShape);
+
+	$.get('/downloadMapLuse', {'coords' : JSON.stringify(coords), 'year' : year}).done(function (data) {
+		 if (data['error']) {
+		alert("Oops, an error! Please refresh the page!")
+    } else {
+	
+      hideButtons();
+      
+      var downloadLink = document.getElementById("DownloadLinkLuse2")
+	  downloadLink.style.display = 'block';
+	  downloadLink.setAttribute("href",data); 
+    
+    }
+		})	
+	
+} 
+
+/**
+* function to close info screen
+* using the get started button
+ */
+var exportMapPrimitives = function() {
+
+	var coords = getCoordinates(currentShape);
+
+
+	$('.mybox').each(function(){
+		if (this.checked){
+			legend = parseInt($(this).val(),10);}
+			})
+
+	$.get('/downloadMapPrimitives', {'lc': legend, 'coords' : JSON.stringify(coords), 'year' : year}).done(function (data) {
+		 if (data['error']) {
+		alert("Oops, an error! Please refresh the page!")
+    } else {
+
+      hideButtons();
+      
+      var downloadLink = document.getElementById("DownloadLinkPrimi2")
+	  downloadLink.style.display = 'block';
+	  downloadLink.setAttribute("href",data); 	
+      
+    }
+		})	
+	
+} 
