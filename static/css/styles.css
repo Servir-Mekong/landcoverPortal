@@ -60,19 +60,8 @@ html, body {
 
 		}
 
-        .bottombar-custom .icon-bar {
-            background-color: #000;
-        }
-
-        .bottombar-custom {            
-            background-color:#000;
-            color: #000;
-            
-        }
-        .bottombar bottombar-custom navbar-fixed-bottom {
-            padding-right: 57px;
-            padding-bottom:0px;
-            
+        .navbar-img{
+        display: block; margin-left: 0%; width: 50%; margin-bottom: 50%
         }
 
         .top-panel {
@@ -254,8 +243,8 @@ height:300px;
     color: #fff;
 }
 .vid-img {display: block; margin: auto; width: 40%;}
-.vid-info { position: absolute; top: 20%; right: 0; width: 33%; background: rgba(0,0,0,0.3); color: #fff; padding: 1rem; font-family: Avenir, Helvetica, sans-serif; }
-.vid-info h1 { font-size: 2rem; font-weight: 700; margin-top: 0; line-height: 1.2; }
+.vid-info { position: absolute; top: 45%; right: 0; width: 100%; background: rgba(0,0,0,0.4); color: #fff; padding: 1rem; font-family: Avenir, Helvetica, sans-serif; }
+.vid-info h1 { font-size: 5rem; font-weight: 700; margin-top: 0; line-height: 1.2; text-align: center;}
 .vid-info a { display: block; color: #fff; text-decoration: none; background: rgba(0,0,0,0.5); transition: .6s background; border-bottom: none; margin: 1rem auto; text-align: center; }
 @media (min-aspect-ratio: 16/9) {
   .video-foreground { height: 300%; top: -100%; }
@@ -271,13 +260,9 @@ height:300px;
 .vid-info .acronym { display: none; }
 }
 
-.home_content {
-position: absolute;
-top:100%;
-bottom:50%;
-width:100%;
-}
-.content-img{
-    position: absolute;
+.home-content { position: absolute; top: 100%; left: 0%; width: 100%; background: rgba(255,255,255,1); color: #fff; padding: 1rem; font-family: Avenir, Helvetica, sans-serif; }
+.home-content h1 {font-size: 2rem; font-weight: 700; margin-top: 0%; line-height: 1.2; margin-left:50%; margin-top: 0%;}
 
+.content-text {
+    position: absolute; left: 25%;
 }
