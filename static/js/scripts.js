@@ -296,7 +296,7 @@ function CustomControl(controlDiv, map) {
     var saveKmlText = document.createElement('div');
     saveKmlText.id = 'saveKmlText';
     //saveKmlText.innerHTML = '  S  ';
-    saveKmlText.innerHTML = '<span><img src="./static/img/save.png" width="24px" height="24px"></img></span>';
+    saveKmlText.innerHTML = '<span><img src="/static/img/save.png" width="24px" height="24px"></img></span>';
     saveKmlUI.appendChild(saveKmlText);
 
     // Set CSS for the setCenter control border
@@ -308,7 +308,7 @@ function CustomControl(controlDiv, map) {
     // Set CSS for the control interior
     var loadKmlText = document.createElement('div');
     loadKmlText.id = 'loadKmlText';
-    loadKmlText.innerHTML = '<span><img src="./static/img/load.png" width="24px" height="24px"></img></span>';
+    loadKmlText.innerHTML = '<span><img src="/static/img/load.png" width="24px" height="24px"></img></span>';
     loadKmlUI.appendChild(loadKmlText);
 
 
@@ -352,4 +352,3 @@ var updateLegend = function() {
     }
 		})
 };
-
