@@ -349,3 +349,23 @@ var updateLegend = function() {
     }
 		})
 };
+
+
+var updatePrimitives = function() {
+
+	legend = []
+	
+	var mylegend = JSON.stringify(legend)
+	
+	$.get('/updateLandCover', {'lc': mylegend, "year":year}).done(function (data) {
+		 if (data['error']) {
+		alert("Oops, an error! Please refresh the page!")
+    } else {
+	
+      var eeMapid = data["eeMapId"];
+      var eeToken = data["eeToken"];
+
+      refreshImage(eeMapid, eeToken);
+    }
+		})
+};

@@ -164,9 +164,22 @@ class updateLandCover(webapp2.RequestHandler):
    
 
 
+# Class to update the land cover map
+class updatePrimitives(webapp2.RequestHandler):
+
+  def get(self):
+    
+    # get the array with boxes that are checked
+    mylegend = self.request.get('lc')
+    print mylegend
+
+
+
+
 
 app = webapp2.WSGIApplication([('/', MainPage),
-							   ('/updateLandCover',updateLandCover)], debug=True)
+							   ('/updateLandCover',updateLandCover),
+							   ('/updatePrimitives',updatePrimitives)], debug=True)
 
 
 
