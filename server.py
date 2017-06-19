@@ -195,8 +195,6 @@ class updatePrimitives(webapp2.RequestHandler):
     
     myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
     
-    currentMap = myMap
-    
     PALETTE_list = gen_hex_colour_code()
     
     lc_mapid = myMap.getMapId({'min': 0, 'max': 1, 'palette': PALETTE_list})
@@ -218,17 +216,16 @@ class downloadMapLuse(webapp2.RequestHandler):
 
   def get(self):
 	  
-    print "entering"
-	
     coords = []
-		
+    
+    # get the array with boxes that are checked
+    mylegend = self.request.get('lc')
+   		
     poly = json.loads(unicode(self.request.get('coords')))
     
     for items in poly:
       coords.append([items[0],items[1]])    
     
-        
-    print coords
     year = int(self.request.get('year'))
         
     lcover = ee.Image(landusemap.filter(ee.Filter.calendarRange(year, year, 'year')).mean())
@@ -247,6 +244,56 @@ class downloadMapLuse(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/updateLandCover',updateLandCover),
 							   ('/downloadMapLuse',downloadMapLuse),
+							   ('/updatePrimitives',updatePrimitives)], debug=True)
+
+
+
+
+
+# function to download the map
+# returns a download url
+class downloadMapPrimitives(webapp2.RequestHandler):
+
+  def get(self):
+	
+    coords = []
+		
+    poly = json.loads(unicode(self.request.get('coords')))
+    
+    for items in poly:
+      coords.append([items[0],items[1]])    
+    
+        
+    year = int(self.request.get('year'))
+    
+    # get the array with boxes that are checked
+    mylegend = self.request.get('lc')
+    
+    # get the primitive
+    primitive =  primitiveList[int(mylegend)-1]
+       
+    myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year')).mean()
+    
+    myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
+           
+    URL = myMap.getDownloadURL({
+     		'scale': 100,
+    		'crs': 'EPSG:4326',
+    		'region': coords
+    		});
+    
+    
+    print URL
+    
+    content = json.dumps(URL) 
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.out.write(content)
+
+
+app = webapp2.WSGIApplication([('/', MainPage),
+							   ('/updateLandCover',updateLandCover),
+							   ('/downloadMapLuse',downloadMapLuse),
+							   ('/downloadMapPrimitives',downloadMapPrimitives),
 							   ('/updatePrimitives',updatePrimitives)], debug=True)
 
 

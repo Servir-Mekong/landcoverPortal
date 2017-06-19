@@ -166,13 +166,13 @@ var showButtons = function () {
 	if (mapCounter == 1){
 		var showlink = document.getElementById("DownloadLinkLuse1")
 		showlink.style.display = 'block';
-		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMap1);
+		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMapLuse);
 	}
 	
 	if (mapCounter == 2){
 		var showlink = document.getElementById("DownloadLinkPrimi1")
 		showlink.style.display = 'block';
-		var DownloadButton = document.getElementById('DownloadPrimi1').addEventListener("click", exportMap2);	
+		var DownloadButton = document.getElementById('DownloadLinkPrimi1').addEventListener("click", exportMapPrimitives);	
 	}
 	
 }
@@ -406,9 +406,7 @@ var updatePrimitives = function() {
 
     mapCounter = 2;
 
-	legend = []
-	
-	
+
 	$('.mybox').each(function(){
 		if (this.checked){
 			legend = parseInt($(this).val(),10);}
@@ -445,12 +443,9 @@ var updatePrimitives = function() {
 * function to close info screen
 * using the get started button
  */
-var exportMap1 = function() {
+var exportMapLuse = function() {
 
-	alert("entering")
 	var coords = getCoordinates(currentShape);
-
-	alert(coords)
 
 	$.get('/downloadMapLuse', {'coords' : JSON.stringify(coords), 'year' : year}).done(function (data) {
 		 if (data['error']) {
@@ -472,16 +467,27 @@ var exportMap1 = function() {
 * function to close info screen
 * using the get started button
  */
-var exportMap2 = function() {
+var exportMapPrimitives = function() {
 
-	//var coords = getCoordinates(currentShape);
+	var coords = getCoordinates(currentShape);
 
-	$.get('/downloadMap', {'luseorPrim' : 2, 'year' : year}).done(function (data) {
+
+	$('.mybox').each(function(){
+		if (this.checked){
+			legend = parseInt($(this).val(),10);}
+			})
+
+	$.get('/downloadMapPrimitives', {'lc': legend, 'coords' : JSON.stringify(coords), 'year' : year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
-	
-      console.log("success");
+
+      hideButtons();
+      
+      var downloadLink = document.getElementById("DownloadLinkPrimi2")
+	  downloadLink.style.display = 'block';
+	  downloadLink.setAttribute("href",data); 	
+      
     }
 		})	
 	
