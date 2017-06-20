@@ -13,8 +13,9 @@ html, body {
             }
 
         .mainview, .leftview, .rightview {
-            padding-top: 30px;
+            padding-top: 0%;
             height: 100%;
+            padding-right:5%;
             overflow: hidden;
         }
 
@@ -37,7 +38,7 @@ html, body {
 			}
 		
 		.mainview {
-			width: 75%;
+			width: 80%;
 			}
 		
 
@@ -107,10 +108,10 @@ html, body {
         }
 
         #map {
-            height: calc(100% - 20px);
-            width: calc(100% - 5px);
-            left: 10px;
-            top: 10px;            
+            height: calc(100% - 5%);
+            width: calc(100% - 2%);
+            left: 0%;
+            top: 0%;            
             position: relative;
             background-color: #ddd;
         }
