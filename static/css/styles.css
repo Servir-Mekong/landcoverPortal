@@ -37,7 +37,7 @@ html, body {
 			}
 		
 		.mainview {
-			width: 65%;
+			width: 75%;
 			}
 		
 
@@ -108,7 +108,7 @@ html, body {
 
         #map {
             height: calc(100% - 20px);
-            width: calc(100% - 20px);
+            width: calc(100% - 5px);
             left: 10px;
             top: 10px;            
             position: relative;
