@@ -72,7 +72,7 @@ class MainPage(webapp2.RequestHandler):
     """Request an image from Earth Engine and render it to a web page."""
     
     # get the assemble landuse map
-    lcover = ee.Image('projects/servir-mekong/Assemblage/MekongAssemblage_MaxProb_Mode_2015')
+    lcover = ee.ImageCollection('projects/servir-mekong/Assemblage/RegionalLC').max()
     
     currentMap = lcover
 
