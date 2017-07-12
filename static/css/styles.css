@@ -468,6 +468,6 @@ height:100%;
     color: #fff;
 }
 
-.tfooter-content { position: absolute; float: bottom; width: 100%; height: 10%; background: rgba(25,25,25,1); color: #fff; padding: 1rem; font-family: Avenir, Helvetica, sans-serif; }
+.tfooter-content { position: absolute; top:135%; width: 100%; height: 10%; background: rgba(25,25,25,1); color: #fff; padding: 1rem; font-family: Avenir, Helvetica, sans-serif; }
 .tfooter-content h1 {font-size: 3rem; font-weight: 700; margin-top: 2%; line-height: 1.2; margin-left:7.5%;}
 .tfooter-content p {font-size: 1.25rem; font-weight: 100; vertical-align: center;}
