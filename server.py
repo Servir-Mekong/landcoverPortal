@@ -192,14 +192,16 @@ class updatePrimitives(webapp2.RequestHandler):
     primitive =  primitiveList[int(mylegend)-1]
     
     myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year')).mean()
+        
+    mymask = myMap.gt(0.1)
     
-    myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
+    myMap = ee.Image(myMap).mask(mymask)
     
     #PALETTE_list = gen_hex_colour_code()
     PALETTE_list = 'ffffff,0f0000'
 
     
-    lc_mapid = myMap.getMapId({'min': 0, 'max': 1, 'palette': PALETTE_list})
+    lc_mapid = myMap.getMapId({'min': 0, 'max': 100, 'palette': 'ffffff,000000'})
     
     # set the template as library
     template_values = {
