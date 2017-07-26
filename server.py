@@ -76,25 +76,31 @@ class MainPage(webapp2.RequestHandler):
     
     currentMap = lcover
 
-	# PALETTE = [
-	#    '6f6f6f', // unknown
-	#    'aec3d4', // water
-	#    '111149', // mangrove
-	#    '387242', // tree (other)
-	#    'f4a460', // grass
-	#    '800080', // shrub
-	#    'cc0013', // built-up
-	#    '8dc33b', // crop
-	#    'ffff00', // rice
-	#    'c3aa69', // plantation
-	#    '152106', // tree (deciduous)
-	#    '115420', // tree (evergreen)
-	#];
+	  #{ 'Other': {number: 0, color: '6f6f6f'},
+	  #'Surface Water': {number: 1, color: 'aec3d4'},
+	  #'Snow and Ice': {number: 2, color: 'b1f9ff'},
+	  #'Mangrove': {number: 3, color: '111149'},
+	  #'Flooded forest': {number: 4, color: '287463'},
+	  #'Deciduous forest': {number: 5, color: '152106'},
+	  #'Orchard or Plantation forest': {number: 6, color: 'c3aa69'},
+	  #'Evergreen broadleaf alpine': {number: 7, color: '9ad2a5'},
+	  #'Evergreen broadleaf': {number: 8, color: '7db087'},
+	  #'Evergreen needleleaf': {number: 9, color: '486f50'},
+	  #'Evergreen mixed forest': {number: 10, color: '387242'},
+	  #'Mixed evergreen and deciduous': {number: 11, color: '115420'},
+	  #'Urban and Built up': {number: 12, color: 'cc0013'},
+	  #'Cropland': {number: 13, color: '8dc33b'},
+	  #'Rice paddy': {number: 14, color: 'ffff00'},
+	  #'Mudflat and intertidal': {number: 15, color: 'a1843b'},
+	  #'Mining': {number: 16, color: 'cec2a5'},
+	  #'Barren': {number: 17, color: '674c06'},
+	  #'Wetlands': {number: 18, color: '3bc3b2'},
+	  #'Grassland': {number: 19, color: 'f4a460'},
+	  #'Shrubland': {number: 20, color: '800080'},
 
-
-    PALETTE_list = '6f6f6f,aec3d4,111149,387242,f4a460,800080,cc0013,8dc33b,ffff00,c3aa69,152106,115420'
-
-    lc_mapid = lcover.getMapId({'min': 0, 'max': 11, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
+    PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+    
+    lc_mapid = lcover.getMapId({'min': 0, 'max': 20, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
     
 
     # These could be put directly into template.render, but it
@@ -147,8 +153,8 @@ class updateLandCover(webapp2.RequestHandler):
 	#];
 
 
-    PALETTE_list = '6f6f6f,aec3d4,111149,387242,f4a460,800080,cc0013,8dc33b,ffff00,c3aa69,152106,115420'
-
+    PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+ 
     # create a map with only 0
     mymask = lcover.eq(ee.Number(100))
     
@@ -161,7 +167,7 @@ class updateLandCover(webapp2.RequestHandler):
     lcover = lcover.updateMask(mymask)
 
     # get the map id
-    lc_mapid = lcover.getMapId({'min': 0, 'max': 11, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
+    lc_mapid = lcover.getMapId({'min': 0, 'max': 20, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
     
     # set the template as library
     template_values = {
@@ -276,7 +282,7 @@ class downloadMapPrimitives(webapp2.RequestHandler):
     # get the primitive
     primitive =  primitiveList[int(mylegend)-1]
        
-    myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year')).mean()
+    myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year'))
     
     myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
            
