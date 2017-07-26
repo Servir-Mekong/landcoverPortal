@@ -59,6 +59,11 @@ P_surface_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_surfac
 P_tree_height = ee.ImageCollection("projects/servir-mekong/Primitives/P_tree_height")
 
 
+# myanmar maps
+luseMyanmar = ee.ImageCollection("projects/servir-mekong/Assemblage/MyanmarLC")
+P_Myanmar = ee.ImageCollection("projects/servir-mekong/Assemblage/MyanmarLC_Prob")
+
+
 primitiveList = [P_barren,P_builtup,P_canopy,P_cropland,P_deciduous,P_ephemeral_water,P_evergreen,P_forest_cover,P_grass,P_mangrove,P_mixed_forest,P_rice,P_shrub,P_snow_ice,P_surface_water,P_tree_height]
 
 
@@ -114,6 +119,70 @@ class MainPage(webapp2.RequestHandler):
     
     template = jinja_environment.get_template('index.html')
     self.response.out.write(template.render(template_values))
+
+
+# Class to update the land cover map
+class updateMyanmar(webapp2.RequestHandler):
+
+  def get(self):
+	  
+    counter =1  
+    
+    # get the array with boxes that are checked
+    mylegend = self.request.get('lc')
+    
+    # strip the unicode and put it into an array
+    mylegend = mylegend.encode('ascii','ignore').strip("[").strip("]").split(",")
+  
+    year = self.request.get('year')
+    start = year + '-01-01'
+    end = year + '-12-31'
+    
+    print start, end
+    # load the landcover map
+    lcover = ee.Image(landusemap.filterDate(start,end).mean())
+    
+  # PALETTE = [
+	#    '6f6f6f', // unknown
+	#    'aec3d4', // water
+	#    '111149', // mangrove
+	#    '387242', // tree (other)
+	#    'f4a460', // grass
+	#    '800080', // shrub
+	#    'cc0013', // built-up
+	#    '8dc33b', // crop
+	#    'ffff00', // rice
+	#    'c3aa69', // plantation
+	#    '152106', // tree (deciduous)
+	#    '115420', // tree (evergreen)
+	#];
+
+
+    PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+ 
+    # create a map with only 0
+    mymask = lcover.eq(ee.Number(100))
+    
+    # enable all checked boxes
+    for value in mylegend:
+		tempmask = lcover.eq(ee.Number(int(value)))
+		mymask = mymask.add(tempmask)
+	
+    # mask values not in list
+    lcover = lcover.updateMask(mymask)
+
+    # get the map id
+    lc_mapid = lcover.getMapId({'min': 0, 'max': 20, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
+    
+    # set the template as library
+    template_values = {
+       'eeMapId': lc_mapid['mapid'],
+       'eeToken': lc_mapid['token']
+    }
+    
+    # send the result back
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.out.write(json.dumps(template_values))    
 
 
 # Class to update the land cover map

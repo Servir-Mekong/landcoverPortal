@@ -85,6 +85,7 @@ var initialize = function (mapId, token) {
 	
 	var yearSlider = document.getElementById('slider').addEventListener("change", eventSliderLuse);
 	var yearSliderPrimitive = document.getElementById('primitiveslider').addEventListener("change", eventSliderPrimitives);
+	var yearSliderMyanmar = document.getElementById('Myanmarslider').addEventListener("change", eventSliderMyanmar);
 
 };
 
@@ -103,6 +104,22 @@ var eventSliderLuse = function() {
     updateLegend();
 		
 }
+
+/**
+* function to close info screen
+* using the get started button
+ */
+var eventSliderMyanmar = function() {
+
+    year = $("#Myanmarslider").val();
+    
+    var Myanmarvalue = document.getElementById("Myanmarvalue");
+    Myanmarvalue.innerHTML = year;
+    
+    updateLegend();
+		
+}
+
 
 /**
 * function to close info screen
