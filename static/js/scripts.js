@@ -313,7 +313,7 @@ function startupApp() {
         drawingControl: true,
         drawingControlOptions: {
             position: google.maps.ControlPosition.TOP_CENTER,
-            drawingModes: ['polygon', 'rectangle']
+            drawingModes: ['marker','polygon', 'rectangle']
         }
     });
 
@@ -325,6 +325,8 @@ function startupApp() {
 
         var newShape = event.overlay;
         newShape.type = event.type;
+        
+        console.log(drawingManager);
 
         setRectanglePolygon(newShape);
         if (drawingManager.getDrawingMode()) {
@@ -462,11 +464,9 @@ var updateMyanmar = function() {
 	legend = [];
 	$('.Myanmarbox').each(function(){
 		if (this.checked){
-			console.log($(this).val())
 			legend.push(parseInt($(this).val(),10));}
 			})
 	
-	console.log(legend);
 	
 	if (legend.length == 0){
 		legend = [1];
