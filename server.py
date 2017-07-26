@@ -71,6 +71,10 @@ countries = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw');
 country_names = ['Myanmar (Burma)','Thailand','Laos','Vietnam','Cambodia']; # Specify name of country. Ignored if "use_uploaded_fusion_table" == y
 mekongCountries = countries.filter(ee.Filter.inList('Country', country_names));
 
+MyanmarCountry = countries.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
+
+
+
 class MainPage(webapp2.RequestHandler):
 
   def get(self):                             # pylint: disable=g-bad-name
@@ -133,6 +137,8 @@ class updateMyanmar(webapp2.RequestHandler):
     
     # strip the unicode and put it into an array
     mylegend = mylegend.encode('ascii','ignore').strip("[").strip("]").split(",")
+    
+    print mylegend
   
     year = self.request.get('year')
     start = year + '-01-01'
@@ -140,39 +146,38 @@ class updateMyanmar(webapp2.RequestHandler):
     
     print start, end
     # load the landcover map
-    lcover = ee.Image(landusemap.filterDate(start,end).mean())
+    lcover = ee.Image(luseMyanmar.filterDate(start,end).mean())
     
-  # PALETTE = [
-	#    '6f6f6f', // unknown
-	#    'aec3d4', // water
-	#    '111149', // mangrove
-	#    '387242', // tree (other)
-	#    'f4a460', // grass
-	#    '800080', // shrub
-	#    'cc0013', // built-up
-	#    '8dc33b', // crop
-	#    'ffff00', // rice
-	#    'c3aa69', // plantation
-	#    '152106', // tree (deciduous)
-	#    '115420', // tree (evergreen)
-	#];
+		#var classStruct = 
+		#{ 'Other': {number: 0, color: '6f6f6f'},
+		  #'Surface Water': {number: 1, color: 'aec3d4'},
+		  #'Snow and Ice': {number: 2, color: 'b1f9ff'},
+		  #'Mangrove': {number: 3, color: '111149'},
+		  #'Closed forest': {number: 4, color: '152106'},
+		  #'Open forest': {number: 5, color: '115420'},
+		  #'Otherwoodedland': {number: 6, color: '387242'},
+		  #'Settlement': {number: 7, color: 'cc0013'},
+		  #'Cropland': {number: 8, color: '8dc33b'},
+		  #'Wetlands': {number: 9, color: '3bc3b2'},
+		  #'Grassland': {number: 10, color: 'f4a460'}
+		#};
 
 
-    PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+    PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,152106,115420,387242,cc0013,8dc33b,3bc3b2,f4a460'
  
     # create a map with only 0
     mymask = lcover.eq(ee.Number(100))
-    
+      
     # enable all checked boxes
     for value in mylegend:
 		tempmask = lcover.eq(ee.Number(int(value)))
 		mymask = mymask.add(tempmask)
 	
     # mask values not in list
-    lcover = lcover.updateMask(mymask)
+    lcover = lcover.updateMask(mymask).clip(MyanmarCountry)
 
     # get the map id
-    lc_mapid = lcover.getMapId({'min': 0, 'max': 20, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
+    lc_mapid = lcover.getMapId({'min': 0, 'max': 10, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
     
     # set the template as library
     template_values = {
@@ -320,14 +325,6 @@ class downloadMapLuse(webapp2.RequestHandler):
     self.response.out.write(content)
 
 
-app = webapp2.WSGIApplication([('/', MainPage),
-							   ('/updateLandCover',updateLandCover),
-							   ('/downloadMapLuse',downloadMapLuse),
-							   ('/updatePrimitives',updatePrimitives)], debug=True)
-
-
-
-
 
 # function to download the map
 # returns a download url
@@ -372,6 +369,7 @@ class downloadMapPrimitives(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/updateLandCover',updateLandCover),
 							   ('/downloadMapLuse',downloadMapLuse),
+							   ('/updateMyanmar',updateMyanmar),
 							   ('/downloadMapPrimitives',downloadMapPrimitives),
 							   ('/updatePrimitives',updatePrimitives)], debug=True)
 

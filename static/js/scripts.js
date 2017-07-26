@@ -72,6 +72,7 @@ var initialize = function (mapId, token) {
 
 	// Check all boxes
 	$(".lcbox").prop("checked", true);
+	$(".Myanmarbox").prop("checked", true);
 	
 	// update the legend
 	//updateLegend();
@@ -79,6 +80,7 @@ var initialize = function (mapId, token) {
 	// add handlers to buttons
 	$('.mybox').change(updatePrimitives);
 	$('.lcbox').change(updateLegend);
+	$('.Myanmarbox').change(updateMyanmar);
 	
     //eventSliderPrimitives();
     eventSliderLuse();
@@ -116,7 +118,7 @@ var eventSliderMyanmar = function() {
     var Myanmarvalue = document.getElementById("Myanmarvalue");
     Myanmarvalue.innerHTML = year;
     
-    updateLegend();
+    updateMyanmar();
 		
 }
 
@@ -400,6 +402,7 @@ var updateLegend = function() {
 	legend = []
 	$('.lcbox').each(function(){
 		if (this.checked){
+			
 			legend.push(parseInt($(this).val(),10));}
 			})
 	
@@ -450,6 +453,44 @@ var updatePrimitives = function() {
 		})
 		
 };
+
+
+var updateMyanmar = function() {
+
+    mapCounter = 3;
+
+	legend = [];
+	$('.Myanmarbox').each(function(){
+		if (this.checked){
+			console.log($(this).val())
+			legend.push(parseInt($(this).val(),10));}
+			})
+	
+	console.log(legend);
+	
+	if (legend.length == 0){
+		legend = [1];
+		
+		}
+	
+	
+	
+	var mylegend = JSON.stringify(legend)
+
+	$.get('/updateMyanmar', {'lc': mylegend, "year":year}).done(function (data) {
+		 if (data['error']) {
+		alert("Oops, an error! Please refresh the page!")
+    } else {
+	
+      var eeMapid = data["eeMapId"];
+      var eeToken = data["eeToken"];
+
+      refreshImage(eeMapid, eeToken);
+    }
+		})
+		
+};
+
 
 
 // ---------------------------------------------------------------------------------- //
