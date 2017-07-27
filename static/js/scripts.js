@@ -11,6 +11,10 @@ var infoWindow;
 
 var iconFile = '/static/img/red_dot.png';
 
+var CSS_COLOR_NAMES = ["Black","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
+
+google.load("visualization", "1", {packages:["corechart"]});
+  
 
 // The Drawing Manager for the Google Map.
 var drawingManager;
@@ -84,10 +88,12 @@ var initialize = function (mapId, token) {
 	
     //eventSliderPrimitives();
     eventSliderLuse();
-	
+		
 	var yearSlider = document.getElementById('slider').addEventListener("change", eventSliderLuse);
 	var yearSliderPrimitive = document.getElementById('primitiveslider').addEventListener("change", eventSliderPrimitives);
 	var yearSliderMyanmar = document.getElementById('Myanmarslider').addEventListener("change", eventSliderMyanmar);
+	
+	
 
 };
 
@@ -326,13 +332,24 @@ function startupApp() {
         var newShape = event.overlay;
         newShape.type = event.type;
         
-        console.log(drawingManager);
+        var mode = drawingManager.getDrawingMode();
+        
+        if (mode == "marker"){
+			
+			if (mapCounter == 3){
+				getPrimitives(newShape);
+			}		
+			
+			}
 
-        setRectanglePolygon(newShape);
-        if (drawingManager.getDrawingMode()) {
-            drawingManager.setDrawingMode(null);
-        }
+		else{
 
+			setRectanglePolygon(newShape);
+			if (drawingManager.getDrawingMode()) {
+				drawingManager.setDrawingMode(null);
+			}
+		}
+		
     });
 
    
@@ -422,6 +439,25 @@ var updateLegend = function() {
     }
 		})
 };
+
+var getPrimitives = function(point) {
+	var lat = point.getPosition().lat();
+	var lon = point.getPosition().lng();
+	
+	console.log(lat,lon);
+
+	$.get('/GetPrimitiveValues', {'lat':  JSON.stringify(lat), 'lon':  JSON.stringify(lon)}).done(function (data) {
+		 if (data['error']) {
+		alert("Oops, an error! Please refresh the page!")
+    } else {
+	
+      showChart(data);
+    }
+		})
+
+
+}
+
 
 
 var updatePrimitives = function() {
@@ -550,3 +586,82 @@ var exportMapPrimitives = function() {
 		})	
 	
 } 
+
+/**
+ * Shows a chart with the given timeseries.
+ * @param {Array<Array<number>>} timeseries The timeseries data
+ *     to plot in the chart.
+ */
+
+var showChart = function(timeseries) {
+
+   clearChart();  
+
+	var newSeries = timeseries[0].map(function(col, i) { 
+	  return timeseries.map(function(row) { 
+		return row[i] 
+	  })
+	}); 
+  
+   var myName = ["date","Cropland","Otherwoodedland","Grassland","Settlement","Other","Closed_forest","Surface_Water","Open_forest","Wetlands","Mangrove","Snow_and_Ice"]
+ 
+   console.log(myName[4])
+ 
+   // Create the data table.
+   var data = new google.visualization.DataTable();
+    
+    counter = 0;
+    myName.forEach(function(item) {
+		data.addColumn('number',item)
+	});
+    
+
+  data.addRows(newSeries);
+ 
+  var wrapper = createWrapper(500,200,data);
+ 
+  $('#chart').show();
+  var chartEl = $('#chart').get(0);
+  wrapper.setContainerId(chartEl);
+  wrapper.draw();
+
+
+};
+
+/**
+ * Create the wrapper for the chart
+ */
+var createWrapper = function(w,h,data){
+
+  var wrapper = new google.visualization.ChartWrapper({
+    chartType: 'LineChart',
+    dataTable: data,
+    options: {
+	  width: w,
+	  height: h,
+      title: 'Primivitives',
+      curveType: 'function',
+      legend: {position: 'right'},
+      titleTextStyle: {fontName: 'Roboto'},
+      chartArea: {width: '40%'},
+      colors: CSS_COLOR_NAMES,
+      vAxis: { format:'0.00'}
+    }
+  });
+  
+  return wrapper;
+}
+
+/**
+* Clear polygons from the map when changing from country to province
+**/
+var clearChart = function(){
+
+	// clear colored polygons
+	map.data.revertStyle();
+	
+	$('#chart').empty(); 
+	$('#chart').hide();	
+
+}
+

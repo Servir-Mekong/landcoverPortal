@@ -254,6 +254,66 @@ class updateLandCover(webapp2.RequestHandler):
     self.response.out.write(json.dumps(template_values))    
    
 
+# Class to update the land cover map
+class GetPrimitiveValues(webapp2.RequestHandler):
+
+  def get(self):
+	  
+    lat = float(self.request.get('lat'))
+    lon = float(self.request.get('lon')) 
+       
+    geom = ee.Feature(ee.Geometry.Point(lon,lat))
+    
+  
+    
+    firt = ee.Image(P_Myanmar.first())
+     
+	# Compute the mean brightness in the region in each image.
+    def ComputeMean(img):
+			reduction = img.reduceRegion(
+				ee.Reducer.sum(), geom.geometry(), 30)
+				
+			return ee.Feature(None, {
+					'values': reduction,
+					'system:time_start': img.get('system:time_start')
+				})    
+    
+    chartData = P_Myanmar.map(ComputeMean).getInfo();
+    
+    systemTime = [] 
+    Cropland = []
+    Otherwoodedland = [] 
+    Grassland = []
+    Settlement = [] 
+    Other = [] 
+    Closed_forest = []
+    Surface_Water = [] 
+    Open_forest = [] 
+    Wetlands = []
+    Mangrove = [] 
+    Snow_and_Ice= []
+
+    
+    for feat in chartData['features']:
+
+		systemTime.append(feat['properties']['system:time_start'])
+		Cropland.append(feat['properties']['values']['Cropland'])
+		Otherwoodedland.append(feat['properties']['values']['Otherwoodedland'])
+		Grassland.append(feat['properties']['values']['Grassland'])
+		Settlement.append(feat['properties']['values']['Settlement'])
+		Other.append(feat['properties']['values']['Other'])
+		Closed_forest.append(feat['properties']['values']['Closed_forest'])
+		Surface_Water.append(feat['properties']['values']['Surface_Water'])
+		Open_forest.append(feat['properties']['values']['Open_forest'])
+		Wetlands.append(feat['properties']['values']['Wetlands'])
+		Mangrove.append(feat['properties']['values']['Mangrove'])
+		Snow_and_Ice.append(feat['properties']['values']['Snow_and_Ice'])
+  
+    content = [systemTime, Cropland, Otherwoodedland ,Grassland, Settlement, Other, Closed_forest, Surface_Water, Open_forest, Wetlands, Mangrove, Snow_and_Ice]
+
+    self.response.headers['Content-Type'] = 'application/json'
+    self.response.out.write(content)    
+
 
 # Class to update the land cover map
 class updatePrimitives(webapp2.RequestHandler):
@@ -370,6 +430,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							   ('/updateLandCover',updateLandCover),
 							   ('/downloadMapLuse',downloadMapLuse),
 							   ('/updateMyanmar',updateMyanmar),
+							   ('/GetPrimitiveValues',GetPrimitiveValues),
 							   ('/downloadMapPrimitives',downloadMapPrimitives),
 							   ('/updatePrimitives',updatePrimitives)], debug=True)
 
