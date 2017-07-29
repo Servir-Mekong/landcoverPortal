@@ -11,4 +11,3 @@ EE_ACCOUNT = 'rlcms-526@servir-rlcms.iam.gserviceaccount.com'
 EE_PRIVATE_KEY_FILE = 'credentials/privatekey.pem'
 
 EE_CREDENTIALS = ee.ServiceAccountCredentials(EE_ACCOUNT, EE_PRIVATE_KEY_FILE)
-
