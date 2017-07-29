@@ -610,7 +610,6 @@ var showChart = function(timeseries) {
 
 	newSeries.forEach(function(point) {
 		point[0] = new Date(parseInt(point[0], 10));
-		console.log(point);
 		datarr.push(point);
 		});
 
@@ -657,8 +656,16 @@ var createWrapper = function(w,h,data){
       titleTextStyle: {fontName: 'Roboto'},
       chartArea: {width: '40%'},
       colors: CSS_COLOR_NAMES,
-      vAxis: { format:'0.00'}
-    }
+      vAxis: { format:'0.00'},
+    
+	vAxis: {
+       viewWindowMode:'explicit',
+       viewWindow: {
+           max:100,
+           min:0
+            }
+        }
+     }    
   });
   
   return wrapper;
