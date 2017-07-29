@@ -326,7 +326,17 @@ function startupApp() {
 
     drawingManager.setMap(map);
 
-    // Add a listener for creating new shape event.
+
+
+    // Create the DIV to hold the control and call the CustomControl() constructor passing in this DIV.
+    var customControlDiv = document.createElement('div');
+    var customControl = new CustomControl(customControlDiv, map);
+
+    customControlDiv.index = 1;
+    customControlDiv.style['padding-top'] = '5px';
+    customControlDiv.style['padding-right'] = '5px';
+
+      // Add a listener for creating new shape event.
     google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
 
         var newShape = event.overlay;
@@ -353,13 +363,6 @@ function startupApp() {
     });
 
    
-    // Create the DIV to hold the control and call the CustomControl() constructor passing in this DIV.
-    var customControlDiv = document.createElement('div');
-    var customControl = new CustomControl(customControlDiv, map);
-
-    customControlDiv.index = 1;
-    customControlDiv.style['padding-top'] = '5px';
-    customControlDiv.style['padding-right'] = '5px';
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
     
     //for browsing and reading the kml file
