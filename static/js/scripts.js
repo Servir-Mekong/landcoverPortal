@@ -599,19 +599,28 @@ var exportMapPrimitives = function() {
 var showChart = function(timeseries) {
 
    clearChart();  
+	
+	datarr = [];
 
 	var newSeries = timeseries[0].map(function(col, i) { 
 	  return timeseries.map(function(row) { 
 		return row[i] 
 	  })
 	}); 
+
+	newSeries.forEach(function(point) {
+		point[0] = new Date(parseInt(point[0], 10));
+		console.log(point);
+		datarr.push(point);
+		});
+
   
-   var myName = ["date","Cropland","Otherwoodedland","Grassland","Settlement","Other","Closed_forest","Surface_Water","Open_forest","Wetlands","Mangrove","Snow_and_Ice"]
+   var myName = ["Cropland","Otherwoodedland","Grassland","Settlement","Other","Closed_forest","Surface_Water","Open_forest","Wetlands","Mangrove","Snow_and_Ice"]
  
-   console.log(myName[4])
- 
-   // Create the data table.
+ // Create the data table.
    var data = new google.visualization.DataTable();
+
+   data.addColumn('date')
     
     counter = 0;
     myName.forEach(function(item) {
@@ -619,7 +628,7 @@ var showChart = function(timeseries) {
 	});
     
 
-  data.addRows(newSeries);
+  data.addRows(datarr);
  
   var wrapper = createWrapper(500,200,data);
  
