@@ -54,7 +54,7 @@ P_mangrove = ee.ImageCollection("projects/servir-mekong/Primitives/P_mangrove")
 P_mixed_forest = ee.ImageCollection("projects/servir-mekong/Primitives/P_mixed_forest")
 P_rice = ee.ImageCollection("projects/servir-mekong/Primitives/P_rice")
 P_shrub = ee.ImageCollection("projects/servir-mekong/Primitives/P_shrub")
-P_snow_ice = ee.ImageCollection("projects/servir-mekong/Primitives/P_snow_ice")
+P_snow_ice = ee.ImageCollection("projects/servir-mekong/Primitives/P_snow_ice").select('max_snow')
 P_surface_water = ee.ImageCollection("projects/servir-mekong/Primitives/P_surface_water")
 P_tree_height = ee.ImageCollection("projects/servir-mekong/Primitives/P_tree_height")
 
@@ -79,10 +79,10 @@ class MainPage(webapp2.RequestHandler):
 
   def get(self):                             # pylint: disable=g-bad-name
     """Request an image from Earth Engine and render it to a web page."""
-    
+
     # get the assemble landuse map
     lcover = ee.ImageCollection('projects/servir-mekong/Assemblage/RegionalLC').max()
-    
+
     currentMap = lcover
 
 	  #{ 'Other': {number: 0, color: '6f6f6f'},
@@ -108,9 +108,9 @@ class MainPage(webapp2.RequestHandler):
 	  #'Shrubland': {number: 20, color: '800080'},
 
     PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
-    
+
     lc_mapid = lcover.getMapId({'min': 0, 'max': 20, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
-    
+
 
     # These could be put directly into template.render, but it
     # helps make the script more readable to pull them out here, especially
@@ -119,8 +119,8 @@ class MainPage(webapp2.RequestHandler):
         'mapid': lc_mapid['mapid'],
         'token': lc_mapid['token']
     }
-    
-    
+
+
     template = jinja_environment.get_template('index.html')
     self.response.out.write(template.render(template_values))
 
@@ -129,26 +129,26 @@ class MainPage(webapp2.RequestHandler):
 class updateMyanmar(webapp2.RequestHandler):
 
   def get(self):
-	  
-    counter =1  
-    
+
+    counter =1
+
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
-    
+
     # strip the unicode and put it into an array
     mylegend = mylegend.encode('ascii','ignore').strip("[").strip("]").split(",")
-    
+
     print mylegend
-  
+
     year = self.request.get('year')
     start = year + '-01-01'
     end = year + '-12-31'
-    
+
     print start, end
     # load the landcover map
     lcover = ee.Image(luseMyanmar.filterDate(start,end).mean())
-    
-		#var classStruct = 
+
+		#var classStruct =
 		#{ 'Other': {number: 0, color: '6f6f6f'},
 		  #'Surface Water': {number: 1, color: 'aec3d4'},
 		  #'Snow and Ice': {number: 2, color: 'b1f9ff'},
@@ -164,53 +164,53 @@ class updateMyanmar(webapp2.RequestHandler):
 
 
     PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,152106,115420,387242,cc0013,8dc33b,3bc3b2,f4a460'
- 
+
     # create a map with only 0
     mymask = lcover.eq(ee.Number(100))
-      
+
     # enable all checked boxes
     for value in mylegend:
 		tempmask = lcover.eq(ee.Number(int(value)))
 		mymask = mymask.add(tempmask)
-	
+
     # mask values not in list
     lcover = lcover.updateMask(mymask).clip(MyanmarCountry)
 
     # get the map id
     lc_mapid = lcover.getMapId({'min': 0, 'max': 10, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
-    
+
     # set the template as library
     template_values = {
        'eeMapId': lc_mapid['mapid'],
        'eeToken': lc_mapid['token']
     }
-    
+
     # send the result back
     self.response.headers['Content-Type'] = 'application/json'
-    self.response.out.write(json.dumps(template_values))    
+    self.response.out.write(json.dumps(template_values))
 
 
 # Class to update the land cover map
 class updateLandCover(webapp2.RequestHandler):
 
   def get(self):
-	  
-    counter =1  
-    
+
+    counter =1
+
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
-    
+
     # strip the unicode and put it into an array
     mylegend = mylegend.encode('ascii','ignore').strip("[").strip("]").split(",")
-  
+
     year = self.request.get('year')
     start = year + '-01-01'
     end = year + '-12-31'
-    
+
     print start, end
     # load the landcover map
     lcover = ee.Image(landusemap.filterDate(start,end).mean())
-    
+
   # PALETTE = [
 	#    '6f6f6f', // unknown
 	#    'aec3d4', // water
@@ -228,72 +228,72 @@ class updateLandCover(webapp2.RequestHandler):
 
 
     PALETTE_list = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
- 
+
     # create a map with only 0
     mymask = lcover.eq(ee.Number(100))
-    
+
     # enable all checked boxes
     for value in mylegend:
 		tempmask = lcover.eq(ee.Number(int(value)))
 		mymask = mymask.add(tempmask)
-	
+
     # mask values not in list
     lcover = lcover.updateMask(mymask)
 
     # get the map id
     lc_mapid = lcover.getMapId({'min': 0, 'max': 20, 'palette': PALETTE_list}) #'6f6f6f, aec3d4, 111149, 247400, 247400, 247400, 55ff00, 55ff00, a9ff00, a9ff00, a9ff00, 006fff, ffff00, ff0000, ffff00, 74ffe0, e074ff, e074ff'})
-    
+
     # set the template as library
     template_values = {
        'eeMapId': lc_mapid['mapid'],
        'eeToken': lc_mapid['token']
     }
-    
+
     # send the result back
     self.response.headers['Content-Type'] = 'application/json'
-    self.response.out.write(json.dumps(template_values))    
-   
+    self.response.out.write(json.dumps(template_values))
+
 
 # Class to update the land cover map
 class GetPrimitiveValues(webapp2.RequestHandler):
 
   def get(self):
-	  
+
     lat = float(self.request.get('lat'))
-    lon = float(self.request.get('lon')) 
-       
+    lon = float(self.request.get('lon'))
+
     geom = ee.Feature(ee.Geometry.Point(lon,lat))
-    
-  
-    
+
+
+
     firt = ee.Image(P_Myanmar.first())
-     
+
 	# Compute the mean brightness in the region in each image.
     def ComputeMean(img):
 			reduction = img.reduceRegion(
 				ee.Reducer.sum(), geom.geometry(), 30)
-				
+
 			return ee.Feature(None, {
 					'values': reduction,
 					'system:time_start': img.get('system:time_start')
-				})    
-    
+				})
+
     chartData = P_Myanmar.map(ComputeMean).getInfo();
-    
-    systemTime = [] 
+
+    systemTime = []
     Cropland = []
-    Otherwoodedland = [] 
+    Otherwoodedland = []
     Grassland = []
-    Settlement = [] 
-    Other = [] 
+    Settlement = []
+    Other = []
     Closed_forest = []
-    Surface_Water = [] 
-    Open_forest = [] 
+    Surface_Water = []
+    Open_forest = []
     Wetlands = []
-    Mangrove = [] 
+    Mangrove = []
     Snow_and_Ice= []
 
-    
+
     for feat in chartData['features']:
 
 		systemTime.append(feat['properties']['system:time_start'])
@@ -308,47 +308,47 @@ class GetPrimitiveValues(webapp2.RequestHandler):
 		Wetlands.append(feat['properties']['values']['Wetlands'])
 		Mangrove.append(feat['properties']['values']['Mangrove'])
 		Snow_and_Ice.append(feat['properties']['values']['Snow_and_Ice'])
-  
+
     content = [systemTime, Cropland, Otherwoodedland ,Grassland, Settlement, Other, Closed_forest, Surface_Water, Open_forest, Wetlands, Mangrove, Snow_and_Ice]
 
     self.response.headers['Content-Type'] = 'application/json'
-    self.response.out.write(content)    
+    self.response.out.write(content)
 
 
 # Class to update the land cover map
 class updatePrimitives(webapp2.RequestHandler):
 
   def get(self):
-    
+
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
-    
+
     if mylegend == "":
 		mylegend = 1
-    
+
     year = int(self.request.get('year'))
-    
+
     # get the primitive
     primitive =  primitiveList[int(mylegend)-1]
-    
+
     myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year')).mean()
-        
+
     mymask = myMap.gt(0.1)
-    
+
     myMap = ee.Image(myMap).mask(mymask)
-    
+
     #PALETTE_list = gen_hex_colour_code()
     PALETTE_list = 'ffffff,0f0000'
 
-    
+
     lc_mapid = myMap.getMapId({'min': 0, 'max': 100, 'palette': 'ffffff,000000'})
-    
+
     # set the template as library
     template_values = {
        'eeMapId': lc_mapid['mapid'],
        'eeToken': lc_mapid['token']
     }
-    
+
     # send the result back
     self.response.headers['Content-Type'] = 'application/json'
     self.response.out.write(json.dumps(template_values))
@@ -359,28 +359,28 @@ class updatePrimitives(webapp2.RequestHandler):
 class downloadMapLuse(webapp2.RequestHandler):
 
   def get(self):
-	  
+
     coords = []
-    
+
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
-   		
+
     poly = json.loads(unicode(self.request.get('coords')))
-    
+
     for items in poly:
-      coords.append([items[0],items[1]])    
-    
+      coords.append([items[0],items[1]])
+
     year = int(self.request.get('year'))
-        
+
     lcover = ee.Image(landusemap.filter(ee.Filter.calendarRange(year, year, 'year')).mean())
-        
+
     URL = lcover.getDownloadURL({
      		'scale': 100,
     		'crs': 'EPSG:4326',
     		'region': coords
     		});
-    
-    content = json.dumps(URL) 
+
+    content = json.dumps(URL)
     self.response.headers['Content-Type'] = 'application/json'
     self.response.out.write(content)
 
@@ -391,37 +391,37 @@ class downloadMapLuse(webapp2.RequestHandler):
 class downloadMapPrimitives(webapp2.RequestHandler):
 
   def get(self):
-	
+
     coords = []
-		
+
     poly = json.loads(unicode(self.request.get('coords')))
-    
+
     for items in poly:
-      coords.append([items[0],items[1]])    
-    
-        
+      coords.append([items[0],items[1]])
+
+
     year = int(self.request.get('year'))
-    
+
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')
-    
+
     # get the primitive
     primitive =  primitiveList[int(mylegend)-1]
-       
+
     myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year'))
-    
+
     myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
-           
+
     URL = myMap.getDownloadURL({
      		'scale': 100,
     		'crs': 'EPSG:4326',
     		'region': coords
     		});
-    
-    
+
+
     print URL
-    
-    content = json.dumps(URL) 
+
+    content = json.dumps(URL)
     self.response.headers['Content-Type'] = 'application/json'
     self.response.out.write(content)
 
@@ -441,5 +441,3 @@ app = webapp2.WSGIApplication([('/', MainPage),
 
 def gen_hex_colour_code():
    return ''.join([random.choice('0123456789ABCDEF') for x in range(6)])
-
-

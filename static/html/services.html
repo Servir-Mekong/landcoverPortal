@@ -24,15 +24,27 @@
 
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyDWtKWNEapqRC6qdX_rO9oAQfS2CPkWtU0&libraries=drawing"></script>
 
+    <!-- custom library to download maps -->
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+
     <script src="/static/js/CustomControl.js"></script>
     <script src="/static/js/xmlwriter.js"></script>
     <script src="/static/js/toGeoJSON.js"></script>
     <script src="/static/js/kml.js"></script>
     <script src="/static/js/scripts.js"></script>
 
-	 </head>
+	</head>
 
     <body>
+
+      <div id="mf-content">
+      <div class="mfooter-content">
+          <p> Powered by <img src="/static/img/google.png" width=6%> Earth Engine</p>
+
+          <p style="text-align: center;margin-top:-3%">&copy; Copyright 2017 SERVIR-Mekong</p>
+      </div>
+      </div>
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -59,54 +71,387 @@
       </div>
     </nav>
 
-<div id="ceo-bar">
-<div class="ceo-content">
 
-    <p><img src="/static/img/ceo-logo1.png" width=50% ALIGN="top"><br><br>Collect Earth Online is a custom built, open-source, high resolution satellite image viewing and interpretation system that is being developed by SERVIR-Mekong as a tool for use in projects that require land cover and/or land use reference data. Collect Earth Online promotes consistency in locating, interpreting, and labeling reference data plots for use in classifying and monitoring land cover / land use change. The full functionality of Collect Earth Online including collaborative compilation of reference point databases is implemented online so there is no need for desktop installation.</p>
+    <div id="main-container" class="container-fluid content">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-sm-2 leftview">
+                <div class="top-panel" style="overflow-x:hidden;overflow-y:auto;">
 
-    <a href="http://ceo.sig-gis.com/" target="_blank" class="btn btn-custom btn-lg" role="button" style="margin-left: 10%; margin-top: 2%">Go to Collect Earth Online</a>
+                    <ul class="nav nav-tabs" style="padding-left: 5px; padding-top: 10px;">
+                        <li class="active"><a data-toggle="tab" href="#myanmar">Myanmar-FAO Reporting</a></li>
+                        <li><a data-toggle="tab" href="#myanmar">Myanamar-IPCC Reporting</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="toc" class="tab-pane fade in active">
+
+
+                            <div id="layerPanel" style="font-size: small; padding-left: 20px; padding-top: 15px; font-size: medium;">
+
+                            <div id="layerPanel" style="font-size: small; padding-left: 20px; padding-top: 20px; font-size: medium;">
+                            </div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #6f6f6f;"></div><label><input type="checkbox" class="lcbox" value="0" >Unknown</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #aec3d4;"></div><label><input type="checkbox" class="lcbox" value="1" >Surface water</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #b1f9ff;"></div><label><input type="checkbox" class="lcbox" value="2" >Snow and Ice</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #111149;"></div><label><input type="checkbox" class="lcbox" value="3" >Mangrove</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #287463;"></div><label><input type="checkbox" class="lcbox" value="4" >Flooded forest</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #152106;"></div><label><input type="checkbox" class="lcbox" value="5" >Deciduous forest</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #c3aa69;"></div><label><input type="checkbox" class="lcbox" value="6" >Orchard or Plantation forest</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #9ad2a5;"></div><label><input type="checkbox" class="lcbox" value="7" >Evergreen broadleaf alpine</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #7db087;"></div><label><input type="checkbox" class="lcbox" value="8" >Evergreen broadleaf</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #486f50;"></div><label><input type="checkbox" class="lcbox" value="9" >Evergreen needleleaf</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #387242;"></div><label><input type="checkbox" class="lcbox" value="10" >Evergreen mixed forest</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #115420;"></div><label><input type="checkbox" class="lcbox" value="11" >Mixed evergreen and deciduous</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #cc0013;"></div><label><input type="checkbox" class="lcbox" value="12" >Urban and Built up</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #8dc33b;"></div><label><input type="checkbox" class="lcbox" value="13" >Cropland</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #ffff00;"></div><label><input type="checkbox" class="lcbox" value="14" >Rice paddy</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #a1843b;"></div><label><input type="checkbox" class="lcbox" value="15" >Mudflat and intertidal</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #cec2a5;"></div><label><input type="checkbox" class="lcbox" value="16" >Mining</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #674c06;"></div><label><input type="checkbox" class="lcbox" value="17" >Barren</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #3bc3b2;"></div><label><input type="checkbox" class="lcbox" value="18" >Wetlands</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #f4a460;"></div><label><input type="checkbox" class="lcbox" value="19" >Grassland</label>
+							</div>
+
+							<div class="legend-value">
+								<div class="legend-block" style="background-color: #800080;"></div><label><input type="checkbox" class="lcbox" value="20" >Shrubland</label>
+							</div>
+
+
+							<br>
+
+
+							<div style="text-align:center" id="slidervalue"></div>
+							<input type="range" min="2000" max="2015" step="1" value="2015", name="slider" id="slider">
+							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
+							<br></br>
+							<a id="DownloadLinkLuse1" target="_blank">Download Request</a>
+							<a id="DownloadLinkLuse2" target="_blank">Download Data</a>
+
+							</br>
+							<p><b>Download:</b></p>
+							<p>1. Select your area of interest.</p>
+
+							<img style="margin:10px 0px" src="/static/img/download.png" align="middle"  width="100">
+
+							<p>2. Click the Download button.</p>
+							<p>3. Download the map.</p>
+
+                                <input type="file" id="fileOpen" style="visibility: hidden; width: 2px;" />
+
+                            </div>
+                        </div>
+
+
+                        <div id="legend" class="tab-pane fade" style="padding-top: 30px;">
+
+                            <table style="border: 0px;">
+								<div class="legend-value">
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="1" >Barren</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="2" >Builtup </label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="3" >Canopy</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="4" >Cropland</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="5" >Deciduous</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="6" >Ephemeral_water</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="7" >Evergreen</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="8" >Forest_cover </label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="9" >Grass</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="10" >Mangrove</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="11" >Mixed forest</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="12" >Rice</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="13" >Shrub </label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="14" >Snow ice</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="15" >Surface water</label>
+								</div>
+
+								<div class="legend-value">
+								<label><input type="radio", name="primitives", class="mybox" value="16" >Tree height</label>
+								</div>
+
+
+							<br>
+
+
+							<div style="text-align:center"	 id="primitivevalue"></div>
+							<input type="range" min="2000" max="2015" step="1" value="2015", name="primitiveslider" id="primitiveslider">
+							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
+							<br></br>
+
+
+							<a id="DownloadLinkPrimi1" target="_blank">Download Request</a>
+							<a id="DownloadLinkPrimi2" target="_blank">Download Map</a>
+
+							</br>
+
+							</div>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+                    <div id="myanmar" class="tab-pane fade" style="padding-top: 30px;">
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #6f6f6f;"></div><label><input type="checkbox" class="Myanmarbox" value="0" >Other</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #aec3d4;"></div><label><input type="checkbox" class="Myanmarbox" value="1" >Surface Water</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #b1f9ff;"></div><label><input type="checkbox" class="Myanmarbox" value="2" >Snow and Ice</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #111149;"></div><label><input type="checkbox" class="Myanmarbox" value="3" >Mangrove</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #152106;"></div><label><input type="checkbox" class="Myanmarbox" value="4" >Closed forest</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #115420;"></div><label><input type="checkbox" class="Myanmarbox" value="5" >Open forest</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #387242;"></div><label><input type="checkbox" class="Myanmarbox" value="6" >Other wooded land</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #cc0013;"></div><label><input type="checkbox" class="Myanmarbox" value="7" >Settlement</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #8dc33b;"></div><label><input type="checkbox" class="Myanmarbox" value="8" >Crop Land</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #3bc3b2;"></div><label><input type="checkbox" class="Myanmarbox" value="9" >Grass Land</label>
+					</div>
+
+					<div class="legend-value">
+						<div class="legend-block" style="background-color: #f4a460;"></div><label><input type="checkbox" class="Myanmarbox" value="10" >Unknown</label>
+					</div>
+
+
+                      <br>
+                            <div style="text-align:center" id="Myanmarvalue"></div>
+							<input type="range" min="2000" max="2015" step="1" value="2015", name="Myanmarslider" id="Myanmarslider">
+							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
+							<br></br>
+
+                     <!--- <div id="chart"> style="display: none;"></div> --->
+                     <div id="chart"></div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="bottom-left-panel">
+
+
+                    <div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-7 mainview">
+                <div class="top-panel">
+
+                    <div id="map"></div>
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+    </div>
 
 </div>
-</div>
 
-<div id="rd-bar">
-<div class="rd-content">
-        <h1>REFERENCE DATA</h1>
-        <p><img src="/static/img/referencedata.png" width=50% ALIGN="right">Reference data is used to train the primitive models and for accuracy assesments. These data were contributed from up to six regional data set sources. Over 20,000 reference data points are used for the Regional Land Cover Monitoring System. Below is an example from the FAO Global Forest Resources Assessment used to create the forest canopy cover primitive. </p>
-        <a href=" https://docs.google.com/document/d/17fz7CwwqDtVFuD20T8KnTFkxc_dBfaIOtC57RqJ-VfY/edit" target="_blank" class="btn btn-custom btn-lg" role="button" style="margin-left: 10%; margin-top: 2%">Explore reference data documentation</a>
+    <script>
 
-          <div id="map" style="width:90%;height:75%;margin:5%"></div>
-        <script>
-          function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-              center: {lat: 18, lng: 100},
-              zoom: 5
-            });
+        $(document).ready(function () {
 
-            var layer = new google.maps.FusionTablesLayer({
-              query: {
-                select: '\'FAO Reference Data\'',
-                from: '1jbM7ge9tuEJZWhSOvxYZwQPfZrF_4krQwwV2MvQd'
-              }
-            });
-            layer.setMap(map);
-          }
-        </script>
-        <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAj1I3LfJv8iKbvmHEeroy5QkOdAfgrP4&callback=initMap">
-        </script>
+            /**
+            * Here we get the mapid and token for the map tiles that were generated
+            * by Earth Engine using the Python script server.py and injected using
+            * the Jinja2 templating engine.
+            */
+            initialize('{{ mapid }}', '{{ token }}');
 
-</div>
-</div>
+            //initialize('{{ lcmapid }}', '{{ lctoken }}', '{{ elevmapid }}', '{{ elevtoken }}');
 
-<div id="rdf-content">
-<div class="rdfooter-content">
-    <p> Powered by <img src="/static/img/google.png" width=6%> Earth Engine</p>
+            //Setup drawingManager and load chart and info-graphics
+            startupApp();
 
-    <p style="text-align: center;margin-top:-3%">&copy; Copyright 2017 SERVIR-Mekong</p>
+        });
 
-</div>
-</div>
+    </script>
+
+
+
+
+    <!-- Modal -->
+    <div id="AboutSection" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class=" ">Resource Identification Tool</h3>
+                </div>
+                <div class="modal-body" style="font-size:small;">
+                    <p>This is a Google Earth Engine based application which allows extraction of information about various parameters (e.g. population, elevation,
+                    temperature, precipitation, land cover, biodiversity, etc.) within the user defined area.
+
+                    </p>
+
+                    <p>
+                    When a user draws a polygon or rectangle on map and clicks the Compute button, the application carries out the analysis in the
+                    Google Earth Engine, the Goolgle's cloud based platform, and presents the result in the form of charts and info-graphics.
+                        </p>
+
+                   <p>
+                       The list of datasets used in application are given below:
+                       <ul>
+                           <li><a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3">CIESIN 1KM World Population Grid 2015</a></li>
+                           <li><a href="http://www.worldclim.org">WorldClim 1km grid dataset of monthly mean temperature and precipitation for the period of 1950-2000 (24 raster data layers)</a> </li>
+                           <li><a href="http://chg.geog.ucsb.edu/data/chirps/">CHIRPS 5 day time series precipitation data for 2015 (72 raster data layers)</a> </li>
+                           <li><a href="https://lpdaac.usgs.gov/dataset_discovery/modis/modis_products_table/mcd12q1">MODIS 500m global land cover data for 2012</a></li>
+                           <li><a href="http://www.cgiar-csi.org/data/srtm-90m-digital-elevation-database-v4-1">SRTM 90m elevation data</a> </li>
+                           <li><a href="http://www.gbif.org/">Global Biodiversity Information Facility (GBIF) Occurrence data</a> </li>
+                       </ul>
+                       The aplication uses 7 different datasets and altogether some 100 data layers in the analysis. It uses an API provided by GBIF to query and access the occurrence
+                       information from their occurrence database. Likewise, the area of the user defined polygon is calculated using function provided by Google Maps API. Apart from these,
+                       all other analyses are done in Google Earth Engine using Google Earth Engine API.
+                   </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 
 
 </body>
