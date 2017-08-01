@@ -14,7 +14,7 @@ var iconFile = '/static/img/red_dot.png';
 var CSS_COLOR_NAMES = ["Black","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
 
 google.load("visualization", "1", {packages:["corechart"]});
-  
+
 
 // The Drawing Manager for the Google Map.
 var drawingManager;
@@ -44,8 +44,8 @@ var initialize = function (mapId, token) {
 		name: 'Land cover',
 		opacity: 1.0
   };
-    
- 
+
+
     // Create the map type.
     lc_mapType = new google.maps.ImageMapType(eeMapOptions);
 
@@ -62,9 +62,9 @@ var initialize = function (mapId, token) {
 
     map = new google.maps.Map(
         document.getElementById('map'), mapOptions);
-	
+
   //  map.overlayMapTypes.push(lc_mapType);
- 
+
     infoWindow = new google.maps.InfoWindow({
         content: ""
     });
@@ -77,24 +77,21 @@ var initialize = function (mapId, token) {
 	// Check all boxes
 	$(".lcbox").prop("checked", true);
 	$(".Myanmarbox").prop("checked", true);
-	
+
 	// update the legend
 	//updateLegend();
-	
+
 	// add handlers to buttons
 	$('.mybox').change(updatePrimitives);
 	$('.lcbox').change(updateLegend);
 	$('.Myanmarbox').change(updateMyanmar);
-	
+
     //eventSliderPrimitives();
     eventSliderLuse();
-		
+
 	var yearSlider = document.getElementById('slider').addEventListener("change", eventSliderLuse);
 	var yearSliderPrimitive = document.getElementById('primitiveslider').addEventListener("change", eventSliderPrimitives);
-	var yearSliderMyanmar = document.getElementById('Myanmarslider').addEventListener("change", eventSliderMyanmar);
-	
-	
-
+	//var yearSliderMyanmar = document.getElementById('Myanmarslider').addEventListener("change", eventSliderMyanmar);
 };
 
 
@@ -105,12 +102,12 @@ var initialize = function (mapId, token) {
 var eventSliderLuse = function() {
 
     year = $("#slider").val();
-    
+
     var sliderValue = document.getElementById("slidervalue");
     slidervalue.innerHTML = year;
-    
+
     updateLegend();
-		
+
 }
 
 /**
@@ -120,12 +117,12 @@ var eventSliderLuse = function() {
 var eventSliderMyanmar = function() {
 
     year = $("#Myanmarslider").val();
-    
+
     var Myanmarvalue = document.getElementById("Myanmarvalue");
     Myanmarvalue.innerHTML = year;
-    
+
     updateMyanmar();
-		
+
 }
 
 
@@ -135,14 +132,14 @@ var eventSliderMyanmar = function() {
  */
 var eventSliderPrimitives = function() {
 
-	
+
     year = $("#primitiveslider").val();
-    
+
     var primitiveValue = document.getElementById("primitivevalue");
     primitiveValue.innerHTML = year;
-    
+
     updatePrimitives();
-		
+
 }
 
 
@@ -177,8 +174,8 @@ var clearPolygon = function () {
 var setRectanglePolygon = function (newShape) {
     clearPolygon();
     currentShape = newShape;
-    
-    
+
+
 	showButtons()
 
 
@@ -193,13 +190,13 @@ var showButtons = function () {
 		showlink.style.display = 'block';
 		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMapLuse);
 	}
-	
+
 	if (mapCounter == 2){
 		var showlink = document.getElementById("DownloadLinkPrimi1")
 		showlink.style.display = 'block';
-		var DownloadButton = document.getElementById('DownloadLinkPrimi1').addEventListener("click", exportMapPrimitives);	
+		var DownloadButton = document.getElementById('DownloadLinkPrimi1').addEventListener("click", exportMapPrimitives);
 	}
-	
+
 }
 
 var showDownloadButtons = function () {
@@ -209,20 +206,20 @@ var showDownloadButtons = function () {
 		showlink.style.display = 'block';
 		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMap1);
 	}
-	
+
 	if (mapCounter == 2){
 		var showlink = document.getElementById("DownloadLinkPrimi1")
 		showlink.style.display = 'block';
-		var DownloadButton = document.getElementById('DownloadlinkPrimi1').addEventListener("click", exportMap2);	
+		var DownloadButton = document.getElementById('DownloadlinkPrimi1').addEventListener("click", exportMap2);
 	}
-	
+
 }
 
 
 var hideButtons = function (){
 	var showlink1 = document.getElementById("DownloadLinkLuse1")
 	showlink1.style.display = 'none';
-    
+
     var showlink2 = document.getElementById("DownloadLinkPrimi1")
 	showlink2.style.display = 'none';
 
@@ -230,7 +227,7 @@ var hideButtons = function (){
 	showlink3.style.display = 'none';
 
     var showlink4 = document.getElementById("DownloadLinkPrimi2")
-	showlink4.style.display = 'none';   
+	showlink4.style.display = 'none';
 
 }
 
@@ -277,7 +274,7 @@ function refreshImage(eeMapid, eeToken) {
 		opacity: 1.0
   };
 
-        
+
     mapType = new google.maps.ImageMapType(eeMapOptions);
     map.overlayMapTypes.clear();
     map.overlayMapTypes.push(mapType);
@@ -290,7 +287,7 @@ function refreshImage(eeMapid, eeToken) {
 var shapeToWKT = function (shape) {
 
     var coords = getCoordinates(shape);
-    
+
 
     // Start the Polygon Well Known Text (WKT) expression
     var wkt = "POLYGON((";
@@ -312,7 +309,7 @@ var shapeToWKT = function (shape) {
 
 function startupApp() {
 
-  
+
     //Added for drawing
     drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: null,
@@ -341,15 +338,15 @@ function startupApp() {
 
         var newShape = event.overlay;
         newShape.type = event.type;
-        
+
         var mode = drawingManager.getDrawingMode();
-        
+
         if (mode == "marker"){
-			
+
 			if (mapCounter == 3){
 				getPrimitives(newShape);
-			}		
-			
+			}
+
 			}
 
 		else{
@@ -359,19 +356,19 @@ function startupApp() {
 				drawingManager.setDrawingMode(null);
 			}
 		}
-		
+
     });
 
-   
+
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
-    
+
     //for browsing and reading the kml file
     document.getElementById('fileOpen').addEventListener('change', fileOpenDialog, false);
 
 }
 
 
-// To add control with save and load KML buttons to the google map   
+// To add control with save and load KML buttons to the google map
 
 function CustomControl(controlDiv, map) {
 
@@ -424,17 +421,17 @@ var updateLegend = function() {
 	legend = []
 	$('.lcbox').each(function(){
 		if (this.checked){
-			
+
 			legend.push(parseInt($(this).val(),10));}
 			})
-	
+
 	var mylegend = JSON.stringify(legend)
-	
+
 	$.get('/updateLandCover', {'lc': mylegend, "year":year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
-	
+
       var eeMapid = data["eeMapId"];
       var eeToken = data["eeToken"];
 
@@ -446,14 +443,14 @@ var updateLegend = function() {
 var getPrimitives = function(point) {
 	var lat = point.getPosition().lat();
 	var lon = point.getPosition().lng();
-	
+
 	console.log(lat,lon);
 
 	$.get('/GetPrimitiveValues', {'lat':  JSON.stringify(lat), 'lon':  JSON.stringify(lon)}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
-	
+
       showChart(data);
     }
 		})
@@ -472,27 +469,27 @@ var updatePrimitives = function() {
 		if (this.checked){
 			legend = parseInt($(this).val(),10);}
 			})
-	
-	
+
+
 	if (legend.length == 0){
 		legend = [1];
-		
+
 		}
-	
+
 	var mylegend = JSON.stringify(legend)
 
 	$.get('/updatePrimitives', {'lc': mylegend, "year":year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
-	
+
       var eeMapid = data["eeMapId"];
       var eeToken = data["eeToken"];
 
       refreshImage(eeMapid, eeToken);
     }
 		})
-		
+
 };
 
 
@@ -505,29 +502,29 @@ var updateMyanmar = function() {
 		if (this.checked){
 			legend.push(parseInt($(this).val(),10));}
 			})
-	
-	
+
+
 	if (legend.length == 0){
 		legend = [1];
-		
+
 		}
-	
-	
-	
+
+
+
 	var mylegend = JSON.stringify(legend)
 
 	$.get('/updateMyanmar', {'lc': mylegend, "year":year}).done(function (data) {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
-	
+
       var eeMapid = data["eeMapId"];
       var eeToken = data["eeToken"];
 
       refreshImage(eeMapid, eeToken);
     }
 		})
-		
+
 };
 
 
@@ -548,17 +545,17 @@ var exportMapLuse = function() {
 		 if (data['error']) {
 		alert("Oops, an error! Please refresh the page!")
     } else {
-	
+
       hideButtons();
-      
+
       var downloadLink = document.getElementById("DownloadLinkLuse2")
 	  downloadLink.style.display = 'block';
-	  downloadLink.setAttribute("href",data); 
-    
+	  downloadLink.setAttribute("href",data);
+
     }
-		})	
-	
-} 
+		})
+
+}
 
 /**
 * function to close info screen
@@ -580,15 +577,15 @@ var exportMapPrimitives = function() {
     } else {
 
       hideButtons();
-      
+
       var downloadLink = document.getElementById("DownloadLinkPrimi2")
 	  downloadLink.style.display = 'block';
-	  downloadLink.setAttribute("href",data); 	
-      
+	  downloadLink.setAttribute("href",data);
+
     }
-		})	
-	
-} 
+		})
+
+}
 
 /**
  * Shows a chart with the given timeseries.
@@ -598,39 +595,39 @@ var exportMapPrimitives = function() {
 
 var showChart = function(timeseries) {
 
-   clearChart();  
-	
+   clearChart();
+
 	datarr = [];
 
-	var newSeries = timeseries[0].map(function(col, i) { 
-	  return timeseries.map(function(row) { 
-		return row[i] 
+	var newSeries = timeseries[0].map(function(col, i) {
+	  return timeseries.map(function(row) {
+		return row[i]
 	  })
-	}); 
+	});
 
 	newSeries.forEach(function(point) {
 		point[0] = new Date(parseInt(point[0], 10));
 		datarr.push(point);
 		});
 
-  
+
    var myName = ["Cropland","Otherwoodedland","Grassland","Settlement","Other","Closed_forest","Surface_Water","Open_forest","Wetlands","Mangrove","Snow_and_Ice"]
- 
+
  // Create the data table.
    var data = new google.visualization.DataTable();
 
    data.addColumn('date')
-    
+
     counter = 0;
     myName.forEach(function(item) {
 		data.addColumn('number',item)
 	});
-    
+
 
   data.addRows(datarr);
- 
+
   var wrapper = createWrapper(500,200,data);
- 
+
   $('#chart').show();
   var chartEl = $('#chart').get(0);
   wrapper.setContainerId(chartEl);
@@ -657,7 +654,7 @@ var createWrapper = function(w,h,data){
       chartArea: {width: '40%'},
       colors: CSS_COLOR_NAMES,
       vAxis: { format:'0.00'},
-    
+
 	vAxis: {
        viewWindowMode:'explicit',
        viewWindow: {
@@ -665,9 +662,9 @@ var createWrapper = function(w,h,data){
            min:0
             }
         }
-     }    
+     }
   });
-  
+
   return wrapper;
 }
 
@@ -678,9 +675,8 @@ var clearChart = function(){
 
 	// clear colored polygons
 	map.data.revertStyle();
-	
-	$('#chart').empty(); 
-	$('#chart').hide();	
+
+	$('#chart').empty();
+	$('#chart').hide();
 
 }
-
