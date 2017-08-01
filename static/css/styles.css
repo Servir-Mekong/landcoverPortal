@@ -16,17 +16,11 @@ html, body {
             padding-top: 0%;
             height: 100%;
             padding-right:5%;
-            overflow: hidden;
+
         }
 
         .mainview, .leftview, .rightview {
             background-color: #fff;
-        }
-
-        @media (max-width: 767px) {
-            .mainview, .leftview, .rightview {
-                height: auto;
-            }
         }
 
 		.leftview {
