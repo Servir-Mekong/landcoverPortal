@@ -410,7 +410,7 @@ class downloadMapPrimitives(webapp2.RequestHandler):
 
     myMap = primitive.filter(ee.Filter.calendarRange(year, year, 'year'))
 
-    myMap = ee.Image(myMap).unmask(1).clip(mekongCountries)
+    myMap = ee.Image(myMap.first()).unmask(1).clip(mekongCountries)
 
     URL = myMap.getDownloadURL({
      		'scale': 100,
