@@ -57,7 +57,8 @@ var initialize = function (mapId, token) {
         center: DEFAULT_CENTER,
         zoom: DEFAULT_ZOOM,
         maxZoom: MAX_ZOOM,
-        streetViewControl: false
+        streetViewControl: false,
+        gestureHandling: 'greedy'
     };
 
     map = new google.maps.Map(
