@@ -130,7 +130,7 @@ class updateMyanmar(webapp2.RequestHandler):
 
   def get(self):
 
-    counter =1
+    counter =3
 
     # get the array with boxes that are checked
     mylegend = self.request.get('lc')

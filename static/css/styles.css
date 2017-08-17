@@ -25,14 +25,17 @@ html, body {
 
 		.leftview {
 			width: 30%;
+      height:100%;
 			}
 
 		.rightview {
 			width: 20%;
+      height:100%
 			}
 
 		.mainview {
 			width: 70%;
+      height: 100%
 			}
 
 
@@ -219,6 +222,31 @@ html, body {
   float: left;
   border:#bbb solid 1px;
   background-color:#D3D3D3;
+}
+
+.primitivechart {
+  position:absolute;
+  width: 1004px;
+  height: 504px;
+  margin-left: 15%;
+  margin-top: 2%;
+  display:none;
+  z-index: 10;
+  border:2px solid black;
+  background: rgba(0,0,0,0.3);
+}
+
+#chartclose {
+  position:absolute;
+  padding: 1px 0;
+  top:190px;
+  left:240px;
+  height:20px;
+  width:20px;
+  z-index:21;
+  display: none;
+  text-align: center;
+  float:auto;
 }
 
 .water #timeslider {

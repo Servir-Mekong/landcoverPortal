@@ -79,6 +79,11 @@
           <a href="https://tinyurl.com/y9vcvdo7" target="_blank" class="btn btn-custom btn-lg" role="button" style="margin-left:10%; margin-top:2%;width:80%; margin-right:10%;margin-bottom:2%">Service Survey</a>
         </div>
 
+        <!--- <div id="chart"> style="display: none;"></div> --->
+        <div class="primitivechart"></div>
+        <div id="chartclose"><button type="button" class="btn btn-danger">X</button></div>
+
+
         <div class="row">
             <div class="col-sm-2 leftview">
                 <div class="top-panel" style="overflow-x:hidden;overflow-y:auto;">
@@ -189,8 +194,8 @@
 							<input type="range" min="2000" max="2015" step="1" value="2015", name="slider" id="slider">
 							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
 							<br></br>
-							<a id="DownloadLinkLuse1" target="_blank">Download Request</a>
-							<a id="DownloadLinkLuse2" target="_blank">Download Data</a>
+							<a class="btn btn-custom btn-lg" role="button" id="DownloadLinkLuse1" target="_blank">Download Request</a>
+							<a class="btn btn-custom btn-lg" role="button" id="DownloadLinkLuse2" target="_blank">Download Data</a>
 
 							</br>
 							<p><b>Download:</b></p>
@@ -284,10 +289,8 @@
 							<input type="range" min="2000" max="2015" step="1" value="2015", name="primitiveslider" id="primitiveslider">
 							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
 							<br></br>
-
-
-							<a id="DownloadLinkPrimi1" target="_blank">Download Request</a>
-							<a id="DownloadLinkPrimi2" target="_blank">Download Map</a>
+							<a class="btn btn-custom btn-lg" role="button" id="DownloadLinkPrimi1" target="_blank">Download Request</a>
+							<a class="btn btn-custom btn-lg" role="button" id="DownloadLinkPrimi2" target="_blank">Download Map</a>
 
 							</br>
 
@@ -345,17 +348,27 @@
 
 					<div class="legend-value">
 						<div class="legend-block" style="background-color: #f4a460;"></div><label><input type="checkbox" class="Myanmarbox" value="10" >Unknown</label>
-					</div>
+          </div>
 
+          <br>
 
-                      <br>
-                            <div style="text-align:center" id="Myanmarvalue"></div>
-							<input type="range" min="2000" max="2015" step="1" value="2015", name="Myanmarslider" id="Myanmarslider">
-							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
-							<br></br>
+          <div style="text-align:center" id="Myanmarvalue"></div>
+          <input type="range" min="2000" max="2015" step="1" value="2015", name="Myanmarslider" id="Myanmarslider">
+          <p style="text-align:left;">2000<span style="float:right;">present</span></p>
+          <br></br>
+          <a class="btn btn-custom btn-lg" role="button" id="DownloadLinkLuse1" target="_blank">Download Request</a>
+          <a class="btn btn-custom btn-lg" role="button" id="DownloadLinkLuse2" target="_blank">Download Data</a>
 
-                     <!--- <div id="chart"> style="display: none;"></div> --->
-                     <div id="chart"></div>
+          </br>
+          <p><b>Download:</b></p>
+          <p>1. Select your area of interest.</p>
+
+          <img style="margin:10px 0px" src="/static/img/download.png" align="middle"  width="100">
+
+          <p>2. Click the Download button.</p>
+          <p>3. Download the map.</p>
+
+          <br>
 
 
                         </div>
@@ -363,16 +376,9 @@
                     </div>
 
                 </div>
-                <div class="bottom-left-panel">
 
-
-                    <div style="padding-left: 20px; padding-top: 20px; padding-right: 20px;">
-
-                    </div>
 
                 </div>
-
-            </div>
 
 
             <div class="col-sm-7 mainview">
@@ -385,6 +391,7 @@
 
             </div>
         </div>
+
     </div>
 
 </div>

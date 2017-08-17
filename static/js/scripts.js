@@ -3,9 +3,11 @@ var outlineKmlLayer;
 
 var lc_mapType, elev_mapType;
 
-var DEFAULT_CENTER = new google.maps.LatLng(18.5, 98);
-var DEFAULT_ZOOM = 4
+var DEFAULT_CENTER = new google.maps.LatLng(18, 98.5);
+var DEFAULT_ZOOM = 5
 var MAX_ZOOM = 15
+
+var markers = []
 
 var infoWindow;
 
@@ -93,6 +95,7 @@ var initialize = function (mapId, token) {
 	var yearSlider = document.getElementById('slider').addEventListener("change", eventSliderLuse);
 	var yearSliderPrimitive = document.getElementById('primitiveslider').addEventListener("change", eventSliderPrimitives);
 	var yearSliderMyanmar = document.getElementById('Myanmarslider').addEventListener("change", eventSliderMyanmar);
+  var closeChart = document.getElementById('chartclose').addEventListener("click",clearChart);
 };
 
 
@@ -171,6 +174,14 @@ var clearPolygon = function () {
     }
 };
 
+// Clears the current polygon and cancels any outstanding analysis.
+var clearPoint = function () {
+    if (currentShape) {
+        currentShape.setMap(null);
+        currentShape = undefined;
+    }
+};
+
 // Sets the current polygon and kicks off an EE analysis.
 var setRectanglePolygon = function (newShape) {
     clearPolygon();
@@ -178,8 +189,6 @@ var setRectanglePolygon = function (newShape) {
 
 
 	showButtons()
-
-
 
 };
 
@@ -262,6 +271,7 @@ function refreshImage(eeMapid, eeToken) {
 
     hideButtons();
     clearPolygon();
+    clearPoint();
 
 	var eeMapOptions = {
         getTileUrl: function (tile, zoom) {
@@ -337,12 +347,16 @@ function startupApp() {
       // Add a listener for creating new shape event.
     google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
 
+        clearPoint();
+
         var newShape = event.overlay;
         newShape.type = event.type;
 
         var mode = drawingManager.getDrawingMode();
 
         if (mode == "marker"){
+
+      clearPoint()
 
 			if (mapCounter == 3){
 				getPrimitives(newShape);
@@ -627,10 +641,11 @@ var showChart = function(timeseries) {
 
   data.addRows(datarr);
 
-  var wrapper = createWrapper(500,200,data);
+  var wrapper = createWrapper(1000,500,data);
 
-  $('#chart').show();
-  var chartEl = $('#chart').get(0);
+  $('.primitivechart').show();
+  $('#chartclose').show();
+  var chartEl = $('.primitivechart').get(0);
   wrapper.setContainerId(chartEl);
   wrapper.draw();
 
@@ -652,15 +667,15 @@ var createWrapper = function(w,h,data){
       curveType: 'function',
       legend: {position: 'right'},
       titleTextStyle: {fontName: 'Roboto'},
-      chartArea: {width: '40%'},
+      chartArea: {width: '60%'},
       colors: CSS_COLOR_NAMES,
       vAxis: { format:'0.00'},
 
 	vAxis: {
        viewWindowMode:'explicit',
        viewWindow: {
-           max:100,
-           min:0
+           max:107,
+           min:0,
             }
         }
      }
@@ -677,7 +692,8 @@ var clearChart = function(){
 	// clear colored polygons
 	map.data.revertStyle();
 
-	$('#chart').empty();
-	$('#chart').hide();
+	$('.primitivechart').empty();
+	$('.primitivechart').hide();
+  $('#chartclose').hide();
 
 }

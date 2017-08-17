@@ -185,8 +185,8 @@
 							<input type="range" min="2000" max="2015" step="1" value="2015", name="slider" id="slider">
 							<p style="text-align:left;">2000<span style="float:right;">present</span></p>
 							<br></br>
-							<a id="DownloadLinkLuse1" target="_blank">Download Request</a>
-							<a id="DownloadLinkLuse2" target="_blank">Download Data</a>
+							<a class="btn btn-custom btn-lg" role="button" id="DownloadLinkLuse1" target="_blank">Download Request</a>
+							<a class="btn btn-custom btn-lg" role="button" id="DownloadLinkLuse2" target="_blank">Download Data</a>
 
 							</br>
 							<p><b>Download:</b></p>
@@ -278,8 +278,8 @@
                 <br></br>
 
 
-                <a id="DownloadLinkPrimi1" target="_blank">Download Request</a>
-                <a id="DownloadLinkPrimi2" target="_blank">Download Map</a>
+                <a class="btn btn-custom btn-lg" role="button" id="DownloadLinkPrimi1" target="_blank">Download Request</a>
+                <a class="btn btn-custom btn-lg" role="button" id="DownloadLinkPrimi2" target="_blank">Download Map</a>
 
                 </br>
 
@@ -399,54 +399,9 @@
     </script>
 
 
-
-
-    <!-- Modal -->
-    <div id="AboutSection" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class=" ">Resource Identification Tool</h3>
-                </div>
-                <div class="modal-body" style="font-size:small;">
-                    <p>This is a Google Earth Engine based application which allows extraction of information about various parameters (e.g. population, elevation,
-                    temperature, precipitation, land cover, biodiversity, etc.) within the user defined area.
-
-                    </p>
-
-                    <p>
-                    When a user draws a polygon or rectangle on map and clicks the Compute button, the application carries out the analysis in the
-                    Google Earth Engine, the Goolgle's cloud based platform, and presents the result in the form of charts and info-graphics.
-                        </p>
-
-                   <p>
-                       The list of datasets used in application are given below:
-                       <ul>
-                           <li><a href="http://sedac.ciesin.columbia.edu/data/collection/gpw-v3">CIESIN 1KM World Population Grid 2015</a></li>
-                           <li><a href="http://www.worldclim.org">WorldClim 1km grid dataset of monthly mean temperature and precipitation for the period of 1950-2000 (24 raster data layers)</a> </li>
-                           <li><a href="http://chg.geog.ucsb.edu/data/chirps/">CHIRPS 5 day time series precipitation data for 2015 (72 raster data layers)</a> </li>
-                           <li><a href="https://lpdaac.usgs.gov/dataset_discovery/modis/modis_products_table/mcd12q1">MODIS 500m global land cover data for 2012</a></li>
-                           <li><a href="http://www.cgiar-csi.org/data/srtm-90m-digital-elevation-database-v4-1">SRTM 90m elevation data</a> </li>
-                           <li><a href="http://www.gbif.org/">Global Biodiversity Information Facility (GBIF) Occurrence data</a> </li>
-                       </ul>
-                       The aplication uses 7 different datasets and altogether some 100 data layers in the analysis. It uses an API provided by GBIF to query and access the occurrence
-                       information from their occurrence database. Likewise, the area of the user defined polygon is calculated using function provided by Google Maps API. Apart from these,
-                       all other analyses are done in Google Earth Engine using Google Earth Engine API.
-                   </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-
+    <!--- <div id="chart"> style="display: none;"></div> --->
+    <div id="primitivechart"></div>
+    <div><button type="button" class="btn btn-danger" id="chartclose">X</button></div>
 
 </body>
 </html>
