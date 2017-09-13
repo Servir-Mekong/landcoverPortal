@@ -206,6 +206,11 @@ var showButtons = function () {
 		showlink.style.display = 'block';
 		var DownloadButton = document.getElementById('DownloadLinkPrimi1').addEventListener("click", exportMapPrimitives);
 	}
+  if (mapCounter == 3){
+		var showlink = document.getElementById("DownloadLinkLuse1")
+		showlink.style.display = 'block';
+		var DownloadButton = document.getElementById('DownloadLinkLuse1').addEventListener("click", exportMapLuse);
+	}
 
 }
 
@@ -222,6 +227,12 @@ var showDownloadButtons = function () {
 		showlink.style.display = 'block';
 		var DownloadButton = document.getElementById('DownloadlinkPrimi1').addEventListener("click", exportMap2);
 	}
+
+  if (mapCounter == 3){
+    var showlink = document.getElementById("DownloadLinkLuse1")
+    showlink.style.display = 'block';
+    var DownloadButton = document.getElementById('DownloadlinkLuse1').addEventListener("click", exportMap3);
+  }
 
 }
 
