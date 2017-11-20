@@ -1,0 +1,153 @@
+<!-- Footer -->
+{% load cms_tags staticfiles %}
+<footer ng-cloak ng-controller="settingsCtrl" class="main-padding">
+	<div class="container-fluid footer-container">
+		<div class="row">
+            <div ng-repeat="partner in partnersFooter" class="col-md-4 col-sm-4 col-lg-4">
+                <a href="[[partner.url]]" target="_blank">
+                    <img class="grow img-responsive [[partner.className]]" src="{% static '' %}[[partner.src]]" alt="[[partner.alt]]">
+                </a>             
+            </div>
+		</div>
+	</div>
+
+    <div class="container-fluid footer-container info-footer" id="footer-content">
+        <div class="row">
+            <div class="col-sm-12 col-lg-4 col-md-4">
+                <img class="logo-servir" src="{% static 'images/servir-mekong.png' %}" alt="SERVIR Mekong">
+                <br>
+                <a type="button" class="btn btn-primary" href="https://servir.adpc.net/services/technical-assistance">
+                    Request Technical Assistance
+                </a>
+                <br>
+                <p class="copyright">
+                    <em>© 2017 Asian Disaster Preparedness Center (ADPC). All Rights Reserved.</em>
+                </p>
+            </div>
+            <div class="col-sm-12 col-lg-4 col-md-4">        
+                <ul class="footer-links">
+                    <li class="footer-link" ng-repeat="footerLink in footerLinks">
+                         <a ng-show="footerLink.show" href="[[footerLink.url]]" target="_blank">[[footerLink.name]]</a>
+                     </li>
+                </ul>
+             </div>
+            <div class="col-sm-12 col-lg-4 col-md-4">
+                <h1>Our Partners</h1>
+                <div id="carousel" class="carousel slide">
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+                        <div class="item active customCarousel">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://www.uah.edu/">
+                                        <img src="{% static 'images/uah.png' %}"
+                                             alt="University of Alabama in Huntsville"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://www.usfca.edu/arts-sciences/research/geospatial-analysis-lab">
+                                        <img src="{% static 'images/usf-gsal.png' %}"
+                                             alt="University of San Francisco - Geospatial Analysis Lab"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/row-->
+                        </div>
+                        <!--/item-->
+                        <div class="item customCarousel">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://www.fs.fed.us/about-agency/international-programs">
+                                        <img src="{% static 'images/usfs.png' %}"
+                                             alt="U.S. Forest Service"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://www.fs.fed.us/gstc/">
+                                        <img src="{% static 'images/gtac.svg' %}"
+                                             alt="Geospatial Technology and Applications Center"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/row-->
+                        </div>
+                        <!--/item-->
+                        <div class="item customCarousel">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="http://www.silvacarbon.org/">
+                                        <img src="{% static 'images/silvacarbon.png' %}"
+                                             alt="SilvaCarbon"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="http://www.fao.org/">
+                                        <img src="{% static 'images/fao.png' %}"
+                                             alt="Food and Agriculture Organization"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/row-->
+                        </div>
+                        <!--/item-->
+                        <div class="item customCarousel">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://www.umd.edu/">
+                                        <img src="{% static 'images/umd.png' %}"
+                                             alt="University of Maryland"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="http://www.glad.umd.edu/">
+                                        <img src="{% static 'images/glad.png' %}"
+                                             alt="Global Land Analysis & Discovery"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/row-->
+                        </div>
+                        <!--/item-->
+                        <div class="item customCarousel">
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://earthengine.google.com/">
+                                        <img src="{% static 'images/gee.png' %}"
+                                             alt="Google Earth Engine"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <a href="https://www.digitalglobe.com/">
+                                        <img src="{% static 'images/digitalglobe.png' %}"
+                                             alt="DigitalGlobe"
+                                             class="img-responsive img-thumbnail carouselImg">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--/row-->
+                        </div>
+                        <!--/item-->
+                    </div>
+                    <!--/carousel-inner-->
+                    <a class="left carousel-control" href="#carousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <!--/carousel-->
+
+            </div>
+        </div>
+    </div>
+</footer>

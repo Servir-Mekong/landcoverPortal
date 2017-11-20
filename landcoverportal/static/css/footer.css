@@ -1,0 +1,134 @@
+footer {
+    /*margin: 3em auto;
+    margin-bottom: 20px;
+    margin-left: 150px;
+    margin-right: 150px;*/
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: absolute;
+}
+
+.footer-container {
+    /*margin-right: 3em;
+    margin-left: 3em;*/
+    padding-top: 1em;
+}
+
+footer .partner-deltares {
+    margin-top: -5%;
+    width: 230px !important;
+    float: right;
+    margin: 2.5em;
+}
+
+/*
+@media(max-width:767px){} --> extra small devices
+@media(min-width:768px){} --> small devices
+@media(min-width:992px){} --> medium devices
+@media(min-width:1200px){} --> large devices
+*/
+
+@media (max-width: 1024px) {
+	#footer-content {
+    	display: none;
+	}
+    .footer-container {
+        width: 100%;
+    }
+}
+
+footer .partner-sig {
+    width: 250px !important;
+    float: left;
+    margin: 2.5em;
+}
+
+footer .partner-sei {
+    width: 250px !important;
+    margin: auto;
+    margin: 2.5em;
+}
+
+footer > div img {
+	width: 70%;
+	display: block;
+}
+
+.info-footer {
+	background-color: rgb(241, 241, 241);	
+}
+
+.copyright {
+    margin-top: 1.5em;
+    font-size: 1.1em;
+}
+
+.footer-links {
+    letter-spacing: 0.02em;
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+
+.footer-link {
+	margin-bottom: 0.35em;
+	font-weight: bold;
+}
+
+footer > div ul, ol {
+	list-style-type: none;
+}
+
+/* Carousel */
+
+.carousel {
+    margin-top: -15%;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 15%;
+    opacity: 0.5;
+    font-size: 20px;
+    color: #191717;
+    text-align: center;
+    text-shadow: none;
+}
+
+.carousel-control.left {
+    background-image: none;
+}
+
+.carousel-control.left:hover{
+   color: #191717;
+}
+
+.carousel-control.right {
+    left: auto;
+    right: 0;
+    background-image: none;
+}
+
+.carousel-control.right:hover{
+   color: #191717;
+}
+
+.carousel-control {
+    padding-top: 10.25%;
+    width: 5%;
+}
+
+.customCarousel {
+    width: auto;
+    position: relative;
+    height: 225px;
+}
+
+.carouselImg {
+    /*height: 80px;
+    max-height: 80px;*/
+    margin-top: 50%;
+    margin-bottom: 50%;
+}

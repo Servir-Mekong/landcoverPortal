@@ -1,0 +1,33 @@
+{
+	"name": "landcoverportal",
+	"description": "Land Cover Portal",
+	"version": "1.0.0",
+	"private": false,
+	"authors": [
+		"SERVIR MEKONG"
+	],
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"dependencies": {
+		"bower": "^1.4.1",
+		"lodash": "^3.10.0"
+	},
+	"devDependencies": {
+		"gulp": "^3.9.0",
+		"gulp-angular-templatecache": "^1.7.0",
+		"gulp-concat": "^2.6.0",
+		"gulp-csslint": "~0.1.5",
+		"gulp-cssmin": "~0.1.7",
+		"gulp-imagemin": "~2.4.0",
+		"gulp-jshint": "^1.11.2",
+		"gulp-less": "^3.0.3",
+		"gulp-livereload": "^3.8.0",
+		"gulp-load-plugins": "^1.0.0-rc.1",
+		"gulp-ng-annotate": "^1.0.0",
+		"gulp-uglify": "^1.2.0",
+		"run-sequence": "^1.1.1"
+	},
+	"license": "MIT"
+}

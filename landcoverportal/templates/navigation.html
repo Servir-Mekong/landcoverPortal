@@ -1,0 +1,86 @@
+<!-- Navigation -->
+{% load staticfiles %}
+<nav ng-cloak class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+    <div class="navbar-container" ng-controller="settingsCtrl">	
+
+		<!--<div class="container-fluid main-padding banner">
+			<div ng-repeat="partner in partnersHeader">
+				<div class="[[partner.className]]">
+					<a href="[[partner.url]]" target="_blank">
+			            <img class="grow img-responsive" src="{% static '' %}[[partner.src]]" alt="[[partner.alt]]">
+			        </a>
+			    </div>
+		    </div>
+		</div>-->
+
+		<div class="container-fluid main-padding banner">
+			<div class="banner-normal row">
+				<div class="banner-normal-left col-md-8">
+					<div class="left-usaid">
+						<a href="https://www.usaid.gov/" target="_blank">
+							<img class="grow img-responsive" src="{% static 'images/usaid.png' %}">
+						</a>
+					</div>
+					<div class="left-nasa">
+						<a href="https://www.nasa.gov/" target="_blank">
+							<img class="grow img-responsive" src="{% static 'images/nasa.png' %}">
+						</a>
+					</div>
+					<div class="left-adpc">
+						<a href="http://www.adpc.net/" target="_blank">
+							<img class="grow img-responsive left-adpc" src="{% static 'images/adpc.png' %}">
+						</a>
+					</div>
+				</div>
+				<div class="banner-normal-right col-md-4">
+					<div class="right-servir">
+						<a href="https://servir.adpc.net/" target="_blank">
+							<img class="grow img-responsive" src="{% static 'images/servir-mekong.png' %}">
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="banner-flex">
+				<div class="banner-flex-top row">
+					<div class="top-usaid col-md-6 col-sm-6">
+						<img class="grow img-responsive" src="{% static 'images/usaid.png' %}">
+					</div>
+					<div class="top-nasa col-md-6 col-sm-6">
+						<img class="grow img-responsive" src="{% static 'images/nasa.png' %}">
+					</div>
+				</div>
+				<div class="banner-flex-bottom row">
+					<div class="bottom-adpc col-md-6 col-sm-6">
+						<img class="grow img-responsive" src="{% static 'images/adpc.png' %}">
+					</div>
+					<div class="bottom-servir col-md-6 col-sm-6">
+						<img class="grow img-responsive" src="{% static 'images/servir-mekong.png' %}">
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="navbar-header menu-container main-padding">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand navmenu" href="/home/">[[applicationName]]</a>
+		</div>
+
+		<div class="container-fluid menu-container collapse navbar-collapse main-padding" id="navbar-collapse">
+		    <!-- <div class="collapse navbar-collapse"> -->
+		         <ul class="nav navbar-nav navbar-right">
+		             <li ng-repeat="menu in menus">
+		                 <a ng-show="menu.show" class="navmenu" href="[[menu.url]]" target="_blank">[[menu.name]]</a>
+		             </li>
+		         </ul>
+		     <!-- </div> -->
+		</div>
+	</div>
+    <!-- /.navbar-collapse -->
+</nav>
