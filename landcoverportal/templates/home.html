@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block navigation_container%}
+	{% include "navigation.html" %}
+{% endblock navigation_container %}
+
 {% block main_container %}
 
 	<div class="container-fluid">
@@ -63,3 +67,7 @@
 	</div>
 
 {% endblock main_container %}
+
+{% block footer_container %}
+    {% include "footer.html" %}
+{% endblock footer_container %}

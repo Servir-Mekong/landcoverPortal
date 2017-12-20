@@ -14,6 +14,11 @@ angular.module('landcoverportal').constant('appSettings', {
 			'name': 'Other Applications',
 			'url': '#',
 			'show': true
+		},
+		{
+			'name': 'Forest Monitoring',
+			'url': '/forest-monitor/',
+			'show': true
 		}
 	],
 	applicationName: 'Land Cover Portal',

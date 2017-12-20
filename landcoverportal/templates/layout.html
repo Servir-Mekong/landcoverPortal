@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--<meta name="viewport" content="width=1024">-->
 	<meta name="description" content="{% page_attribute 'meta_description' %}">
 	<meta name="author" content="{% page_attribute 'author' %}">
 
@@ -22,12 +23,15 @@
 
 		<!-- Bootstrap Core CSS -->
 		<link href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+		<!-- Bootstrap Plugins -->
+		<link href="{% static 'vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
 
 		<!-- Load CSS -->
 		{% if debug %}	
 		<!-- Custom CSS -->
 		<link href="{% static 'css/main.css' %}" rel="stylesheet">
 		<link href="{% static 'css/navigation.css' %}" rel="stylesheet">
+		<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
 		<link href="{% static 'css/footer.css' %}" rel="stylesheet">
 		{% else %}
 		<link href="{% static 'dist/application.min.css' %}" rel="stylesheet">
@@ -55,13 +59,13 @@
 	        </ul>
 	    </div>
 
-        {% include "navigation.html" %}
+        {% block navigation_container %} {% endblock navigation_container %}
 
 		{% block main_container %} {% endblock main_container %}
 
 	</div>
 
-    {% include "footer.html" %}
+	{% block footer_container %} {% endblock footer_container %}
 
 	{% addtoblock "js" %}
 
@@ -70,6 +74,8 @@
 		<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
 		<!-- Bootstrap Core JavaScript -->
 		<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+		<!-- Bootstrap Plugins -->
+	    <script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
 	
 	    <!-- Google Maps API -->
 	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCftEx2S9RjScdfNCGa4Z-8HgUVIUjOErk&v=3.exp&libraries=drawing"></script>
@@ -89,6 +95,7 @@
 	    
 	    <!-- Controllers -->
 	    <script src="{% static 'app/controllers/settings.js' %}"></script>
+	    <script src="{% static 'app/controllers/forest-monitor.js' %}"></script>
 	    <!-- <script src="{% static 'app/controllers/map.js' %}"></script> -->
 		{% else %}
 		<script src="{% static 'dist/application.min.js' %}"></script>
@@ -106,6 +113,14 @@
 	    	}, 'slow');
 	      	return false;
 	    });
+
+	   $('.nav-side-menu li').click(function() {
+	      // remove classes from all
+	      $('.nav-side-menu li').removeClass('active');
+	      // add class to the one we clicked
+	      $(this).addClass('active');
+	   });
+
 	</script>
 
 </body>

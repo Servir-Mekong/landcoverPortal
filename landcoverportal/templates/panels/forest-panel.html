@@ -1,0 +1,51 @@
+<div class="nav-side-menu">
+    <div class="brand">Analysis Parameters</div>
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+  
+        <div class="menu-list">
+  
+            <ul id="menu-content" class="menu-content collapse out">
+                <!--<li>
+                    <a href="#">
+                        <i class="fa fa-dashboard fa-lg"></i> Dashboard
+                    </a>
+                </li>-->
+
+                <li data-toggle="collapse" data-target="#area" class="collapsed">
+                    <a href="#">
+                        <i class="fa fa-map-marker fa-2x"></i>   Area <span class="sidebar-arrow"></span>
+                    </a>
+                </li>
+                <ul class="sub-menu collapse" id="area">
+                    <li><a href="#" ng-click="drawPolygon()"><i class="fa fa-pencil-square-o fa-lg"></i>   Draw Polygon</a></li>
+                    <li><a href="#" ng-click="stopDrawing()"><i class="fa fa-stop-circle-o fa-lg"></i>   Stop Drawing</a></li>
+                    <li><a href="#" ng-click="clearDrawing()"><i class="fa fa-eraser fa-lg"></i>   Clear Drawing</a></li>
+                </ul>
+
+
+                <li data-toggle="collapse" data-target="#time" class="collapsed">
+                    <a href="#">
+                        <i class="fa fa-calendar fa-lg"></i>   Time <span class="sidebar-arrow"></span>
+                    </a>
+                </li>  
+                <ul class="sub-menu collapse" id="time">
+                    <li class="text-center">Select Years
+                        <div class="input-group input-daterange datepicker-year-class">
+                            <input type="text" data-provide="datepicker" class="form-control" id="datepicker-year-start">
+                            <div class="input-group-addon">to</div>
+                            <input type="text" data-provide="datepicker" class="form-control" id="datepicker-year-end">
+                        </div>
+                    </li>
+
+                    <li class="text-center">Select Months
+                        <div class="input-group input-monthrange datepicker-month-class">
+                            <input type="text" data-provide="datepicker" class="form-control" value="01" id="datepicker-month-start">
+                            <div class="input-group-addon">to</div>
+                            <input type="text" data-provide="datepicker" class="form-control" value="12" id="datepicker-month-end">
+                        </div>
+                    </li>
+                </ul>
+
+            </ul>
+    </div>
+</div>

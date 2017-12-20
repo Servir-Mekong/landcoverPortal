@@ -128,3 +128,13 @@ html, body {
     transform: translateY(-15px);
   }
 }
+
+/* Map */
+.map {
+	display: block;
+	height: 100vh;
+	/*margin-top: 130px;*/
+	/*background-color: rgb(241, 241, 241);
+	background-color: rgba(241, 241, 241, 1);
+    margin-top: 2em;*/
+}
