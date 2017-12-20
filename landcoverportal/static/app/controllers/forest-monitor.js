@@ -84,10 +84,16 @@
 
 		$scope.clearDrawing = function () {
 
-			if ($scope.overlays['polygon']) {
-				$scope.overlays['polygon'].setMap(null);
+			if ($scope.overlays.polygon) {
+				$scope.overlays.polygon.setMap(null);
 				$scope.showPolygonDrawing = false;				
 			}
+		};
+
+		var getRectangleArray = function (bounds) {
+			var start = bounds.getNorthEast();
+			var end = bounds.getSouthWest();
+			return [start.lng().toFixed(2), start.lat().toFixed(2), end.lng().toFixed(2), end.lat().toFixed(2)];
 		};
 
 		var getPolygonArray = function (pathArray) {
@@ -104,7 +110,7 @@
 			// Clear Layer First
 			$scope.clearDrawing();
 			var overlay = event.overlay;
-			$scope.overlays['polygon'] = overlay;
+			$scope.overlays.polygon = overlay;
 			$scope.$apply();
 			$scope.shape = {};
 

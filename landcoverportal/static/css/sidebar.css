@@ -5,7 +5,7 @@
     font-weight: 200;
     background-color: #ffffff;
     position: fixed;
-    top: 0px;
+    top: 0;
     width: inherit;
     height: 100%;
     color: #ffffff;
@@ -30,8 +30,8 @@
 .nav-side-menu ul,
 .nav-side-menu li {
   list-style: none;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   line-height: 48px;
   cursor: pointer;
   /*    
@@ -77,7 +77,7 @@
     border: none;
     line-height: 48px;
     border-bottom: 1px solid #23282e;
-    margin-left: 0px;
+    margin-left: 0;
 }
 .nav-side-menu ul .sub-menu li:hover,
 .nav-side-menu li .sub-menu li:hover {
@@ -93,7 +93,7 @@
     vertical-align: middle;
 }
 .nav-side-menu li {
-    padding-left: 0px;
+    padding-left: 0;
     border-left: 3px solid #2e353d;
     border-bottom: 1px solid #23282e;
 }

@@ -152,7 +152,8 @@ INSTALLED_APPS = (
     'djangocms_snippet',
     'djangocms_googlemap',
     'djangocms_video',
-    'landcoverportal'
+    'landcoverportal',
+    'forest_monitor'
 )
 
 LANGUAGES = (
