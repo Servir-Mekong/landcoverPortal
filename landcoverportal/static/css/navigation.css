@@ -145,6 +145,6 @@
     text-transform: uppercase;
 }
 
-a.navbar-brand:hover, a.navbar-brand:focus, .nav > li > a:hover, .nav > li > a:focus {
+a.navbar-brand-landcover:hover, a.navbar-brand-landcover:focus, .nav-landcover > li > a:hover, .nav-landcover > li > a:focus {
     background-color: black !important;
 }

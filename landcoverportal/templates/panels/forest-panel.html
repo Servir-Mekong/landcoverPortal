@@ -1,5 +1,5 @@
 <div class="nav-side-menu">
-    <div class="brand">Analysis Parameters</div>
+    <!--<div class="brand">Analysis Parameters</div>-->
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
   
         <div class="menu-list">
@@ -11,19 +11,18 @@
                     </a>
                 </li>-->
 
-                <li data-toggle="collapse" data-target="#area" class="collapsed">
+                <!--<li data-toggle="collapse" data-target="#area" class="collapsed">
                     <a href="#">
-                        <i class="fa fa-map-marker fa-2x"></i>   Area <span class="sidebar-arrow"></span>
+                        <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Annual Forest Extent <span class="sidebar-arrow"></span>
                     </a>
                 </li>
                 <ul class="sub-menu collapse" id="area">
-                    <li><a href="#" ng-click="drawPolygon()"><i class="fa fa-pencil-square-o fa-lg"></i>   Draw Polygon</a></li>
-                    <li><a href="#" ng-click="stopDrawing()"><i class="fa fa-stop-circle-o fa-lg"></i>   Stop Drawing</a></li>
+                    <li><a href="#" ng-click="drawPolygon()"><i class="fa fa-pencil-square-o fa-lg"></i>   Tree Canopy Cover</a></li>
+                    <li><a href="#" ng-click="stopDrawing()"><i class="fa fa-stop-circle-o fa-lg"></i>   Tree Canopy Height</a></li>
                     <li><a href="#" ng-click="clearDrawing()"><i class="fa fa-eraser fa-lg"></i>   Clear Drawing</a></li>
-                </ul>
+                </ul>-->
 
-
-                <li data-toggle="collapse" data-target="#time" class="collapsed">
+                <!--<li data-toggle="collapse" data-target="#time" class="collapsed">
                     <a href="#">
                         <i class="fa fa-calendar fa-lg"></i>   Time <span class="sidebar-arrow"></span>
                     </a>
@@ -44,6 +43,37 @@
                             <input type="text" data-provide="datepicker" class="form-control" value="12" id="datepicker-month-end">
                         </div>
                     </li>
+                </ul>-->
+
+                <li data-toggle="collapse" data-target="#treeCanopy" class="collapsed">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Annual Forest Extent <span class="sidebar-arrow"></span>
+                    </a>
+                </li>
+                <ul class="sub-menu collapse" id="treeCanopy">
+                    <li><a href="#">Tree Canopy Cover</a></li>
+                    <li><a href="#">Tree Canopy Height</a></li>
+                </ul>
+
+                <li data-toggle="collapse" data-target="#forestDynamics" class="collapsed">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Forest Dynamics <span class="sidebar-arrow"></span>
+                    </a>
+                </li>
+                <ul class="sub-menu collapse" id="forestDynamics">
+                    <li><a href="#">Forest Gain</a></li>
+                    <li><a href="#">Forest Loss</a></li>
+                    <li><a href="#">Forest Change</a></li>
+                </ul>
+
+                <li data-toggle="collapse" data-target="#landUse" class="collapsed">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Forest Land Use <span class="sidebar-arrow"></span>
+                    </a>
+                </li>
+                <ul class="sub-menu collapse" id="landUse">
+                    <li><a href="#">Primary Forest</a></li>
+                    <li><a href="#">Plantations</a></li>
                 </ul>
 
             </ul>

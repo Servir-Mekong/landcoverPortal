@@ -5,7 +5,7 @@
     font-weight: 200;
     background-color: #ffffff;
     position: fixed;
-    top: 0;
+    /*top: 0;*/
     width: inherit;
     height: 100%;
     color: #ffffff;
@@ -100,7 +100,9 @@
 .nav-side-menu li a {
     text-decoration: none;
     color: #e1ffff;
+    margin-left: 15px;
 }
+
 .nav-side-menu li a i {
     padding-left: 10px;
     width: 20px;
@@ -145,4 +147,9 @@
   .nav-side-menu .menu-list .menu-content {
     display: block;
   }
+}
+
+.glyphicon.glyphicon-grain {
+    font-size: 2em;
+    vertical-align: -15%;
 }
