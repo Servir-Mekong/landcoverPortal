@@ -138,3 +138,8 @@ html, body {
 	background-color: rgba(241, 241, 241, 1);
     margin-top: 2em;*/
 }
+
+.-center {
+	text-align: center;
+    padding: 1px 0;
+}

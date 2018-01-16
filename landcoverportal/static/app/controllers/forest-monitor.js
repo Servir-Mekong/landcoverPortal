@@ -31,7 +31,38 @@
 		$scope.alertClass = 'custom-alert';
 		$scope.overlays = {};
 		$scope.shape = {};
+		$scope.toolControlClass = 'glyphicon glyphicon-eye-open';
+		$scope.showTabContainer = true;
 
+		$('.js-tooltip').tooltip();
+
+		/**
+		* Tab
+		*/
+		$('.btn-pref .btn').click (function () {
+    		$('.btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
+    		// $(".tab").addClass("active"); // instead of this do the below 
+    		$(this).removeClass('btn-default').addClass('btn-primary');  
+		});
+
+		$('.btn-pref-inner .btn').click (function () {
+    		$('.btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
+    		// $(".tab").addClass("active"); // instead of this do the below 
+    		$(this).removeClass('btn-default').addClass('btn-primary');  
+		});
+
+		/**
+		* Tools
+		**/
+		$scope.toggleToolControl = function () {
+			if ($scope.toolControlClass === 'glyphicon glyphicon-eye-open') {
+				$scope.toolControlClass = 'glyphicon glyphicon-eye-close';
+				$scope.showTabContainer = false;
+			} else {
+				$scope.toolControlClass = 'glyphicon glyphicon-eye-open';
+				$scope.showTabContainer = true;
+			}
+		};
 
 		/**
 		* Starts the Google Earth Engine application. The main entry point.
@@ -68,9 +99,9 @@
 				
 		};
 
-		$scope.drawPolygon = function () {
+		$scope.drawShape = function (type) {
 
-			drawingManager.setOptions(getDrawingManagerOptions('polygon'));
+			drawingManager.setOptions(getDrawingManagerOptions(type));
 			// Loading the drawing Tool in the Map.
 			drawingManager.setMap(map);
 			
@@ -124,44 +155,17 @@
 			} else if (drawingType === 'polygon') {
 				$scope.shape.geom = getPolygonArray(overlay.getPath().getArray());
 			}
+
+			$scope.stopDrawing();
 		});
 
-		var datepickerYearOptions = {
-			format: 'yyyy',
-			autoclose: true,
-			startDate: new Date('1984'),
-			endDate: new Date('2015'),
-			clearBtn: true,
-			startView: 'years',
-			minViewMode: 'years',
-			container: '.datepicker-year-class'
-		};
-			
-		var datepickerMonthOptions = {
-			format: 'MM',
+		var datepickerOptions = {
 			autoclose: true,
 			clearBtn: true,
-			startView: 'months',
-			minViewMode: 'months',
-			maxViewMode: 'months',
-			container: '.datepicker-month-class',
-			templates: {
-				leftArrow: ' ',
-			    rightArrow: ' '
-			}
+			container: '.datepicker'
 		};
 
-		$('#datepicker-year-start').datepicker(datepickerYearOptions);
-		$('#datepicker-year-end').datepicker(datepickerYearOptions);
-		$('.input-daterange input').each(function() {
-		    $(this).datepicker('clearDates');
-		});
-
-		$('#datepicker-month-start').datepicker(datepickerMonthOptions);
-		$('#datepicker-month-end').datepicker(datepickerMonthOptions);
-		$('.input-monthrange input').each(function() {
-		    $(this).datepicker('clearDates');
-		});
+		$('#time-period-tab>#datepicker').datepicker(datepickerOptions);
 	
 	});
 

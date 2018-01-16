@@ -24,7 +24,97 @@
 
             <!-- Map Container -->
             <div class="col-md-9 col-lg-9 forest-map" id="map" ng-init="initMap()"></div>
+
+            <!-- Toogle button container -->
+            <button type="button" class="tool-control-tab" ng-click="toggleToolControl()" title=" Tools Toogle Visibility">
+                <span ng-Class="toolControlClass" aria-hidden="true"></span>
+            </button>
             
+            <!-- Tab Container -->
+            <div class="tab-tool" ng-show="showTabContainer">
+                <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+                    <div class="btn-group" role="group">
+                        <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
+                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                            <!--<div class="hidden-xs">Area</div>-->
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" id="time" class="btn btn-default js-tooltip" href="#time-period-tab" data-toggle="tab" title="Select Time Period">
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" id="report" class="btn btn-default js-tooltip" href="#report-tab" data-toggle="tab" title="Select Reporting Elements">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" id="download" class="btn btn-default js-tooltip" href="#download-tab" data-toggle="tab" title="Download">
+                            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="well tab-tool-content">
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade active in" id="area-tab">
+                            <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
+                                        <div class="hidden-xs">Draw or <br/>Upload Area</div>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-default js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
+                                        <div class="hidden-xs">Administrative <br/> Region</div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-content inner-tab">
+                                <!-- Inner Tab -->
+                                <div class="tab-pane fade active in" id="draw-tab">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                                            ng-click="drawShape('polygon')">
+                                        Draw Polygon
+                                    </button>
+                                    <p class="-center">or</p>
+                                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                                            ng-click="drawShape('circle')">
+                                        Draw Circle
+                                    </button>
+                                    <p class="-center">or</p>
+                                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                                            ng-click="drawShape('rectangle')">
+                                        Draw Rectangle
+                                    </button>
+                                </div>
+                                <div class="tab-pane fade in" id="admin-tab">
+                                    <p> Coming Soon... </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade in" id="time-period-tab">
+                            <div class="input-group date">
+                                <input type="text" data-provide="datepicker" class="form-control"
+                                       id="datepicker">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade in" id="report-tab">
+                            <h3>This is tab 3</h3>
+                        </div>
+                        <div class="tab-pane fade in" id="download-tab">
+                            <h3>This is tab 4</h3>
+                        </div>
+                    </div>
+                </div>
+                
+            </div><!-- end of tab -->
+
         </div>
 
     </div>
