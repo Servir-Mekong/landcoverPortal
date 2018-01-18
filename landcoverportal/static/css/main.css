@@ -4,7 +4,7 @@ html, body {
   height: 100%;
 }
 
-body { padding-top: 100px; }
+body { padding-top: 70px; }
 
 @media(min-width:768px) {
     body {
