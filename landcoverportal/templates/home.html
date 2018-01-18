@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 
 {% block navigation_container%}
 	{% include "navigation.html" %}
@@ -10,31 +11,19 @@
 
 	    <div class="row">
 	
-			<div class="col-md-12">
-				<div class="video margin-top-maintain">
-					<iframe src="https://www.youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&playlist=W0LHTWG-UmQ"
-							frameborder="0" allowfullscreen>
-					</iframe>
-				</div>
+			<div class="col-md-12 video-container">
+				<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&controls=0&modestbranding=1&playlist=W0LHTWG-UmQ&enablejsapi=1"
+						frameborder="0" allowfullscreen>
+				</iframe>
 			</div>
 	
 	    </div>
-
-    </div>
-
-	<div class="arrow bounce">
-		<a class="glyphicon glyphicon-circle-arrow-down scroll-down" href="#" aria-hidden="true"></a>
-	</div>
-
-	<div class="container-fluid main-padding" id="about" style="margin-top: 8%">
 		
-		<div class="row">
+		<div class="row main-padding" id="about">
 			<div class="col-md-12">
+
 			    <div class="panel panel-primary">
-			    	<div class="panel-heading">
-			    		<h1 class="text-center"><em><b>Land Cover Portal</b></em></h1>
-			    	</div>
-			        <div class="panel-body main-padding">
+			        <div class="panel-body">
 			        	<h1><b>About</b></h1>
 			        	<h4 class="text-justify">
 			        		Monitoring land cover and land use change is important for land resource planning and for ecosystem services including biodiversity conservation and resilience to climate change. However, data updates are infrequent and classification systems do not always serve key user groups. At the regional level, the only maps currently available are those extracted from global land cover maps, which lack some of the typological resolution (i.e., there are two few land cover classes or the classes are not the most appropriate for the region) needed for many regional applications and decision-making contexts.
@@ -61,9 +50,14 @@
 			        	</h4>
 			        </div>
 			    </div>
+
 			</div>	
 		</div>
 	
+	</div>
+
+	<div class="arrow bounce">
+		<a class="glyphicon glyphicon-circle-arrow-down scroll-down" href="#" aria-hidden="true"></a>
 	</div>
 
 {% endblock main_container %}

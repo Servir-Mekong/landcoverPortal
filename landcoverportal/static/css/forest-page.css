@@ -6,13 +6,6 @@
 	height: calc(100vh - 70px);
 }
 
-/* forest tool navbar */
-.ftool-navbar-brand {
-	display: inline-block;
-    /* background-size: 170px auto; */
-    background-size: auto;
-}
-
 .servir {
 	width: 250px !important;
 }

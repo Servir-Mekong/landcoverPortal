@@ -4,6 +4,8 @@ html, body {
   height: 100%;
 }
 
+body { padding-top: 100px; }
+
 @media(min-width:768px) {
     body {
         /*margin-top: 50px;*/
@@ -64,7 +66,7 @@ html, body {
 }
 
 /* Video Container */
-.video-container {
+/*.video-container {
 	position: relative;
 }
 
@@ -79,6 +81,23 @@ html, body {
 	left: 0;
 	width: 100%;
 	height: 100%;
+}*/
+
+.video-container {
+    overflow-x: hidden;
+    pointer-events: none;
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    margin-bottom: 40px;
+}
+
+.video-container iframe {
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 100%;
 }
 
 /* Bouncing down arrow */
@@ -142,4 +161,25 @@ html, body {
 .-center {
 	text-align: center;
     padding: 1px 0;
+}
+
+.img-center {
+	margin: 0 auto;
+	display: block; /*--Since IMG is an inline element--*/
+}
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+.clear-both {
+	clear: both;
+}
+
+.inline-block-display {
+	display: inline-block;
 }

@@ -1,11 +1,6 @@
 footer {
-    /*margin: 3em auto;
-    margin-bottom: 20px;
-    margin-left: 150px;
-    margin-right: 150px;*/
     margin-top: 10px;
     margin-bottom: 20px;
-    position: absolute;
 }
 
 .footer-container {
@@ -49,10 +44,11 @@ footer .partner-sei {
     margin: 2.5em;
 }
 
-footer > div img {
-	width: 70%;
-	display: block;
+footer > div {
+    display: block;
+    min-height: auto;
 }
+
 
 .info-footer {
 	background-color: rgb(241, 241, 241);	
@@ -80,6 +76,7 @@ footer > div ul, ol {
 
 /* Carousel */
 
+/*
 .carousel {
     margin-top: -15%;
 }
@@ -127,8 +124,22 @@ footer > div ul, ol {
 }
 
 .carouselImg {
-    /*height: 80px;
-    max-height: 80px;*/
     margin-top: 50%;
     margin-bottom: 50%;
+}
+*/
+
+/* New Footer */
+.partner-content {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.partner-content h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 2em;
+}
+
+footer .well {
+    background-color: white;
 }

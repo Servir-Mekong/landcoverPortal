@@ -137,14 +137,54 @@
 	.servir {
     	margin: auto;
 	}
-}*/
+}
 
 .navmenu {
 	color: rgb(255,255,255) !important;
     color: rgba(255,255,255,0.87) !important;
     text-transform: uppercase;
-}
+}*/
 
 a.navbar-brand-landcover:hover, a.navbar-brand-landcover:focus, .nav-landcover > li > a:hover, .nav-landcover > li > a:focus {
     background-color: black !important;
+}
+
+/* New Navigation */
+.navbar-app, .navbar-app:visited, .navbar-app:hover, .navbar-app:active {
+	text-decoration: none;
+}
+
+/*
+@media(max-width:767px){} --> extra small devices
+@media(min-width:768px){} --> small devices
+@media(min-width:992px){} --> medium devices
+@media(min-width:1200px){} --> large devices
+*/
+
+.ftool-navbar-brand {
+	display: inline-block;
+    /* background-size: 170px auto; */
+    background-size: auto;
+}
+
+@media (max-width: 768px) {
+	.ftool-navbar-brand {
+		display: none;
+	}
+
+	.navbar-app {
+		float: left;
+	}
+}
+
+.navmenu {
+    text-transform: uppercase;
+    font-size: large;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+	.navbar-menu {
+		margin-top: 20px;
+	}
 }
