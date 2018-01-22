@@ -8,9 +8,9 @@
 			max = parseInt(max);
 			for (var i = min; i <= max; i++) {
 				input.push(i);
-			};
+			}
 			return input;
-		}
+		};
 	})
 	.controller('forestMonitorCtrl', function ($scope, appSettings, ForestMonitorService) {
 
@@ -205,7 +205,7 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.treeCanopyOpacitySliderValue) {
-		    	$scope.overlays['treeCanopy'].setOpacity(value);
+		    	$scope.overlays.treeCanopy.setOpacity(value);
 		    }
 		});
 
@@ -236,7 +236,7 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.treeHeightOpacitySliderValue) {
-		    	$scope.overlays['treeHeight'].setOpacity(value);
+		    	$scope.overlays.treeHeight.setOpacity(value);
 		    }
 		});
 
