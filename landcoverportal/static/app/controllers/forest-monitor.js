@@ -250,6 +250,68 @@
 		        console.log(error);
 		    });
 		};
+
+		/* Forest Gain */
+		$scope.showForestGainOpacitySlider = false;
+		$scope.forestGainOpacitySliderValue = null;
+
+		/* slider init */
+		$('#forest-gain-opacity-slider').slider({
+			formatter: function(value) {
+				return 'Opacity: ' + value;
+			}
+		})
+		.on('slideStart', function (event) {
+			$scope.forestGainOpacitySliderValue = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.forestGainOpacitySliderValue) {
+		    	$scope.overlays.forestGain.setOpacity(value);
+		    }
+		});
+
+		$scope.calculateForestGain = function (startYear, endYear) {
+
+			ForestMonitorService.forestGain(startYear, endYear, $scope.shape)
+		    .then(function (data) {
+		    	loadMap(data.eeMapId, data.eeMapToken, 'forestGain');
+		    	$scope.showForestGainOpacitySlider = true;
+		    }, function (error) {
+		        console.log(error);
+		    });
+		};
+
+		/* Forest Loss */
+		$scope.showForestLossOpacitySlider = false;
+		$scope.forestLossOpacitySliderValue = null;
+
+		/* slider init */
+		$('#forest-loss-opacity-slider').slider({
+			formatter: function(value) {
+				return 'Opacity: ' + value;
+			}
+		})
+		.on('slideStart', function (event) {
+			$scope.forestLossOpacitySliderValue = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.forestLossOpacitySliderValue) {
+		    	$scope.overlays.forestLoss.setOpacity(value);
+		    }
+		});
+
+		$scope.calculateForestLoss = function (startYear, endYear) {
+
+			ForestMonitorService.forestLoss(startYear, endYear, $scope.shape)
+		    .then(function (data) {
+		    	loadMap(data.eeMapId, data.eeMapToken, 'forestLoss');
+		    	$scope.showForestLossOpacitySlider = true;
+		    }, function (error) {
+		        console.log(error);
+		    });
+		};
 	
 	});
 

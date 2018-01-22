@@ -9,7 +9,7 @@ import time
 class GEEApi():
     """ Google Earth Engine API """
 
-    def __init__(self, year, shape, geom, radius, center):
+    def __init__(self, shape, geom, radius, center):
 
         ee.Initialize(config.EE_CREDENTIALS)
         self.TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection(config.EE_FMS_TREE_HEIGHT_ID)
@@ -17,7 +17,6 @@ class GEEApi():
         self.FEATURE_COLLECTION = ee.FeatureCollection(config.EE_MEKONG_FEATURE_COLLECTION_ID)
         self.COUNTRIES_GEOM = self.FEATURE_COLLECTION.filter(\
                     ee.Filter.inList('Country', config.COUNTRIES_NAME)).geometry()
-        self.year = year
         self.geom = geom
         self.radius = radius
         self.center = center
@@ -45,16 +44,26 @@ class GEEApi():
         return geometry
 
     # -------------------------------------------------------------------------
-    def tree_canopy_change(self):
+    def tree_canopy(self, get_image=False, year=None):
+
+        if not year:
+            return {
+                'message': 'Please specify a year for which you want to perform the calculations!'
+            }
 
         image = self.TREE_CANOPY_IMG_COLLECTION.filterMetadata(\
-                                            'id',
-                                            'equals',
-                                            'tcc_' + str(self.year)).mosaic()
+                                                    'id',
+                                                    'equals',
+                                                    'tcc_' + str(year)).mosaic()
+        image = image.updateMask(image)
 
-        map_id = image.getMapId({
+        if get_image:
+            return image
+
+        map_id = image.updateMask(image).getMapId({
             'min': '0',
-            'max': '100'
+            'max': '100',
+            'palette': '000000, 00FF00'
         })
 
         return {
@@ -63,16 +72,57 @@ class GEEApi():
         }
 
     # -------------------------------------------------------------------------
-    def tree_height_change(self):
+    def tree_height(self, year=None):
+
+        if not year:
+            return {
+                'message': 'Please specify a year for which you want to perform the calculations!'
+            }
 
         image = self.TREE_HEIGHT_IMG_COLLECTION.filterMetadata(\
-                                            'id',
-                                            'equals',
-                                            'tch_' + str(self.year)).mosaic()
+                                                    'id',
+                                                    'equals',
+                                                    'tch_' + str(year)).mosaic()
 
-        map_id = image.getMapId({
+        map_id = image.updateMask(image).getMapId({
             'min': '0',
             'max': '30'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
+    def forest_gain(self, start_year, end_year):
+
+        start_image = self.tree_canopy(get_image=True, year=start_year)
+        end_image = self.tree_canopy(get_image=True, year=end_year)
+
+        gain_image = end_image.subtract(start_image)
+        gain_image = gain_image.updateMask(gain_image)
+
+        map_id = gain_image.getMapId({
+            'palette': '0000FF'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
+    def forest_loss(self, start_year, end_year):
+
+        start_image = self.tree_canopy(get_image=True, year=start_year)
+        end_image = self.tree_canopy(get_image=True, year=end_year)
+
+        loss_image = start_image.subtract(end_image)
+        loss_image = loss_image.updateMask(loss_image)
+
+        map_id = loss_image.getMapId({
+            'palette': 'FF0000'
         })
 
         return {

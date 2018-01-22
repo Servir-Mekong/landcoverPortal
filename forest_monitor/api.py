@@ -12,20 +12,27 @@ def api(request):
     action = get('action', '')
 
     if action:
-        public_methods = ['tree-canopy-change',
-                          'tree-height-change',
+        public_methods = ['tree-canopy',
+                          'tree-height',
+                          'forest-gain',
+                          'forest-loss',
                           ]
         if action in public_methods:
-            year = get('year', '')
             shape = get('shape', '')
             geom = get('geom', '')
             radius = get('radius', '')
             center = get('center', '')
-            core = GEEApi(year, shape, geom, radius, center)
+            core = GEEApi(shape, geom, radius, center)
 
-            if action == 'tree-canopy-change':
-                data = core.tree_canopy_change()
-            elif action == 'tree-height-change':
-                data = core.tree_height_change()
+            if action == 'tree-canopy':
+                data = core.tree_canopy(year=get('year', ''))
+            elif action == 'tree-height':
+                data = core.tree_height(year=get('year', ''))
+            elif action == 'forest-gain':
+                data = core.forest_gain(start_year = get('startYear', ''),
+                                        end_year = get('endYear', ''))
+            elif action == 'forest-loss':
+                data = core.forest_loss(start_year = get('startYear', ''),
+                                        end_year = get('endYear', ''))
 
             return JsonResponse(data)

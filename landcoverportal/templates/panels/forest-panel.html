@@ -15,8 +15,8 @@
                     <li><a href="#">Tree Canopy Cover for </a>
                         <div class="form-group inline-block-display">
                             <select name="year-filter" class="form-control" id="year-filter"
-                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016"
-                                    ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)"></select>
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
+                            </select>
                         </div>
                         <div class="form-group inline-block-display" ng-show="showTreeCanopyOpacitySlider">
                             <label for="tree-canopy-opacity-slider">Opacity </label>
@@ -30,8 +30,8 @@
                     <li><a href="#">Tree Canopy Height for </a>
                         <div class="form-group inline-block-display">
                             <select name="year-filter" class="form-control" id="year-filter"
-                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016"
-                                    ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)"></select>
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)">
+                            </select>
                         </div>
                         <div class="form-group inline-block-display" ng-show="showTreeHeightOpacitySlider">
                             <label for="tree-height-opacity-slider">Opacity </label>
@@ -50,8 +50,58 @@
                     </a>
                 </li>
                 <ul class="sub-menu collapse" id="forestDynamics">
-                    <li><a href="#">Forest Gain</a></li>
-                    <li><a href="#">Forest Loss</a></li>
+                    <li><a href="#">Forest Gain From </a>
+                        <div class="form-group inline-block-display">
+                            <select name="forest-gain-start-year" class="form-control"
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="forestGainStartYear">
+                            </select>
+                        </div>
+                        <span> To </span>
+                        <div class="form-group inline-block-display">
+                            <select name="forest-gain-end-year" class="form-control"
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="forestGainEndYear">
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" ng-click="calculateForestGain(forestGainStartYear, forestGainEndYear)">
+                                Perform Calculations
+                            </button>
+                        </div>
+                        <div class="form-group inline-block-display" ng-show="showForestGainOpacitySlider">
+                            <label for="forest-gain-opacity-slider">Opacity </label>
+                            <input name="forest-gain-opacity-slider" id="forest-gain-opacity-slider"
+                                   data-slider-id="forest-gain-opacity-slider" type="text"
+                                   data-slider-min="0"
+                                   data-slider-max="1"
+                                   data-slider-step="0.1" />
+                        </div>
+                    </li>
+                    <li><a href="#">Forest Loss From </a>
+                        <div class="form-group inline-block-display">
+                            <select name="forest-loss-start-year" class="form-control"
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="forestLossStartYear">
+                            </select>
+                        </div>
+                        <span> To </span>
+                        <div class="form-group inline-block-display">
+                            <select name="forest-loss-end-year" class="form-control"
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="forestLossEndYear">
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" ng-click="calculateForestLoss(forestLossStartYear, forestLossEndYear)">
+                                Perform Calculations
+                            </button>
+                        </div>
+                        <div class="form-group inline-block-display" ng-show="showForestLossOpacitySlider">
+                            <label for="forest-loss-opacity-slider">Opacity </label>
+                            <input name="forest-loss-opacity-slider" id="forest-loss-opacity-slider"
+                                   data-slider-id="forest-loss-opacity-slider" type="text"
+                                   data-slider-min="0"
+                                   data-slider-max="1"
+                                   data-slider-step="0.1" />
+                        </div>
+                    </li>
                     <li><a href="#">Forest Change</a></li>
                 </ul>
 

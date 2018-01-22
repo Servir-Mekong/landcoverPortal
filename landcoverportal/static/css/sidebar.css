@@ -7,7 +7,7 @@
     position: fixed;
     /*top: 0;*/
     width: inherit;
-    height: 100%;
+    height: calc(100vh - 70px);
     color: #ffffff;
     left: 0;
 }
@@ -100,7 +100,7 @@
 .nav-side-menu li a {
     text-decoration: none;
     color: #e1ffff;
-    margin-left: 15px;
+    margin-left: 1px;
 }
 
 .nav-side-menu li a i {
