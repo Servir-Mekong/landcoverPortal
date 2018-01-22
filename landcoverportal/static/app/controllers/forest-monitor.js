@@ -2,15 +2,24 @@
 
 	'use strict';
 	angular.module('landcoverportal')
-	.controller('forestMonitorCtrl', function ($scope, appSettings) {
+	.filter('treeCanopyHeightYearRange', function () {
+		return function(input, min, max) {
+			min = parseInt(min);
+			max = parseInt(max);
+			for (var i = min; i <= max; i++) {
+				input.push(i);
+			};
+			return input;
+		}
+	})
+	.controller('forestMonitorCtrl', function ($scope, appSettings, ForestMonitorService) {
 
 		// Earth Engine
 		// Global Variables
 		var EE_URL = 'https://earthengine.googleapis.com',
-			DEFAULT_ZOOM = 6,
+			DEFAULT_ZOOM = 5,
 			MAX_ZOOM = 25,
 			DEFAULT_CENTER = { lng: 102.93, lat: 16.4 },
-			MAP_TYPE = 'satellite',
 			AREA_LIMIT = 20000,
 			// Map options
 			mapOptions = {
@@ -18,7 +27,6 @@
 				zoom: DEFAULT_ZOOM,
 				maxZoom: MAX_ZOOM,
 				streetViewControl: false,
-				mapTypeId: MAP_TYPE,
 				mapTypeControlOptions: {
 					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
 		            position: google.maps.ControlPosition.TOP_CENTER
@@ -33,6 +41,7 @@
 		$scope.shape = {};
 		$scope.toolControlClass = 'glyphicon glyphicon-eye-open';
 		$scope.showTabContainer = true;
+		$scope.showLoader = false;
 
 		$('.js-tooltip').tooltip();
 
@@ -64,11 +73,24 @@
 			}
 		};
 
-		/**
-		* Starts the Google Earth Engine application. The main entry point.
-		*/
-		$scope.initMap = function () {
-			map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		/** Updates the image based on the current control panel config. */
+		var loadMap = function (mapId, mapToken, type) {
+
+			if (typeof(type) === 'undefined') type = 'map';
+
+			var eeMapOptions = {
+				getTileUrl: function (tile, zoom) {
+					var url = EE_URL + '/map/';
+						url += [mapId, zoom, tile.x, tile.y].join('/');
+						url += '?token=' + mapToken;
+						return url;
+				},
+				tileSize: new google.maps.Size(256, 256),
+				opacity: 1.0
+			};
+			var mapType = new google.maps.ImageMapType(eeMapOptions);
+			map.overlayMapTypes.push(mapType);
+			$scope.overlays[type] = mapType;
 		};
 
 		var drawingManager = new google.maps.drawing.DrawingManager();
@@ -166,6 +188,68 @@
 		};
 
 		$('#time-period-tab>#datepicker').datepicker(datepickerOptions);
+
+		/* Tree Canopy */
+		$scope.showTreeCanopyOpacitySlider = false;
+		$scope.treeCanopyOpacitySliderValue = null;
+
+		/* slider init */
+		$('#tree-canopy-opacity-slider').slider({
+			formatter: function(value) {
+				return 'Opacity: ' + value;
+			}
+		})
+		.on('slideStart', function (event) {
+			$scope.treeCanopyOpacitySliderValue = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.treeCanopyOpacitySliderValue) {
+		    	$scope.overlays['treeCanopy'].setOpacity(value);
+		    }
+		});
+
+		$scope.treeCanopyYearChange = function(year) {
+
+			ForestMonitorService.treeCanopyChange(year, $scope.shape)
+		    .then(function (data) {
+		    	loadMap(data.eeMapId, data.eeMapToken, 'treeCanopy');
+		    	$scope.showTreeCanopyOpacitySlider = true;
+		    }, function (error) {
+		        console.log(error);
+		    });
+		};
+
+		/* Tree height */
+		$scope.showTreeHeightOpacitySlider = false;
+		$scope.treeHeightOpacitySliderValue = null;
+
+		/* slider init */
+		$('#tree-height-opacity-slider').slider({
+			formatter: function(value) {
+				return 'Opacity: ' + value;
+			}
+		})
+		.on('slideStart', function (event) {
+			$scope.treeHeightOpacitySliderValue = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.treeHeightOpacitySliderValue) {
+		    	$scope.overlays['treeHeight'].setOpacity(value);
+		    }
+		});
+
+		$scope.treeHeightYearChange = function(year) {
+
+			ForestMonitorService.treeHeightChange(year, $scope.shape)
+		    .then(function (data) {
+		    	loadMap(data.eeMapId, data.eeMapToken, 'treeHeight');
+		    	$scope.showTreeHeightOpacitySlider = true;
+		    }, function (error) {
+		        console.log(error);
+		    });
+		};
 	
 	});
 

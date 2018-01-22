@@ -5,45 +5,6 @@
         <div class="menu-list">
   
             <ul id="menu-content" class="menu-content collapse out">
-                <!--<li>
-                    <a href="#">
-                        <i class="fa fa-dashboard fa-lg"></i> Dashboard
-                    </a>
-                </li>-->
-
-                <!--<li data-toggle="collapse" data-target="#area" class="collapsed">
-                    <a href="#">
-                        <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Annual Forest Extent <span class="sidebar-arrow"></span>
-                    </a>
-                </li>
-                <ul class="sub-menu collapse" id="area">
-                    <li><a href="#" ng-click="drawPolygon()"><i class="fa fa-pencil-square-o fa-lg"></i>   Tree Canopy Cover</a></li>
-                    <li><a href="#" ng-click="stopDrawing()"><i class="fa fa-stop-circle-o fa-lg"></i>   Tree Canopy Height</a></li>
-                    <li><a href="#" ng-click="clearDrawing()"><i class="fa fa-eraser fa-lg"></i>   Clear Drawing</a></li>
-                </ul>-->
-
-                <!--<li data-toggle="collapse" data-target="#time" class="collapsed">
-                    <a href="#">
-                        <i class="fa fa-calendar fa-lg"></i>   Time <span class="sidebar-arrow"></span>
-                    </a>
-                </li>  
-                <ul class="sub-menu collapse" id="time">
-                    <li class="text-center">Select Years
-                        <div class="input-group input-daterange datepicker-year-class">
-                            <input type="text" data-provide="datepicker" class="form-control" id="datepicker-year-start">
-                            <div class="input-group-addon">to</div>
-                            <input type="text" data-provide="datepicker" class="form-control" id="datepicker-year-end">
-                        </div>
-                    </li>
-
-                    <li class="text-center">Select Months
-                        <div class="input-group input-monthrange datepicker-month-class">
-                            <input type="text" data-provide="datepicker" class="form-control" value="01" id="datepicker-month-start">
-                            <div class="input-group-addon">to</div>
-                            <input type="text" data-provide="datepicker" class="form-control" value="12" id="datepicker-month-end">
-                        </div>
-                    </li>
-                </ul>-->
 
                 <li data-toggle="collapse" data-target="#treeCanopy" class="collapsed">
                     <a href="#">
@@ -51,8 +12,36 @@
                     </a>
                 </li>
                 <ul class="sub-menu collapse" id="treeCanopy">
-                    <li><a href="#">Tree Canopy Cover</a></li>
-                    <li><a href="#">Tree Canopy Height</a></li>
+                    <li><a href="#">Tree Canopy Cover for </a>
+                        <div class="form-group inline-block-display">
+                            <select name="year-filter" class="form-control" id="year-filter"
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016"
+                                    ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)"></select>
+                        </div>
+                        <div class="form-group inline-block-display" ng-show="showTreeCanopyOpacitySlider">
+                            <label for="tree-canopy-opacity-slider">Opacity </label>
+                            <input name="tree-canopy-opacity-slider" id="tree-canopy-opacity-slider"
+                                   data-slider-id="tree-canopy-opacity-slider" type="text"
+                                   data-slider-min="0"
+                                   data-slider-max="1"
+                                   data-slider-step="0.1" />
+                        </div>
+                    </li>
+                    <li><a href="#">Tree Canopy Height for </a>
+                        <div class="form-group inline-block-display">
+                            <select name="year-filter" class="form-control" id="year-filter"
+                                    ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016"
+                                    ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)"></select>
+                        </div>
+                        <div class="form-group inline-block-display" ng-show="showTreeHeightOpacitySlider">
+                            <label for="tree-height-opacity-slider">Opacity </label>
+                            <input name="tree-height-opacity-slider" id="tree-height-opacity-slider"
+                                   data-slider-id="tree-height-opacity-slider" type="text"
+                                   data-slider-min="0"
+                                   data-slider-max="1"
+                                   data-slider-step="0.1" />
+                        </div>
+                    </li>
                 </ul>
 
                 <li data-toggle="collapse" data-target="#forestDynamics" class="collapsed">

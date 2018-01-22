@@ -20,6 +20,7 @@
     "angular": "1.6.6",
     "components-font-awesome": "^4.7.0",
     "normalize-css": "^7.0.0",
-    "bootstrap-datepicker": "^1.7.1"
+    "bootstrap-datepicker": "^1.7.1",
+    "seiyria-bootstrap-slider": "^10.0.0"
   }
 }
