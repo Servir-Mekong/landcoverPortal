@@ -54,7 +54,7 @@ class GEEApi():
         image = self.TREE_CANOPY_IMG_COLLECTION.filterMetadata(\
                                                     'id',
                                                     'equals',
-                                                    'tcc_' + str(year)).mosaic()
+                                                    'tcc_' + str(year)).mean()
         image = image.updateMask(image)
 
         if get_image:
@@ -82,7 +82,7 @@ class GEEApi():
         image = self.TREE_HEIGHT_IMG_COLLECTION.filterMetadata(\
                                                     'id',
                                                     'equals',
-                                                    'tch_' + str(year)).mosaic()
+                                                    'tch_' + str(year)).mean()
 
         map_id = image.updateMask(image).getMapId({
             'min': '0',
@@ -100,7 +100,7 @@ class GEEApi():
         start_image = self.tree_canopy(get_image=True, year=start_year)
         end_image = self.tree_canopy(get_image=True, year=end_year)
 
-        gain_image = end_image.subtract(start_image)
+        gain_image = end_image.subtract(start_image).gt(0)
         gain_image = gain_image.updateMask(gain_image)
 
         map_id = gain_image.getMapId({
@@ -118,11 +118,42 @@ class GEEApi():
         start_image = self.tree_canopy(get_image=True, year=start_year)
         end_image = self.tree_canopy(get_image=True, year=end_year)
 
-        loss_image = start_image.subtract(end_image)
+        loss_image = end_image.subtract(start_image).lt(0)
         loss_image = loss_image.updateMask(loss_image)
 
         map_id = loss_image.getMapId({
             'palette': 'FF0000'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
+    def forest_change(self, start_year, end_year):
+
+        start_image = self.tree_canopy(get_image=True, year=start_year)
+        end_image = self.tree_canopy(get_image=True, year=end_year)
+
+        change_image = end_image.subtract(start_image)
+        change_image = change_image.updateMask(change_image)
+
+        diff = int(end_year) - int(start_year)
+        if (diff <= 5):
+            min = '-5'
+            max = '5'
+        elif (5 < diff <= 10):
+            min = '-10'
+            max = '10'
+        else:
+            min = '-50'
+            max = '50'
+
+        map_id = change_image.getMapId({
+            'min': min,
+            'max': max,
+            'palette': 'FF0000, FFFF00, 00FF00'
         })
 
         return {

@@ -312,6 +312,37 @@
 		        console.log(error);
 		    });
 		};
+
+		/* Forest Change */
+		$scope.showForestChangeOpacitySlider = false;
+		$scope.forestChangeOpacitySliderValue = null;
+
+		/* slider init */
+		$('#forest-change-opacity-slider').slider({
+			formatter: function(value) {
+				return 'Opacity: ' + value;
+			}
+		})
+		.on('slideStart', function (event) {
+			$scope.forestChangeOpacitySliderValue = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.forestChangeOpacitySliderValue) {
+		    	$scope.overlays.forestChange.setOpacity(value);
+		    }
+		});
+
+		$scope.calculateForestChange = function (startYear, endYear) {
+
+			ForestMonitorService.forestChange(startYear, endYear, $scope.shape)
+		    .then(function (data) {
+		    	loadMap(data.eeMapId, data.eeMapToken, 'forestChange');
+		    	$scope.showForestChangeOpacitySlider = true;
+		    }, function (error) {
+		        console.log(error);
+		    });
+		};
 	
 	});
 

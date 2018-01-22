@@ -16,6 +16,7 @@ def api(request):
                           'tree-height',
                           'forest-gain',
                           'forest-loss',
+                          'forest-change',
                           ]
         if action in public_methods:
             shape = get('shape', '')
@@ -34,5 +35,8 @@ def api(request):
             elif action == 'forest-loss':
                 data = core.forest_loss(start_year = get('startYear', ''),
                                         end_year = get('endYear', ''))
+            elif action == 'forest-change':
+                data = core.forest_change(start_year = get('startYear', ''),
+                                          end_year = get('endYear', ''))
 
             return JsonResponse(data)

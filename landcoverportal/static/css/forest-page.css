@@ -55,6 +55,7 @@
 #tree-canopy-opacity-slider .slider-selection,
 #tree-height-opacity-slider .slider-selection,
 #forest-gain-opacity-slider .slider-selection,
-#forest-loss-opacity-slider .slider-selection {
+#forest-loss-opacity-slider .slider-selection,
+#forest-change-opacity-slider .slider-selection {
     background: #BABABA;
 }
