@@ -167,6 +167,7 @@ a.navbar-brand-landcover:hover, a.navbar-brand-landcover:focus, .nav-landcover >
     background-size: auto;
 }
 
+/*
 @media (max-width: 768px) {
 	.ftool-navbar-brand {
 		display: none;
@@ -176,6 +177,7 @@ a.navbar-brand-landcover:hover, a.navbar-brand-landcover:focus, .nav-landcover >
 		float: left;
 	}
 }
+*/
 
 .navmenu {
     text-transform: uppercase;

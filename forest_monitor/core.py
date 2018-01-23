@@ -28,12 +28,12 @@ class GEEApi():
         if shape:
             if shape == 'rectangle':
                 _geom = self.geom.split(',')
-                coor_list = [float(_geom_) for _geom_ in self.geom]
+                coor_list = [float(_geom_) for _geom_ in _geom]
                 geometry = ee.Geometry.Rectangle(coor_list)
             elif shape == 'circle':
                 _geom = self.center.split(',')
-                coor_list = [float(_geom_) for _geom_ in self.geom]
-                geometry = ee.Geometry.Point(coor_list).buffer(float(radius))
+                coor_list = [float(_geom_) for _geom_ in _geom]
+                geometry = ee.Geometry.Point(coor_list).buffer(float(self.radius))
             elif shape == 'polygon':
                 _geom = self.geom.split(',')
                 coor_list = [float(_geom_) for _geom_ in _geom]
@@ -55,7 +55,7 @@ class GEEApi():
                                                     'id',
                                                     'equals',
                                                     'tcc_' + str(year)).mean()
-        image = image.updateMask(image)
+        image = image.updateMask(image).clip(self.geometry)
 
         if get_image:
             return image
@@ -84,7 +84,7 @@ class GEEApi():
                                                     'equals',
                                                     'tch_' + str(year)).mean()
 
-        map_id = image.updateMask(image).getMapId({
+        map_id = image.updateMask(image).clip(self.geometry).getMapId({
             'min': '0',
             'max': '30'
         })
@@ -103,7 +103,7 @@ class GEEApi():
         gain_image = end_image.subtract(start_image).gt(0)
         gain_image = gain_image.updateMask(gain_image)
 
-        map_id = gain_image.getMapId({
+        map_id = gain_image.clip(self.geometry).getMapId({
             'palette': '0000FF'
         })
 
@@ -121,7 +121,7 @@ class GEEApi():
         loss_image = end_image.subtract(start_image).lt(0)
         loss_image = loss_image.updateMask(loss_image)
 
-        map_id = loss_image.getMapId({
+        map_id = loss_image.clip(self.geometry).getMapId({
             'palette': 'FF0000'
         })
 
@@ -150,7 +150,7 @@ class GEEApi():
             min = '-50'
             max = '50'
 
-        map_id = change_image.getMapId({
+        map_id = change_image.clip(self.geometry).getMapId({
             'min': min,
             'max': max,
             'palette': 'FF0000, FFFF00, 00FF00'
