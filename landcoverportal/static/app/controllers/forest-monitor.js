@@ -86,7 +86,8 @@
 						return url;
 				},
 				tileSize: new google.maps.Size(256, 256),
-				opacity: 1.0
+				opacity: 1.0,
+				name: type
 			};
 			var mapType = new google.maps.ImageMapType(eeMapOptions);
 			map.overlayMapTypes.push(mapType);
@@ -114,7 +115,8 @@
 	    		'strokeColor': '#ff0000',
 				'strokeWeight': 5,
 				'fillColor': 'yellow',
-				'fillOpacity': 0
+				'fillOpacity': 0,
+				'editable': true
 		    };
 			
 			return drawingManagerOptions;
@@ -158,6 +160,15 @@
 			return geom;
 		};
 
+		$scope.clearLayers = function (name) {
+
+			map.overlayMapTypes.forEach (function (layer, index) {
+				if (layer.name === name) {
+					map.overlayMapTypes.removeAt(index);
+				}
+			});
+		};
+
 		// Overlay Listener
 		google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
 			// Clear Layer First
@@ -171,9 +182,20 @@
 			$scope.shape.type = drawingType;
 			if (drawingType === 'rectangle') {
 				$scope.shape.geom = getRectangleArray(overlay.getBounds());
+				// Change event
+				google.maps.event.addListener(overlay, 'bounds_changed', function () {
+					$scope.shape.geom = getRectangleArray(event.overlay.getBounds());
+				});
 			} else if (drawingType === 'circle') {
 				$scope.shape.center = [overlay.getCenter().lng().toFixed(2), overlay.getCenter().lat().toFixed(2)];
 				$scope.shape.radius = overlay.getRadius().toFixed(2); // unit: meter
+				// Change event
+				google.maps.event.addListener(overlay, 'radius_changed', function () {
+					$scope.shape.radius = event.overlay.getRadius().toFixed(2);
+				});
+				google.maps.event.addListener(overlay, 'center_changed', function () {
+					$scope.shape.center = [event.overlay.getCenter().lng().toFixed(2), event.overlay.getCenter().lat().toFixed(2)];
+				});
 			} else if (drawingType === 'polygon') {
 				$scope.shape.geom = getPolygonArray(overlay.getPath().getArray());
 			}
@@ -211,9 +233,12 @@
 
 		$scope.treeCanopyYearChange = function(year) {
 
+			var name = 'treeCanopy';
+			$scope.clearLayers(name);
+
 			ForestMonitorService.treeCanopyChange(year, $scope.shape)
 		    .then(function (data) {
-		    	loadMap(data.eeMapId, data.eeMapToken, 'treeCanopy');
+		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showTreeCanopyOpacitySlider = true;
 		    }, function (error) {
 		        console.log(error);
@@ -242,9 +267,12 @@
 
 		$scope.treeHeightYearChange = function(year) {
 
+			var name = 'treeHeight';
+			$scope.clearLayers(name);
+
 			ForestMonitorService.treeHeightChange(year, $scope.shape)
 		    .then(function (data) {
-		    	loadMap(data.eeMapId, data.eeMapToken, 'treeHeight');
+		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showTreeHeightOpacitySlider = true;
 		    }, function (error) {
 		        console.log(error);
@@ -273,9 +301,12 @@
 
 		$scope.calculateForestGain = function (startYear, endYear) {
 
+			var name = 'forestGain';
+			$scope.clearLayers(name);
+
 			ForestMonitorService.forestGain(startYear, endYear, $scope.shape)
 		    .then(function (data) {
-		    	loadMap(data.eeMapId, data.eeMapToken, 'forestGain');
+		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showForestGainOpacitySlider = true;
 		    }, function (error) {
 		        console.log(error);
@@ -304,9 +335,12 @@
 
 		$scope.calculateForestLoss = function (startYear, endYear) {
 
+			var name = 'forestLoss';
+			$scope.clearLayers(name);
+
 			ForestMonitorService.forestLoss(startYear, endYear, $scope.shape)
 		    .then(function (data) {
-		    	loadMap(data.eeMapId, data.eeMapToken, 'forestLoss');
+		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showForestLossOpacitySlider = true;
 		    }, function (error) {
 		        console.log(error);
