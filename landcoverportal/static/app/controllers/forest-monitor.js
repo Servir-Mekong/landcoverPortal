@@ -92,8 +92,10 @@
 		        map.data.addListener('removefeature', function (event) {
 		        	$scope.shownGeoJson = null;
 		        });
+			} else {
+				$scope.areaName = null;
+				$scope.shownGeoJson = null;
 			}
-			return false;
 		};
 
 		$scope.removeShownGeoJson = function () {
