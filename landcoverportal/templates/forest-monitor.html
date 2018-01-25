@@ -90,7 +90,20 @@
                                     </button>
                                 </div>
                                 <div class="tab-pane fade in" id="admin-tab">
-                                    <p> Coming Soon... </p>
+                                    <div class="form-group">
+                                        <label for="area-index-filter">Filter Area By</label>
+                                        <select name="area-index-filter" class="form-control"
+                                                ng-options="option.name for option in areaIndexSelectors"
+                                                ng-model="areaIndexSelector"
+                                                ng-change="populateAreaVariableOptions(areaIndexSelector)"></select>
+                                    </div>
+                                    <div class="form-group" ng-show="showAreaVariableSelector">
+                                        <label for="area-variable-filter">Select From</label>
+                                        <select name="area-variable-filter" class="form-control"
+                                                ng-options="option for option in areaVariableOptions"
+                                                ng-model="areaName"
+                                                ng-change="loadAreaFromFile(areaName)"></select>
+                                    </div>
                                 </div>
                             </div>
                         </div>

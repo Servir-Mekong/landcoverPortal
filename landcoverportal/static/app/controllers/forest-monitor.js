@@ -14,6 +14,9 @@
 	})
 	.controller('forestMonitorCtrl', function ($scope, appSettings, ForestMonitorService) {
 
+		// Setting variables
+		$scope.areaIndexSelectors = appSettings.areaIndexSelectors;
+
 		// Earth Engine
 		// Global Variables
 		var EE_URL = 'https://earthengine.googleapis.com',
@@ -44,6 +47,60 @@
 		$scope.showLoader = false;
 
 		$('.js-tooltip').tooltip();
+
+		/*
+		 * Select Options for Variables
+		 **/
+
+		$scope.showAreaVariableSelector = false;
+		$scope.areaSelectFrom = null;
+		$scope.areaName = null;
+		$scope.shownGeoJson = null;
+
+		$scope.populateAreaVariableOptions = function (option) {
+
+			$scope.showAreaVariableSelector = true;
+			$scope.areaSelectFrom = option.value;
+			if ($scope.areaSelectFrom === 'country') {
+				$scope.areaVariableOptions = appSettings.countries;
+			} else if ($scope.areaSelectFrom === 'province') {
+				$scope.areaVariableOptions = appSettings.provinces;
+			}
+		};
+
+		$scope.loadAreaFromFile = function (name) {
+
+			$scope.removeShownGeoJson();
+
+			if (name) {
+				$scope.areaName = name;
+
+		        map.data.loadGeoJson(
+		            '/static/data/' + $scope.areaSelectFrom + '/' + name + '.json'
+		        );
+
+		        map.data.setStyle({
+		          fillColor: 'red',
+		          strokeWeight: 2,
+		          clickable: false
+		        });
+
+		        map.data.addListener('addfeature', function (event) {
+		        	$scope.shownGeoJson = event.feature;
+		        });
+
+		        map.data.addListener('removefeature', function (event) {
+		        	$scope.shownGeoJson = null;
+		        });
+			}
+			return false;
+		};
+
+		$scope.removeShownGeoJson = function () {
+			if ($scope.shownGeoJson) {
+				map.data.remove($scope.shownGeoJson);
+			}			
+		};
 
 		/**
 		* Tab
@@ -197,7 +254,18 @@
 					$scope.shape.center = [event.overlay.getCenter().lng().toFixed(2), event.overlay.getCenter().lat().toFixed(2)];
 				});
 			} else if (drawingType === 'polygon') {
-				$scope.shape.geom = getPolygonArray(overlay.getPath().getArray());
+				var path = overlay.getPath();
+				$scope.shape.geom = getPolygonArray(path.getArray());
+				// Change event
+				google.maps.event.addListener(path, 'insert_at', function () {
+					$scope.shape.geom = getPolygonArray(event.overlay.getPath().getArray());
+				});
+				google.maps.event.addListener(path, 'remove_at', function () {
+					$scope.shape.geom = getPolygonArray(event.overlay.getPath().getArray());
+				});
+				google.maps.event.addListener(path, 'set_at', function () {
+					$scope.shape.geom = getPolygonArray(event.overlay.getPath().getArray());
+				});
 			}
 
 			$scope.stopDrawing();
@@ -236,10 +304,11 @@
 			var name = 'treeCanopy';
 			$scope.clearLayers(name);
 
-			ForestMonitorService.treeCanopyChange(year, $scope.shape)
+			ForestMonitorService.treeCanopyChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showTreeCanopyOpacitySlider = true;
+		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -270,10 +339,11 @@
 			var name = 'treeHeight';
 			$scope.clearLayers(name);
 
-			ForestMonitorService.treeHeightChange(year, $scope.shape)
+			ForestMonitorService.treeHeightChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showTreeHeightOpacitySlider = true;
+		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -304,10 +374,11 @@
 			var name = 'forestGain';
 			$scope.clearLayers(name);
 
-			ForestMonitorService.forestGain(startYear, endYear, $scope.shape)
+			ForestMonitorService.forestGain(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showForestGainOpacitySlider = true;
+		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -338,10 +409,11 @@
 			var name = 'forestLoss';
 			$scope.clearLayers(name);
 
-			ForestMonitorService.forestLoss(startYear, endYear, $scope.shape)
+			ForestMonitorService.forestLoss(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	$scope.showForestLossOpacitySlider = true;
+		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -369,10 +441,11 @@
 
 		$scope.calculateForestChange = function (startYear, endYear) {
 
-			ForestMonitorService.forestChange(startYear, endYear, $scope.shape)
+			ForestMonitorService.forestChange(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
 		    	loadMap(data.eeMapId, data.eeMapToken, 'forestChange');
 		    	$scope.showForestChangeOpacitySlider = true;
+		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });

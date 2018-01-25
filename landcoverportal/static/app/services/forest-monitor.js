@@ -5,7 +5,7 @@
 	angular.module('landcoverportal')
 	.service('ForestMonitorService', function ($http, $q) {
 
-		this.treeCanopyChange = function (year, shape) {
+		this.treeCanopyChange = function (year, shape, areaSelectFrom, areaName) {
 
 			var config = {
 				params: {
@@ -14,14 +14,19 @@
 				}
 			};
 
-			var shapeType = shape.type;
-			if (shapeType === 'rectangle' || shapeType === 'polygon') {
-				config.params.shape = shapeType;
-				config.params.geom = shape.geom.toString();
-			} else if (shapeType === 'circle') {
-				config.params.shape = shapeType;
-				config.params.radius = shape.radius;
-				config.params.center = shape.center.toString();
+			if (areaSelectFrom && areaName) {
+				config.params.areaSelectFrom = areaSelectFrom;
+				config.params.areaName = areaName;
+			} else {
+				var shapeType = shape.type;
+				if (shapeType === 'rectangle' || shapeType === 'polygon') {
+					config.params.shape = shapeType;
+					config.params.geom = shape.geom.toString();
+				} else if (shapeType === 'circle') {
+					config.params.shape = shapeType;
+					config.params.radius = shape.radius;
+					config.params.center = shape.center.toString();
+				}
 			}
 
 			var promise = $http.get('/forest-monitor/api/', config)
@@ -31,7 +36,7 @@
 			return promise;
 		};
 
-		this.treeHeightChange = function (year, shape) {
+		this.treeHeightChange = function (year, shape, areaSelectFrom, areaName) {
 
 			var config = {
 				params: {
@@ -40,14 +45,19 @@
 				}
 			};
 
-			var shapeType = shape.type;
-			if (shapeType === 'rectangle' || shapeType === 'polygon') {
-				config.params.shape = shapeType;
-				config.params.geom = shape.geom.toString();
-			} else if (shapeType === 'circle') {
-				config.params.shape = shapeType;
-				config.params.radius = shape.radius;
-				config.params.center = shape.center.toString();
+			if (areaSelectFrom && areaName) {
+				config.params.areaSelectFrom = areaSelectFrom;
+				config.params.areaName = areaName;
+			} else {
+				var shapeType = shape.type;
+				if (shapeType === 'rectangle' || shapeType === 'polygon') {
+					config.params.shape = shapeType;
+					config.params.geom = shape.geom.toString();
+				} else if (shapeType === 'circle') {
+					config.params.shape = shapeType;
+					config.params.radius = shape.radius;
+					config.params.center = shape.center.toString();
+				}
 			}
 
 			var promise = $http.get('/forest-monitor/api/', config)
@@ -57,7 +67,7 @@
 			return promise;
 		};
 
-		this.forestGain = function (startYear, endYear, shape) {
+		this.forestGain = function (startYear, endYear, shape, areaSelectFrom, areaName) {
 
 			var config = {
 				params: {
@@ -67,14 +77,19 @@
 				}
 			};
 
-			var shapeType = shape.type;
-			if (shapeType === 'rectangle' || shapeType === 'polygon') {
-				config.params.shape = shapeType;
-				config.params.geom = shape.geom.toString();
-			} else if (shapeType === 'circle') {
-				config.params.shape = shapeType;
-				config.params.radius = shape.radius;
-				config.params.center = shape.center.toString();
+			if (areaSelectFrom && areaName) {
+				config.params.areaSelectFrom = areaSelectFrom;
+				config.params.areaName = areaName;
+			} else {
+				var shapeType = shape.type;
+				if (shapeType === 'rectangle' || shapeType === 'polygon') {
+					config.params.shape = shapeType;
+					config.params.geom = shape.geom.toString();
+				} else if (shapeType === 'circle') {
+					config.params.shape = shapeType;
+					config.params.radius = shape.radius;
+					config.params.center = shape.center.toString();
+				}
 			}
 
 			var promise = $http.get('/forest-monitor/api/', config)
@@ -84,7 +99,7 @@
 			return promise;
 		};
 
-		this.forestLoss = function (startYear, endYear, shape) {
+		this.forestLoss = function (startYear, endYear, shape, areaSelectFrom, areaName) {
 
 			var config = {
 				params: {
@@ -94,14 +109,19 @@
 				}
 			};
 
-			var shapeType = shape.type;
-			if (shapeType === 'rectangle' || shapeType === 'polygon') {
-				config.params.shape = shapeType;
-				config.params.geom = shape.geom.toString();
-			} else if (shapeType === 'circle') {
-				config.params.shape = shapeType;
-				config.params.radius = shape.radius;
-				config.params.center = shape.center.toString();
+			if (areaSelectFrom && areaName) {
+				config.params.areaSelectFrom = areaSelectFrom;
+				config.params.areaName = areaName;
+			} else {
+				var shapeType = shape.type;
+				if (shapeType === 'rectangle' || shapeType === 'polygon') {
+					config.params.shape = shapeType;
+					config.params.geom = shape.geom.toString();
+				} else if (shapeType === 'circle') {
+					config.params.shape = shapeType;
+					config.params.radius = shape.radius;
+					config.params.center = shape.center.toString();
+				}
 			}
 
 			var promise = $http.get('/forest-monitor/api/', config)
@@ -111,7 +131,7 @@
 			return promise;
 		};
 
-		this.forestChange = function (startYear, endYear, shape) {
+		this.forestChange = function (startYear, endYear, shape, areaSelectFrom, areaName) {
 
 			var config = {
 				params: {
@@ -121,14 +141,19 @@
 				}
 			};
 
-			var shapeType = shape.type;
-			if (shapeType === 'rectangle' || shapeType === 'polygon') {
-				config.params.shape = shapeType;
-				config.params.geom = shape.geom.toString();
-			} else if (shapeType === 'circle') {
-				config.params.shape = shapeType;
-				config.params.radius = shape.radius;
-				config.params.center = shape.center.toString();
+			if (areaSelectFrom && areaName) {
+				config.params.areaSelectFrom = areaSelectFrom;
+				config.params.areaName = areaName;
+			} else {
+				var shapeType = shape.type;
+				if (shapeType === 'rectangle' || shapeType === 'polygon') {
+					config.params.shape = shapeType;
+					config.params.geom = shape.geom.toString();
+				} else if (shapeType === 'circle') {
+					config.params.shape = shapeType;
+					config.params.radius = shape.radius;
+					config.params.center = shape.center.toString();
+				}
 			}
 
 			var promise = $http.get('/forest-monitor/api/', config)

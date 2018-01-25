@@ -23,7 +23,9 @@ def api(request):
             geom = get('geom', '')
             radius = get('radius', '')
             center = get('center', '')
-            core = GEEApi(shape, geom, radius, center)
+            area_path = get('areaSelectFrom', '')
+            area_name = get('areaName', '')
+            core = GEEApi(area_path, area_name, shape, geom, radius, center)
 
             if action == 'tree-canopy':
                 data = core.tree_canopy(year=get('year', ''))

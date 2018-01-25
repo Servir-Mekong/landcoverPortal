@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
 from landcoverportal import config
 
-import ee
-import time
+import ee, json, os, time
 
 # -----------------------------------------------------------------------------
 class GEEApi():
     """ Google Earth Engine API """
 
-    def __init__(self, shape, geom, radius, center):
+    def __init__(self, area_path, area_name, shape, geom, radius, center):
 
         ee.Initialize(config.EE_CREDENTIALS)
         self.TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection(config.EE_FMS_TREE_HEIGHT_ID)
@@ -20,7 +20,22 @@ class GEEApi():
         self.geom = geom
         self.radius = radius
         self.center = center
-        self.geometry = self._get_geometry(shape)
+        if (area_path and area_name):
+            if (area_path == 'country'):
+                self.geometry = self.FEATURE_COLLECTION.filter(\
+                                    ee.Filter.inList('Country', [area_name])).geometry()
+            elif (area_path == 'province'):
+                if settings.DEBUG:
+                    path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'landcoverportal/static/data/', area_path, '%s.%s' % (area_name, 'json'))
+                else:
+                    path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static/data/', area_path, '%s.%s' % (area_name, 'json'))
+                with open(path) as f:
+                    feature = ee.Feature(json.load(f))
+                    self.geometry = feature.geometry()
+            else:
+                self.geometry = self.COUNTRIES_GEOM
+        else:
+            self.geometry = self._get_geometry(shape)
 
     # -------------------------------------------------------------------------
     def _get_geometry(self, shape):
