@@ -34,6 +34,10 @@
 					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
 		            position: google.maps.ControlPosition.TOP_CENTER
 		        },
+		        fullscreenControl: true,
+		        fullscreenControlOptions: {
+		        	position: google.maps.ControlPosition.TOP_LEFT
+		        }
 			},
 			// Map variable
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -119,19 +123,6 @@
     		$(this).removeClass('btn-default').addClass('btn-primary');  
 		});
 
-		/**
-		* Tools
-		**/
-		$scope.toggleToolControl = function () {
-			if ($scope.toolControlClass === 'glyphicon glyphicon-eye-open') {
-				$scope.toolControlClass = 'glyphicon glyphicon-eye-close';
-				$scope.showTabContainer = false;
-			} else {
-				$scope.toolControlClass = 'glyphicon glyphicon-eye-open';
-				$scope.showTabContainer = true;
-			}
-		};
-
 		/** Updates the image based on the current control panel config. */
 		var loadMap = function (mapId, mapToken, type) {
 
@@ -152,6 +143,10 @@
 			map.overlayMapTypes.push(mapType);
 			$scope.overlays[type] = mapType;
 		};
+
+		/**
+		 * Drawing Tool Manager
+		 **/
 
 		var drawingManager = new google.maps.drawing.DrawingManager();
 
@@ -272,6 +267,44 @@
 
 			$scope.stopDrawing();
 		});
+
+		/**
+		 * Custom Control
+		 */
+
+		$scope.toggleToolControl = function () {
+
+			if ($('.tool-control span').hasClass('glyphicon-eye-open')) {
+				$('.tool-control span').removeClass('glyphicon glyphicon-eye-open icon-eye').addClass('glyphicon glyphicon-eye-close icon-eye');
+				$scope.showTabContainer = false;
+			} else {
+				$('.tool-control span').removeClass('glyphicon glyphicon-eye-close icon-eye').addClass('glyphicon glyphicon-eye-open icon-eye');
+				$scope.showTabContainer = true;
+			}
+			$scope.$apply();
+		};
+
+		function AnalysisToolControl(controlDiv, map) {
+
+			// Set CSS for the control border.
+			var controlUI = document.createElement('div');
+			controlUI.setAttribute('class', 'tool-control text-center');
+			controlUI.title = 'Toogle Tools Visibility';
+			controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open icon-eye' aria-hidden='true'></span>";
+			controlDiv.appendChild(controlUI);
+
+			// Setup the click event listeners
+			controlUI.addEventListener('click', function() {
+			  	$scope.toggleToolControl();
+			});
+
+		}
+
+		//var analysisToolControlDiv = document.createElement('div');
+		var analysisToolControlDiv = document.getElementById('tool-control-container');
+		var analysisToolControl = new AnalysisToolControl(analysisToolControlDiv, map);
+		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
+
 
 		var datepickerOptions = {
 			autoclose: true,

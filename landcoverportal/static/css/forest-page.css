@@ -37,18 +37,19 @@
 /*
  * Map Tools
  */
-.tool-control-tab {
-    background-color: white;
-    border: 0;
-    margin: 10px 14px;
-    padding: 0;
-    position: absolute;
+.tool-control {
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
     cursor: pointer;
     width: 25px;
     height: 25px;
-    overflow: hidden;
-    right: 0;
-    margin-right: 42px;
+    margin: 10px 14px;
+}
+
+.icon-eye {
+    line-height: 20px;
+    font-size: 1.4em;
 }
 
 /* Sliders */
