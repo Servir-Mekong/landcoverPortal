@@ -10,19 +10,21 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.static import serve
 from django.views.generic import TemplateView
+from forest_monitor import api
 
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
+    url(r'^forest-monitor/api/$', api.api),
 ]
 
 urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),  # NOQA
     url(r'^$', TemplateView.as_view(template_name="home.html")),
     url(r'^home/', TemplateView.as_view(template_name="home.html")),
-    url(r'^', include('forest_monitor.urls')),
+    url(r'', include('forest_monitor.urls')),
     url(r'^', include('cms.urls')),
 )
 

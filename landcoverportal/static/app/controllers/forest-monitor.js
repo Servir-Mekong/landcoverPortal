@@ -12,6 +12,11 @@
 			return input;
 		};
 	})
+	.config(['$httpProvider', function ($httpProvider) {
+		$httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
+		$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  		$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+	}])
 	.controller('forestMonitorCtrl', function ($scope, appSettings, ForestMonitorService) {
 
 		// Setting variables
@@ -52,6 +57,66 @@
 
 		$('.js-tooltip').tooltip();
 
+		/**
+		 * Utilities function
+		 **/
+
+		var removeShownGeoJson = function () {
+			if ($scope.shownGeoJson) {
+				//map.data.remove($scope.shownGeoJson);
+				map.data.forEach(function(feature) {
+    				map.data.remove(feature);
+				});
+			}			
+		};
+
+		var clearSelectedArea = function () {
+			$scope.areaSelectFrom = null;
+			$scope.areaName = null;
+		};
+
+		/* Updates the image based on the current control panel config. */
+		var loadMap = function (mapId, mapToken, type) {
+
+			if (typeof(type) === 'undefined') type = 'map';
+
+			var eeMapOptions = {
+				getTileUrl: function (tile, zoom) {
+					var url = EE_URL + '/map/';
+						url += [mapId, zoom, tile.x, tile.y].join('/');
+						url += '?token=' + mapToken;
+						return url;
+				},
+				tileSize: new google.maps.Size(256, 256),
+				opacity: 1.0,
+				name: type
+			};
+			var mapType = new google.maps.ImageMapType(eeMapOptions);
+			map.overlayMapTypes.push(mapType);
+			$scope.overlays[type] = mapType;
+		};
+
+		/**
+		* Process each point in a Geometry, regardless of how deep the points may lie.
+		* @param {google.maps.Data.Geometry} geometry The structure to process
+		* @param {function(google.maps.LatLng)} callback A function to call on each
+		*     LatLng point encountered (e.g. Array.push)
+		* @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
+		*     myArray)
+		*/
+		var processPoints = function (geometry, callback, thisArg) {
+			if (geometry instanceof google.maps.LatLng) {
+				callback.call(thisArg, geometry);
+			} else if (geometry instanceof google.maps.Data.Point) {
+				callback.call(thisArg, geometry.get());
+			} else {
+				geometry.getArray().forEach(function(g) {
+					processPoints(g, callback, thisArg);
+				});
+			}
+		};
+
+
 		/*
 		 * Select Options for Variables
 		 **/
@@ -74,7 +139,7 @@
 
 		$scope.loadAreaFromFile = function (name) {
 
-			$scope.removeShownGeoJson();
+			removeShownGeoJson();
 
 			if (name) {
 				$scope.areaName = name;
@@ -91,21 +156,19 @@
 
 		        map.data.addListener('addfeature', function (event) {
 		        	$scope.shownGeoJson = event.feature;
+		        	var bounds = new google.maps.LatLngBounds();
+		        	processPoints(event.feature.getGeometry(), bounds.extend, bounds);
+		        	map.fitBounds(bounds);
 		        });
 
 		        map.data.addListener('removefeature', function (event) {
 		        	$scope.shownGeoJson = null;
 		        });
+
 			} else {
 				$scope.areaName = null;
 				$scope.shownGeoJson = null;
 			}
-		};
-
-		$scope.removeShownGeoJson = function () {
-			if ($scope.shownGeoJson) {
-				map.data.remove($scope.shownGeoJson);
-			}			
 		};
 
 		/**
@@ -119,30 +182,8 @@
 
 		$('.btn-pref-inner .btn').click (function () {
     		$('.btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
-    		// $(".tab").addClass("active"); // instead of this do the below 
     		$(this).removeClass('btn-default').addClass('btn-primary');  
 		});
-
-		/** Updates the image based on the current control panel config. */
-		var loadMap = function (mapId, mapToken, type) {
-
-			if (typeof(type) === 'undefined') type = 'map';
-
-			var eeMapOptions = {
-				getTileUrl: function (tile, zoom) {
-					var url = EE_URL + '/map/';
-						url += [mapId, zoom, tile.x, tile.y].join('/');
-						url += '?token=' + mapToken;
-						return url;
-				},
-				tileSize: new google.maps.Size(256, 256),
-				opacity: 1.0,
-				name: type
-			};
-			var mapType = new google.maps.ImageMapType(eeMapOptions);
-			map.overlayMapTypes.push(mapType);
-			$scope.overlays[type] = mapType;
-		};
 
 		/**
 		 * Drawing Tool Manager
@@ -266,19 +307,21 @@
 			}
 
 			$scope.stopDrawing();
+			clearSelectedArea();
 		});
 
 		/**
 		 * Custom Control
 		 */
 
+		// Analysis Tool Control
 		$scope.toggleToolControl = function () {
 
-			if ($('.tool-control span').hasClass('glyphicon-eye-open')) {
-				$('.tool-control span').removeClass('glyphicon glyphicon-eye-open icon-eye').addClass('glyphicon glyphicon-eye-close icon-eye');
+			if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
+				$('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
 				$scope.showTabContainer = false;
 			} else {
-				$('.tool-control span').removeClass('glyphicon glyphicon-eye-close icon-eye').addClass('glyphicon glyphicon-eye-open icon-eye');
+				$('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
 				$scope.showTabContainer = true;
 			}
 			$scope.$apply();
@@ -289,8 +332,9 @@
 			// Set CSS for the control border.
 			var controlUI = document.createElement('div');
 			controlUI.setAttribute('class', 'tool-control text-center');
+			controlUI.setAttribute('id', 'analysis-tool-control');
 			controlUI.title = 'Toogle Tools Visibility';
-			controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open icon-eye' aria-hidden='true'></span>";
+			controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open large-icon' aria-hidden='true'></span>";
 			controlDiv.appendChild(controlUI);
 
 			// Setup the click event listeners
@@ -300,11 +344,114 @@
 
 		}
 
-		//var analysisToolControlDiv = document.createElement('div');
 		var analysisToolControlDiv = document.getElementById('tool-control-container');
 		var analysisToolControl = new AnalysisToolControl(analysisToolControlDiv, map);
 		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
+		// KML Upload Tool Control
+		var KMLUploadToolControl = function (controlDiv, map) {
+
+			// Set CSS for the control border.
+			var controlUI = document.createElement('div');
+			controlUI.setAttribute('class', 'tool-control text-center');
+			controlUI.title = 'Toogle Tools Visibility';
+			controlUI.innerHTML = "<label for='file-input'><span class='glyphicon glyphicon-upload large-icon' type='file' aria-hidden='true'></span></label><input type='file' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz' class='hide form-control' name='file-input' id='file-input'>";
+			controlDiv.appendChild(controlUI);
+
+			// Setup the click event listeners
+			controlUI.addEventListener('click', function() {
+
+				$('#file-input').change( function () {
+					
+					var files = event.target.files;
+					if (files.length > 1) {
+						alert('upload one file at a time');
+					} else {
+						removeShownGeoJson();
+
+						var file = files[0];
+						var reader = new FileReader();
+						reader.readAsText(file);
+
+						reader.onloadend = function () {
+
+							var textResult = event.target.result;
+							var addedGeoJson;
+
+							if ((['application/vnd.google-earth.kml+xml', 'application/vnd.google-earth.kmz'].indexOf(file.type) > -1) ) {
+
+								var kmlDoc;
+
+	        					if (window.DOMParser) {
+	            					var parser = new DOMParser();                
+	            					kmlDoc = parser.parseFromString(textResult, 'text/xml');                
+	        					} else { // Internet Explorer
+	            					kmlDoc = new ActiveXObject('Microsoft.XMLDOM');
+	            					kmlDoc.async = false;
+	            					kmlDoc.loadXML(textResult);
+	        					}
+	        					addedGeoJson = toGeoJSON.kml(kmlDoc);
+							} else {
+								try {
+									addedGeoJson = JSON.parse(textResult);
+								} catch (e) {
+									alert('we only accept kml, kmz and geojson');
+								}
+							}
+
+							if (((addedGeoJson.features) && (addedGeoJson.features.length === 1)) || (addedGeoJson.type === 'Feature')) {
+
+								var geometry = addedGeoJson.features ? addedGeoJson.features[0].geometry: addedGeoJson.geometry;
+
+								if (geometry.type === 'Polygon') {
+
+							        map.data.addGeoJson(addedGeoJson);
+							        map.data.setStyle({
+							        	fillColor: 'red',
+							          	strokeWeight: 2,
+							          	clickable: false
+							        });
+
+							        map.data.addListener('addfeature', function (event) {
+							        	$scope.shownGeoJson = event.feature;
+							        });
+
+							        map.data.addListener('removefeature', function (event) {
+							        	$scope.shownGeoJson = null;
+							        	var bounds = new google.maps.LatLngBounds();
+							        	processPoints(event.feature.getGeometry(), bounds.extend, bounds);
+							        	map.fitBounds(bounds);
+							        });
+
+							        // Convert to Polygon
+									var polygonArray = [];
+									var _coord = geometry.coordinates[0];
+
+	            					for (var i = 0; i < _coord.length; i++) {
+	            						var coordinatePair = [(_coord[i][0]).toFixed(2), (_coord[i][1]).toFixed(2)];
+	                					polygonArray.push(coordinatePair);
+	           						}
+
+	           						clearSelectedArea();
+	           						$scope.shape.type = 'polygon';
+	           						$scope.shape.geom = polygonArray;
+								} else {
+									alert('multigeometry and multipolygon not supported yet!');
+								}
+							} else {
+								alert('multigeometry and multipolygon not supported yet!');
+							}
+						};
+					}
+
+				});
+
+			});
+		};
+
+		var kmlUploadToolControlDiv = document.createElement('div');
+		var kmlUploadToolControl = new KMLUploadToolControl(kmlUploadToolControlDiv, map);
+		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(kmlUploadToolControlDiv);
 
 		var datepickerOptions = {
 			autoclose: true,
@@ -314,16 +461,21 @@
 
 		$('#time-period-tab>#datepicker').datepicker(datepickerOptions);
 
+		/**
+		 * Slider
+		 */
+		var sliderOptions = {
+			formatter: function (value) {
+				return 'Opacity: ' + value;
+			}
+		};
+
 		/* Tree Canopy */
 		$scope.showTreeCanopyOpacitySlider = false;
 		$scope.treeCanopyOpacitySliderValue = null;
 
 		/* slider init */
-		$('#tree-canopy-opacity-slider').slider({
-			formatter: function(value) {
-				return 'Opacity: ' + value;
-			}
-		})
+		var treeCanopySlider = $('#tree-canopy-opacity-slider').slider(sliderOptions)
 		.on('slideStart', function (event) {
 			$scope.treeCanopyOpacitySliderValue = $(this).data('slider').getValue();
 		})
@@ -341,9 +493,10 @@
 
 			ForestMonitorService.treeCanopyChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
+		    	treeCanopySlider.slider('setValue', 1);
 		    	$scope.showTreeCanopyOpacitySlider = true;
-		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -354,11 +507,7 @@
 		$scope.treeHeightOpacitySliderValue = null;
 
 		/* slider init */
-		$('#tree-height-opacity-slider').slider({
-			formatter: function(value) {
-				return 'Opacity: ' + value;
-			}
-		})
+		var treeHeightSlider = $('#tree-height-opacity-slider').slider(sliderOptions)
 		.on('slideStart', function (event) {
 			$scope.treeHeightOpacitySliderValue = $(this).data('slider').getValue();
 		})
@@ -376,9 +525,10 @@
 
 			ForestMonitorService.treeHeightChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
+		    	treeHeightSlider.slider('setValue', 1);
 		    	$scope.showTreeHeightOpacitySlider = true;
-		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -389,11 +539,7 @@
 		$scope.forestGainOpacitySliderValue = null;
 
 		/* slider init */
-		$('#forest-gain-opacity-slider').slider({
-			formatter: function(value) {
-				return 'Opacity: ' + value;
-			}
-		})
+		var forestGainSlider = $('#forest-gain-opacity-slider').slider(sliderOptions)
 		.on('slideStart', function (event) {
 			$scope.forestGainOpacitySliderValue = $(this).data('slider').getValue();
 		})
@@ -411,9 +557,10 @@
 
 			ForestMonitorService.forestGain(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
+		    	forestGainSlider.slider('setValue', 1);
 		    	$scope.showForestGainOpacitySlider = true;
-		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -424,11 +571,7 @@
 		$scope.forestLossOpacitySliderValue = null;
 
 		/* slider init */
-		$('#forest-loss-opacity-slider').slider({
-			formatter: function(value) {
-				return 'Opacity: ' + value;
-			}
-		})
+		var forestLossSlider = $('#forest-loss-opacity-slider').slider(sliderOptions)
 		.on('slideStart', function (event) {
 			$scope.forestLossOpacitySliderValue = $(this).data('slider').getValue();
 		})
@@ -446,9 +589,10 @@
 
 			ForestMonitorService.forestLoss(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
+		    	forestLossSlider.slider('setValue', 1);
 		    	$scope.showForestLossOpacitySlider = true;
-		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });
@@ -459,11 +603,7 @@
 		$scope.forestChangeOpacitySliderValue = null;
 
 		/* slider init */
-		$('#forest-change-opacity-slider').slider({
-			formatter: function(value) {
-				return 'Opacity: ' + value;
-			}
-		})
+		var forestChangeSlider = $('#forest-change-opacity-slider').slider(sliderOptions)
 		.on('slideStart', function (event) {
 			$scope.forestChangeOpacitySliderValue = $(this).data('slider').getValue();
 		})
@@ -478,9 +618,10 @@
 
 			ForestMonitorService.forestChange(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, 'forestChange');
+		    	forestChangeSlider.slider('setValue', 1);
 		    	$scope.showForestChangeOpacitySlider = true;
-		    	$scope.removeShownGeoJson();
 		    }, function (error) {
 		        console.log(error);
 		    });

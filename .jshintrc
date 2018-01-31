@@ -18,7 +18,9 @@
 		"angular": true,
 		"document": true,
 		"google": true,
-		"window": true
+		"window": true,
+		"ActiveXObject": true,
+		"toGeoJSON": true
 	},
 	"predef": [ // Extra globals.
 		"inject",

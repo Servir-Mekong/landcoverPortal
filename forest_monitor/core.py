@@ -22,6 +22,8 @@ class GEEApi():
         self.center = center
         if (area_path and area_name):
             if (area_path == 'country'):
+                if (area_name == 'Myanmar'):
+                    area_name = 'Myanmar (Burma)'
                 self.geometry = self.FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
@@ -44,19 +46,19 @@ class GEEApi():
             if shape == 'rectangle':
                 _geom = self.geom.split(',')
                 coor_list = [float(_geom_) for _geom_ in _geom]
-                geometry = ee.Geometry.Rectangle(coor_list)
+                return ee.Geometry.Rectangle(coor_list)
             elif shape == 'circle':
                 _geom = self.center.split(',')
                 coor_list = [float(_geom_) for _geom_ in _geom]
-                geometry = ee.Geometry.Point(coor_list).buffer(float(self.radius))
+                return ee.Geometry.Point(coor_list).buffer(float(self.radius))
             elif shape == 'polygon':
                 _geom = self.geom.split(',')
                 coor_list = [float(_geom_) for _geom_ in _geom]
-                geometry = ee.Geometry.Polygon(coor_list)
-        else:
-            geometry = self.COUNTRIES_GEOM
+                if len(coor_list) > 500:
+                    return ee.Geometry.Polygon(coor_list).convexHull()
+                return ee.Geometry.Polygon(coor_list)
 
-        return geometry
+        return self.COUNTRIES_GEOM
 
     # -------------------------------------------------------------------------
     def tree_canopy(self, get_image=False, year=None):
@@ -75,7 +77,7 @@ class GEEApi():
         if get_image:
             return image
 
-        map_id = image.updateMask(image).getMapId({
+        map_id = image.getMapId({
             'min': '0',
             'max': '100',
             'palette': '000000, 00FF00'

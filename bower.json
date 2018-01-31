@@ -21,6 +21,7 @@
     "components-font-awesome": "^4.7.0",
     "normalize-css": "^7.0.0",
     "bootstrap-datepicker": "^1.7.1",
-    "seiyria-bootstrap-slider": "^10.0.0"
+    "seiyria-bootstrap-slider": "^10.0.0",
+    "togeojson": "https://github.com/mapbox/togeojson.git#^0.16.0"
   }
 }

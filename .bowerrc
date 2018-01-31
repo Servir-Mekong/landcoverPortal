@@ -1,4 +1,4 @@
 {
-  "directory": "landcoverportal/static/vendor/",
-  "json": "bower.json"
+	"directory": "landcoverportal/static/vendor/",
+	"json": "bower.json"
 }
