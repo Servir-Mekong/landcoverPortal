@@ -1,5 +1,7 @@
 .nav-side-menu {
-    overflow: auto;
+    /*overflow: auto;*/
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: Helvetica,Arial,sans-serif;
     font-size: 15px;
     font-weight: 200;
@@ -29,11 +31,11 @@
 
 .nav-side-menu ul,
 .nav-side-menu li {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  line-height: 48px;
-  cursor: pointer;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 48px;
+    cursor: pointer;
   /*    
     .collapsed{
        .sidebar-arrow:before{
@@ -118,35 +120,35 @@
     transition: all 1s ease;
 }
 @media (max-width: 767px) {
-  .nav-side-menu {
-    position: relative;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .nav-side-menu .toggle-btn {
-    display: block;
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 10 !important;
-    padding: 3px;
-    background-color: #ffffff;
-    color: #000;
-    width: 40px;
-    text-align: center;
-  }
-  .brand {
-    text-align: left !important;
-    font-size: 22px;
-    padding-left: 20px;
-    line-height: 50px !important;
-  }
+    .nav-side-menu {
+        position: relative;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .nav-side-menu .toggle-btn {
+        display: block;
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 10 !important;
+        padding: 3px;
+        background-color: #ffffff;
+        color: #000;
+        width: 40px;
+        text-align: center;
+    }
+    .brand {
+        text-align: left !important;
+        font-size: 22px;
+        padding-left: 20px;
+        line-height: 50px !important;
+    }
 }
 @media (min-width: 767px) {
-  .nav-side-menu .menu-list .menu-content {
-    display: block;
-  }
+    .nav-side-menu .menu-list .menu-content {
+        display: block;
+    }
 }
 
 .glyphicon.glyphicon-grain {
