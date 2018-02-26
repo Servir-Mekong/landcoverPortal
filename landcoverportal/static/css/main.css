@@ -174,3 +174,25 @@ body { padding-top: 70px; }
 	position: fixed;
 	z-index: 402;
 }
+
+/*
+ * Loader
+ */
+
+.loading-img {
+	width: 120px;
+	height: 120px;
+	margin-left: 50%;
+	margin-top: 10%;
+}
+
+.loader {
+	z-index: 1005;
+	background: rgb(233, 233, 233);
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0,0,0,0.4);
+}

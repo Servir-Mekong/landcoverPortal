@@ -521,6 +521,7 @@
 
 		$scope.treeCanopyYearChange = function(year) {
 
+			$scope.showLoader = true;
 			var name = 'treeCanopy';
 			clearLayers(name);
 			$scope.closeAlert();
@@ -528,12 +529,14 @@
 
 			ForestMonitorService.treeCanopyChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	$scope.showLoader = false;
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	treeCanopySlider.slider('setValue', 1);
 		    	$scope.showTreeCanopyOpacitySlider = true;
 		    	showSuccessAlert('Tree Canopy Cover for year ' + year + ' !');
 		    }, function (error) {
+		    	$scope.showLoader = false;
 		        console.log(error);
 		        showErrorAlert(error);
 		    });
@@ -557,6 +560,7 @@
 
 		$scope.treeHeightYearChange = function(year) {
 
+			$scope.showLoader = true;
 			var name = 'treeHeight';
 			clearLayers(name);
 			$scope.closeAlert();
@@ -564,12 +568,14 @@
 
 			ForestMonitorService.treeHeightChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	$scope.showLoader = false;
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	treeHeightSlider.slider('setValue', 1);
 		    	$scope.showTreeHeightOpacitySlider = true;
 		    	showSuccessAlert('Tree Canopy Height for year ' + year + ' !');
 		    }, function (error) {
+		    	$scope.showLoader = false;
 		        console.log(error);
 		        showErrorAlert(error);
 		    });
@@ -593,6 +599,7 @@
 
 		$scope.calculateForestGain = function (startYear, endYear) {
 
+			$scope.showLoader = true;
 			var name = 'forestGain';
 			clearLayers(name);
 			$scope.closeAlert();
@@ -600,12 +607,14 @@
 
 			ForestMonitorService.forestGain(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	$scope.showLoader = false;
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	forestGainSlider.slider('setValue', 1);
 		    	$scope.showForestGainOpacitySlider = true;
 		    	showSuccessAlert('Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
 		    }, function (error) {
+		    	$scope.showLoader = false;
 		        console.log(error);
 		        showErrorAlert(error);
 		    });
@@ -629,6 +638,7 @@
 
 		$scope.calculateForestLoss = function (startYear, endYear) {
 
+			$scope.showLoader = true;
 			var name = 'forestLoss';
 			clearLayers(name);
 			$scope.closeAlert();
@@ -636,12 +646,14 @@
 
 			ForestMonitorService.forestLoss(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	$scope.showLoader = false;
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	forestLossSlider.slider('setValue', 1);
 		    	$scope.showForestLossOpacitySlider = true;
 		    	showSuccessAlert('Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
 		    }, function (error) {
+		    	$scope.showLoader = false;
 		        console.log(error);
 		        showErrorAlert(error);
 		    });
@@ -665,6 +677,7 @@
 
 		$scope.calculateForestChange = function (startYear, endYear) {
 
+			$scope.showLoader = true;
 			var name = 'forestChange';
 			clearLayers(name);
 			$scope.closeAlert();
@@ -672,12 +685,14 @@
 
 			ForestMonitorService.forestChange(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
+		    	$scope.showLoader = false;
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	forestChangeSlider.slider('setValue', 1);
 		    	$scope.showForestChangeOpacitySlider = true;
 		    	showSuccessAlert('Forest Change from year ' + startYear + ' to ' + endYear + ' !');
 		    }, function (error) {
+		    	$scope.showLoader = false;
 		        console.log(error);
 		        showErrorAlert(error);
 		    });
