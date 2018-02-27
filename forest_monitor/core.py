@@ -89,7 +89,7 @@ class GEEApi():
         }
 
     # -------------------------------------------------------------------------
-    def tree_height(self, year=None):
+    def tree_height(self, get_image=False, year=None):
 
         if not year:
             return {
@@ -100,8 +100,12 @@ class GEEApi():
                                                     'id',
                                                     'equals',
                                                     'tch_' + str(year)).mean()
+        image = image.updateMask(image).clip(self.geometry)
 
-        map_id = image.updateMask(image).clip(self.geometry).getMapId({
+        if get_image:
+            return image
+
+        map_id = image.getMapId({
             'min': '0',
             'max': '30'
         })
@@ -112,15 +116,23 @@ class GEEApi():
         }
 
     # -------------------------------------------------------------------------
-    def forest_gain(self, start_year, end_year):
+    def forest_gain(self, get_image=False, start_year=None, end_year=None):
+
+        if not start_year and end_year:
+            return {
+                'message': 'Please specify a start and end year for which you want to perform the calculations!'
+            }
 
         start_image = self.tree_canopy(get_image=True, year=start_year)
         end_image = self.tree_canopy(get_image=True, year=end_year)
 
         gain_image = end_image.subtract(start_image).gt(0)
-        gain_image = gain_image.updateMask(gain_image)
+        gain_image = gain_image.updateMask(gain_image).clip(self.geometry)
 
-        map_id = gain_image.clip(self.geometry).getMapId({
+        if get_image:
+            return gain_image
+
+        map_id = gain_image.getMapId({
             'palette': '0000FF'
         })
 
@@ -130,15 +142,23 @@ class GEEApi():
         }
 
     # -------------------------------------------------------------------------
-    def forest_loss(self, start_year, end_year):
+    def forest_loss(self, get_image=False, start_year=None, end_year=None):
+
+        if not start_year and end_year:
+            return {
+                'message': 'Please specify a start and end year for which you want to perform the calculations!'
+            }
 
         start_image = self.tree_canopy(get_image=True, year=start_year)
         end_image = self.tree_canopy(get_image=True, year=end_year)
 
         loss_image = end_image.subtract(start_image).lt(0)
-        loss_image = loss_image.updateMask(loss_image)
+        loss_image = loss_image.updateMask(loss_image).clip(self.geometry)
 
-        map_id = loss_image.clip(self.geometry).getMapId({
+        if get_image:
+            return loss_image
+
+        map_id = loss_image.getMapId({
             'palette': 'FF0000'
         })
 
@@ -148,13 +168,21 @@ class GEEApi():
         }
 
     # -------------------------------------------------------------------------
-    def forest_change(self, start_year, end_year):
+    def forest_change(self, get_image=False, start_year=None, end_year=None):
+
+        if not start_year and end_year:
+            return {
+                'message': 'Please specify a start and end year for which you want to perform the calculations!'
+            }
 
         start_image = self.tree_canopy(get_image=True, year=start_year)
         end_image = self.tree_canopy(get_image=True, year=end_year)
 
         change_image = end_image.subtract(start_image)
-        change_image = change_image.updateMask(change_image)
+        change_image = change_image.updateMask(change_image).clip(self.geometry)
+
+        if get_image:
+            return change_image
 
         diff = int(end_year) - int(start_year)
         if (diff <= 5):
@@ -167,7 +195,7 @@ class GEEApi():
             min = '-50'
             max = '50'
 
-        map_id = change_image.clip(self.geometry).getMapId({
+        map_id = change_image.getMapId({
             'min': min,
             'max': max,
             'palette': 'FF0000, FFFF00, 00FF00'
@@ -177,3 +205,32 @@ class GEEApi():
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
+
+    # -------------------------------------------------------------------------
+    def get_download_url(self, type, start_year, end_year):
+
+        if (type == 'treeCanopy'):
+            image = self.tree_canopy(get_image=True, year=start_year)
+        elif (type == 'treeHeight'):
+            image = self.tree_canopy(get_image=True, year=start_year)
+        elif (type == 'forestGain'):
+            image = self.forest_gain(get_image=True,
+                                     start_year=start_year,
+                                     end_year=end_year)
+        elif (type == 'forestLoss'):
+            image = self.forest_loss(get_image=True,
+                                     start_year=start_year,
+                                     end_year=end_year)
+        elif (type == 'forestChange'):
+            image = self.forest_change(get_image=True,
+                                       start_year=start_year,
+                                       end_year=end_year)
+
+        try:
+            url = image.getDownloadURL({
+                'name': type,
+                'scale': 30
+            })
+            return {'downloadUrl': url}
+        except Exception as e:
+            return {'error': e.message}
