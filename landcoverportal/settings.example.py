@@ -181,7 +181,7 @@ CMS_LANGUAGES = {
 
 CMS_TEMPLATES = (
     ## Customize this
-    ('footer.html', 'Footer'),
+    ('method.html', 'Method'),
 )
 
 CMS_PERMISSION = True

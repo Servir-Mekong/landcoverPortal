@@ -7,7 +7,7 @@ angular.module('landcoverportal').constant('appSettings', {
 		},
 		{
 			'name': 'Methods',
-			'url': '#',
+			'url': '/method/',
 			'show': true
 		},
 		{

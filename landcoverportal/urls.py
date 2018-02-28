@@ -24,6 +24,7 @@ urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),  # NOQA
     url(r'^$', TemplateView.as_view(template_name="home.html")),
     url(r'^home/', TemplateView.as_view(template_name="home.html")),
+    url(r'^method/', TemplateView.as_view(template_name="method.html")),
     url(r'', include('forest_monitor.urls')),
     url(r'^', include('cms.urls')),
 )
