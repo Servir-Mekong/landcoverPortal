@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from landcoverportal import config
+from utils import get_unique_string, transfer_files_to_user_drive
 
 import ee, json, os, time
+
 
 # -----------------------------------------------------------------------------
 class GEEApi():
@@ -11,12 +12,12 @@ class GEEApi():
 
     def __init__(self, area_path, area_name, shape, geom, radius, center):
 
-        ee.Initialize(config.EE_CREDENTIALS)
-        self.TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection(config.EE_FMS_TREE_HEIGHT_ID)
-        self.TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection(config.EE_FMS_TREE_CANOPY_ID)
-        self.FEATURE_COLLECTION = ee.FeatureCollection(config.EE_MEKONG_FEATURE_COLLECTION_ID)
+        ee.Initialize(settings.EE_CREDENTIALS)
+        self.TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection(settings.EE_FMS_TREE_HEIGHT_ID)
+        self.TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection(settings.EE_FMS_TREE_CANOPY_ID)
+        self.FEATURE_COLLECTION = ee.FeatureCollection(settings.EE_MEKONG_FEATURE_COLLECTION_ID)
         self.COUNTRIES_GEOM = self.FEATURE_COLLECTION.filter(\
-                    ee.Filter.inList('Country', config.COUNTRIES_NAME)).geometry()
+                    ee.Filter.inList('Country', settings.COUNTRIES_NAME)).geometry()
         self.geom = geom
         self.radius = radius
         self.center = center
@@ -212,7 +213,7 @@ class GEEApi():
         if (type == 'treeCanopy'):
             image = self.tree_canopy(get_image=True, year=start_year)
         elif (type == 'treeHeight'):
-            image = self.tree_canopy(get_image=True, year=start_year)
+            image = self.tree_height(get_image=True, year=start_year)
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image=True,
                                      start_year=start_year,
@@ -234,3 +235,66 @@ class GEEApi():
             return {'downloadUrl': url}
         except Exception as e:
             return {'error': e.message}
+
+    # -------------------------------------------------------------------------
+    def download_to_drive(self,
+                            type,
+                            start_year,
+                            end_year,
+                            user_email,
+                            user_id,
+                            file_name,
+                            oauth2object):
+
+        if (type == 'treeCanopy'):
+            image = self.tree_canopy(get_image=True, year=start_year)
+        elif (type == 'treeHeight'):
+            image = self.tree_height(get_image=True, year=start_year)
+        elif (type == 'forestGain'):
+            image = self.forest_gain(get_image=True,
+                                     start_year=start_year,
+                                     end_year=end_year)
+        elif (type == 'forestLoss'):
+            image = self.forest_loss(get_image=True,
+                                     start_year=start_year,
+                                     end_year=end_year)
+        elif (type == 'forestChange'):
+            image = self.forest_change(get_image=True,
+                                       start_year=start_year,
+                                       end_year=end_year)
+
+        temp_file_name = get_unique_string()
+
+        if not file_name:
+            file_name = temp_file_name + ".tif"
+        else:
+            file_name = file_name + ".tif"
+
+        task = ee.batch.Export.image.toDrive(
+            image = image,
+            description = 'Export from SERVIR Mekong Team',
+            fileNamePrefix = temp_file_name,
+            scale = 30,
+            region = self.geometry.getInfo()['coordinates'],
+            skipEmptyTiles = True
+        )
+        task.start()
+
+        i = 1
+        while task.active():
+            print ("past %d seconds" % (i * settings.EE_TASK_POLL_FREQUENCY))
+            i += 1
+            time.sleep(settings.EE_TASK_POLL_FREQUENCY)
+        
+        # Make a copy (or copies) in the user's Drive if the task succeeded
+        state = task.status()['state']
+        if state == ee.batch.Task.State.COMPLETED:
+            try:
+                link = transfer_files_to_user_drive(temp_file_name, user_email, user_id, file_name, oauth2object)
+                return {'driveLink': link}
+            except Exception as e:
+                print (str(e))
+                return {'error': str(e)}
+        else:
+            print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
+            return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}

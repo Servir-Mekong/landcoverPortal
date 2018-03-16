@@ -10,6 +10,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.static import serve
 from django.views.generic import TemplateView
+from oauth2client.contrib.django_util.site import urls as oauth2_urls
 from forest_monitor import api
 
 admin.autodiscover()
@@ -17,6 +18,7 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
+    url(r'^oauth2/', include(oauth2_urls)),
     url(r'^forest-monitor/api/$', api.api),
 ]
 

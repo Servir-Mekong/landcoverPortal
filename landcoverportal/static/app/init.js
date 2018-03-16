@@ -8,7 +8,7 @@
 	});
 	
 	// All the dependencies come here
-	angular.module('landcoverportal', [], function ($interpolateProvider) {
+	angular.module('landcoverportal', ['ngSanitize'], function ($interpolateProvider) {
 		$interpolateProvider.startSymbol('[[');
 		$interpolateProvider.endSymbol(']]');
 	})

@@ -5,14 +5,13 @@ Django settings for landcoverportal project.
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+import ee, oauth2client, os
 
 gettext = lambda s: s
 
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -35,6 +34,15 @@ ROOT_URLCONF = 'landcoverportal.urls'
 
 WSGI_APPLICATION = 'landcoverportal.wsgi.application'
 
+# Celery
+
+CELERY_BROKER_URL = 'amqp://localhost'
+
+CELERY_RESULT_BACKEND = 'amqp'
+
+CELERY_ACCEPT_CONTENT = ['pickle']
+
+USE_CELERY = False
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -153,7 +161,10 @@ INSTALLED_APPS = (
     'djangocms_googlemap',
     'djangocms_video',
     'landcoverportal',
-    'forest_monitor'
+    'forest_monitor',
+    # Google Oauth
+    'django.contrib.sessions.middleware',
+    'oauth2client.contrib.django_util'
 )
 
 LANGUAGES = (
@@ -198,3 +209,44 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters'
 )
+
+# GEE authentication
+# The service account email address authorized by your Google contact.
+EE_ACCOUNT = '<your-ee-account>'
+# The private key associated with your service account in Privacy Enhanced
+# Email format (deprecated version .pem suffix, new version .json suffix).
+EE_PRIVATE_KEY_FILE = os.path.join(BASE_DIR, 'credentials/privatekey.json')
+
+# Service account scope for GEE
+
+GOOGLE_EARTH_SCOPES = (
+    'https://www.googleapis.com/auth/earthengine',
+)
+
+GOOGLE_OAUTH2_SCOPES = ('https://www.googleapis.com/auth/drive',
+                        'profile',
+                        'email',
+                        )
+
+EE_CREDENTIALS = ee.ServiceAccountCredentials(EE_ACCOUNT,
+                                              EE_PRIVATE_KEY_FILE,
+                                              GOOGLE_EARTH_SCOPES)
+
+# Frequency to poll for export EE task completion (seconds)
+EE_TASK_POLL_FREQUENCY = 10
+
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'credentials/client_secret.json')
+
+GOOGLE_OAUTH2_CREDENTIALS = oauth2client.service_account.ServiceAccountCredentials.\
+                            from_json_keyfile_name(EE_PRIVATE_KEY_FILE,
+                                                   ['https://www.googleapis.com/auth/drive',
+                                                    ])
+
+# Filter Image Collection
+EE_FMS_TREE_HEIGHT_ID = 'projects/servir-mekong/Primitives/P_tree_height'
+EE_FMS_TREE_CANOPY_ID = 'projects/servir-mekong/Primitives/P_canopy'
+
+EE_MEKONG_FEATURE_COLLECTION_ID = 'ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw'
+
+# Other Settings
+COUNTRIES_NAME = ['Myanmar (Burma)', 'Thailand', 'Laos', 'Vietnam', 'Cambodia']

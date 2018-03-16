@@ -17,7 +17,7 @@
 		$httpProvider.defaults.xsrfCookieName = 'csrftoken';
   		$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	}])
-	.controller('forestMonitorCtrl', function ($scope, appSettings, ForestMonitorService) {
+	.controller('forestMonitorCtrl', function ($scope, $sanitize, appSettings, ForestMonitorService) {
 
 		// Setting variables
 		$scope.areaIndexSelectors = appSettings.areaIndexSelectors;
@@ -259,6 +259,40 @@
 			    	showErrorAlert(error.message);
 			        console.log(error);
 			    });
+			}
+		};
+
+		$scope.showGDriveFileName = function (type, startYear, endYear, requireBoth) {
+			var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
+			if (verified) {
+				$scope['show' + type.capitalize() + 'GDriveFileName'] = true;
+			}
+		};
+
+		$scope.hideGDriveFileName = function (type) {
+			$scope['show' + type.capitalize() + 'GDriveFileName'] = false;
+		};
+
+		$scope.saveToDrive = function (type, startYear, endYear, requireBoth) {
+			var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
+			if (verified) {
+				// Check if filename is provided, if not use the default one
+				var fileName =  $sanitize($('#' + type + 'GDriveFileName').val() || '');
+				showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
+				ForestMonitorService.saveToDrive(type, $scope.shape, $scope.areaSelectFrom, $scope.areaName, startYear, endYear, fileName)
+			    .then(function (data) {
+			    	if (data.error) {
+				    	showErrorAlert(data.error);
+				        console.log(data.error);
+			    	} else {
+						showInfoAlert(data.info);
+				    	$scope.hideGDriveFileName(type);
+				    	$('#' + type + 'GDriveFileName').val('');
+			    	}
+			    }, function (error) {
+			    	showErrorAlert(error);
+			        console.log(error);
+			    });		
 			}
 		};
 

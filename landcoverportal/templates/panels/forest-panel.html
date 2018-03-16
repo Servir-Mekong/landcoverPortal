@@ -31,9 +31,9 @@
                                 <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
                                     Get Download URL
                                 </button>
-                                <!--<button type="button" class="btn btn-info" href="" ng-click="downloadMap()">
+                                <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
                                     Download to GDrive
-                                </button>-->
+                                </button>
                             </div>
                         </div>
                         <div class="input-group" ng-show="showTreeCanopyDownloadURL" style="margin: 10px;">
@@ -50,10 +50,10 @@
                             </span>
                         </div>
                         <div class="input-group" ng-show="showTreeCanopyGDriveFileName" style="margin: 10px;">
-                            <input type="text" id="gdrive-file-name" placeholder="Enter Filename for GDrive!" class="form-control">
+                            <input type="text" id="treeCanopyGDriveFileName" placeholder="Enter Filename!" class="form-control">
                             <span class="input-group-btn">
                                 <button type="button"
-                                        ng-click="saveToDrive()"
+                                        ng-click="saveToDrive('treeCanopy', treeCanopyYear)"
                                         class="btn btn-primary"
                                         style="height: 34px;margin-bottom: 14px;">
                                     Start Download
@@ -80,9 +80,9 @@
                                 <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeHeight', treeHeightYear)">
                                     Get Download URL
                                 </button>
-                                <!--<button type="button" class="btn btn-info" href="" ng-click="downloadMap()">
+                                <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
                                     Download to GDrive
-                                </button>-->
+                                </button>
                             </div>
                         </div>
                         <div class="input-group" ng-show="showTreeHeightDownloadURL" style="margin: 10px;">
@@ -99,10 +99,10 @@
                             </span>
                         </div>
                         <div class="input-group" ng-show="showTreeHeightGDriveFileName" style="margin: 10px;">
-                            <input type="text" id="gdrive-file-name" placeholder="Enter Filename for GDrive!" class="form-control">
+                            <input type="text" id="treeHeightGDriveFileName" placeholder="Enter Filename!" class="form-control">
                             <span class="input-group-btn">
                                 <button type="button"
-                                        ng-click="saveToDrive()"
+                                        ng-click="saveToDrive('treeHeight', treeHeightYear)"
                                         class="btn btn-primary"
                                         style="height: 34px;margin-bottom: 14px;">
                                     Start Download
@@ -151,9 +151,9 @@
                                 <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                     Get Download URL
                                 </button>
-                                <!--<button type="button" class="btn btn-info" href="" ng-click="downloadMap()">
+                                <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                     Download to GDrive
-                                </button>-->
+                                </button>
                             </div>
                         </div>
                         <div class="input-group" ng-show="showForestGainDownloadURL" style="margin: 10px;">
@@ -170,10 +170,10 @@
                             </span>
                         </div>
                         <div class="input-group" ng-show="showForestGainGDriveFileName" style="margin: 10px;">
-                            <input type="text" id="gdrive-file-name" placeholder="Enter Filename for GDrive!" class="form-control">
+                            <input type="text" id="forestGainGDriveFileName" placeholder="Enter Filename!" class="form-control">
                             <span class="input-group-btn">
                                 <button type="button"
-                                        ng-click="saveToDrive()"
+                                        ng-click="saveToDrive('forestGain', forestGainStartYear, forestGainEndYear, true)"
                                         class="btn btn-primary"
                                         style="height: 34px;margin-bottom: 14px;">
                                     Start Download
@@ -214,9 +214,9 @@
                                 <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                     Get Download URL
                                 </button>
-                                <!--<button type="button" class="btn btn-info" href="" ng-click="downloadMap()">
+                                <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                     Download to GDrive
-                                </button>-->
+                                </button>
                             </div>
                         </div>
                         <div class="input-group" ng-show="showForestLossDownloadURL" style="margin: 10px;">
@@ -233,10 +233,10 @@
                             </span>
                         </div>
                         <div class="input-group" ng-show="showForestLossGDriveFileName" style="margin: 10px;">
-                            <input type="text" id="gdrive-file-name" placeholder="Enter Filename for GDrive!" class="form-control">
+                            <input type="text" id="forestLossGDriveFileName" placeholder="Enter Filename!" class="form-control">
                             <span class="input-group-btn">
                                 <button type="button"
-                                        ng-click="saveToDrive()"
+                                        ng-click="saveToDrive('forestLoss', forestLossStartYear, forestLossEndYear, true)"
                                         class="btn btn-primary"
                                         style="height: 34px;margin-bottom: 14px;">
                                     Start Download
@@ -277,9 +277,9 @@
                                 <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestChange', forestChangeStartYear, forestChangeEndYear, true)">
                                     Get Download URL
                                 </button>
-                                <!--<button type="button" class="btn btn-info" href="" ng-click="downloadMap()">
+                                <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestChange', forestChangeStartYear, forestChangeEndYear, true)">
                                     Download to GDrive
-                                </button>-->
+                                </button>
                             </div>
                         </div>
                         <div class="input-group" ng-show="showForestChangeDownloadURL" style="margin: 10px;">
@@ -296,10 +296,10 @@
                             </span>
                         </div>
                         <div class="input-group" ng-show="showForestChangeGDriveFileName" style="margin: 10px;">
-                            <input type="text" id="gdrive-file-name" placeholder="Enter Filename for GDrive!" class="form-control">
+                            <input type="text" id="forestChangeGDriveFileName" placeholder="Enter Filename for GDrive!" class="form-control">
                             <span class="input-group-btn">
                                 <button type="button"
-                                        ng-click="saveToDrive()"
+                                        ng-click="saveToDrive('forestChange', forestChangeStartYear, forestChangeEndYear, true)"
                                         class="btn btn-primary"
                                         style="height: 34px;margin-bottom: 14px;">
                                     Start Download
