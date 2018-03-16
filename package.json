@@ -8,7 +8,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/Servir-Mekong/landcoverPortal/tree/lcp-django"
 	},
 	"dependencies": {
 		"bower": "^1.4.1",

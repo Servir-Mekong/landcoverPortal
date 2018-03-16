@@ -106,6 +106,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'sekizai.context_processors.sekizai',
                 'django.template.context_processors.static',
+                'landcoverportal.context_processor.variable_settings',
                 'cms.context_processors.cms_settings'
             ],
             'loaders': [
