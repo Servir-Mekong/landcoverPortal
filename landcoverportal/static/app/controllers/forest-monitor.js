@@ -250,7 +250,14 @@
 			var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
 			if (verified) {
 				showInfoAlert('Preparing Download Link...');
-				ForestMonitorService.getDownloadURL(type, $scope.shape, $scope.areaSelectFrom, $scope.areaName, startYear, endYear)
+				ForestMonitorService.getDownloadURL(type,
+													$scope.shape,
+													$scope.areaSelectFrom,
+													$scope.areaName,
+													startYear,
+													endYear,
+													$scope.treeCanopyDefinition,
+													$scope.treeHeightDefinition)
 			    .then(function (data) {
 					showSuccessAlert('Your Download Link is ready!');
 			    	$scope[type + 'DownloadURL'] = data.downloadUrl;
@@ -279,7 +286,15 @@
 				// Check if filename is provided, if not use the default one
 				var fileName =  $sanitize($('#' + type + 'GDriveFileName').val() || '');
 				showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-				ForestMonitorService.saveToDrive(type, $scope.shape, $scope.areaSelectFrom, $scope.areaName, startYear, endYear, fileName)
+				ForestMonitorService.saveToDrive(type,
+												 $scope.shape,
+												 $scope.areaSelectFrom,
+												 $scope.areaName,
+												 startYear,
+												 endYear,
+												 fileName,
+												 $scope.treeCanopyDefinition,
+												 $scope.treeHeightDefinition)
 			    .then(function (data) {
 			    	if (data.error) {
 				    	showErrorAlert(data.error);
@@ -762,7 +777,13 @@
 				$scope.closeAlert();
 				$scope.showForestGainOpacitySlider = false;
 
-				ForestMonitorService.forestGain(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+				ForestMonitorService.forestGain(startYear,
+												endYear,
+												$scope.shape,
+												$scope.areaSelectFrom,
+												$scope.areaName,
+												$scope.treeCanopyDefinition,
+												$scope.treeHeightDefinition)
 			    .then(function (data) {
 			    	removeShownGeoJson();
 			    	loadMap(data.eeMapId, data.eeMapToken, name);
@@ -808,7 +829,13 @@
 				$scope.closeAlert();
 				$scope.showForestLossOpacitySlider = false;
 
-				ForestMonitorService.forestLoss(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+				ForestMonitorService.forestLoss(startYear,
+												endYear,
+												$scope.shape,
+												$scope.areaSelectFrom,
+												$scope.areaName,
+												$scope.treeCanopyDefinition,
+												$scope.treeHeightDefinition)
 			    .then(function (data) {
 			    	removeShownGeoJson();
 			    	loadMap(data.eeMapId, data.eeMapToken, name);
@@ -855,7 +882,13 @@
 				$scope.closeAlert();
 				$scope.showForestChangeOpacitySlider = false;
 
-				ForestMonitorService.forestChange(startYear, endYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+				ForestMonitorService.forestChange(startYear,
+												  endYear,
+												  $scope.shape,
+												  $scope.areaSelectFrom,
+												  $scope.areaName,
+												  $scope.treeCanopyDefinition,
+												  $scope.treeHeightDefinition)
 			    .then(function (data) {
 			    	removeShownGeoJson();
 			    	loadMap(data.eeMapId, data.eeMapToken, name);

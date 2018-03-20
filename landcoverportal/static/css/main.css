@@ -200,3 +200,10 @@ body { padding-top: 70px; }
 .margin-top {
 	margin-top: 25px;
 }
+
+.custom-form {
+    min-width: 0 !important;
+    width: 30% !important;
+    font-size: 20px;
+    font-weight: bold;
+}

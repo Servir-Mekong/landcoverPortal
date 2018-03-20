@@ -118,6 +118,28 @@
                     </a>
                 </li>
                 <ul class="sub-menu collapse" id="forestDynamics">
+                    <li><a href="#">Forest Definition</a>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="treeCanopyDefinition">
+                                    <h5>Tree canopy greater than (%)</h5>
+                                </label>
+                                <input type="number" class="form-control custom-form" id="treeCanopyDefinition" min="10" max="100" step="1" ng-init="treeCanopyDefinition=10" ng-model="treeCanopyDefinition">
+                            </div>
+                            <div class="form-group">
+                                <label for="treeHeightDefinition">
+                                    <h5>Tree height greater than (meters)</h5>
+                                </label>
+                                <input type="number" class="form-control custom-form" id="treeHeightDefinition" min="5" step="1" ng-init="treeHeightDefinition=5" ng-model="treeHeightDefinition">
+                            </div>
+                            <!--<div class="form-group">
+                                <label for="areaDefinition">
+                                    <h5>Area greater than (hectares)</h5>
+                                </label>
+                                <input type="number" class="form-control custom-form" id="areaDefinition" min="0.5" step="0.1" ng-init="areaDefinition=0.5" ng-model="areaDefinition">
+                            </div>-->
+                        </form>
+                    </li>
                     <li><a href="#">Forest Gain </a>
                         <div class="text-center">
                             <span>From </span>

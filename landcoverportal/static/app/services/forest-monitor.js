@@ -75,14 +75,16 @@
 			return promise;
 		};
 
-		this.forestGain = function (startYear, endYear, shape, areaSelectFrom, areaName) {
+		this.forestGain = function (startYear, endYear, shape, areaSelectFrom, areaName, treeCanopyDefinition, treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
 				url: '/forest-monitor/api/',
 				data: {
 					startYear: startYear,
-					endYear: endYear
+					endYear: endYear,
+					treeCanopyDefinition: treeCanopyDefinition,
+					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
 					action: 'forest-gain'
@@ -111,14 +113,16 @@
 			return promise;
 		};
 
-		this.forestLoss = function (startYear, endYear, shape, areaSelectFrom, areaName) {
+		this.forestLoss = function (startYear, endYear, shape, areaSelectFrom, areaName, treeCanopyDefinition, treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
 				url: '/forest-monitor/api/',
 				data: {
 					startYear: startYear,
-					endYear: endYear
+					endYear: endYear,
+					treeCanopyDefinition: treeCanopyDefinition,
+					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
 					action: 'forest-loss'
@@ -147,14 +151,16 @@
 			return promise;
 		};
 
-		this.forestChange = function (startYear, endYear, shape, areaSelectFrom, areaName) {
+		this.forestChange = function (startYear, endYear, shape, areaSelectFrom, areaName, treeCanopyDefinition, treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
 				url: '/forest-monitor/api/',
 				data: {
 					startYear: startYear,
-					endYear: endYear
+					endYear: endYear,
+					treeCanopyDefinition: treeCanopyDefinition,
+					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
 					action: 'forest-change'
@@ -183,7 +189,7 @@
 			return promise;
 		};
 
-		this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, startYear, endYear) {
+		this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, startYear, endYear, treeCanopyDefinition, treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
@@ -191,7 +197,9 @@
 				data: {
 					startYear: startYear,
 					endYear: endYear,
-					type: type
+					type: type,
+					treeCanopyDefinition: treeCanopyDefinition,
+					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
 					action: 'get-download-url'
@@ -220,7 +228,7 @@
 			return promise;
 		};
 
-		this.saveToDrive = function (type, shape, areaSelectFrom, areaName, startYear, endYear, fileName) {
+		this.saveToDrive = function (type, shape, areaSelectFrom, areaName, startYear, endYear, fileName, treeCanopyDefinition, treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
@@ -229,7 +237,9 @@
 					startYear: startYear,
 					endYear: endYear,
 					type: type,
-					fileName: fileName
+					fileName: fileName,
+					treeCanopyDefinition: treeCanopyDefinition,
+					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
 					action: 'download-to-drive'
