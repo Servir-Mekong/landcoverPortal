@@ -55,6 +55,12 @@
 		$scope.toolControlClass = 'glyphicon glyphicon-eye-open';
 		$scope.showTabContainer = true;
 		$scope.showLoader = false;
+		// Reporting element
+		$scope.showReportNoPolygon = true;
+		$scope.showReportTotalArea = false;
+		$scope.showReportTreeCanopy = false;
+		$scope.showReportForestGain = false;
+		$scope.showReportForestLoss = false;
 
 		$('.js-tooltip').tooltip();
 
@@ -440,7 +446,6 @@
 			$scope.clearDrawing();
 			var overlay = event.overlay;
 			$scope.overlays.polygon = overlay;
-			$scope.$apply();
 			$scope.shape = {};
 
 			var drawingType = event.type;
@@ -487,6 +492,12 @@
 
 			$scope.stopDrawing();
 			clearSelectedArea();
+			// Reporting Element
+			$scope.showReportNoPolygon = false;
+			$scope.reportTotalAreaValue = (Math.round(drawnArea * 100 * 100) / 100).toLocaleString() + ' ha';
+			$scope.showReportTotalArea = true;
+
+			$scope.$apply();
 		});
 
 		/**
@@ -693,8 +704,14 @@
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
 		    	treeCanopySlider.slider('setValue', 1);
 		    	$scope.showTreeCanopyOpacitySlider = true;
-		    	showSuccessAlert('Tree Canopy Cover for year ' + year + ' !');
 		    	$scope.showTreeCanopyDownloadButtons = true;
+		    	// Reporting Element
+		    	if (!$scope.showReportNoPolygon) {
+		    		$scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
+		    		$scope.reportTreeCanopyValue = '200 ha';
+		    		$scope.showReportTreeCanopy = true;
+		    	}
+		    	showSuccessAlert('Tree Canopy Cover for year ' + year + ' !');
 		    	$scope.showLoader = false;
 		    }, function (error) {
 		    	$scope.showLoader = false;
@@ -790,6 +807,12 @@
 			    	forestGainSlider.slider('setValue', 1);
 			    	$scope.showForestGainOpacitySlider = true;
 			    	$scope.showForestGainDownloadButtons = true;
+			    	// Reporting Element
+			    	if (!$scope.showReportNoPolygon) {
+			    		$scope.reportForestGainTitle = 'GAIN (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
+			    		$scope.reportForestGainValue = '200 ha';
+			    		$scope.showReportForestGain = true;
+			    	}
 			    	showSuccessAlert('Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
 			    	$scope.showLoader = false;
 			    }, function (error) {
@@ -842,6 +865,12 @@
 			    	forestLossSlider.slider('setValue', 1);
 			    	$scope.showForestLossOpacitySlider = true;
 			    	$scope.showForestLossDownloadButtons = true;
+			    	// Reporting Element
+			    	if (!$scope.showReportNoPolygon) {
+			    		$scope.reportForestLossTitle = 'LOSS (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
+			    		$scope.reportForestLossValue = '200 ha';
+			    		$scope.showReportForestLoss = true;
+			    	}
 			    	showSuccessAlert('Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
 			    	$scope.showLoader = false;
 			    }, function (error) {

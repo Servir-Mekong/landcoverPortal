@@ -34,6 +34,20 @@
 	margin-top: 15px;
 }
 
+.report-title {
+    color: #04c;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    display: block;
+}
+
+.report-detail {
+    font-weight: 500;
+    font-size: 18px;
+    display: inline-block;
+}
 /*
  * Map Tools
  */

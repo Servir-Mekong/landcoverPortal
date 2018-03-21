@@ -108,7 +108,31 @@
                             </div>
                         </div>
                         <div class="tab-pane fade in" id="report-tab">
-                            <h3>Coming Soon...</h3>
+                            <ul class="ul-no-bullets" style="margin-left: -30px;">
+                                <li ng-show="showReportNoPolygon">
+                                    <span class="report-title">No Polygon!</span>
+                                    <span class="report-detail">Draw a polygon to analyze</span>
+                                </li>
+                                <li ng-show="showReportTotalArea">
+                                    <span class="report-title">Total Selected Area</span>
+                                    <span class="report-detail">[[ reportTotalAreaValue ]]</span>
+                                </li>
+                                <br />
+                                <li ng-show="showReportTreeCanopy">
+                                    <span class="report-title">[[ reportTreeCanopyTitle ]]</span>
+                                    <span class="report-detail" style="color: #006400;">[[ reportTreeCanopyValue ]]</span>
+                                </li>
+                                <br />
+                                <li ng-show="showReportForestGain">
+                                    <span class="report-title">[[ reportForestGainTitle ]]</span>
+                                    <span class="report-detail" style="color: #6D6DE5;">[[ reportForestGainValue ]]</span>
+                                </li>
+                                <br />
+                                <li ng-show="showReportForestLoss">
+                                    <span class="report-title">[[ reportForestLossTitle ]]</span>
+                                    <span class="report-detail" style="color: #F69;">[[ reportForestLossValue ]]</span>
+                                </li>
+                            </ul>
                         </div>
                         <!--<div class="tab-pane fade in" id="download-tab"></div>-->
                     </div>
