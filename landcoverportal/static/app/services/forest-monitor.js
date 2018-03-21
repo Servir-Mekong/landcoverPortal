@@ -5,7 +5,7 @@
 	angular.module('landcoverportal')
 	.service('ForestMonitorService', function ($http, $q) {
 
-		this.treeCanopyChange = function (year, shape, areaSelectFrom, areaName) {
+		this.treeCanopyChange = function (year, shape, areaSelectFrom, areaName, reportArea) {
 
 			var req = {
 				method: 'POST',
@@ -14,7 +14,8 @@
 					year: year
 				},
 				params: {
-					action: 'tree-canopy'
+					action: 'tree-canopy',
+					'report-area': reportArea
 				}
 			};
 
@@ -75,7 +76,14 @@
 			return promise;
 		};
 
-		this.forestGain = function (startYear, endYear, shape, areaSelectFrom, areaName, treeCanopyDefinition, treeHeightDefinition) {
+		this.forestGain = function (startYear,
+									endYear,
+									shape,
+									areaSelectFrom,
+									areaName,
+									treeCanopyDefinition,
+									treeHeightDefinition,
+									reportArea) {
 
 			var req = {
 				method: 'POST',
@@ -87,7 +95,8 @@
 					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
-					action: 'forest-gain'
+					action: 'forest-gain',
+					'report-area': reportArea
 				}
 			};
 
@@ -113,7 +122,14 @@
 			return promise;
 		};
 
-		this.forestLoss = function (startYear, endYear, shape, areaSelectFrom, areaName, treeCanopyDefinition, treeHeightDefinition) {
+		this.forestLoss = function (startYear,
+									endYear,
+									shape,
+									areaSelectFrom,
+									areaName,
+									treeCanopyDefinition,
+									treeHeightDefinition,
+									reportArea) {
 
 			var req = {
 				method: 'POST',
@@ -125,7 +141,8 @@
 					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
-					action: 'forest-loss'
+					action: 'forest-loss',
+					'report-area': reportArea
 				}
 			};
 
@@ -151,7 +168,13 @@
 			return promise;
 		};
 
-		this.forestChange = function (startYear, endYear, shape, areaSelectFrom, areaName, treeCanopyDefinition, treeHeightDefinition) {
+		this.forestChange = function (startYear,
+									  endYear,
+									  shape,
+									  areaSelectFrom,
+									  areaName,
+									  treeCanopyDefinition,
+									  treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
@@ -189,7 +212,14 @@
 			return promise;
 		};
 
-		this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, startYear, endYear, treeCanopyDefinition, treeHeightDefinition) {
+		this.getDownloadURL = function (type,
+										shape,
+										areaSelectFrom,
+										areaName,
+										startYear,
+										endYear,
+										treeCanopyDefinition,
+										treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',
@@ -228,7 +258,15 @@
 			return promise;
 		};
 
-		this.saveToDrive = function (type, shape, areaSelectFrom, areaName, startYear, endYear, fileName, treeCanopyDefinition, treeHeightDefinition) {
+		this.saveToDrive = function (type,
+									 shape,
+									 areaSelectFrom,
+									 areaName,
+									 startYear,
+									 endYear,
+									 fileName,
+									 treeCanopyDefinition,
+									 treeHeightDefinition) {
 
 			var req = {
 				method: 'POST',

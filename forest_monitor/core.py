@@ -71,7 +71,12 @@ class GEEApi():
         return GEEApi.COUNTRIES_GEOM
 
     # -------------------------------------------------------------------------
-    def tree_canopy(self, img_coll=None, get_image=False, year=None):
+    def tree_canopy(self,
+                     img_coll = None,
+                     get_image = False,
+                     year = None,
+                     report_area = False,
+                     ):
 
         if not year:
             return {
@@ -93,10 +98,28 @@ class GEEApi():
             'palette': '000000, 00FF00'
         })
 
-        return {
+        data = {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
+
+        if report_area:
+            reducer = image.gt(0).reduceRegion(reducer = ee.Reducer.sum(),
+                                               geometry = self.geometry,
+                                               crs = 'EPSG:32647', # WGS Zone N 47
+                                               scale = 100,
+                                               maxPixels = 10**15
+                                               )
+            # converting to meter square by multiplying with scale value i.e. 100*100
+            # and then converting to hectare multiplying with 0.0001
+            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+            # meaning we can use the value directly as the hectare
+            try:
+                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
+            except Exception as e:
+                data['reportError'] = e.message
+
+        return data
 
     # -------------------------------------------------------------------------
     def tree_height(self, img_coll=None, get_image=False, year=None):
@@ -150,6 +173,7 @@ class GEEApi():
                      end_year = None,
                      define_tree_canopy = 10,
                      define_tree_height = 5,
+                     report_area = False,
                      ):
 
         if not start_year and end_year:
@@ -183,10 +207,29 @@ class GEEApi():
             'palette': '0000FF'
         })
 
-        return {
+        data = {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
+
+        if report_area:
+            reducer = gain_image.select('tcc').gt(0).reduceRegion(\
+                                                    reducer = ee.Reducer.sum(),
+                                                    geometry = self.geometry,
+                                                    crs = 'EPSG:32647', # WGS Zone N 47
+                                                    scale = 100,
+                                                    maxPixels = 10**15
+                                                    )
+            # converting to meter square by multiplying with scale value i.e. 100*100
+            # and then converting to hectare multiplying with 0.0001
+            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+            # meaning we can use the value directly as the hectare
+            try:
+                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
+            except Exception as e:
+                data['reportError'] = e.message
+
+        return data
 
     # -------------------------------------------------------------------------
     def forest_loss(self,
@@ -195,6 +238,7 @@ class GEEApi():
                      end_year = None,
                      define_tree_canopy = 10,
                      define_tree_height = 5,
+                     report_area = False,
                      ):
 
         if not start_year and end_year:
@@ -228,10 +272,29 @@ class GEEApi():
             'palette': 'FF0000'
         })
 
-        return {
+        data = {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
+
+        if report_area:
+            reducer = loss_image.select('tcc').gt(0).reduceRegion(\
+                                                    reducer = ee.Reducer.sum(),
+                                                    geometry = self.geometry,
+                                                    crs = 'EPSG:32647', # WGS Zone N 47
+                                                    scale = 100,
+                                                    maxPixels = 10**15
+                                                    )
+            # converting to meter square by multiplying with scale value i.e. 100*100
+            # and then converting to hectare multiplying with 0.0001
+            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+            # meaning we can use the value directly as the hectare
+            try:
+                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
+            except Exception as e:
+                data['reportError'] = e.message
+
+        return data
 
     # -------------------------------------------------------------------------
     def forest_change(self,

@@ -16,7 +16,8 @@ import time
 def api(request):
 
     post = json.loads(request.body).get
-    action = request.GET.get('action', '')
+    get = request.GET.get
+    action = get('action', '')
 
     if action:
         public_methods = ['tree-canopy',
@@ -40,13 +41,16 @@ def api(request):
             type = post('type', '')
             define_tree_canopy = post('treeCanopyDefinition', 10) # in percentage
             define_tree_height = post('treeHeightDefinition', 5) # in meters
+            report_area = True if get('report-area') == 'true' else False
             # sanitize
             # using older version of bleach to keep intact with the django cms
             file_name = bleach.clean(post('fileName', ''))
 
             core = GEEApi(area_path, area_name, shape, geom, radius, center)
             if action == 'tree-canopy':
-                data = core.tree_canopy(year=post('year', ''))
+                data = core.tree_canopy(year = post('year', ''),
+                                        report_area = report_area,
+                                        )
             elif action == 'tree-height':
                 data = core.tree_height(year=post('year', ''))
             elif action == 'forest-gain':
@@ -54,12 +58,14 @@ def api(request):
                                         end_year = end_year,
                                         define_tree_canopy = define_tree_canopy,
                                         define_tree_height = define_tree_height,
+                                        report_area = report_area,
                                         )
             elif action == 'forest-loss':
                 data = core.forest_loss(start_year = start_year,
                                         end_year = end_year,
                                         define_tree_canopy = define_tree_canopy,
                                         define_tree_height = define_tree_height,
+                                        report_area = report_area,
                                         )
             elif action == 'forest-change':
                 data = core.forest_change(start_year = start_year,
