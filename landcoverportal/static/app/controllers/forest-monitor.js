@@ -103,8 +103,27 @@
 		};
 
 		var clearSelectedArea = function () {
-			$scope.areaSelectFrom = null;
-			$scope.areaName = null;
+			$scope.areaSelectFrom = '';
+			$scope.areaIndexSelector = '';
+			$scope.areaName = '';
+			$scope.$apply();
+		};
+
+		var clearLayers = function (name) {
+
+			map.overlayMapTypes.forEach (function (layer, index) {
+				if (layer.name === name) {
+					map.overlayMapTypes.removeAt(index);
+				}
+			});
+		};
+
+		var clearDrawing = function () {
+
+			if ($scope.overlays.polygon) {
+				$scope.overlays.polygon.setMap(null);
+				$scope.showPolygonDrawing = false;				
+			}
 		};
 
 		/* Updates the image based on the current control panel config. */
@@ -163,17 +182,7 @@
 			return geom;
 		};
 
-		var clearLayers = function (name) {
-
-			map.overlayMapTypes.forEach (function (layer, index) {
-				if (layer.name === name) {
-					map.overlayMapTypes.removeAt(index);
-				}
-			});
-		};
-
 		var computeRectangleArea = function (bounds) {
-
 			if (!bounds) {
 				return 0;
 			}
@@ -341,6 +350,7 @@
 		$scope.loadAreaFromFile = function (name) {
 
 			removeShownGeoJson();
+			clearDrawing();
 
 			if (name) {
 				$scope.areaName = name;
@@ -353,17 +363,6 @@
 		          fillColor: 'red',
 		          strokeWeight: 2,
 		          clickable: false
-		        });
-
-		        map.data.addListener('addfeature', function (event) {
-		        	$scope.shownGeoJson = event.feature;
-		        	var bounds = new google.maps.LatLngBounds();
-		        	processPoints(event.feature.getGeometry(), bounds.extend, bounds);
-		        	map.fitBounds(bounds);
-		        });
-
-		        map.data.addListener('removefeature', function (event) {
-		        	$scope.shownGeoJson = null;
 		        });
 
 			} else {
@@ -391,6 +390,10 @@
 		 **/
 
 		var drawingManager = new google.maps.drawing.DrawingManager();
+
+		var stopDrawing = function () {
+			drawingManager.setDrawingMode(null);
+		};
 
 		var getDrawingManagerOptions = function (type) {
 		    var typeOptions;
@@ -427,20 +430,6 @@
 			
 		};
 
-		$scope.stopDrawing = function () {
-
-			drawingManager.setDrawingMode(null);
-			
-		};
-
-		$scope.clearDrawing = function () {
-
-			if ($scope.overlays.polygon) {
-				$scope.overlays.polygon.setMap(null);
-				$scope.showPolygonDrawing = false;				
-			}
-		};
-
 		var updateReportTotalArea = function () {
 			// Reporting Element
 			$scope.showReportNoPolygon = false;
@@ -449,10 +438,11 @@
 			$scope.$apply();
 		};
 
+		// Listeners
 		// Overlay Listener
 		google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
 			// Clear Layer First
-			$scope.clearDrawing();
+			clearDrawing();
 			var overlay = event.overlay;
 			$scope.overlays.polygon = overlay;
 			$scope.shape = {};
@@ -505,9 +495,120 @@
 				});
 			}
 
-			$scope.stopDrawing();
+			stopDrawing();
 			clearSelectedArea();
+			removeShownGeoJson();
 			updateReportTotalArea();
+		});
+
+		// Geojson listener
+        map.data.addListener('addfeature', function (event) {
+        	$scope.shownGeoJson = event.feature;
+        	var bounds = new google.maps.LatLngBounds();
+        	var _geometry = event.feature.getGeometry();
+        	processPoints(_geometry, bounds.extend, bounds);
+        	map.fitBounds(bounds);
+        	drawnArea = google.maps.geometry.spherical.computeArea(_geometry.getArray()[0].b) / 1e6;
+        	updateReportTotalArea();
+        });
+
+        map.data.addListener('removefeature', function (event) {
+        	$scope.shownGeoJson = null;
+        });
+
+		/**
+		 * Upload Area Button
+		 **/
+		var readFile = function () {
+
+			var files = event.target.files;
+			if (files.length > 1) {
+				showErrorAlert('upload one file at a time');
+				$scope.$apply();
+			} else {
+				removeShownGeoJson();
+
+				var file = files[0];
+				var reader = new FileReader();
+				reader.readAsText(file);
+
+				reader.onload = function () {
+
+					var textResult = event.target.result;
+					var addedGeoJson;
+
+					if ((['application/vnd.google-earth.kml+xml', 'application/vnd.google-earth.kmz'].indexOf(file.type) > -1) ) {
+
+						var kmlDoc;
+
+    					if (window.DOMParser) {
+        					var parser = new DOMParser();                
+        					kmlDoc = parser.parseFromString(textResult, 'text/xml');                
+    					} else { // Internet Explorer
+        					kmlDoc = new ActiveXObject('Microsoft.XMLDOM');
+        					kmlDoc.async = false;
+        					kmlDoc.loadXML(textResult);
+    					}
+    					addedGeoJson = toGeoJSON.kml(kmlDoc);
+					} else {
+						try {
+							addedGeoJson = JSON.parse(textResult);
+						} catch (e) {
+							showErrorAlert('we only accept kml, kmz and geojson');
+							$scope.$apply();
+						}
+					}
+
+					if (((addedGeoJson.features) && (addedGeoJson.features.length === 1)) || (addedGeoJson.type === 'Feature')) {
+
+						var geometry = addedGeoJson.features ? addedGeoJson.features[0].geometry: addedGeoJson.geometry;
+
+						if (geometry.type === 'Polygon') {
+
+					        map.data.addGeoJson(addedGeoJson);
+					        map.data.setStyle({
+					        	fillColor: 'red',
+					          	strokeWeight: 2,
+					          	clickable: false
+					        });
+
+					        // Convert to Polygon
+							var polygonArray = [];
+							var _coord = geometry.coordinates[0];
+
+        					for (var i = 0; i < _coord.length; i++) {
+        						var coordinatePair = [(_coord[i][0]).toFixed(2), (_coord[i][1]).toFixed(2)];
+            					polygonArray.push(coordinatePair);
+       						}
+
+       						if (polygonArray.length > 500) {
+       							showInfoAlert('Complex geometry will be simplified using the convex hull algorithm!');
+       							$scope.$apply();
+       						}
+
+       						clearSelectedArea();
+       						$scope.shape.type = 'polygon';
+       						$scope.shape.geom = polygonArray;
+						} else {
+							showErrorAlert('multigeometry and multipolygon not supported yet!');
+							$scope.$apply();
+						}
+					} else {
+						showErrorAlert('multigeometry and multipolygon not supported yet!');
+						$scope.$apply();
+					}
+				};
+			}
+		};
+
+		$('#file-input-container #file-input').change( function () {
+			$scope.showLoader = true;
+			$scope.$apply();
+			clearDrawing();
+			readFile();
+			$(this).remove();
+    		$("<input type='file' class='hide' id='file-input' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz'>").change(readFile).appendTo($('#file-input-container'));
+    		$scope.showLoader = false;
 		});
 
 		/**
@@ -541,7 +642,6 @@
 			controlUI.addEventListener('click', function() {
 			  	$scope.toggleToolControl();
 			});
-
 		}
 
 		var analysisToolControlDiv = document.getElementById('tool-control-container');
@@ -549,6 +649,7 @@
 		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
 		// KML Upload Tool Control
+		/*
 		var KMLUploadToolControl = function (controlDiv, map) {
 
 			// Set CSS for the control border.
@@ -560,107 +661,16 @@
 
 			// Setup the click event listeners
 			controlUI.addEventListener('click', function() {
-
-				$('#file-input').change( function () {
-					
-					var files = event.target.files;
-					if (files.length > 1) {
-						showErrorAlert('upload one file at a time');
-						$scope.$apply();
-					} else {
-						removeShownGeoJson();
-
-						var file = files[0];
-						var reader = new FileReader();
-						reader.readAsText(file);
-
-						reader.onloadend = function () {
-
-							var textResult = event.target.result;
-							var addedGeoJson;
-
-							if ((['application/vnd.google-earth.kml+xml', 'application/vnd.google-earth.kmz'].indexOf(file.type) > -1) ) {
-
-								var kmlDoc;
-
-	        					if (window.DOMParser) {
-	            					var parser = new DOMParser();                
-	            					kmlDoc = parser.parseFromString(textResult, 'text/xml');                
-	        					} else { // Internet Explorer
-	            					kmlDoc = new ActiveXObject('Microsoft.XMLDOM');
-	            					kmlDoc.async = false;
-	            					kmlDoc.loadXML(textResult);
-	        					}
-	        					addedGeoJson = toGeoJSON.kml(kmlDoc);
-							} else {
-								try {
-									addedGeoJson = JSON.parse(textResult);
-								} catch (e) {
-									showErrorAlert('we only accept kml, kmz and geojson');
-									$scope.$apply();
-								}
-							}
-
-							if (((addedGeoJson.features) && (addedGeoJson.features.length === 1)) || (addedGeoJson.type === 'Feature')) {
-
-								var geometry = addedGeoJson.features ? addedGeoJson.features[0].geometry: addedGeoJson.geometry;
-
-								if (geometry.type === 'Polygon') {
-
-							        map.data.addGeoJson(addedGeoJson);
-							        map.data.setStyle({
-							        	fillColor: 'red',
-							          	strokeWeight: 2,
-							          	clickable: false
-							        });
-
-							        map.data.addListener('addfeature', function (event) {
-							        	$scope.shownGeoJson = event.feature;
-							        });
-
-							        map.data.addListener('removefeature', function (event) {
-							        	$scope.shownGeoJson = null;
-							        	var bounds = new google.maps.LatLngBounds();
-							        	processPoints(event.feature.getGeometry(), bounds.extend, bounds);
-							        	map.fitBounds(bounds);
-							        });
-
-							        // Convert to Polygon
-									var polygonArray = [];
-									var _coord = geometry.coordinates[0];
-
-	            					for (var i = 0; i < _coord.length; i++) {
-	            						var coordinatePair = [(_coord[i][0]).toFixed(2), (_coord[i][1]).toFixed(2)];
-	                					polygonArray.push(coordinatePair);
-	           						}
-
-	           						if (polygonArray.length > 500) {
-	           							showInfoAlert('Complex geometry will be simplified using the convex hull algorithm!');
-	           							$scope.$apply();
-	           						}
-
-	           						clearSelectedArea();
-	           						$scope.shape.type = 'polygon';
-	           						$scope.shape.geom = polygonArray;
-								} else {
-									showErrorAlert('multigeometry and multipolygon not supported yet!');
-									$scope.$apply();
-								}
-							} else {
-								showErrorAlert('multigeometry and multipolygon not supported yet!');
-								$scope.$apply();
-							}
-						};
-					}
-
+				$('#file-input').change( function () {					
+					readFile();
 				});
-
 			});
 		};
 
 		var kmlUploadToolControlDiv = document.createElement('div');
 		var kmlUploadToolControl = new KMLUploadToolControl(kmlUploadToolControlDiv, map);
 		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(kmlUploadToolControlDiv);
+		*/
 
 		var datepickerOptions = {
 			autoclose: true,

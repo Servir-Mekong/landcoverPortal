@@ -86,6 +86,15 @@
                                             ng-click="drawShape('rectangle')">
                                         Draw Rectangle
                                     </button>
+                                    <p class="-center">or</p>
+                                    <label class="btn btn-primary btn-lg btn-block" id="file-input-container">
+                                        Upload Area
+                                        <!-- ToDo: Better info window -->
+                                        <br/>
+                                        <h6>(accepts kml, kmz and geojson)</h6>
+                                        <input type="file" class="hide" id="file-input"
+                                               accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
+                                    </label>
                                 </div>
                                 <div class="tab-pane fade in" id="admin-tab">
                                     <div class="form-group">
