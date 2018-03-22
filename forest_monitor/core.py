@@ -74,6 +74,7 @@ class GEEApi():
     def tree_canopy(self,
                      img_coll = None,
                      get_image = False,
+                     for_download = False,
                      year = None,
                      report_area = False,
                      ):
@@ -86,11 +87,17 @@ class GEEApi():
         if not img_coll:
             img_coll = GEEApi.TREE_CANOPY_IMG_COLLECTION
 
-        image = img_coll.filterMetadata('id', 'equals', 'tcc_' + str(year)).mean()
-        image = image.updateMask(image).clip(self.geometry)
+        image = img_coll.filterMetadata('system:index',
+                                        'equals',
+                                        'P_canopy_%s' % year).mosaic()
 
         if get_image:
-            return image
+            if for_download:
+                return image.updateMask(image).clip(self.geometry)
+            else:
+                return image.clip(self.geometry)
+
+        image = image.updateMask(image).clip(self.geometry)
 
         map_id = image.getMapId({
             'min': '0',
@@ -104,6 +111,7 @@ class GEEApi():
         }
 
         if report_area:
+            # @ToDo: Better estimate of crs using the geometry
             reducer = image.gt(0).reduceRegion(reducer = ee.Reducer.sum(),
                                                geometry = self.geometry,
                                                crs = 'EPSG:32647', # WGS Zone N 47
@@ -122,7 +130,12 @@ class GEEApi():
         return data
 
     # -------------------------------------------------------------------------
-    def tree_height(self, img_coll=None, get_image=False, year=None):
+    def tree_height(self,
+                    img_coll = None,
+                    get_image = False,
+                    for_download = False,
+                    year = None,
+                    ):
 
         if not year:
             return {
@@ -132,11 +145,17 @@ class GEEApi():
         if not img_coll:
             img_coll = GEEApi.TREE_HEIGHT_IMG_COLLECTION
 
-        image = img_coll.filterMetadata('id', 'equals', 'tch_' + str(year)).mean()
-        image = image.updateMask(image).clip(self.geometry)
+        image = img_coll.filterMetadata('system:index',
+                                        'equals',
+                                        'P_tree_height_%s' % year).mosaic()
 
         if get_image:
-            return image
+            if for_download:
+                return image.updateMask(image).clip(self.geometry)
+            else:
+                return image.clip(self.geometry)
+
+        image = image.updateMask(image).clip(self.geometry)
 
         map_id = image.getMapId({
             'min': '0',
@@ -157,14 +176,22 @@ class GEEApi():
 
         def addBands(year):
             tcc = GEEApi.TREE_CANOPY_IMG_COLLECTION.filterDate(\
-                                                date_ymd(year, 01, 01),
+                                                date_ymd(year, 1, 1),
                                                 date_ymd(year, 12, 31)).first()
             tch = GEEApi.TREE_HEIGHT_IMG_COLLECTION.filterDate(\
-                                                date_ymd(year, 01, 01),
+                                                date_ymd(year, 1, 1),
                                                 date_ymd(year, 12, 31)).first()
             return ee.Image(tcc).addBands(tch)
 
         return ee.ImageCollection.fromImages(years.map(addBands))
+
+    # -------------------------------------------------------------------------
+    @staticmethod
+    def _filter_for_forest_definition(img_coll, define_tree_canopy, define_tree_height):
+
+        return img_coll.map(lambda img: img.select('tcc').gt(define_tree_canopy).\
+                            And(img.select('tch').gt(define_tree_height)).
+                            rename(['forest_cover']))
 
     # -------------------------------------------------------------------------
     def forest_gain(self,
@@ -183,9 +210,9 @@ class GEEApi():
 
         combined_img_coll = GEEApi._get_combined_img_coll()
 
-        filtered_img_coll = combined_img_coll.map(\
-                                lambda img: img.mask(img.select('tcc').gt(define_tree_canopy)).\
-                                        updateMask(img.select('tch').gt(define_tree_height)))
+        filtered_img_coll = GEEApi._filter_for_forest_definition(combined_img_coll,
+                                                                 define_tree_canopy,
+                                                                 define_tree_height)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -198,13 +225,13 @@ class GEEApi():
                                      )
 
         gain_image = end_image.subtract(start_image).gt(0)
-        gain_image = gain_image.updateMask(gain_image).clip(self.geometry)
+        gain_image = gain_image.updateMask(gain_image).select('forest_cover').clip(self.geometry)
 
         if get_image:
-            return gain_image.select('tcc')
+            return gain_image
 
-        map_id = gain_image.select('tcc').getMapId({
-            'palette': '0000FF'
+        map_id = gain_image.getMapId({
+            'palette': 'blue'
         })
 
         data = {
@@ -213,19 +240,19 @@ class GEEApi():
         }
 
         if report_area:
-            reducer = gain_image.select('tcc').gt(0).reduceRegion(\
-                                                    reducer = ee.Reducer.sum(),
-                                                    geometry = self.geometry,
-                                                    crs = 'EPSG:32647', # WGS Zone N 47
-                                                    scale = 100,
-                                                    maxPixels = 10**15
-                                                    )
+            # @ToDo: Better estimate of crs using the geometry
+            reducer = gain_image.reduceRegion(reducer = ee.Reducer.sum(),
+                                              geometry = self.geometry,
+                                              crs = 'EPSG:32647', # WGS Zone N 47
+                                              scale = 100,
+                                              maxPixels = 10**15
+                                              )
             # converting to meter square by multiplying with scale value i.e. 100*100
             # and then converting to hectare multiplying with 0.0001
             #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
-                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
+                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
             except Exception as e:
                 data['reportError'] = e.message
 
@@ -248,9 +275,9 @@ class GEEApi():
 
         combined_img_coll = GEEApi._get_combined_img_coll()
 
-        filtered_img_coll = combined_img_coll.map(\
-                                lambda img: img.mask(img.select('tcc').gt(define_tree_canopy)).\
-                                        updateMask(img.select('tch').gt(define_tree_height)))
+        filtered_img_coll = GEEApi._filter_for_forest_definition(combined_img_coll,
+                                                                 define_tree_canopy,
+                                                                 define_tree_height)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -263,13 +290,13 @@ class GEEApi():
                                      )
 
         loss_image = end_image.subtract(start_image).lt(0)
-        loss_image = loss_image.updateMask(loss_image).clip(self.geometry)
+        loss_image = loss_image.updateMask(loss_image).select('forest_cover').clip(self.geometry)
 
         if get_image:
-            return loss_image.select('tcc')
+            return loss_image
 
-        map_id = loss_image.select('tcc').getMapId({
-            'palette': 'FF0000'
+        map_id = loss_image.getMapId({
+            'palette': 'red'
         })
 
         data = {
@@ -278,19 +305,19 @@ class GEEApi():
         }
 
         if report_area:
-            reducer = loss_image.select('tcc').gt(0).reduceRegion(\
-                                                    reducer = ee.Reducer.sum(),
-                                                    geometry = self.geometry,
-                                                    crs = 'EPSG:32647', # WGS Zone N 47
-                                                    scale = 100,
-                                                    maxPixels = 10**15
-                                                    )
+            # @ToDo: Better estimate of crs using the geometry
+            reducer = loss_image.reduceRegion(reducer = ee.Reducer.sum(),
+                                              geometry = self.geometry,
+                                              crs = 'EPSG:32647', # WGS Zone N 47
+                                              scale = 100,
+                                              maxPixels = 10**15
+                                              )
             # converting to meter square by multiplying with scale value i.e. 100*100
             # and then converting to hectare multiplying with 0.0001
             #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
-                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
+                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
             except Exception as e:
                 data['reportError'] = e.message
 
@@ -312,9 +339,9 @@ class GEEApi():
 
         combined_img_coll = GEEApi._get_combined_img_coll()
 
-        filtered_img_coll = combined_img_coll.map(\
-                                lambda img: img.mask(img.select('tcc').gt(define_tree_canopy)).\
-                                        updateMask(img.select('tch').gt(define_tree_height)))
+        filtered_img_coll = GEEApi._filter_for_forest_definition(combined_img_coll,
+                                                                 define_tree_canopy,
+                                                                 define_tree_height)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -327,10 +354,10 @@ class GEEApi():
                                      )
 
         change_image = end_image.subtract(start_image)
-        change_image = change_image.updateMask(change_image).clip(self.geometry)
+        change_image = change_image.updateMask(change_image).select('forest_cover').clip(self.geometry)
 
         if get_image:
-            return change_image.select('tcc')
+            return change_image
 
         diff = int(end_year) - int(start_year)
         if (diff <= 5):
@@ -343,7 +370,7 @@ class GEEApi():
             min = '-50'
             max = '50'
 
-        map_id = change_image.select('tcc').getMapId({
+        map_id = change_image.getMapId({
             'min': min,
             'max': max,
             'palette': 'FF0000, FFFF00, 00FF00'
@@ -364,9 +391,13 @@ class GEEApi():
                            ):
 
         if (type == 'treeCanopy'):
-            image = self.tree_canopy(get_image=True, year=start_year)
+            image = self.tree_canopy(get_image = True,
+                                     for_download = True,
+                                     year = start_year)
         elif (type == 'treeHeight'):
-            image = self.tree_height(get_image=True, year=start_year)
+            image = self.tree_height(get_image = True,
+                                     for_download = True,
+                                     year = start_year)
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,
@@ -412,9 +443,13 @@ class GEEApi():
                             ):
 
         if (type == 'treeCanopy'):
-            image = self.tree_canopy(get_image=True, year=start_year)
+            image = self.tree_canopy(get_image = True,
+                                     for_download = True,
+                                     year = start_year)
         elif (type == 'treeHeight'):
-            image = self.tree_height(get_image=True, year=start_year)
+            image = self.tree_height(get_image = True,
+                                     for_download = True,
+                                     year = start_year)
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,

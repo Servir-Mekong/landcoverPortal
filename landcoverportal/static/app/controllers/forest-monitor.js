@@ -42,7 +42,8 @@
 		        fullscreenControl: true,
 		        fullscreenControlOptions: {
 		        	position: google.maps.ControlPosition.TOP_LEFT
-		        }
+		        },
+		        mapTypeId: 'hybrid'
 			},
 			// Map variable
 			map = new google.maps.Map(document.getElementById('map'), mapOptions),
