@@ -1,0 +1,52 @@
+<div class="nav-side-menu">
+    <!-- Tab Container -->
+    <div id="sidebar-tab">
+        <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+            <div class="btn-group" role="group">
+                <button type="button" id="area" class="btn btn-primary js-tooltip" href="#land-cover-classes-tab" data-toggle="tab" title="View Land Cover Classes" data-placement="bottom">
+                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                    <div class="hidden-xs">Land Cover Map</div>
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" id="report" class="btn btn-default js-tooltip" href="#primitive-tab" data-toggle="tab" title="View Primitives" data-placement="bottom">
+                    <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+                    <div class="hidden-xs">Primitives</div>
+                </button>
+            </div>
+        </div>
+
+        <div class="well tab-tool-content">
+            <div class="tab-content">
+
+                <div class="tab-pane fade active in" id="land-cover-classes-tab">
+
+                    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
+                        <div class="col-md-2 lcp-class-color" style="background: [[ class.color ]]"></div>
+                        <div class="col-md-3 [[ class.labelClass ]]">
+                            <h5><b>[[ class.name ]]</b></h5>
+                        </div>
+                        <div class="col-md-1" style="margin-top: 15px;">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="font-size: 20px;"></span>
+                        </div>
+                        <div class="col-md-1" style="margin-top: 15px;">
+                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true" style="font-size: 20px;"></span>
+                        </div>
+                        <div class="col-md-4" style="margin-top: 15px;">
+                            <input name="[[class.value]]-opacity-slider"
+                                   id="[[class.value]]-opacity-slider"
+                                   data-slider-id="[[class.value]]-opacity-slider" type="text"
+                                   data-slider-min="0"
+                                   data-slider-max="1"
+                                   data-slider-step="0.1"
+                                   style="width: 100%; width: -moz-available; width: -webkit-fill-available; width: fill-available;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="primitive-tab">
+                </div>
+            </div>
+        </div>
+        
+    </div><!-- end of tab -->
+</div>

@@ -1,0 +1,24 @@
+.lcp-class-color {
+  	width: 35px;
+  	height: 35px;
+  	margin: 10px 5px 5px 15px;
+  	border: 1px solid rgba(0, 0, 0, .2);
+  	border-radius: 5px;
+}
+
+.lcp-class-container {
+	/* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+    color: black;
+    /* padding: 3px; */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.lcp-class-label-single-line {
+	margin-top: 10px;
+}
+
+.lcp-class-label-multi-line {
+	margin-top: 3px;
+}

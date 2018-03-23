@@ -2,14 +2,14 @@
 {% load cms_tags staticfiles %}
 
 {% block navigation_container%}
-    {% include "navigation-forest.html" %}
+    {% include "navigation-landcover.html" %}
 {% endblock navigation_container %}
 
 {% block main_container %}
     
     <div class="container-fluid">
 
-        <div class="row" ng-controller="forestMonitorCtrl">
+        <div class="row" ng-controller="landCoverCtrl">
 
             <!-- Alert Container -->
             <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
@@ -24,7 +24,7 @@
 
             <!-- Sidebar Container -->
             <div class="col-md-3 col-lg-3">
-                {% include "panels/forest-panel.html" %}
+                {% include "panels/landcover-panel.html" %}
             </div>
 
             <!-- Map Container -->
@@ -32,7 +32,7 @@
 
             <!-- Toogle button container -->
             <div id="tool-control-container"></div>
-            
+
             <!-- Tab Container -->
             <div class="tab-tool" ng-show="showTabContainer">
                 <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
@@ -47,11 +47,6 @@
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
                     </div>
-                    <!--<div class="btn-group" role="group">
-                        <button type="button" id="download" class="btn btn-default js-tooltip" href="#download-tab" data-toggle="tab" title="Download">
-                            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
-                        </button>
-                    </div>-->
                 </div>
 
                 <div class="well tab-tool-content">
@@ -117,33 +112,8 @@
                             </div>
                         </div>
                         <div class="tab-pane fade in" id="report-tab">
-                            <ul class="ul-no-bullets" style="margin-left: -30px;">
-                                <li ng-show="showReportNoPolygon">
-                                    <span class="report-title">No Polygon!</span>
-                                    <span class="report-detail">Draw a polygon to analyze</span>
-                                </li>
-                                <li ng-show="showReportTotalArea">
-                                    <span class="report-title">Total Selected Area</span>
-                                    <span class="report-detail">[[ reportTotalAreaValue ]]</span>
-                                </li>
-                                <br />
-                                <li ng-show="showReportTreeCanopy">
-                                    <span class="report-title">[[ reportTreeCanopyTitle ]]</span>
-                                    <span class="report-detail" style="color: #006400;">[[ reportTreeCanopyValue ]]</span>
-                                </li>
-                                <br />
-                                <li ng-show="showReportForestGain">
-                                    <span class="report-title">[[ reportForestGainTitle ]]</span>
-                                    <span class="report-detail" style="color: #6D6DE5;">[[ reportForestGainValue ]]</span>
-                                </li>
-                                <br />
-                                <li ng-show="showReportForestLoss">
-                                    <span class="report-title">[[ reportForestLossTitle ]]</span>
-                                    <span class="report-detail" style="color: #F69;">[[ reportForestLossValue ]]</span>
-                                </li>
-                            </ul>
+                            <h3>Information will be updated soon!</h3>
                         </div>
-                        <!--<div class="tab-pane fade in" id="download-tab"></div>-->
                     </div>
                 </div>
                 
