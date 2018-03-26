@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from core import GEEApi
+from core import ForestMonitor
 from django.conf import settings
 from django.http import JsonResponse
 from datetime import datetime
@@ -46,7 +46,7 @@ def api(request):
             # using older version of bleach to keep intact with the django cms
             file_name = bleach.clean(post('fileName', ''))
 
-            core = GEEApi(area_path, area_name, shape, geom, radius, center)
+            core = ForestMonitor(area_path, area_name, shape, geom, radius, center)
             if action == 'tree-canopy':
                 data = core.tree_canopy(year = post('year', ''),
                                         report_area = report_area,

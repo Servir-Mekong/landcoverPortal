@@ -3,19 +3,19 @@
 from __future__ import absolute_import
 
 from celery import shared_task
-from .core import GEEApi
+from .core import ForestMonitor
 from oauth2client.client import OAuth2Credentials
 
 @shared_task
 def export_to_drive_task(**kwargs):
 
-    core = GEEApi(kwargs['area_path'],
-                  kwargs['area_name'],
-                  kwargs['shape'],
-                  kwargs['geom'],
-                  kwargs['radius'],
-                  kwargs['center'],
-                  )
+    core = ForestMonitor(kwargs['area_path'],
+                         kwargs['area_name'],
+                         kwargs['shape'],
+                         kwargs['geom'],
+                         kwargs['radius'],
+                         kwargs['center'],
+                         )
 
     oauth2object = OAuth2Credentials(kwargs['access_token'],
                                      kwargs['client_id'],

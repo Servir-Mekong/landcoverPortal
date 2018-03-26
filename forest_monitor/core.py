@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from utils import get_unique_string, transfer_files_to_user_drive
+from utils.utils import get_unique_string, transfer_files_to_user_drive
 
 import ee, json, os, time
 
 # -----------------------------------------------------------------------------
-class GEEApi():
+class ForestMonitor():
     """
         Google Earth Engine API
     """
 
     ee.Initialize(settings.EE_CREDENTIALS)
-    TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection(settings.EE_FMS_TREE_HEIGHT_ID)
-    TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection(settings.EE_FMS_TREE_CANOPY_ID)
-    FEATURE_COLLECTION = ee.FeatureCollection(settings.EE_MEKONG_FEATURE_COLLECTION_ID)
-    COUNTRIES_GEOM = FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
+    TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
+    TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
+    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
                                                settings.COUNTRIES_NAME)).geometry()
 
     def __init__(self, area_path, area_name, shape, geom, radius, center):
@@ -27,7 +27,7 @@ class GEEApi():
             if (area_path == 'country'):
                 if (area_name == 'Myanmar'):
                     area_name = 'Myanmar (Burma)'
-                self.geometry = GEEApi.FEATURE_COLLECTION.filter(\
+                self.geometry = ForestMonitor.FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
                 if settings.DEBUG:
@@ -45,7 +45,7 @@ class GEEApi():
                     feature = ee.Feature(json.load(f))
                     self.geometry = feature.geometry()
             else:
-                self.geometry = GEEApi.COUNTRIES_GEOM
+                self.geometry = ForestMonitor.COUNTRIES_GEOM
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -68,7 +68,7 @@ class GEEApi():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return GEEApi.COUNTRIES_GEOM
+        return ForestMonitor.COUNTRIES_GEOM
 
     # -------------------------------------------------------------------------
     def tree_canopy(self,
@@ -85,7 +85,7 @@ class GEEApi():
             }
 
         if not img_coll:
-            img_coll = GEEApi.TREE_CANOPY_IMG_COLLECTION
+            img_coll = ForestMonitor.TREE_CANOPY_IMG_COLLECTION
 
         image = img_coll.filterMetadata('system:index',
                                         'equals',
@@ -143,7 +143,7 @@ class GEEApi():
             }
 
         if not img_coll:
-            img_coll = GEEApi.TREE_HEIGHT_IMG_COLLECTION
+            img_coll = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION
 
         image = img_coll.filterMetadata('system:index',
                                         'equals',
@@ -175,10 +175,10 @@ class GEEApi():
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
-            tcc = GEEApi.TREE_CANOPY_IMG_COLLECTION.filterDate(\
+            tcc = ForestMonitor.TREE_CANOPY_IMG_COLLECTION.filterDate(\
                                                 date_ymd(year, 1, 1),
                                                 date_ymd(year, 12, 31)).first()
-            tch = GEEApi.TREE_HEIGHT_IMG_COLLECTION.filterDate(\
+            tch = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION.filterDate(\
                                                 date_ymd(year, 1, 1),
                                                 date_ymd(year, 12, 31)).first()
             return ee.Image(tcc).addBands(tch)
@@ -208,11 +208,11 @@ class GEEApi():
                 'message': 'Please specify a start and end year for which you want to perform the calculations!'
             }
 
-        combined_img_coll = GEEApi._get_combined_img_coll()
+        combined_img_coll = ForestMonitor._get_combined_img_coll()
 
-        filtered_img_coll = GEEApi._filter_for_forest_definition(combined_img_coll,
-                                                                 define_tree_canopy,
-                                                                 define_tree_height)
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(combined_img_coll,
+                                                                        define_tree_canopy,
+                                                                        define_tree_height)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -273,11 +273,11 @@ class GEEApi():
                 'message': 'Please specify a start and end year for which you want to perform the calculations!'
             }
 
-        combined_img_coll = GEEApi._get_combined_img_coll()
+        combined_img_coll = ForestMonitor._get_combined_img_coll()
 
-        filtered_img_coll = GEEApi._filter_for_forest_definition(combined_img_coll,
-                                                                 define_tree_canopy,
-                                                                 define_tree_height)
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(combined_img_coll,
+                                                                        define_tree_canopy,
+                                                                        define_tree_height)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -337,11 +337,11 @@ class GEEApi():
                 'message': 'Please specify a start and end year for which you want to perform the calculations!'
             }
 
-        combined_img_coll = GEEApi._get_combined_img_coll()
+        combined_img_coll = ForestMonitor._get_combined_img_coll()
 
-        filtered_img_coll = GEEApi._filter_for_forest_definition(combined_img_coll,
-                                                                 define_tree_canopy,
-                                                                 define_tree_height)
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(combined_img_coll,
+                                                                        define_tree_canopy,
+                                                                        define_tree_height)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
