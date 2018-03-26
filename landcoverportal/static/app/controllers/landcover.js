@@ -32,8 +32,7 @@
 		        fullscreenControl: true,
 		        fullscreenControlOptions: {
 		        	position: google.maps.ControlPosition.TOP_LEFT
-		        },
-		        mapTypeId: 'hybrid'
+		        }
 			},
 			// Map variable
 			map = new google.maps.Map(document.getElementById('map'), mapOptions),
@@ -129,6 +128,32 @@
 			var mapType = new google.maps.ImageMapType(eeMapOptions);
 			map.overlayMapTypes.push(mapType);
 			$scope.overlays[type] = mapType;
+			$scope.showLoader = false;
+		};
+
+		/**
+		* Starts the Google Earth Engine application. The main entry point.
+		*/
+		$scope.initMap = function (year, init) {
+			if (typeof (init) === 'undefined') init = false;
+			$scope.showLoader = true;
+			LandCoverService.getLandCoverMap(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+		    .then(function (data) {
+		    	loadMap(data.eeMapId, data.eeMapToken);
+		    	if (init) {
+		    		$timeout(function () {
+						showInfoAlert('The map data shows the landcover data for 2016.');
+		    		}, 3500);
+		    	} else {
+		    		$timeout(function () {
+						showSuccessAlert('The map data is updated!');
+		    		}, 3500);
+		    	}
+		    	$scope.showLegend = true;
+		    }, function (error) {
+		        console.log(error);
+		        showErrorAlert(error.statusText);
+		    });
 		};
 
 		/**
