@@ -20,14 +20,23 @@
             <div class="tab-content">
 
                 <div class="tab-pane fade active in" id="land-cover-classes-tab">
-
+                    <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!
+                    </p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                            ng-click="updateAssemblageProduct()" style="margin-bottom: 10px;">
+                        Update Map
+                    </button>
                     <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
-                        <div class="col-md-2 lcp-class-color" style="background: [[ class.color ]]"></div>
-                        <div class="col-md-3 [[ class.labelClass ]]">
+                        <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+                        <div class="col-md-5">
                             <h5><b>[[ class.name ]]</b></h5>
                         </div>
-                        <div class="col-md-1" style="margin-top: 15px;">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="font-size: 20px;"></span>
+                        <label class="switch">
+                            <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                            <span class="switch-slider round"></span>
+                        </label>
+                        <!--<div class="col-md-2" style="margin-top: 8px;">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="font-size: 15px;"></span>
                         </div>
                         <div class="col-md-1" style="margin-top: 15px;">
                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true" style="font-size: 20px;"></span>
@@ -40,7 +49,7 @@
                                    data-slider-max="1"
                                    data-slider-step="0.1"
                                    style="width: 100%; width: -moz-available; width: -webkit-fill-available; width: fill-available;" />
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="primitive-tab">

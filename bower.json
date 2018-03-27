@@ -23,6 +23,7 @@
         "bootstrap-datepicker": "^1.7.1",
         "seiyria-bootstrap-slider": "^10.0.0",
         "togeojson": "https://github.com/mapbox/togeojson.git#^0.16.0",
-        "angular-sanitize": "1.6.6"
+        "angular-sanitize": "1.6.6",
+        "ion.rangeSlider": "ionrangeslider#^2.2.0"
     }
 }

@@ -6,12 +6,12 @@ html, body {
 
 body { padding-top: 70px; }
 
-@media(min-width:768px) {
+/*@media(min-width:768px) {
     body {
-        /*margin-top: 50px;*/
-        margin-top: 75px;
+        margin-top: 50px;
+        margin-top: 75px; 
     }
-}
+}*/
 
 .margin-top-maintain {
 	/* padding-right: 160px;
@@ -228,4 +228,62 @@ body { padding-top: 70px; }
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: fill-available;
+}
+
+/* Custom Checkbox */
+.switch {
+ 	position: relative;
+  	display: inline-block;
+  	width: 60px;
+  	height: 34px;
+  	margin-top: 5px;
+}
+
+.switch input { display:none; }
+
+.switch-slider {
+	position: absolute;
+  	cursor: pointer;
+  	top: 0;
+  	left: 0;
+  	right: 0;
+  	bottom: 0;
+  	background-color: #ccc;
+  	-webkit-transition: .4s;
+  	transition: .4s;
+}
+
+.switch-slider:before {
+  	position: absolute;
+  	content: "";
+  	height: 24px;
+  	width: 24px;
+  	left: 5px;
+  	bottom: 5px;
+  	background-color: white;
+  	-webkit-transition: .4s;
+  	transition: .4s;
+}
+
+input:checked + .switch-slider {
+  	background-color: #2196F3;
+}
+
+input:focus + .switch-slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .switch-slider:before {
+  	-webkit-transform: translateX(26px);
+  	-ms-transform: translateX(26px);
+  	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.switch-slider.round {
+  	border-radius: 25px;
+}
+
+.switch-slider.round:before {
+  	border-radius: 50%;
 }

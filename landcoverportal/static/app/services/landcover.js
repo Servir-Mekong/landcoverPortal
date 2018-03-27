@@ -5,13 +5,14 @@
 	angular.module('landcoverportal')
 	.service('LandCoverService', function ($http, $q) {
 
-		this.getLandCoverMap = function (year, shape, areaSelectFrom, areaName) {
+		this.getLandCoverMap = function (listOfPrimitives, year, shape, areaSelectFrom, areaName) {
 
 			var req = {
 				method: 'POST',
 				url: '/landcover/api/',
 				data: {
-					year: year
+					year: year,
+					primitives: listOfPrimitives.toString()
 				},
 				params: {
 					action: 'landcovermap'

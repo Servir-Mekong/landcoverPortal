@@ -34,12 +34,22 @@ def api(request):
             end_year = post('endYear', '')
             type = post('type', '')
             report_area = True if get('report-area') == 'true' else False
+            primitives = post('primitives', range(0, 21))
+            if isinstance(primitives, (unicode, str)):
+                try:
+                    primitives = primitives.split(',')
+                    primitives = [int(primitive) for primitive in primitives]
+                except Exception as e:
+                    return JsonResponse({'error': e.message()})
+            else:
+                return JsonResponse({'error': 'We accept comma-separated string!'})
             # sanitize
             # using older version of bleach to keep intact with the django cms
             file_name = bleach.clean(post('fileName', ''))
 
             core = LandCoverViewer(area_path, area_name, shape, geom, radius, center)
             if action == 'landcovermap':
-                data = core.landcover(year = post('year', ''))
+                data = core.landcover(primitives=primitives,
+                                      year=post('year', ''))
 
             return JsonResponse(data)

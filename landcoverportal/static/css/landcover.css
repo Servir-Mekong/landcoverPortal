@@ -1,6 +1,6 @@
 .lcp-class-color {
-  	width: 35px;
-  	height: 35px;
+  	width: 25px;
+  	height: 25px;
   	margin: 10px 5px 5px 15px;
   	border: 1px solid rgba(0, 0, 0, .2);
   	border-radius: 5px;
@@ -15,10 +15,15 @@
     border-radius: 10px;
 }
 
-.lcp-class-label-single-line {
-	margin-top: 10px;
-}
-
-.lcp-class-label-multi-line {
-	margin-top: 3px;
+.slider-year-container {
+    position: absolute;
+    width: 60%;
+    /* background-color: white; */
+    /* top: 120px; */
+    /* left: auto; */
+    right: 10%;
+    /*top: 120px;*/
+    /* display: inline-block; */
+    /* z-index: 2; */
+    bottom: 5px;
 }

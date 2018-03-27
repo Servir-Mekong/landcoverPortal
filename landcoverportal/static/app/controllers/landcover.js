@@ -45,6 +45,11 @@
 		$scope.toolControlClass = 'glyphicon glyphicon-eye-open';
 		$scope.showTabContainer = true;
 		$scope.showLoader = false;
+		$scope.sliderYear = 2016;
+		$scope.assemblageLayers = [];
+		for (var i=0; i<=20; i++) {
+			$scope.assemblageLayers.push(i.toString());
+		}
 
 		$('.js-tooltip').tooltip();
 
@@ -92,7 +97,7 @@
 			$scope.$apply();
 		};
 
-		var clearLayers = function (name) {
+		var clearLayer = function (name) {
 
 			map.overlayMapTypes.forEach (function (layer, index) {
 				if (layer.name === name) {
@@ -134,22 +139,16 @@
 		/**
 		* Starts the Google Earth Engine application. The main entry point.
 		*/
-		$scope.initMap = function (year, init) {
-			if (typeof (init) === 'undefined') init = false;
+		$scope.initMap = function (year, type) {
 			$scope.showLoader = true;
-			LandCoverService.getLandCoverMap(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+			LandCoverService.getLandCoverMap($scope.assemblageLayers,
+											 year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
-		    	loadMap(data.eeMapId, data.eeMapToken);
-		    	if (init) {
-		    		$timeout(function () {
-						showInfoAlert('The map data shows the landcover data for 2016.');
-		    		}, 3500);
-		    	} else {
-		    		$timeout(function () {
-						showSuccessAlert('The map data is updated!');
-		    		}, 3500);
-		    	}
-		    	$scope.showLegend = true;
+		    	loadMap(data.eeMapId, data.eeMapToken, type);
+	    		$timeout(function () {
+					showInfoAlert('The map data shows the landcover data for ' + $scope.sliderYear);
+	    		}, 3500);
+		    	//$scope.showLegend = true;
 		    }, function (error) {
 		        console.log(error);
 		        showErrorAlert(error.statusText);
@@ -592,6 +591,7 @@
 		};
 
 		/* Initialize values first */
+		/*
 		for (var i = $scope.landCoverClasses.length - 1; i >= 0; i--) {
 			$scope[$scope.landCoverClasses[i].value + 'SliderValue'] = null;
 		}
@@ -618,6 +618,37 @@
 
 				$('#' + $scope.landCoverClasses[i].value + '-opacity-slider .slider-selection').css('background', '#BABABA');
 			}
+		});*/
+
+		// Update Assemblage Map
+		$scope.updateAssemblageProduct = function () {
+
+			$scope.closeAlert();
+			$scope.assemblageLayers = [];
+	        $('input[name="assemblage-checkbox"]').each( function () {
+	            if($(this).prop('checked')){
+	                $scope.assemblageLayers.push($(this).val());
+	            }
+	        });
+			$scope.showLoader = true;
+			clearLayer('landcovermap');
+			$scope.initMap($scope.sliderYear, 'landcovermap');
+		};
+
+		// Time Slider
+		$("#slider-year-selector").ionRangeSlider({
+			grid: true,
+			min: 2000,
+			max: 2016,
+			from: 2016,
+			force_edges: true,
+			grid_num: 16,
+			prettify_enabled: false,
+			onFinish: function (data) {
+				if ($scope.sliderYear !== data.from) {
+					$scope.sliderYear = data.from;
+				}
+    		}
 		});
 
 	});

@@ -133,129 +133,108 @@ angular.module('landcoverportal').constant('appSettings', {
 	landCoverClasses :[
 		{
 			'name': 'Unknown',
-			'value': 'unknown',
-			'color': '#6f6f6f',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '0',
+			'color': '#6f6f6f'
 		},
 		{
 			'name': 'Surface Water',
-			'value': 'surface_water',
-			'color': '#aec3d4',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '1',
+			'color': '#aec3d4'
 		},
 		{
 			'name': 'Snow and Ice',
-			'value': 'snow_ice',
-			'color': '#b1f9ff',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '2',
+			'color': '#b1f9ff'
 		},
 		{
 			'name': 'Mangrove',
-			'value': 'mangrove',
-			'color': '#111149',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '3',
+			'color': '#111149'
 		},
 		{
 			'name': 'Flooded Forest',
-			'value': 'forest_flood',
-			'color': '#287463',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '4',
+			'color': '#287463'
 		},
 		{
 			'name': 'Deciduous Forest',
-			'value': 'forest_deciduous',
-			'color': '#152106',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '5',
+			'color': '#152106'
 		},
 		{
 			'name': 'Orchard or Plantation forest',
-			'value': 'forest_plantation',
-			'color': '#c3aa69',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '6',
+			'color': '#c3aa69'
 		},
 		{
 			'name': 'Evergreen Broadleaf Alpine',
-			'value': 'evergreen_broadleaf_alpine',
-			'color': '#9ad2a5',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '7',
+			'color': '#9ad2a5'
 		},
 		{
 			'name': 'Evergreen Broadleaf',
-			'value': 'evergreen_broadleaf',
-			'color': '#7db087',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '8',
+			'color': '#7db087'
 		},
 		{
 			'name': 'Evergreen Needleleaf',
-			'value': 'evergreen_needleleaf',
-			'color': '#486f50',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '9',
+			'color': '#486f50'
 		},
 		{
 			'name': 'Evergreen Mixed Forest',
-			'value': 'evergreen_forest_mix',
-			'color': '#387242',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '10',
+			'color': '#387242'
 		},
 		{
 			'name': 'Evergreen Mixed and Deciduous',
-			'value': 'evergreen_forest_mix_deciduous',
-			'color': '#115420',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '11',
+			'color': '#115420'
 		},
 		{
 			'name': 'Urban and Built Up',
-			'value': 'urban',
-			'color': '#cc0013',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '12',
+			'color': '#cc0013'
 		},
 		{
 			'name': 'Cropland',
-			'value': 'cropland',
-			'color': '#8dc33b',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '13',
+			'color': '#8dc33b'
 		},
 		{
 			'name': 'Rice Paddy',
-			'value': 'rice',
-			'color': '#ffff00',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '14',
+			'color': '#ffff00'
 		},
 		{
 			'name': 'Mudflat and Intertidal',
-			'value': 'mudflat',
-			'color': '#a1843b',
-			'labelClass': 'lcp-class-label-multi-line'
+			'value': '15',
+			'color': '#a1843b'
 		},
 		{
 			'name': 'Mining',
-			'value': 'mine',
-			'color': '#cec2a5',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '16',
+			'color': '#cec2a5'
 		},
 		{
 			'name': 'Barren',
-			'value': 'barren',
-			'color': '#674c06',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '17',
+			'color': '#674c06'
 		},
 		{
 			'name': 'Wetlands',
-			'value': 'wetland',
-			'color': '#3bc3b2',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '18',
+			'color': '#3bc3b2'
 		},
 		{
 			'name': 'Grassland',
-			'value': 'grassland',
-			'color': '#f4a460',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '19',
+			'color': '#f4a460'
 		},
 		{
 			'name': 'Shrubland',
-			'value': 'shrubland',
-			'color': '#800080',
-			'labelClass': 'lcp-class-label-single-line'
+			'value': '20',
+			'color': '#800080'
 		}
 	]
 });

@@ -34,9 +34,13 @@
 
 		<!-- Bootstrap Core CSS -->
 		<link href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+		<!-- Normalize CSS -->
+		<link href="{% static 'vendor/normalize-css/normalize.css' %}" rel="stylesheet">
 		<!-- Bootstrap Plugins -->
 		<link href="{% static 'vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
 		<link href="{% static 'vendor/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css' %}" rel="stylesheet">
+		<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+		<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.skinHTML5.css' %}" rel="stylesheet">
 
 		<!-- Load CSS -->
 		{% if debug %}	
@@ -50,9 +54,7 @@
 		{% else %}
 		<link href="{% static 'dist/application.min.css' %}" rel="stylesheet">
 		{% endif %}
-	
-		<!-- Normalize CSS -->
-		<link href="{% static 'vendor/normalize-css/normalize.css' %}" rel="stylesheet">
+
 		<!-- Fonts -->
 		<link href="{% static 'vendor/components-font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
 	{% endaddtoblock %}
@@ -92,6 +94,8 @@
 	    <script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
 	    <!-- Slider -->
 	    <script src="{% static 'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
+	    <!-- Ion Range Slider -->
+	    <script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
 	
 	    <!-- Google Maps API -->
 	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCftEx2S9RjScdfNCGa4Z-8HgUVIUjOErk&v=3.exp&libraries=drawing,geometry"></script>
