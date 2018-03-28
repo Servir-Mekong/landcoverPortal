@@ -95,16 +95,8 @@ class LandCoverViewer():
         return LandCoverViewer.COUNTRIES_GEOM
 
     # -------------------------------------------------------------------------
-    def landcover(self, primitives = [], year = None):
+    def landcover(self, primitives=range(0, 21), year=2016, download=False):
 
-        if not year:
-            return {
-                'message': 'Please specify a year for which you want to perform the calculations!'
-            }
-
-        if not primitives:
-            primitives = range(0, 21)
-        year = '2015'
         image = ee.Image(LandCoverViewer.LANDCOVERMAP.filterDate(\
                                                     "%s-01-01" % year,
                                                     "%s-12-31" % year).mean())
@@ -121,6 +113,9 @@ class LandCoverViewer():
 
         image = image.updateMask(masked_image).clip(self.geometry)
 
+        if download:
+            return image
+
         map_id = image.getMapId({
             'min': '0',
             'max': '20',
@@ -131,3 +126,85 @@ class LandCoverViewer():
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
+
+    # -------------------------------------------------------------------------
+    def get_download_url(self,
+                           type = 'landcover',
+                           year = 2016,
+                           primitives = range(0, 21),
+                           ):
+
+        if (type == 'landcover'):
+            image = self.landcover(primitives = primitives,
+                                   year = year,
+                                   download = True,
+                                   )
+
+        try:
+            url = image.getDownloadURL({
+                'name': type,
+                'scale': 30
+            })
+            return {'downloadUrl': url}
+        except Exception as e:
+            return {'error': e.message}
+
+    # -------------------------------------------------------------------------
+    def download_to_drive(self,
+                          type = 'landcover',
+                          year = 2016,
+                          primitives = range(0, 21),
+                          user_email = None,
+                          user_id = None,
+                          file_name = '',
+                          oauth2object = None,
+                          ):
+
+        if not (user_email and user_id and oauth2object):
+            return {'error': 'something wrong with the google drive api!'}
+
+        if (type == 'landcover'):
+            image = self.landcover(primitives = primitives,
+                                   year = year,
+                                   download = True,
+                                   )
+
+        temp_file_name = get_unique_string()
+
+        if not file_name:
+            file_name = temp_file_name + ".tif"
+        else:
+            file_name = file_name + ".tif"
+
+        task = ee.batch.Export.image.toDrive(
+            image = image,
+            description = 'Export from SERVIR Mekong Team',
+            fileNamePrefix = temp_file_name,
+            scale = 30,
+            region = self.geometry.getInfo()['coordinates'],
+            skipEmptyTiles = True
+        )
+        task.start()
+
+        i = 1
+        while task.active():
+            print ("past %d seconds" % (i * settings.EE_TASK_POLL_FREQUENCY))
+            i += 1
+            time.sleep(settings.EE_TASK_POLL_FREQUENCY)
+        
+        # Make a copy (or copies) in the user's Drive if the task succeeded
+        state = task.status()['state']
+        if state == ee.batch.Task.State.COMPLETED:
+            try:
+                link = transfer_files_to_user_drive(temp_file_name,
+                                                    user_email,
+                                                    user_id,
+                                                    file_name,
+                                                    oauth2object)
+                return {'driveLink': link}
+            except Exception as e:
+                print (str(e))
+                return {'error': str(e)}
+        else:
+            print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
+            return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}

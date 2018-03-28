@@ -7,7 +7,7 @@
 		$httpProvider.defaults.xsrfCookieName = 'csrftoken';
   		$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	}])
-	.controller('landCoverCtrl', function ($scope, $timeout, appSettings, LandCoverService) {
+	.controller('landCoverCtrl', function ($scope, $sanitize, $timeout, appSettings, LandCoverService) {
 
 		// Setting variables
 		$scope.landCoverClasses = appSettings.landCoverClasses;
@@ -204,38 +204,18 @@
 			return google.maps.geometry.spherical.computeArea([northEast, northWest, southWest, southEast]) / 1e6;
 		};
 
-		var verifyBeforeDownload = function (startYear, endYear, requireBoth, checkPolygon) {
+		var verifyBeforeDownload = function () {
 
-			if (typeof(checkPolygon) === 'undefined') checkPolygon = true;
-			if (checkPolygon) {
-				if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
-					if (drawnArea > AREA_LIMIT) {
-						showErrorAlert('The drawn polygon is larger than ' + AREA_LIMIT + ' km2. This exceeds the current limitations for downloading data. Please draw a smaller polygon!');
-						return false;
-					}
-				} else {
-					showErrorAlert('Please draw a polygon before proceding to download!');
+			if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
+				if (drawnArea > AREA_LIMIT) {
+					showErrorAlert('The drawn polygon is larger than ' + AREA_LIMIT + ' km2. This exceeds the current limitations for downloading data. Please draw a smaller polygon!');
 					return false;
 				}
+			} else {
+				showErrorAlert('Please draw a polygon before proceding to download!');
+				return false;
 			}
-
-			if (typeof(requireBoth) === 'undefined') requireBoth = false;
-			if (requireBoth) {
-				if (startYear && !endYear) {
-					showErrorAlert('Please provide the end year!');
-					return false;
-				} else if (!startYear && endYear) {
-					showErrorAlert('Please provide start year!');
-					return false;
-				} else if (!(startYear && endYear)) {
-					showErrorAlert('Please select both start and end date!');
-					return false;
-				} else if (Number(startYear) >= Number(endYear)) {
-					showErrorAlert('End year must be greater than start year!');
-					return false;
-				}
-			}
-			return true;	
+			return true;
 		};
 
 		$scope.copyToClipBoard = function (type) {
@@ -650,6 +630,76 @@
 				}
     		}
 		});
+
+		// Download URL
+		$scope.landcoverDownloadURL = '';
+		$scope.showLandcoverDownloadURL = false;
+
+		$scope.getDownloadURL = function (type) {
+			if (typeof(type) === 'undefined') type = 'landcover';
+			if (verifyBeforeDownload()) {
+				showInfoAlert('Preparing Download Link...');
+				LandCoverService.getDownloadURL(type,
+					$scope.shape,
+					$scope.areaSelectFrom,
+					$scope.areaName,
+					$scope.sliderYear,
+					$scope.assemblageLayers
+				)
+			    .then(function (data) {
+					showSuccessAlert('Your Download Link is ready!');
+			    	$scope[type + 'DownloadURL'] = data.downloadUrl;
+			    	$scope['show' + type.capitalize() + 'DownloadURL'] = true;
+			    }, function (error) {
+			    	showErrorAlert(error.message);
+			        console.log(error);
+			    });
+			}
+		};
+
+		// Google Download
+		$scope.showLandcoverGDriveFileName = false;
+
+		$scope.showGDriveFileName = function (type) {
+			if (typeof(type) === 'undefined') type = 'landcover';
+			if (verifyBeforeDownload()) {
+				$scope['show' + type.capitalize() + 'GDriveFileName'] = true;
+			}
+		};
+
+		$scope.hideGDriveFileName = function (type) {
+			$scope['show' + type.capitalize() + 'GDriveFileName'] = false;
+		};
+
+		$scope.saveToDrive = function (type) {
+			if (typeof(type) === 'undefined') type = 'landcover';
+			if (verifyBeforeDownload()) {
+				// Check if filename is provided, if not use the default one
+				var fileName =  $sanitize($('#' + type + 'GDriveFileName').val() || '');
+				showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
+				LandCoverService.saveToDrive(type,
+					$scope.shape,
+					$scope.areaSelectFrom,
+					$scope.areaName,
+					$scope.sliderYear,
+					$scope.assemblageLayers,
+					fileName
+				)
+			    .then(function (data) {
+			    	if (data.error) {
+				    	showErrorAlert(data.error);
+				        console.log(data.error);
+			    	} else {
+						showInfoAlert(data.info);
+				    	$scope.hideGDriveFileName(type);
+				    	$('#' + type + 'GDriveFileName').val('');
+			    	}
+			    }, function (error) {
+			    	showErrorAlert(error);
+			        console.log(error);
+			    });		
+			}
+		};
 
 	});
 

@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from datetime import datetime
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from tasks import export_to_drive_task
+from .tasks import export_to_drive_task
 import bleach
 import json
 import time
