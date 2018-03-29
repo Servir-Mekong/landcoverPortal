@@ -236,5 +236,71 @@ angular.module('landcoverportal').constant('appSettings', {
 			'value': '20',
 			'color': '#800080'
 		}
+	],
+	primitiveClasses :[
+		{
+			'name': 'Barren',
+			'value': '0'
+		},
+		{
+			'name': 'Built up',
+			'value': '1'
+		},
+		{
+			'name': 'Canopy',
+			'value': '2'
+		},
+		{
+			'name': 'Cropland',
+			'value': '3'
+		},
+		{
+			'name': 'Deciduous',
+			'value': '4'
+		},
+		{
+			'name': 'Ephemeral Water',
+			'value': '5'
+		},
+		{
+			'name': 'Evergreen',
+			'value': '6'
+		},
+		{
+			'name': 'Forest Cover',
+			'value': '7'
+		},
+		{
+			'name': 'Grass',
+			'value': '8'
+		},
+		{
+			'name': 'Mangrove',
+			'value': '9'
+		},
+		{
+			'name': 'Mixed Forest',
+			'value': '10'
+		},
+		{
+			'name': 'Rice',
+			'value': '11'
+		},
+		{
+			'name': 'Shrub',
+			'value': '12'
+		},
+		{
+			'name': 'Snow Ice',
+			'value': '13'
+		},
+		{
+			'name': 'Surface Water',
+			'value': '14'
+		},
+		{
+			'name': 'Tree Height',
+			'value': '15'
+		}
 	]
 });

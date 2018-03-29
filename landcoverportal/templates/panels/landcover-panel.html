@@ -104,6 +104,13 @@
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="primitive-tab">
+                    <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
+                        <label class="container-primitive">
+                            <h5><b>[[ class.name ]]</b></h5>
+                            <input type="radio" name="radio" value="[[ class.value ]]">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

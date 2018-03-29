@@ -11,6 +11,7 @@
 
 		// Setting variables
 		$scope.landCoverClasses = appSettings.landCoverClasses;
+		$scope.primitiveClasses = appSettings.primitiveClasses;
 
 		// Earth Engine
 		// Global Variables
@@ -103,7 +104,6 @@
 
 		var removeShownGeoJson = function () {
 			if ($scope.shownGeoJson) {
-				//map.data.remove($scope.shownGeoJson);
 				map.data.forEach(function(feature) {
     				map.data.remove(feature);
 				});
@@ -651,8 +651,6 @@
 				}
     		}
 		});
-
-		// With JQuery
 
 		// Download URL
 		$scope.landcoverDownloadURL = '';
