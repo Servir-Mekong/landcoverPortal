@@ -66,6 +66,17 @@
                             </span>
                         </div><!-- End -->
                     </fieldset>
+                    <fieldset class="row lcp-class-container" ng-show="showLandcoverOpacitySlider">
+                        <div class="form-group col-md-12">
+                            <label for="landcover-opacity-slider">Change Opacity</label>
+                            <input name="landcover-opacity-slider" id="landcover-opacity-slider"
+                                   data-slider-id="landcover-opacity-slider" type="text"
+                                   style="width: 100%;"
+                                   data-slider-min="0"
+                                   data-slider-max="1"
+                                   data-slider-step="0.1" />
+                        </div>
+                    </fieldset>
                     <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
                         <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
                         <div class="col-md-5">

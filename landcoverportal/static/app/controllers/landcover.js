@@ -53,6 +53,26 @@
 
 		$('.js-tooltip').tooltip();
 
+		// Landcover opacity slider
+		$scope.landcoverOpacity = 1;
+		$scope.showLandcoverOpacitySlider = true;
+		/* slider init */
+		var landcoverSlider = $('#landcover-opacity-slider').slider({
+			formatter: function (value) {
+				return 'Opacity: ' + value;
+			},
+			tooltip: 'always'
+		})
+		.on('slideStart', function (event) {
+			$scope.landcoverOpacity = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.landcoverOpacity) {
+		    	$scope.overlays.landcovermap.setOpacity(value);
+		    }
+		});
+
 		/**
 		 * Alert
 		 */
@@ -131,6 +151,7 @@
 				name: type
 			};
 			var mapType = new google.maps.ImageMapType(eeMapOptions);
+			landcoverSlider.slider('setValue', 1);
 			map.overlayMapTypes.push(mapType);
 			$scope.overlays[type] = mapType;
 			$scope.showLoader = false;
@@ -630,6 +651,8 @@
 				}
     		}
 		});
+
+		// With JQuery
 
 		// Download URL
 		$scope.landcoverDownloadURL = '';
