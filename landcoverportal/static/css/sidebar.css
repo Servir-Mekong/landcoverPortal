@@ -9,9 +9,10 @@
     position: fixed;
     /*top: 0;*/
     width: inherit;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 110px);
     color: #ffffff;
     left: 0;
+    margin-top: 7px;
 }
 
 .menu-content {

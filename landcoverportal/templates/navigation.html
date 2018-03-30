@@ -1,39 +1,36 @@
 <!-- Navigation -->
 {% load staticfiles %}
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav ng-cloak class="navbar navbar-default navbar-fixed-top" role="navigation">
 
-	<div class="container-fluid" ng-controller="settingsCtrl">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation-navbar-collapse" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<!-- With the HKH Logo / Uncomment when needed -->
-			<!--<a class="navbar-brand ftool-navbar-brand" href="/home/">
-				<img src="{% static 'images/servir-mekong.png' %}" width="200px"
-				class="inline-block-display">
-			</a>
-			<a class="navbar-brand ftool-navbar-brand" href="#">
-				<img src="{% static 'images/servir-himalaya.png' %}" class="float-left inline-block-display"
-				style="margin-top: 2px;" width="150px">
-			</a>
-			<a class="navbar-app" href="/home/"><h2 class="text-center">Land Cover Portal</h2></a>-->
-			<a class="navbar-brand ftool-navbar-brand" href="/home/" style="margin-top: 2px;">
-				<img src="{% static 'images/servir-mekong.png' %}" width="280px" class="inline-block-display">
-			</a>
-			<a class="navbar-app" href="/home/" style="float: right;">
-				<h2>Land Cover Portal</h2>
-			</a>
+    <div class="navbar-container" ng-controller="settingsCtrl">    
+		<div class="container-fluid banner-container main-padding">             
+             <div ng-repeat="partner in partnersHeader" class="banner">
+                 <a href="[[partner.url]]" target="_blank">
+                     <img class="grow img-responsive [[partner.className]]" src="{% static '' %}[[partner.src]]" alt="[[partner.alt]]">
+                 </a>             
+             </div>
+		</div>
+		
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header menu-container main-padding">
+		    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </button>
+		    <a class="navbar-brand navmenu" href="/home/">[[applicationName]]</a>
 		</div>
 
-		<div class="collapse navbar-collapse text-center" id="navigation-navbar-collapse">
-			<ul class="nav navbar-menu navbar-nav navbar-right" style="margin-top: 10px;">
-				<li ng-repeat="menu in menus">
-					<a ng-show="menu.show" class="navmenu" href="[[menu.url]]" target="_blank">[[menu.name]]</a>
-				</li>
-			</ul>
-		</div><!-- /.navbar-collapse -->
-	</div><!-- /.container-fluid -->
+		<div class="container-fluid menu-container collapse navbar-collapse main-padding" id="navbar-collapse">
+		    <!-- <div class="collapse navbar-collapse"> -->
+		         <ul class="nav navbar-nav navbar-right">
+		             <li ng-repeat="menu in menus">
+		                 <a ng-show="menu.show" class="navmenu" href="[[menu.url]]" target="_blank">[[menu.name]]</a>
+		             </li>
+		         </ul>
+		     <!-- </div> -->
+		</div>
+	</div>
+    <!-- /.navbar-collapse -->
 </nav>

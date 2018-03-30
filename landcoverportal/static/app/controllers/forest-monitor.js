@@ -34,7 +34,6 @@
 				center: DEFAULT_CENTER,
 				zoom: DEFAULT_ZOOM,
 				maxZoom: MAX_ZOOM,
-				streetViewControl: false,
 				mapTypeControlOptions: {
 					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
 		            position: google.maps.ControlPosition.TOP_CENTER
@@ -43,6 +42,14 @@
 		        fullscreenControlOptions: {
 		        	position: google.maps.ControlPosition.TOP_LEFT
 		        },
+				zoomControlOptions: {
+				  position: google.maps.ControlPosition.LEFT_BOTTOM
+				},
+				scaleControl: true,
+				streetViewControl: true,
+				streetViewControlOptions: {
+				  position: google.maps.ControlPosition.TOP_CENTER
+				},
 		        mapTypeId: 'hybrid'
 			},
 			// Map variable

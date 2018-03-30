@@ -1,0 +1,192 @@
+@media(max-width: 1024px)  {
+
+    .navbar-header {
+    	float: none;
+  	}
+	.navbar-left,.navbar-right {
+	    float: none !important;
+	}
+	.navbar-toggle {
+	    display: block;
+	}
+	.navbar-collapse {
+	    border-top: 1px solid transparent;
+	    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+	}
+	.navbar-fixed-top {
+	    top: 0;
+	    border-width: 0 0 1px;
+	}
+	.navbar-collapse.collapse {
+	    display: none!important;
+	}
+	.navbar-nav {
+	    float: none!important;
+	    margin-top: 7.5px;
+	}
+	.navbar-nav>li {
+	    float: none;
+	}
+	.navbar-nav>li>a {
+	    padding-top: 10px;
+	    padding-bottom: 10px;
+	}
+	.collapse.in {
+	    display:block !important;
+	}
+
+}
+
+.menu-container {
+	/*background-color: black !important;*/
+	background-color: #333333 !important;
+}
+
+.banner {
+    margin: 15px;
+}
+
+.left-usaid {
+    background-size: auto 50px;
+    width: 170px !important;
+    float: left;
+    margin-right: 15px;
+}
+
+.top-usaid {
+    background-size: auto 50px;
+    width: 40% !important;
+    float: left;
+}
+
+.banner-flex {
+	display: none;
+}
+
+@media (max-width: 768px) {
+	.banner-flex {
+		display: block;
+	}
+}
+
+@media (max-width: 768px) {
+	.banner-normal {
+		display: none;
+	}
+}
+
+/*@media (max-width: 1024px) {
+	.usaid {
+    	margin: auto;
+	}
+}*/
+
+.left-nasa {
+    background-size: auto 50px;
+    width: 60px !important;
+    float: left;
+    margin-right: 15px;
+}
+
+.top-nasa {
+    background-size: auto 50px;
+    width: 22% !important;
+    float: right;
+}
+
+/*@media (max-width: 1024px) {
+	.nasa {
+    	margin: auto;
+	}
+}*/
+
+.left-adpc {
+    background-size: auto 50px;
+    width: 110px !important;
+    float: left;
+}
+
+.bottom-adpc {
+    background-size: auto 50px;
+    width: 25% !important;
+    float: left;
+}
+
+
+/*@media (max-width: 1024px) {
+	.adpc {
+    	margin: auto;
+	}
+}*/
+
+.right-servir {
+    float: right;
+    background-size: auto 35px;
+    width: 250px !important;
+    padding-top: 10px;
+}
+
+.bottom-servir {
+    float: right;
+    background-size: auto 35px;
+    width: 60% !important;
+    /*padding-top: 10px;*/
+}
+
+/*@media (max-width: 1024px) {
+	.servir {
+    	margin: auto;
+	}
+}
+
+.navmenu {
+	color: rgb(255,255,255) !important;
+    color: rgba(255,255,255,0.87) !important;
+    text-transform: uppercase;
+}*/
+
+a.navbar-brand-landcover:hover, a.navbar-brand-landcover:focus, .nav-landcover > li > a:hover, .nav-landcover > li > a:focus {
+    background-color: black !important;
+}
+
+/* New Navigation */
+.navbar-app, .navbar-app:visited, .navbar-app:hover, .navbar-app:active {
+	text-decoration: none;
+}
+
+/*
+@media(max-width:767px){} --> extra small devices
+@media(min-width:768px){} --> small devices
+@media(min-width:992px){} --> medium devices
+@media(min-width:1200px){} --> large devices
+*/
+
+.ftool-navbar-brand {
+	display: inline-block;
+    /* background-size: 170px auto; */
+    background-size: auto;
+}
+
+/*
+@media (max-width: 768px) {
+	.ftool-navbar-brand {
+		display: none;
+	}
+
+	.navbar-app {
+		float: left;
+	}
+}
+*/
+
+.navmenu {
+    text-transform: uppercase;
+    font-size: large;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+	.navbar-menu {
+		margin-top: 20px;
+	}
+}

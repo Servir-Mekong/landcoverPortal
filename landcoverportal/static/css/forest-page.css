@@ -2,17 +2,6 @@
 	width: 250px !important;
 }
 
-.tab-tool {
-	position: absolute;
-	width: 300px;
-	background-color: white;
-	top: 120px;
-    left: auto;
-    right: 12px;
-    display: inline-block;
-    z-index: 1;
-}
-
 /* Tabs */
 .btn-pref .btn {
     -webkit-border-radius:0 !important;

@@ -31,10 +31,17 @@
 	    padding-top: 10px;
 	    padding-bottom: 10px;
 	}
-	.collapse.in {
+	.collapse.in{
 	    display:block !important;
 	}
 
+}
+
+.banner-container {
+    background: url("https://servir.adpc.net/themes/svmk/images/optimized/satellite-inside.png");
+    background-position: 110% 70%;
+    background-repeat: no-repeat;
+    background-size: 800px auto;	
 }
 
 .menu-container {
@@ -43,99 +50,62 @@
 }
 
 .banner {
-    margin: 15px;
+    /*height: 50px;*/
+    margin: 10px;
+    /*float: left;*/
+    background: no-repeat fixed center;
 }
 
-.left-usaid {
+.usaid {
     background-size: auto 50px;
     width: 170px !important;
     float: left;
-    margin-right: 15px;
+    margin-right: 5px;
+    margin-bottom: 3px;
 }
 
-.top-usaid {
-    background-size: auto 50px;
-    width: 40% !important;
-    float: left;
-}
-
-.banner-flex {
-	display: none;
-}
-
-@media (max-width: 768px) {
-	.banner-flex {
-		display: block;
-	}
-}
-
-@media (max-width: 768px) {
-	.banner-normal {
-		display: none;
-	}
-}
-
-/*@media (max-width: 1024px) {
+@media (max-width: 1024px) {
 	.usaid {
     	margin: auto;
 	}
-}*/
+}
 
-.left-nasa {
+.nasa {
     background-size: auto 50px;
     width: 60px !important;
     float: left;
-    margin-right: 15px;
+    margin-right: 5px;
 }
 
-.top-nasa {
-    background-size: auto 50px;
-    width: 22% !important;
-    float: right;
-}
-
-/*@media (max-width: 1024px) {
+@media (max-width: 1024px) {
 	.nasa {
     	margin: auto;
 	}
-}*/
+}
 
-.left-adpc {
+.adpc {
     background-size: auto 50px;
     width: 110px !important;
     float: left;
 }
 
-.bottom-adpc {
-    background-size: auto 50px;
-    width: 25% !important;
-    float: left;
-}
-
-
-/*@media (max-width: 1024px) {
+@media (max-width: 1024px) {
 	.adpc {
     	margin: auto;
 	}
-}*/
+}
 
-.right-servir {
+.servir {
     float: right;
     background-size: auto 35px;
     width: 250px !important;
     padding-top: 10px;
 }
 
-.bottom-servir {
-    float: right;
-    background-size: auto 35px;
-    width: 60% !important;
-    /*padding-top: 10px;*/
-}
-
-/*@media (max-width: 1024px) {
+@media (max-width: 1024px) {
 	.servir {
     	margin: auto;
+    	/*float: none;*/
 	}
 }
 
@@ -143,50 +113,8 @@
 	color: rgb(255,255,255) !important;
     color: rgba(255,255,255,0.87) !important;
     text-transform: uppercase;
-}*/
+}
 
-a.navbar-brand-landcover:hover, a.navbar-brand-landcover:focus, .nav-landcover > li > a:hover, .nav-landcover > li > a:focus {
+a.navbar-brand:hover, a.navbar-brand:focus, .nav > li > a:hover, .nav > li > a:focus {
     background-color: black !important;
-}
-
-/* New Navigation */
-.navbar-app, .navbar-app:visited, .navbar-app:hover, .navbar-app:active {
-	text-decoration: none;
-}
-
-/*
-@media(max-width:767px){} --> extra small devices
-@media(min-width:768px){} --> small devices
-@media(min-width:992px){} --> medium devices
-@media(min-width:1200px){} --> large devices
-*/
-
-.ftool-navbar-brand {
-	display: inline-block;
-    /* background-size: 170px auto; */
-    background-size: auto;
-}
-
-/*
-@media (max-width: 768px) {
-	.ftool-navbar-brand {
-		display: none;
-	}
-
-	.navbar-app {
-		float: left;
-	}
-}
-*/
-
-.navmenu {
-    text-transform: uppercase;
-    font-size: large;
-    font-weight: bold;
-}
-
-@media (min-width: 768px) {
-	.navbar-menu {
-		margin-top: 20px;
-	}
 }

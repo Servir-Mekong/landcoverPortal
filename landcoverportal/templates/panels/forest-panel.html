@@ -18,10 +18,11 @@
                                     ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
                             </select>
                         </div>
-                        <div class="form-group inline-block-display" ng-show="showTreeCanopyOpacitySlider">
-                            <label for="tree-canopy-opacity-slider">Opacity </label>
+                        <div class="form-group" ng-show="showTreeCanopyOpacitySlider">
+                            <label for="tree-canopy-opacity-slider" style="margin-right: 10px;">Opacity </label>
                             <input name="tree-canopy-opacity-slider" id="tree-canopy-opacity-slider"
                                    data-slider-id="tree-canopy-opacity-slider" type="text"
+                                   style="width: 70%;"
                                    data-slider-min="0"
                                    data-slider-max="1"
                                    data-slider-step="0.1" />
@@ -67,9 +68,10 @@
                                     ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2016" ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)">
                             </select>
                         </div>
-                        <div class="form-group inline-block-display" ng-show="showTreeHeightOpacitySlider">
-                            <label for="tree-height-opacity-slider">Opacity </label>
+                        <div class="form-group" ng-show="showTreeHeightOpacitySlider">
+                            <label for="tree-height-opacity-slider" style="margin-right: 10px;">Opacity </label>
                             <input name="tree-height-opacity-slider" id="tree-height-opacity-slider"
+                                   style="width: 70%;"
                                    data-slider-id="tree-height-opacity-slider" type="text"
                                    data-slider-min="0"
                                    data-slider-max="1"
@@ -160,9 +162,10 @@
                                 Perform Calculations
                             </button>
                         </div>
-                        <div class="form-group inline-block-display" ng-show="showForestGainOpacitySlider">
-                            <label for="forest-gain-opacity-slider">Opacity </label>
+                        <div class="form-group" ng-show="showForestGainOpacitySlider">
+                            <label for="forest-gain-opacity-slider" style="margin-right: 10px;">Opacity </label>
                             <input name="forest-gain-opacity-slider" id="forest-gain-opacity-slider"
+                                   style="width: 70%;"
                                    data-slider-id="forest-gain-opacity-slider" type="text"
                                    data-slider-min="0"
                                    data-slider-max="1"
@@ -223,9 +226,10 @@
                                 Perform Calculations
                             </button>
                         </div>
-                        <div class="form-group inline-block-display" ng-show="showForestLossOpacitySlider">
-                            <label for="forest-loss-opacity-slider">Opacity </label>
+                        <div class="form-group" ng-show="showForestLossOpacitySlider">
+                            <label for="forest-loss-opacity-slider" style="margin-right: 10px;">Opacity </label>
                             <input name="forest-loss-opacity-slider" id="forest-loss-opacity-slider"
+                                   style="width: 70%;"
                                    data-slider-id="forest-loss-opacity-slider" type="text"
                                    data-slider-min="0"
                                    data-slider-max="1"
@@ -286,9 +290,10 @@
                                 Perform Calculations
                             </button>
                         </div>
-                        <div class="form-group inline-block-display" ng-show="showForestChangeOpacitySlider">
-                            <label for="forest-change-opacity-slider">Opacity </label>
+                        <div class="form-group" ng-show="showForestChangeOpacitySlider">
+                            <label for="forest-change-opacity-slider" style="margin-right: 10px;">Opacity </label>
                             <input name="forest-change-opacity-slider" id="forest-change-opacity-slider"
+                                   style="width: 70%;"
                                    data-slider-id="forest-change-opacity-slider" type="text"
                                    data-slider-min="0"
                                    data-slider-max="1"

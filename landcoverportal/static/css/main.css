@@ -1,17 +1,16 @@
 /* Global Styles */
 
-html, body {
+/*html, body {
   height: 100%;
-}
-
-body { padding-top: 70px; }
-
-/*@media(min-width:768px) {
-    body {
-        margin-top: 50px;
-        margin-top: 75px; 
-    }
 }*/
+
+/*body { padding-top: 70px; }*/
+
+@media(min-width:768px) {
+    body {
+        margin-top: 110px;
+    }
+}
 
 .margin-top-maintain {
 	/* padding-right: 160px;
@@ -95,9 +94,9 @@ body { padding-top: 70px; }
 }
 
 .bounce {
-  -moz-animation: bounce 2s infinite;
-  -webkit-animation: bounce 2s infinite;
-  animation: bounce 2s infinite;
+    -moz-animation: bounce 2s infinite;
+    -webkit-animation: bounce 2s infinite;
+    animation: bounce 2s infinite;
 }
 
 .glyphicon-circle-arrow-down {
@@ -117,20 +116,21 @@ body { padding-top: 70px; }
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-30px);
-  }
-  60% {
-    transform: translateY(-15px);
-  }
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
 }
 
 /* Map */
 .map {
-	height: calc(100vh - 70px);
+    display: block;
+    height: calc(100vh - 110px);
 }
 
 .-center {
@@ -168,6 +168,7 @@ body { padding-top: 70px; }
 	width: calc(100vw - 26%);
 	position: fixed;
 	z-index: 402;
+    margin-top: 5px;
 }
 
 .ul-no-bullets {
@@ -286,4 +287,15 @@ input:checked + .switch-slider:before {
 
 .switch-slider.round:before {
   	border-radius: 50%;
+}
+
+.tab-tool {
+    position: absolute;
+    width: 300px;
+    background-color: white;
+    top: 160px;
+    left: auto;
+    right: 12px;
+    display: inline-block;
+    z-index: 1;
 }
