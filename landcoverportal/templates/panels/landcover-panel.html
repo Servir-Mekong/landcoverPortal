@@ -30,8 +30,8 @@
                     <fieldset class="row lcp-class-container">
                         <!-- Download button -->
                         <div class="btn-group btn-block">
-                            <button type="button" class="btn col-md-11 btn-primary">Download Composite Data</button>
-                            <button type="button" class="btn col-md-1 btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn col-md-11 btn-sm btn-primary">Download Composite Data</button>
+                            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
@@ -107,7 +107,7 @@
                     <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
                         <label class="container-primitive">
                             <h5><b>[[ class.name ]]</b></h5>
-                            <input type="radio" name="radio" value="[[ class.value ]]">
+                            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex)" ng-model="primitiveIndex">
                             <span class="checkmark"></span>
                         </label>
                     </div>

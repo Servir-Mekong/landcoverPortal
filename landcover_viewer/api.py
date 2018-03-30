@@ -21,6 +21,7 @@ def api(request):
 
     if action:
         public_methods = ['landcovermap',
+                          'primitive',
                           'get-download-url',
                           'download-to-drive'
                           ]
@@ -36,12 +37,16 @@ def api(request):
             type = post('type', 'landcover')
             report_area = True if get('report-area') == 'true' else False
             primitives = post('primitives', range(0, 21))
+            index = int(post('index', 0))
             if isinstance(primitives, (unicode, str)):
                 try:
                     primitives = primitives.split(',')
                     primitives = [int(primitive) for primitive in primitives]
                 except Exception as e:
                     return JsonResponse({'error': e.message()})
+            elif isinstance(primitives, list):
+                # Do nothing
+                pass
             else:
                 return JsonResponse({'error': 'We accept comma-separated string!'})
             # sanitize
@@ -50,10 +55,15 @@ def api(request):
 
             core = LandCoverViewer(area_path, area_name, shape, geom, radius, center)
             if action == 'landcovermap':
-                data = core.landcover(primitives = primitives,
-                                      year = year)
+                data = core.get_landcover(primitives = primitives,
+                                          year = year,
+                                          )
+            elif action == 'primitive':
+                data = core.get_primitive(index = index,
+                                          year = year,
+                                          )
             elif action == 'get-download-url':
-                data = core.get_download_url(type=type,
+                data = core.get_download_url(type = type,
                                              year = year,
                                              primitives = primitives,
                                              )
@@ -88,6 +98,7 @@ def api(request):
                                                    type = type,
                                                    file_name = file_name,
                                                    primitives = primitives,
+                                                   index = index,
                                                    access_token = access_token,
                                                    client_id = client_id,
                                                    client_secret = client_secret,

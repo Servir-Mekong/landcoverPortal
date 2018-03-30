@@ -95,7 +95,7 @@ class LandCoverViewer():
         return LandCoverViewer.COUNTRIES_GEOM
 
     # -------------------------------------------------------------------------
-    def landcover(self, primitives=range(0, 21), year=2016, download=False):
+    def get_landcover(self, primitives=range(0, 21), year=2016, download=False):
 
         image = ee.Image(LandCoverViewer.LANDCOVERMAP.filterDate(\
                                                     "%s-01-01" % year,
@@ -128,17 +128,50 @@ class LandCoverViewer():
         }
 
     # -------------------------------------------------------------------------
+    def get_primitive(self, index=0, year=2016, download=False):
+
+        primitive_img_coll = LandCoverViewer.PRIMITIVES[index]
+
+        image = ee.Image(primitive_img_coll.filterDate("%s-01-01" % year,
+                                                       "%s-12-31" % year).mean())
+
+        # mask
+        masked_image = image.gt(0.1)
+
+        image = image.updateMask(masked_image).clip(self.geometry)
+
+        if download:
+            return image
+
+        map_id = image.getMapId({
+            'min': '0',
+            'max': '100',
+            'palette': 'FFFFFF, 000000'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
     def get_download_url(self,
                            type = 'landcover',
                            year = 2016,
                            primitives = range(0, 21),
+                           index = 0,
                            ):
 
-        if (type == 'landcover'):
-            image = self.landcover(primitives = primitives,
-                                   year = year,
-                                   download = True,
-                                   )
+        if type == 'landcover':
+            image = self.get_landcover(primitives = primitives,
+                                       year = year,
+                                       download = True,
+                                       )
+        elif type == 'primitive':
+            image = self.get_primitive(primitive = index,
+                                       year = year,
+                                       download = True,
+                                       )
 
         try:
             url = image.getDownloadURL({
@@ -151,23 +184,29 @@ class LandCoverViewer():
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
-                          type = 'landcover',
-                          year = 2016,
-                          primitives = range(0, 21),
-                          user_email = None,
-                          user_id = None,
-                          file_name = '',
-                          oauth2object = None,
-                          ):
+                            type = 'landcover',
+                            year = 2016,
+                            primitives = range(0, 21),
+                            index = 0,
+                            file_name = '',
+                            user_email = None,
+                            user_id = None,
+                            oauth2object = None,
+                            ):
 
         if not (user_email and user_id and oauth2object):
             return {'error': 'something wrong with the google drive api!'}
 
-        if (type == 'landcover'):
-            image = self.landcover(primitives = primitives,
-                                   year = year,
-                                   download = True,
-                                   )
+        if type == 'landcover':
+            image = self.get_landcover(primitives = primitives,
+                                       year = year,
+                                       download = True,
+                                       )
+        elif type == 'primitive':
+            image = self.get_primitive(primitive = index,
+                                       year = year,
+                                       download = True,
+                                       )
 
         temp_file_name = get_unique_string()
 

@@ -137,7 +137,7 @@
 		/* Updates the image based on the current control panel config. */
 		var loadMap = function (mapId, mapToken, type) {
 
-			if (typeof(type) === 'undefined') type = 'map';
+			if (typeof(type) === 'undefined') type = 'landcovermap';
 
 			var eeMapOptions = {
 				getTileUrl: function (tile, zoom) {
@@ -720,6 +720,38 @@
 			        console.log(error);
 			    });		
 			}
+		};
+
+		var getPrimitiveLabel = function (index) {
+			for (var i = $scope.primitiveClasses.length - 1; i >= 0; i--) {
+				if (typeof index === 'string') {
+					if ($scope.primitiveClasses[i].value === index) {
+						return $scope.primitiveClasses[i].name;
+					}
+				} else if (typeof index === 'number') {
+					if (parseInt($scope.primitiveClasses[i].value) === parseInt(index)) {
+						return $scope.primitiveClasses[i].name;
+					}
+				}
+			}
+			return '';
+		};
+
+		$scope.updatePrimitive = function (index) {
+			$scope.showLoader = true;
+			LandCoverService.getPrimitiveMap(index, $scope.sliderYear,
+											 $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+		    .then(function (data) {
+		    	clearLayer('primitiveMap');
+		    	loadMap(data.eeMapId, data.eeMapToken, 'primitiveMap');
+	    		$timeout(function () {
+					showInfoAlert('Showing ' + getPrimitiveLabel(index) + ' primitive layer for '+ $scope.sliderYear);
+	    		}, 3500);
+		    	//$scope.showLegend = true;
+		    }, function (error) {
+		        console.log(error);
+		        showErrorAlert(error.statusText);
+		    });
 		};
 
 	});

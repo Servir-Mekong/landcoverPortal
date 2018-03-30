@@ -35,9 +35,10 @@ def export_to_drive_task(**kwargs):
     data = core.download_to_drive(type = kwargs['type'],
                                   year = kwargs['year'],
                                   primitives = kwargs['primitives'],
+                                  index = kwargs['index'],
+                                  file_name = kwargs['file_name'],
                                   user_email = kwargs['user_email'],
                                   user_id = kwargs['user_id'],
-                                  file_name = kwargs['file_name'],
                                   oauth2object = oauth2object
                                   )
 
