@@ -74,6 +74,26 @@
 		    }
 		});
 
+		// Primitive opacity slider
+		$scope.primitiveOpacity = 1;
+		$scope.showPrimitiveOpacitySlider = false;
+		/* slider init */
+		var primitiveSlider = $('#primitive-opacity-slider').slider({
+			formatter: function (value) {
+				return 'Opacity: ' + value;
+			},
+			tooltip: 'always'
+		})
+		.on('slideStart', function (event) {
+			$scope.primitiveOpacity = $(this).data('slider').getValue();
+		})
+		.on('slideStop', function (event) {
+		    var value = $(this).data('slider').getValue();
+		    if (value !== $scope.primitiveOpacity) {
+		    	$scope.overlays.primitivemap.setOpacity(value);
+		    }
+		});
+
 		/**
 		 * Alert
 		 */
@@ -151,7 +171,12 @@
 				name: type
 			};
 			var mapType = new google.maps.ImageMapType(eeMapOptions);
-			landcoverSlider.slider('setValue', 1);
+			if (type === 'landcovermap') {
+				landcoverSlider.slider('setValue', 1);
+			}
+			else if (type === 'primitivemap') {
+				primitiveSlider.slider('setValue', 1);
+			}
 			map.overlayMapTypes.push(mapType);
 			$scope.overlays[type] = mapType;
 			$scope.showLoader = false;
@@ -739,21 +764,22 @@
 
 		$scope.updatePrimitive = function (index) {
 			$scope.showLoader = true;
+			$scope.showPrimitiveOpacitySlider = false;
 			LandCoverService.getPrimitiveMap(index, $scope.sliderYear,
 											 $scope.shape, $scope.areaSelectFrom, $scope.areaName)
 		    .then(function (data) {
-		    	clearLayer('primitiveMap');
-		    	loadMap(data.eeMapId, data.eeMapToken, 'primitiveMap');
+		    	clearLayer('primitivemap');
+		    	loadMap(data.eeMapId, data.eeMapToken, 'primitivemap');
 	    		$timeout(function () {
 					showInfoAlert('Showing ' + getPrimitiveLabel(index) + ' primitive layer for '+ $scope.sliderYear);
 	    		}, 3500);
 		    	//$scope.showLegend = true;
+		    	$scope.showPrimitiveOpacitySlider = true;
 		    }, function (error) {
 		        console.log(error);
 		        showErrorAlert(error.statusText);
 		    });
 		};
-
 	});
 
 })();

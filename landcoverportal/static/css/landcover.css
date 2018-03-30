@@ -28,7 +28,7 @@
     bottom: 5px;
 }
 
-#landcover-opacity-slider .slider-selection {
+#landcover-opacity-slider .slider-selection, #primitive-opacity-slider .slider-selection {
     background: #BABABA;
 }
 
