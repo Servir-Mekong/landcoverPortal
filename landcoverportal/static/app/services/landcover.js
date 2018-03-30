@@ -77,7 +77,7 @@
 			return promise;
 		};
 
-		this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives) {
+		this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index) {
 
 			var req = {
 				method: 'POST',
@@ -85,7 +85,8 @@
 				data: {
 					year: year,
 					type: type,
-					primitives: primitives.toString()
+					primitives: primitives.toString(),
+					index: index
 				},
 				params: {
 					action: 'get-download-url'
@@ -114,7 +115,7 @@
 			return promise;
 		};
 
-		this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName) {
+		this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
 
 			var req = {
 				method: 'POST',
@@ -123,7 +124,8 @@
 					year: year,
 					type: type,
 					primitives: primitives.toString(),
-					fileName: fileName
+					fileName: fileName,
+					index: index
 				},
 				params: {
 					action: 'download-to-drive'

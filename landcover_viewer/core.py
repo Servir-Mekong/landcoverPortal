@@ -168,7 +168,7 @@ class LandCoverViewer():
                                        download = True,
                                        )
         elif type == 'primitive':
-            image = self.get_primitive(primitive = index,
+            image = self.get_primitive(index = index,
                                        year = year,
                                        download = True,
                                        )
@@ -203,7 +203,7 @@ class LandCoverViewer():
                                        download = True,
                                        )
         elif type == 'primitive':
-            image = self.get_primitive(primitive = index,
+            image = self.get_primitive(index = index,
                                        year = year,
                                        download = True,
                                        )

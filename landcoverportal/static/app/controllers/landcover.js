@@ -250,21 +250,34 @@
 			return google.maps.geometry.spherical.computeArea([northEast, northWest, southWest, southEast]) / 1e6;
 		};
 
-		var verifyBeforeDownload = function () {
+		var verifyBeforeDownload = function (type) {
+
+			if (typeof(type) === 'undefined') type = 'landcover';
+
+			var polygonCheck = true,
+				primitiveCheck = true;
 
 			if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
 				if (drawnArea > AREA_LIMIT) {
 					showErrorAlert('The drawn polygon is larger than ' + AREA_LIMIT + ' km2. This exceeds the current limitations for downloading data. Please draw a smaller polygon!');
-					return false;
+					polygonCheck = false;
 				}
 			} else {
 				showErrorAlert('Please draw a polygon before proceding to download!');
-				return false;
+				polygonCheck = false;
 			}
-			return true;
+
+			if (type === 'primitive') {
+				if (!$scope.primitiveIndex) {
+					showErrorAlert('Select a primitive Layer to Download!');
+					primitiveCheck = false;
+				}
+			}
+			return polygonCheck && primitiveCheck;
 		};
 
 		$scope.copyToClipBoard = function (type) {
+			if (typeof(type) === 'undefined') type = 'landcover';
 			// Function taken from https://codepen.io/nathanlong/pen/ZpAmjv?editors=0010
 			var btnCopy = $('.' + type + 'CpyBtn');
 			var copyTest = document.queryCommandSupported('copy');
@@ -680,17 +693,20 @@
 		// Download URL
 		$scope.landcoverDownloadURL = '';
 		$scope.showLandcoverDownloadURL = false;
+		$scope.showPrimitiveDownloadURL = false;
+		$scope.primitiveDownloadURL = '';
 
 		$scope.getDownloadURL = function (type) {
 			if (typeof(type) === 'undefined') type = 'landcover';
-			if (verifyBeforeDownload()) {
+			if (verifyBeforeDownload(type)) {
 				showInfoAlert('Preparing Download Link...');
 				LandCoverService.getDownloadURL(type,
 					$scope.shape,
 					$scope.areaSelectFrom,
 					$scope.areaName,
 					$scope.sliderYear,
-					$scope.assemblageLayers
+					$scope.assemblageLayers,
+					$scope.primitiveIndex
 				)
 			    .then(function (data) {
 					showSuccessAlert('Your Download Link is ready!');
@@ -708,7 +724,7 @@
 
 		$scope.showGDriveFileName = function (type) {
 			if (typeof(type) === 'undefined') type = 'landcover';
-			if (verifyBeforeDownload()) {
+			if (verifyBeforeDownload(type)) {
 				$scope['show' + type.capitalize() + 'GDriveFileName'] = true;
 			}
 		};
@@ -719,7 +735,7 @@
 
 		$scope.saveToDrive = function (type) {
 			if (typeof(type) === 'undefined') type = 'landcover';
-			if (verifyBeforeDownload()) {
+			if (verifyBeforeDownload(type)) {
 				// Check if filename is provided, if not use the default one
 				var fileName =  $sanitize($('#' + type + 'GDriveFileName').val() || '');
 				showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
@@ -729,7 +745,8 @@
 					$scope.areaName,
 					$scope.sliderYear,
 					$scope.assemblageLayers,
-					fileName
+					fileName,
+					$scope.primitiveIndex
 				)
 			    .then(function (data) {
 			    	if (data.error) {
@@ -775,6 +792,7 @@
 	    		}, 3500);
 		    	//$scope.showLegend = true;
 		    	$scope.showPrimitiveOpacitySlider = true;
+		    	$scope.primitiveIndex = index;
 		    }, function (error) {
 		        console.log(error);
 		        showErrorAlert(error.statusText);

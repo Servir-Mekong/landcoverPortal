@@ -66,6 +66,7 @@ def api(request):
                 data = core.get_download_url(type = type,
                                              year = year,
                                              primitives = primitives,
+                                             index = index
                                              )
             elif action == 'download-to-drive':
                 session_cache = request.session._session_cache
