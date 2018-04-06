@@ -20,6 +20,12 @@
 	margin-top: 15px;
 }
 
+.forest-definition {
+	color: black;
+    background-color: #337ab7;
+    margin-top: -10px;
+}
+
 .report-title {
     color: #04c;
     font-weight: bold;

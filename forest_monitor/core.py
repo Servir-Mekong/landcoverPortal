@@ -102,7 +102,7 @@ class ForestMonitor():
         map_id = image.getMapId({
             'min': '0',
             'max': '100',
-            'palette': '000000, 00FF00'
+            'palette': '0eff00, 1fc600, 089000, 0a5d00, 063b00'
         })
 
         data = {
@@ -187,10 +187,12 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     @staticmethod
-    def _filter_for_forest_definition(img_coll, define_tree_canopy, define_tree_height):
+    def _filter_for_forest_definition(img_coll,
+                                          tree_canopy_definition,
+                                          tree_height_definition):
 
-        return img_coll.map(lambda img: img.select('tcc').gt(define_tree_canopy).\
-                            And(img.select('tch').gt(define_tree_height)).
+        return img_coll.map(lambda img: img.select('tcc').gt(tree_canopy_definition).\
+                            And(img.select('tch').gt(tree_height_definition)).
                             rename(['forest_cover']))
 
     # -------------------------------------------------------------------------
@@ -198,8 +200,8 @@ class ForestMonitor():
                      get_image = False,
                      start_year = None,
                      end_year = None,
-                     define_tree_canopy = 10,
-                     define_tree_height = 5,
+                     tree_canopy_definition = 10,
+                     tree_height_definition = 5,
                      report_area = False,
                      ):
 
@@ -210,9 +212,10 @@ class ForestMonitor():
 
         combined_img_coll = ForestMonitor._get_combined_img_coll()
 
-        filtered_img_coll = ForestMonitor._filter_for_forest_definition(combined_img_coll,
-                                                                        define_tree_canopy,
-                                                                        define_tree_height)
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(\
+                                                        combined_img_coll,
+                                                        tree_canopy_definition,
+                                                        tree_height_definition)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -263,8 +266,8 @@ class ForestMonitor():
                      get_image = False,
                      start_year = None,
                      end_year = None,
-                     define_tree_canopy = 10,
-                     define_tree_height = 5,
+                     tree_canopy_definition = 10,
+                     tree_height_definition = 5,
                      report_area = False,
                      ):
 
@@ -275,9 +278,10 @@ class ForestMonitor():
 
         combined_img_coll = ForestMonitor._get_combined_img_coll()
 
-        filtered_img_coll = ForestMonitor._filter_for_forest_definition(combined_img_coll,
-                                                                        define_tree_canopy,
-                                                                        define_tree_height)
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(\
+                                                        combined_img_coll,
+                                                        tree_canopy_definition,
+                                                        tree_height_definition)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -328,8 +332,8 @@ class ForestMonitor():
                         get_image = False,
                         start_year = None,
                         end_year = None,
-                        define_tree_canopy = 10,
-                        define_tree_height = 5,
+                        tree_canopy_definition = 10,
+                        tree_height_definition = 5,
                         ):
 
         if not start_year and end_year:
@@ -339,9 +343,10 @@ class ForestMonitor():
 
         combined_img_coll = ForestMonitor._get_combined_img_coll()
 
-        filtered_img_coll = ForestMonitor._filter_for_forest_definition(combined_img_coll,
-                                                                        define_tree_canopy,
-                                                                        define_tree_height)
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(\
+                                                        combined_img_coll,
+                                                        tree_canopy_definition,
+                                                        tree_height_definition)
 
         start_image = self.tree_canopy(img_coll = filtered_img_coll,
                                        get_image = True,
@@ -386,8 +391,8 @@ class ForestMonitor():
                            type,
                            start_year,
                            end_year,
-                           define_tree_canopy,
-                           define_tree_height
+                           tree_canopy_definition,
+                           tree_height_definition
                            ):
 
         if (type == 'treeCanopy'):
@@ -402,22 +407,22 @@ class ForestMonitor():
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,
                                      end_year = end_year,
-                                     define_tree_canopy = define_tree_canopy,
-                                     define_tree_height = define_tree_canopy,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_height_definition,
                                      )
         elif (type == 'forestLoss'):
             image = self.forest_loss(get_image = True,
                                      start_year = start_year,
                                      end_year = end_year,
-                                     define_tree_canopy = define_tree_canopy,
-                                     define_tree_height = define_tree_canopy,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_canopy_definition,
                                      )
         elif (type == 'forestChange'):
             image = self.forest_change(get_image = True,
                                        start_year = start_year,
                                        end_year = end_year,
-                                       define_tree_canopy = define_tree_canopy,
-                                       define_tree_height = define_tree_canopy,
+                                       tree_canopy_definition = tree_canopy_definition,
+                                       tree_height_definition = tree_height_definition,
                                        )
 
         try:
@@ -437,8 +442,8 @@ class ForestMonitor():
                             user_email,
                             user_id,
                             file_name,
-                            define_tree_canopy,
-                            define_tree_height,
+                            tree_canopy_definition,
+                            tree_height_definition,
                             oauth2object
                             ):
 
@@ -454,22 +459,22 @@ class ForestMonitor():
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,
                                      end_year = end_year,
-                                     define_tree_canopy = define_tree_canopy,
-                                     define_tree_height = define_tree_canopy,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_height_definition,
                                      )
         elif (type == 'forestLoss'):
             image = self.forest_loss(get_image = True,
                                      start_year = start_year,
                                      end_year = end_year,
-                                     define_tree_canopy = define_tree_canopy,
-                                     define_tree_height = define_tree_canopy,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_height_definition,
                                      )
         elif (type == 'forestChange'):
             image = self.forest_change(get_image=True,
                                        start_year=start_year,
                                        end_year=end_year,
-                                       define_tree_canopy = define_tree_canopy,
-                                       define_tree_height = define_tree_canopy,
+                                       tree_canopy_definition = tree_canopy_definition,
+                                       tree_height_definition = tree_height_definition,
                                        )
 
         temp_file_name = get_unique_string()

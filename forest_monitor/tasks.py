@@ -38,8 +38,8 @@ def export_to_drive_task(**kwargs):
                                   kwargs['user_email'],
                                   kwargs['user_id'],
                                   kwargs['file_name'],
-                                  kwargs['define_tree_canopy'],
-                                  kwargs['define_tree_height'],
+                                  kwargs['tree_canopy_definition'],
+                                  kwargs['tree_height_definition'],
                                   oauth2object
                                   )
 

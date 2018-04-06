@@ -39,8 +39,8 @@ def api(request):
             start_year = post('startYear', '')
             end_year = post('endYear', '')
             type = post('type', '')
-            define_tree_canopy = post('treeCanopyDefinition', 10) # in percentage
-            define_tree_height = post('treeHeightDefinition', 5) # in meters
+            tree_canopy_definition = post('treeCanopyDefinition', 10) # in percentage
+            tree_height_definition = post('treeHeightDefinition', 5) # in meters
             report_area = True if get('report-area') == 'true' else False
             # sanitize
             # using older version of bleach to keep intact with the django cms
@@ -56,29 +56,29 @@ def api(request):
             elif action == 'forest-gain':
                 data = core.forest_gain(start_year = start_year,
                                         end_year = end_year,
-                                        define_tree_canopy = define_tree_canopy,
-                                        define_tree_height = define_tree_height,
+                                        tree_canopy_definition = tree_canopy_definition,
+                                        tree_height_definition = tree_height_definition,
                                         report_area = report_area,
                                         )
             elif action == 'forest-loss':
                 data = core.forest_loss(start_year = start_year,
                                         end_year = end_year,
-                                        define_tree_canopy = define_tree_canopy,
-                                        define_tree_height = define_tree_height,
+                                        tree_canopy_definition = tree_canopy_definition,
+                                        tree_height_definition = tree_height_definition,
                                         report_area = report_area,
                                         )
             elif action == 'forest-change':
                 data = core.forest_change(start_year = start_year,
                                           end_year = end_year,
-                                          define_tree_canopy = define_tree_canopy,
-                                          define_tree_height = define_tree_height,
+                                          tree_canopy_definition = tree_canopy_definition,
+                                          tree_height_definition = tree_height_definition,
                                           )
             elif action == 'get-download-url':
                 data = core.get_download_url(type,
                                              start_year,
                                              end_year,
-                                             define_tree_canopy,
-                                             define_tree_height,
+                                             tree_canopy_definition,
+                                             tree_height_definition,
                                              )
             elif action == 'download-to-drive':
                 session_cache = request.session._session_cache
@@ -111,8 +111,8 @@ def api(request):
                                                    center = center,
                                                    type = type,
                                                    file_name = file_name,
-                                                   define_tree_canopy = define_tree_canopy,
-                                                   define_tree_height = define_tree_height,
+                                                   tree_canopy_definition = tree_canopy_definition,
+                                                   tree_height_definition = tree_canopy_definition,
                                                    access_token = access_token,
                                                    client_id = client_id,
                                                    client_secret = client_secret,
@@ -151,8 +151,8 @@ def api(request):
                                                       user_email,
                                                       user_id,
                                                       file_name,
-                                                      define_tree_canopy,
-                                                      define_tree_height,
+                                                      tree_canopy_definition,
+                                                      tree_height_definition,
                                                       oauth2object,
                                                       )
                         data['info'] = 'I have started the export! You can check your drive after 5-10 mins to get the exported image!'

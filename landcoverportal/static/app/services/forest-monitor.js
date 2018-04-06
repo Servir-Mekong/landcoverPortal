@@ -1,11 +1,15 @@
 (function () {
-	
+
 	'use strict';
-	
+
 	angular.module('landcoverportal')
 	.service('ForestMonitorService', function ($http, $q) {
 
-		this.treeCanopyChange = function (year, shape, areaSelectFrom, areaName, reportArea) {
+		this.treeCanopyChange = function (year,
+										  shape,
+										  areaSelectFrom,
+										  areaName,
+										  reportArea) {
 
 			var req = {
 				method: 'POST',
@@ -306,7 +310,7 @@
 			return promise;
 
 		};
-		
+
 	});
-	
+
 })();
