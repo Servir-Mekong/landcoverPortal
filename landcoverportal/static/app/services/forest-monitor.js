@@ -5,17 +5,21 @@
 	angular.module('landcoverportal')
 	.service('ForestMonitorService', function ($http, $q) {
 
-		this.treeCanopyChange = function (year,
-										  shape,
-										  areaSelectFrom,
-										  areaName,
-										  reportArea) {
+		this.treeCanopyChange = function (
+			year,
+			shape,
+			areaSelectFrom,
+			areaName,
+			reportArea,
+			treeCanopyDefinition
+		) {
 
 			var req = {
 				method: 'POST',
 				url: '/forest-monitor/api/',
 				data: {
-					year: year
+					year: year,
+					treeCanopyDefinition: treeCanopyDefinition
 				},
 				params: {
 					action: 'tree-canopy',
@@ -45,13 +49,20 @@
 			return promise;
 		};
 
-		this.treeHeightChange = function (year, shape, areaSelectFrom, areaName) {
+		this.treeHeightChange = function (
+			year,
+			shape,
+			areaSelectFrom,
+			areaName,
+			treeHeightDefinition
+		) {
 
 			var req = {
 				method: 'POST',
 				url: '/forest-monitor/api/',
 				data: {
-					year: year
+					year: year,
+					treeHeightDefinition: treeHeightDefinition
 				},
 				params: {
 					action: 'tree-height'

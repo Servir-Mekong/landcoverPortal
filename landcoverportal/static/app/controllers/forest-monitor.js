@@ -106,7 +106,7 @@
 				map.data.forEach(function(feature) {
     				map.data.remove(feature);
 				});
-			}			
+			}
 		};
 
 		var clearSelectedArea = function () {
@@ -129,7 +129,7 @@
 
 			if ($scope.overlays.polygon) {
 				$scope.overlays.polygon.setMap(null);
-				$scope.showPolygonDrawing = false;				
+				$scope.showPolygonDrawing = false;
 			}
 		};
 
@@ -234,7 +234,7 @@
 					return false;
 				}
 			}
-			return true;	
+			return true;
 		};
 
 		$scope.copyToClipBoard = function (type) {
@@ -330,7 +330,7 @@
 			    }, function (error) {
 			    	showErrorAlert(error);
 			        console.log(error);
-			    });		
+			    });
 			}
 		};
 
@@ -383,13 +383,13 @@
 		*/
 		$('.btn-pref .btn').click (function () {
     		$('.btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-    		// $(".tab").addClass("active"); // instead of this do the below 
-    		$(this).removeClass('btn-default').addClass('btn-primary');  
+    		// $(".tab").addClass("active"); // instead of this do the below
+    		$(this).removeClass('btn-default').addClass('btn-primary');
 		});
 
 		$('.btn-pref-inner .btn').click (function () {
     		$('.btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
-    		$(this).removeClass('btn-default').addClass('btn-primary');  
+    		$(this).removeClass('btn-default').addClass('btn-primary');
 		});
 
 		/**
@@ -424,9 +424,9 @@
 				'fillOpacity': 0,
 				'editable': true
 		    };
-			
+
 			return drawingManagerOptions;
-				
+
 		};
 
 		$scope.drawShape = function (type) {
@@ -434,7 +434,7 @@
 			drawingManager.setOptions(getDrawingManagerOptions(type));
 			// Loading the drawing Tool in the Map.
 			drawingManager.setMap(map);
-			
+
 		};
 
 		var updateReportTotalArea = function () {
@@ -549,8 +549,8 @@
 						var kmlDoc;
 
     					if (window.DOMParser) {
-        					var parser = new DOMParser();                
-        					kmlDoc = parser.parseFromString(textResult, 'text/xml');                
+        					var parser = new DOMParser();
+        					kmlDoc = parser.parseFromString(textResult, 'text/xml');
     					} else { // Internet Explorer
         					kmlDoc = new ActiveXObject('Microsoft.XMLDOM');
         					kmlDoc.async = false;
@@ -668,7 +668,7 @@
 
 			// Setup the click event listeners
 			controlUI.addEventListener('click', function() {
-				$('#file-input').change( function () {					
+				$('#file-input').change( function () {
 					readFile();
 				});
 			});
@@ -725,11 +725,14 @@
 			// Close and restart this after success
 			$scope.showTreeCanopyOpacitySlider = false;
 
-			ForestMonitorService.treeCanopyChange(year,
-												  $scope.shape,
-												  $scope.areaSelectFrom,
-												  $scope.areaName,
-												  $scope.showReportNoPolygon ? false : true)
+			ForestMonitorService.treeCanopyChange(
+				year,
+				$scope.shape,
+				$scope.areaSelectFrom,
+				$scope.areaName,
+				$scope.showReportNoPolygon ? false : true,
+				$scope.treeCanopyDefinition
+			)
 		    .then(function (data) {
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
@@ -785,7 +788,13 @@
 			$scope.closeAlert();
 			$scope.showTreeHeightOpacitySlider = false;
 
-			ForestMonitorService.treeHeightChange(year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+			ForestMonitorService.treeHeightChange(
+				year,
+				$scope.shape,
+				$scope.areaSelectFrom,
+				$scope.areaName,
+				$scope.treeHeightDefinition
+			)
 		    .then(function (data) {
 		    	removeShownGeoJson();
 		    	loadMap(data.eeMapId, data.eeMapToken, name);
@@ -984,7 +993,7 @@
 			    });
 			}
 		};
-	
+
 	});
 
 })();

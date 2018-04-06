@@ -50,9 +50,12 @@ def api(request):
             if action == 'tree-canopy':
                 data = core.tree_canopy(year = post('year', ''),
                                         report_area = report_area,
+                                        tree_canopy_definition = tree_canopy_definition,
                                         )
             elif action == 'tree-height':
-                data = core.tree_height(year=post('year', ''))
+                data = core.tree_height(year=post('year', ''),
+                                        tree_height_definition = tree_height_definition,
+                                        )
             elif action == 'forest-gain':
                 data = core.forest_gain(start_year = start_year,
                                         end_year = end_year,
