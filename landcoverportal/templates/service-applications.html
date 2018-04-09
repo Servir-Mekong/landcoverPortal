@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+
+{% block navigation_container%}
+    {% include "navigation.html" %}
+{% endblock navigation_container %}
+
+{% block main_container %}
+
+    <div class="container" ng-controller="settingsCtrl" style="padding: 15px;">
+        <div class="row">
+            <!-- Card Projects -->
+            <div ng-repeat="applicationCard in serviceApplicationsCards" class="col-md-4">
+                <div class="card">
+                    <div class="card-image">
+                        <img class="img-responsive" src="{% static '' %}[[applicationCard.imageURL]]">
+                        <span class="card-title">[[ applicationCard.name ]]</span>
+                    </div>
+
+                    <div class="card-content">
+                        <p>[[ applicationCard.description ]]</p>
+                    </div>
+
+                    <div class="card-action text-center">
+                        <a href="[[ applicationCard.url ]]" target="new_blank">Go To Application</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main_container %}

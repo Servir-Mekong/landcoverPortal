@@ -3,7 +3,7 @@ angular.module('landcoverportal').constant('appSettings', {
 		{
 			'name': 'Map Viewer',
 			'url': '/landcover/',
-			'show': true
+			'show': false
 		},
 		{
 			'name': 'Methods',
@@ -11,14 +11,14 @@ angular.module('landcoverportal').constant('appSettings', {
 			'show': true
 		},
 		{
-			'name': 'Other Applications',
-			'url': '#',
+			'name': 'Service Applications',
+			'url': '/service-applications/',
 			'show': true
 		},
 		{
 			'name': 'Forest Monitoring',
 			'url': '/forest-monitor/',
-			'show': true
+			'show': false
 		}
 	],
 	applicationName: 'Land Cover Portal',
@@ -120,7 +120,7 @@ angular.module('landcoverportal').constant('appSettings', {
 	areaIndexSelectors: [
 		{
 			'value': 'country',
-			'name': 'Country Level' 
+			'name': 'Country Level'
 		},
 		{
 			'value': 'province',
@@ -301,6 +301,38 @@ angular.module('landcoverportal').constant('appSettings', {
 		{
 			'name': 'Tree Height',
 			'value': '15'
+		}
+	],
+	serviceApplicationsCards: [
+		{
+			'name': 'RLCMS',
+			'description': 'Regional Land Cover Monitoring System',
+			'url': '/landcover/',
+			'imageURL': 'images/rlcms.png'
+		},
+		{
+			'name': 'Forest Monitoring System',
+			'description': 'Forest Monitoring System',
+			'url': '/forest-monitor/',
+			'imageURL': 'images/fms.png'
+		},
+		{
+			'name': 'State of Land Report',
+			'description': 'State of Land Report',
+			'url': '#',
+			'imageURL': 'images/solr.png'
+		},
+		{
+			'name': 'Myanmar IPCC',
+			'description': 'Myanmar IPCC',
+			'url': '#',
+			'imageURL': 'images/myanmar-ipcc.png'
+		},
+		{
+			'name': 'Myanmar FRA',
+			'description': 'Myanmar FRA',
+			'url': '#',
+			'imageURL': 'images/myanmar-fra.png'
 		}
 	]
 });

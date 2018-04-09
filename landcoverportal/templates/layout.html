@@ -43,7 +43,7 @@
 		<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.skinHTML5.css' %}" rel="stylesheet">
 
 		<!-- Load CSS -->
-		{% if debug %}	
+		{% if debug %}
 		<!-- Custom CSS -->
 		<link href="{% static 'css/main.css' %}" rel="stylesheet">
 		<link href="{% static 'css/navigation.css' %}" rel="stylesheet">
@@ -51,6 +51,7 @@
 		<link href="{% static 'css/footer.css' %}" rel="stylesheet">
 		<link href="{% static 'css/forest-page.css' %}" rel="stylesheet">
 		<link href="{% static 'css/landcover.css' %}" rel="stylesheet">
+		<link href="{% static 'css/service-applications.css' %}" rel="stylesheet">
 		{% else %}
 		<link href="{% static 'dist/application.min.css' %}" rel="stylesheet">
 		{% endif %}
@@ -96,10 +97,10 @@
 	    <script src="{% static 'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
 	    <!-- Ion Range Slider -->
 	    <script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
-	
+
 	    <!-- Google Maps API -->
 	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCftEx2S9RjScdfNCGa4Z-8HgUVIUjOErk&v=3.exp&libraries=drawing,geometry"></script>
-	
+
 		<!--  Load Angular  -->
 		<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
 
@@ -107,18 +108,18 @@
 		<script src="{% static 'vendor/angular-sanitize/angular-sanitize.min.js' %}"></script>
 
 		<script src="{% static 'vendor/togeojson/togeojson.js' %}"></script>
-	
+
 		{% if debug %}
 	    <!-- Bootstrap Application -->
 	    <script src="{% static 'app/init.js' %}"></script>
-	
+
 	    <!-- Load Settings -->
 	    <script src="{% static 'app/config/settings.js' %}"></script>
-	
+
 	    <!-- Services -->
 	    <script src="{% static 'app/services/landcover.js' %}"></script>
 	    <script src="{% static 'app/services/forest-monitor.js' %}"></script>
-	    
+
 	    <!-- Controllers -->
 	    <script src="{% static 'app/controllers/settings.js' %}"></script>
 	    <script src="{% static 'app/controllers/landcover.js' %}"></script>
@@ -126,7 +127,7 @@
 		{% else %}
 		<script src="{% static 'dist/application.min.js' %}"></script>
 		{% endif %}
-	
+
 	{% endaddtoblock %}
 
 
@@ -136,7 +137,7 @@
 
 	    $('.scroll-down').click (function() {
 	    	$('html, body').animate({
-	    		scrollTop: $('#about').offset().top 
+	    		scrollTop: $('#about').offset().top
 	    	}, 'slow');
 	      	return false;
 	    });
