@@ -325,7 +325,7 @@ angular.module('landcoverportal').constant('appSettings', {
 		{
 			'name': 'Myanmar IPCC',
 			'description': 'Myanmar IPCC',
-			'url': '#',
+			'url': 'http://servir-rlcms.appspot.com/static/html/services.html',
 			'imageURL': 'images/myanmar-ipcc.png'
 		},
 		{
