@@ -6,7 +6,7 @@
 {% endblock navigation_container %}
 
 {% block main_container %}
-    
+
     <div class="container-fluid">
 
         <div class="row" ng-controller="forestMonitorCtrl">
@@ -30,9 +30,64 @@
             <!-- Map Container -->
             <div class="col-md-9 col-lg-9 map" id="map"></div>
 
+            <!-- Layer Control Container -->
+            <div class="panel panel-default layer-control">
+    			<div class="panel-heading">
+                    <h4 class="panel-title">
+    					<a class="layer-control-toggle"
+    					   data-toggle="collapse"
+    					   data-parent="#accordion"
+    					   href="#layer-control-body">
+                           <span class="glyphicon glyphicon-plus"></span> Layers
+                       </a>
+                   </h4>
+    			</div>
+    			<div class="panel-collapse collapse out" id="layer-control-body">
+    				<div class="panel-body">
+                        <ul class="panel-collapse list-group">
+                            <li class="list-group-item" ng-show="showTreeCanopyOpacitySlider">
+                                Tree Canopy
+                                <div class="custom-layer-switch pull-right">
+                                    <input id="treeCanopySwitch" name="treeCanopySwitch" type="checkbox" checked/>
+                                    <label for="treeCanopySwitch" class="label-primary"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item" ng-show="showTreeHeightOpacitySlider">
+                                Tree Height
+                                <div class="custom-layer-switch pull-right">
+                                    <input id="treeHeightSwitch" name="treeHeightSwitch" type="checkbox" checked />
+                                    <label for="treeHeightSwitch" class="label-primary"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item" ng-show="showForestGainOpacitySlider">
+                                Forest Gain
+                                <div class="custom-layer-switch pull-right">
+                                    <input id="forestGainSwitch" name="forestGainSwitch" type="checkbox" checked />
+                                    <label for="forestGainSwitch" class="label-primary"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item" ng-show="showForestLossOpacitySlider">
+                                Forest Loss
+                                <div class="custom-layer-switch pull-right">
+                                    <input id="forestLossSwitch" name="forestLossSwitch" type="checkbox" checked />
+                                    <label for="forestLossSwitch" class="label-primary"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item" ng-show="showForestChangeOpacitySlider">
+                                Forest Change
+                                <div class="custom-layer-switch pull-right">
+                                    <input id="forestChangeSwitch" name="forestChangeSwitch" type="checkbox" checked />
+                                    <label for="forestChangeSwitch" class="label-primary"></label>
+                                </div>
+                            </li>
+                        </ul>
+    				</div>
+    			</div>
+            </div>
+
             <!-- Toogle button container -->
             <div id="tool-control-container"></div>
-            
+
             <!-- Tab Container -->
             <div class="tab-tool" ng-show="showTabContainer">
                 <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
@@ -60,11 +115,11 @@
                         <div class="tab-pane fade active in" id="area-tab">
                             <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-primary js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
+                                    <button type="button" class="btn btn-primary btn-sm js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
                                         <div class="hidden-xs">Draw or <br/>Upload Area</div>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
+                                    <button type="button" class="btn btn-default btn-sm js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
                                         <div class="hidden-xs">Administrative <br/> Region</div>
                                     </button>
                                 </div>
@@ -146,7 +201,7 @@
                         <!--<div class="tab-pane fade in" id="download-tab"></div>-->
                     </div>
                 </div>
-                
+
             </div><!-- end of tab -->
 
         </div>

@@ -133,20 +133,23 @@
 
 	{% render_block "js" %}
 
-	<script type="text/javascript">
+	<script>
+		$(document).ready(function() {
 
-	    $('.scroll-down').click (function() {
-	    	$('html, body').animate({
-	    		scrollTop: $('#about').offset().top
-	    	}, 'slow');
-	      	return false;
-	    });
+		    $('.scroll-down').click (function () {
+		    	$('html, body').animate({
+		    		scrollTop: $('#about').offset().top
+		    	}, 'slow');
+		      	return false;
+		    });
 
-	   $('.nav-side-menu li').click(function() {
-	      // remove classes from all
-	      $('.nav-side-menu li').removeClass('active');
-	      // add class to the one we clicked
-	      $(this).addClass('active');
+		   $('.nav-side-menu li').click(function () {
+		      // remove classes from all
+		      $('.nav-side-menu li').removeClass('active');
+		      // add class to the one we clicked
+		      $(this).addClass('active');
+		   });
+
 	   });
 
 	</script>

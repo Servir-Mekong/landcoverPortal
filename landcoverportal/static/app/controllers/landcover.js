@@ -34,7 +34,7 @@
 		        	position: google.maps.ControlPosition.TOP_LEFT
 		        },
 				zoomControlOptions: {
-				  position: google.maps.ControlPosition.LEFT_BOTTOM
+				  position: google.maps.ControlPosition.RIGHT_BOTTOM
 				},
 				scaleControl: true,
 				streetViewControl: true,
@@ -135,7 +135,7 @@
 				map.data.forEach(function(feature) {
     				map.data.remove(feature);
 				});
-			}			
+			}
 		};
 
 		var clearSelectedArea = function () {
@@ -158,7 +158,7 @@
 
 			if ($scope.overlays.polygon) {
 				$scope.overlays.polygon.setMap(null);
-				$scope.showPolygonDrawing = false;				
+				$scope.showPolygonDrawing = false;
 			}
 		};
 
@@ -366,19 +366,19 @@
 		*/
 		$('.tab-tool .btn-pref .btn').click (function () {
     		$('.tab-tool .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-    		// $(".tab").addClass("active"); // instead of this do the below 
-    		$(this).removeClass('btn-default').addClass('btn-primary');  
+    		// $(".tab").addClass("active"); // instead of this do the below
+    		$(this).removeClass('btn-default').addClass('btn-primary');
 		});
 
 		$('.tab-tool .btn-pref-inner .btn').click (function () {
     		$('.tab-tool .btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
-    		$(this).removeClass('btn-default').addClass('btn-primary');  
+    		$(this).removeClass('btn-default').addClass('btn-primary');
 		});
 
 		$('#sidebar-tab .btn-pref .btn').click (function () {
     		$('#sidebar-tab .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-    		// $(".tab").addClass("active"); // instead of this do the below 
-    		$(this).removeClass('btn-default').addClass('btn-primary');  
+    		// $(".tab").addClass("active"); // instead of this do the below
+    		$(this).removeClass('btn-default').addClass('btn-primary');
 		});
 
 		/**
@@ -413,9 +413,9 @@
 				'fillOpacity': 0,
 				'editable': true
 		    };
-			
+
 			return drawingManagerOptions;
-				
+
 		};
 
 		$scope.drawShape = function (type) {
@@ -423,7 +423,7 @@
 			drawingManager.setOptions(getDrawingManagerOptions(type));
 			// Loading the drawing Tool in the Map.
 			drawingManager.setMap(map);
-			
+
 		};
 
 		// Listeners
@@ -522,8 +522,8 @@
 						var kmlDoc;
 
     					if (window.DOMParser) {
-        					var parser = new DOMParser();                
-        					kmlDoc = parser.parseFromString(textResult, 'text/xml');                
+        					var parser = new DOMParser();
+        					kmlDoc = parser.parseFromString(textResult, 'text/xml');
     					} else { // Internet Explorer
         					kmlDoc = new ActiveXObject('Microsoft.XMLDOM');
         					kmlDoc.async = false;
@@ -768,7 +768,7 @@
 			    }, function (error) {
 			    	showErrorAlert(error);
 			        console.log(error);
-			    });		
+			    });
 			}
 		};
 

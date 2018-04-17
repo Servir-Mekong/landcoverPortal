@@ -35,22 +35,22 @@
 				zoom: DEFAULT_ZOOM,
 				maxZoom: MAX_ZOOM,
 				mapTypeControlOptions: {
-					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-		            position: google.maps.ControlPosition.TOP_CENTER
-		        },
+					style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+					mapTypeIds: ['terrain', 'roadmap', 'hybrid'],
+					position: google.maps.ControlPosition.TOP_CENTER
+                },
 		        fullscreenControl: true,
 		        fullscreenControlOptions: {
 		        	position: google.maps.ControlPosition.TOP_LEFT
 		        },
 				zoomControlOptions: {
-				  position: google.maps.ControlPosition.LEFT_BOTTOM
+				  position: google.maps.ControlPosition.RIGHT_BOTTOM
 				},
 				scaleControl: true,
 				streetViewControl: true,
 				streetViewControlOptions: {
 				  position: google.maps.ControlPosition.TOP_CENTER
-				},
-		        mapTypeId: 'hybrid'
+				}
 			},
 			// Map variable
 			map = new google.maps.Map(document.getElementById('map'), mapOptions),
@@ -71,6 +71,18 @@
 		$scope.showReportForestLoss = false;
 
 		$('.js-tooltip').tooltip();
+
+		/**
+		 * Layer switcher Style
+		 */
+		 // Toggle minus and plus sign in layer control
+		 $('a.layer-control-toggle').click(function () {
+			 if ($(this).find('.glyphicon').hasClass('glyphicon-plus')) {
+				 $(this).find('.glyphicon').addClass('glyphicon-minus').removeClass('glyphicon-plus');
+			 } else {
+				 $(this).find('.glyphicon').addClass('glyphicon-plus').removeClass('glyphicon-minus');
+			 }
+		 });
 
 		/**
 		 * Alert
@@ -259,7 +271,7 @@
 		    	btnCopy.attr('data-original-title', elOriginalText);
 		  	} else {
 		    	// Fallback if browser doesn't support .execCommand('copy')
-		    	window.prompt("Copy to clipboard: Ctrl+C or Command+C");
+		    	window.prompt('Copy to clipboard: Ctrl+C or Command+C');
 		  	}
 		};
 
@@ -696,7 +708,9 @@
 			}
 		};
 
-		/* Tree Canopy */
+		/*
+		 * Tree Canopy Calculations
+		 */
 		$scope.showTreeCanopyOpacitySlider = false;
 		$scope.treeCanopyOpacitySliderValue = null;
 		$scope.showTreeCanopyDownloadButtons = false;
@@ -712,8 +726,18 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.treeCanopyOpacitySliderValue) {
+				$scope.treeCanopyOpacitySliderValue = value;
 		    	$scope.overlays.treeCanopy.setOpacity(value);
 		    }
+		});
+
+		/* Layer switcher */
+		$('#treeCanopySwitch').change(function () {
+			if ($(this).is(':checked')) {
+				$scope.overlays.treeCanopy.setOpacity($scope.treeCanopyOpacitySliderValue);
+			} else {
+				$scope.overlays.treeCanopy.setOpacity(0);
+			}
 		});
 
 		$scope.treeCanopyYearChange = function (year) {
@@ -760,7 +784,9 @@
 		    });
 		};
 
-		/* Tree height */
+		/*
+		 * Tree Height Calculations
+		 */
 		$scope.showTreeHeightOpacitySlider = false;
 		$scope.treeHeightOpacitySliderValue = null;
 		$scope.showTreeHeightDownloadButtons = false;
@@ -776,8 +802,18 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.treeHeightOpacitySliderValue) {
+				$scope.treeHeightOpacitySliderValue = value;
 		    	$scope.overlays.treeHeight.setOpacity(value);
 		    }
+		});
+
+		/* Layer switcher */
+		$('#treeHeightSwitch').change(function () {
+			if ($(this).is(":checked")) {
+				$scope.overlays.treeHeight.setOpacity($scope.treeHeightOpacitySliderValue);
+			} else {
+				$scope.overlays.treeHeight.setOpacity(0);
+			}
 		});
 
 		$scope.treeHeightYearChange = function(year) {
@@ -810,7 +846,9 @@
 		    });
 		};
 
-		/* Forest Gain */
+		/*
+		 * Forest Gain Calculations
+		 */
 		$scope.showForestGainOpacitySlider = false;
 		$scope.forestGainOpacitySliderValue = null;
 		$scope.showForestGainDownloadButtons = false;
@@ -826,8 +864,18 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.forestGainOpacitySliderValue) {
+				$scope.forestGainOpacitySliderValue = value;
 		    	$scope.overlays.forestGain.setOpacity(value);
 		    }
+		});
+
+		/* Layer switcher */
+		$('#forestGainSwitch').change(function () {
+			if ($(this).is(":checked")) {
+				$scope.overlays.forestGain.setOpacity($scope.forestGainOpacitySliderValue);
+			} else {
+				$scope.overlays.forestGain.setOpacity(0);
+			}
 		});
 
 		$scope.calculateForestGain = function (startYear, endYear) {
@@ -876,7 +924,9 @@
 			}
 		};
 
-		/* Forest Loss */
+		/*
+		 * Forest Loss Calculations
+		 */
 		$scope.showForestLossOpacitySlider = false;
 		$scope.forestLossOpacitySliderValue = null;
 		$scope.showForestLossDownloadButtons = false;
@@ -892,8 +942,18 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.forestLossOpacitySliderValue) {
+				$scope.forestLossOpacitySliderValue = value;
 		    	$scope.overlays.forestLoss.setOpacity(value);
 		    }
+		});
+
+		/* Layer switcher */
+		$('#forestLossSwitch').change(function () {
+			if ($(this).is(":checked")) {
+				$scope.overlays.forestLoss.setOpacity($scope.forestLossOpacitySliderValue);
+			} else {
+				$scope.overlays.forestLoss.setOpacity(0);
+			}
 		});
 
 		$scope.calculateForestLoss = function (startYear, endYear) {
@@ -941,7 +1001,9 @@
 			}
 		};
 
-		/* Forest Change */
+		/*
+		 * Forest Change Calculations
+		 */
 		$scope.showForestChangeOpacitySlider = false;
 		$scope.forestChangeOpacitySliderValue = null;
 		$scope.showForestChangeDownloadButtons = false;
@@ -957,8 +1019,18 @@
 		.on('slideStop', function (event) {
 		    var value = $(this).data('slider').getValue();
 		    if (value !== $scope.forestChangeOpacitySliderValue) {
+				$scope.forestChangeOpacitySliderValue = value;
 		    	$scope.overlays.forestChange.setOpacity(value);
 		    }
+		});
+
+		/* Layer switcher */
+		$('#forestChangeSwitch').change(function () {
+			if ($(this).is(":checked")) {
+				$scope.overlays.forestChange.setOpacity($scope.forestChangeOpacitySliderValue);
+			} else {
+				$scope.overlays.forestChange.setOpacity(0);
+			}
 		});
 
 		$scope.calculateForestChange = function (startYear, endYear) {
