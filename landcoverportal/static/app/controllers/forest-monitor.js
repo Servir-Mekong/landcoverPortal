@@ -809,7 +809,7 @@
 
 		/* Layer switcher */
 		$('#treeHeightSwitch').change(function () {
-			if ($(this).is(":checked")) {
+			if ($(this).is(':checked')) {
 				$scope.overlays.treeHeight.setOpacity($scope.treeHeightOpacitySliderValue);
 			} else {
 				$scope.overlays.treeHeight.setOpacity(0);
@@ -871,7 +871,7 @@
 
 		/* Layer switcher */
 		$('#forestGainSwitch').change(function () {
-			if ($(this).is(":checked")) {
+			if ($(this).is(':checked')) {
 				$scope.overlays.forestGain.setOpacity($scope.forestGainOpacitySliderValue);
 			} else {
 				$scope.overlays.forestGain.setOpacity(0);
@@ -949,7 +949,7 @@
 
 		/* Layer switcher */
 		$('#forestLossSwitch').change(function () {
-			if ($(this).is(":checked")) {
+			if ($(this).is(':checked')) {
 				$scope.overlays.forestLoss.setOpacity($scope.forestLossOpacitySliderValue);
 			} else {
 				$scope.overlays.forestLoss.setOpacity(0);
@@ -1026,7 +1026,7 @@
 
 		/* Layer switcher */
 		$('#forestChangeSwitch').change(function () {
-			if ($(this).is(":checked")) {
+			if ($(this).is(':checked')) {
 				$scope.overlays.forestChange.setOpacity($scope.forestChangeOpacitySliderValue);
 			} else {
 				$scope.overlays.forestChange.setOpacity(0);

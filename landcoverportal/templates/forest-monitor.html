@@ -31,7 +31,8 @@
             <div class="col-md-9 col-lg-9 map" id="map"></div>
 
             <!-- Layer Control Container -->
-            <div class="panel panel-default layer-control">
+            <div class="panel panel-default layer-control"
+                 ng-show="showTreeCanopyOpacitySlider || showTreeHeightOpacitySlider || showForestGainOpacitySlider || showForestLossOpacitySlider || showForestChangeOpacitySlider">
     			<div class="panel-heading">
                     <h4 class="panel-title">
     					<a class="layer-control-toggle"
