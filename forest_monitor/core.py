@@ -87,8 +87,7 @@ class ForestMonitor():
 
         if not img_coll:
             img_coll = ForestMonitor.TREE_CANOPY_IMG_COLLECTION
-
-        img_coll = img_coll.map(lambda img: img.select('tcc').gt(tree_canopy_definition))
+            img_coll = img_coll.map(lambda img: img.select('tcc').gt(tree_canopy_definition))
 
         image = img_coll.filterMetadata('system:index',
                                         'equals',
@@ -148,8 +147,7 @@ class ForestMonitor():
 
         if not img_coll:
             img_coll = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION
-
-        img_coll = img_coll.map(lambda img: img.select('tch').gt(tree_height_definition))
+            img_coll = img_coll.map(lambda img: img.select('tch').gt(tree_height_definition))
 
         image = img_coll.filterMetadata('system:index',
                                         'equals',
