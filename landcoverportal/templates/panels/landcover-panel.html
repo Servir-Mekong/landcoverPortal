@@ -20,13 +20,14 @@
             <div class="tab-content">
 
                 <div class="tab-pane fade active in" id="land-cover-classes-tab">
-                    <fieldset class="row lcp-class-container">
-                        <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
-                        <button type="button" class="btn btn-primary btn-sm btn-block"
-                                ng-click="updateAssemblageProduct()" style="margin-bottom: 10px;">
-                            Update Map
-                        </button>
-                    </fieldset>
+                    <div class="row">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>The Map and the product shows the primiary result!</strong>
+                        </div>
+                    </div>
                     <fieldset class="row lcp-class-container">
                         <!-- Download button -->
                         <div class="btn-group btn-block">
@@ -45,7 +46,7 @@
                             <input type="text" class="form-control" value="[[landcoverDownloadURL]]">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default landcoverCpyBtn js-tooltip"
-                                        data-toggle="tooltip" data-placement="bottom" 
+                                        data-toggle="tooltip" data-placement="bottom"
                                         title="Copy to clipboard"
                                         ng-click="copyToClipBoard('landcover')"
                                         style="height: 34px;margin-bottom: 14px;">
@@ -76,6 +77,13 @@
                                    data-slider-max="1"
                                    data-slider-step="0.1" />
                         </div>
+                    </fieldset>
+                    <fieldset class="row lcp-class-container">
+                        <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
+                        <button type="button" class="btn btn-primary btn-sm btn-block"
+                                ng-click="updateAssemblageProduct()" style="margin-bottom: 10px;">
+                            Update Map
+                        </button>
                     </fieldset>
                     <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
                         <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
@@ -122,7 +130,7 @@
                             <input type="text" class="form-control" value="[[primitiveDownloadURL]]">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default primitiveCanopyCpyBtn js-tooltip"
-                                        data-toggle="tooltip" data-placement="bottom" 
+                                        data-toggle="tooltip" data-placement="bottom"
                                         title="Copy to clipboard"
                                         ng-click="copyToClipBoard('primitive')"
                                         style="height: 34px;margin-bottom: 14px;">
@@ -166,6 +174,6 @@
                 </div>
             </div>
         </div>
-        
+
     </div><!-- end of tab -->
 </div>
