@@ -124,6 +124,9 @@
 	    <script src="{% static 'app/controllers/settings.js' %}"></script>
 	    <script src="{% static 'app/controllers/landcover.js' %}"></script>
 	    <script src="{% static 'app/controllers/forest-monitor.js' %}"></script>
+
+		<!-- Directives -->
+		<script src="{% static 'app/directives/text-collapse.js' %}"
 		{% else %}
 		<script src="{% static 'dist/application.min.js' %}"></script>
 		{% endif %}
@@ -134,6 +137,7 @@
 	{% render_block "js" %}
 
 	<script>
+
 		$(document).ready(function() {
 
 		    $('.scroll-down').click (function () {

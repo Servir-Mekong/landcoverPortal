@@ -305,7 +305,7 @@ angular.module('landcoverportal').constant('appSettings', {
 	],
 	serviceApplicationsCards: [
 		{
-			'name': 'RLCMS',
+			'name': 'Regional Land Cover Monitoring System',
 			'description': 'Regional Land Cover Monitoring System',
 			'url': '/landcover/',
 			'imageURL': 'images/rlcms.png'

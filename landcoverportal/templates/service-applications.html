@@ -7,18 +7,21 @@
 
 {% block main_container %}
 
-    <div class="container" ng-controller="settingsCtrl" style="padding: 15px;">
+    <div class="container" ng-controller="settingsCtrl" style="padding: 25px;">
         <div class="row">
             <!-- Card Projects -->
-            <div ng-repeat="applicationCard in serviceApplicationsCards" class="col-md-6">
+            <div ng-repeat="applicationCard in serviceApplicationsCards" class="col-md-4">
                 <div class="card">
                     <div class="card-image">
                         <img class="img-responsive" src="{% static '' %}[[applicationCard.imageURL]]">
-                        <span class="card-title">[[ applicationCard.name ]]</span>
+                        <h4><b><span class="card-title">[[ applicationCard.name ]]</span></b></h4>
                     </div>
 
                     <div class="card-content">
-                        <p ng-bind-html="[[ applicationCard.description ]]"></p>
+                        <p text-collapse
+                           text-collapse-max-length="220"
+                           text-collapse-text="[[ applicationCard.description ]]">
+                       </p>
                     </div>
 
                     <div class="card-action text-center">

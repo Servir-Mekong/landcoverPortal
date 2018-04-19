@@ -6,14 +6,15 @@
 		console.log('Bootstraping the app');
 		angular.bootstrap(document.body, ['landcoverportal']);
 	});
-	
+
 	// All the dependencies come here
-	angular.module('landcoverportal', ['ngSanitize'], function ($interpolateProvider) {
+	angular.module('landcoverportal', ['ngSanitize'],
+	function ($interpolateProvider) {
 		$interpolateProvider.startSymbol('[[');
 		$interpolateProvider.endSymbol(']]');
 	})
 	.config(function ($httpProvider) {
-		
+
 	    $httpProvider.defaults.headers.common = {};
 	    $httpProvider.defaults.headers.post = {};
 	    $httpProvider.defaults.headers.put = {};

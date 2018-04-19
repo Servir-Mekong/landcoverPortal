@@ -3,16 +3,17 @@
 }
 
 .card {
-    margin-top: 10px;
+    margin: 10px;
     box-sizing: border-box;
     border-radius: 2px;
     background-clip: padding-box;
 }
 .card span.card-title {
-    color: #891f09;
-    font-size: 20px;
-    font-weight: 300;
     text-transform: uppercase;
+    color: #435b7c;
+    text-decoration: none;
+    transition: color 150ms ease;
+    box-decoration-break: clone;
 }
 
 .card .card-image {

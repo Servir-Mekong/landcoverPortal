@@ -88,9 +88,9 @@
     top: 85%;
 }
 
-.arrow a { 
+.arrow a {
 	color: white;
-	text-decoration: none; 
+	text-decoration: none;
 }
 
 .bounce {
@@ -298,4 +298,20 @@ input:checked + .switch-slider:before {
     right: 12px;
     display: inline-block;
     z-index: 1;
+}
+
+/* Collapse Text */
+.collapse-text-toggle {
+    font-size: 0.9em;
+    color: #666666;
+    cursor: pointer;
+}
+.collapse-text-toggle:hover {
+    color: #222222;
+}
+.collapse-text-toggle:before {
+    content: '\00a0(';
+}
+.collapse-text-toggle:after {
+    content: ')';
 }
