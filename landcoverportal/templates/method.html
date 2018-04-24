@@ -6,9 +6,88 @@
 {% endblock navigation_container %}
 
 {% block main_container %}
-    
-    <div class="container-fluid">
 
+    <div class="container">
+
+        <div class="row">
+            <h1 class="text-center"><b>REGIONAL LAND COVER MONITORING SYSTEM METHODOLOGY</b></h1>
+            <div class="col-md-6 col-lg-6">
+                <img src="{% static 'images/methods.png' %}" style="width:110%;"/>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <h3>A robust system that:
+                <ul>
+                    <li>is developed <b>collaboratively</b></li>
+                    <li>Produces <b>consistent products</b> at <b>regular intervals</b></li>
+                    <li>Serves the expressed <b>needs of multiple users</b> in the region</li>
+                    <li>Uses <b>transparent, well documented, open source approach</b></li>
+                    <li>Includes <b>quality control/quality assurance methods</b> that integrates information from multiple sources</li>
+                </ul></h3>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h1 class="text-center"><b>CODE REPOSITORIES</b></h1>
+            <ul>
+                <li><h3>Regional Land Cover Monitoring System Google Earth Engine code repository (Requires Earth Engine Authentication)</h3></li>
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <a href="https://earthengine.googlesource.com/RLCMS/+/master"
+                           class="btn btn-primary btn-lg btn-block" role="button" target="_blank">
+                           Go to <img src="{% static 'images/google-git.png' %}" width="25%" /> repository
+                       </a>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <a href="https://code.earthengine.google.com/?accept_repo=RLCMS"
+                           class="btn btn-primary btn-lg btn-block" role="button" target="_blank">
+                           View code in <img src="{% static 'images/gee.png' %}" width="33%" />
+                       </a>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 text-center">
+                        <h4>Don't have an Earth Engine account yet?</h4>
+                        <a href="https://signup.earthengine.google.com/"
+                           class="btn btn-info btn-lg btn-block" role="button" target="_blank">
+                           Sign up now <img src="{% static 'images/gee-wheel.png' %}" style="width:2%;"/>
+                       </a>
+                    </div>
+                </div>
+                <br>
+                <li><h3>SERVIR-Mekong Land Cover Portal Code Repository in GitHub</h3></li>
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <a href="https://github.com/Servir-Mekong/landcoverPortal"
+                           class="btn btn-primary btn-lg btn-block" role="button" target="_blank">
+                           Go to Land Cover Portal Repository <img src="{% static 'images/github.png' %}" width="15%" />
+                       </a>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <a href="https://github.com/Servir-Mekong/LandCoverMonitoring"
+                           class="btn btn-primary btn-lg btn-block" role="button" target="_blank">
+                           Go to Land Cover Monitoring Repository <img src="{% static 'images/github.png' %}" width="15%" />
+                       </a>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <br>
+        <div class="row">
+            <h1 class="text-center"><b>REFERENCE DATA COLLECTION</b></h1>
+            <div class="col-md-6 col-lg-6">
+                <img src="{% static 'images/ceo.png' %}" />
+                <a href="http://ceo.sig-gis.com/"
+                   class="btn btn-primary btn-lg btn-block" role="button" target="_blank">
+                   Go to Collect Earth Online
+               </a>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <h4>Collect Earth Online is a custom built, open-source, high resolution satellite image viewing and interpretation system that is being developed by SERVIR-Mekong as a tool for use in projects that require land cover and/or land use reference data. Collect Earth Online promotes consistency in locating, interpreting, and labeling reference data plots for use in classifying and monitoring land cover / land use change. The full functionality of Collect Earth Online including collaborative compilation of reference point databases is implemented online so there is no need for desktop installation.
+                </h4>
+            </div>
+        </div>
+        <br>
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="row">
