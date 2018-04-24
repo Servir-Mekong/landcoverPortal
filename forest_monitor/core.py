@@ -397,7 +397,8 @@ class ForestMonitor():
         map_id = change_image.getMapId({
             'min': min,
             'max': max,
-            'palette': 'FF0000, FFFF00, 00FF00'
+            'palette': 'yellow'
+            #'palette': 'FF0000, FFFF00, 00FF00'
         })
 
         return {

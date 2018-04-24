@@ -35,10 +35,10 @@
 				zoom: DEFAULT_ZOOM,
 				maxZoom: MAX_ZOOM,
 				mapTypeControlOptions: {
-					style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-					mapTypeIds: ['terrain', 'roadmap', 'hybrid'],
+					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
 					position: google.maps.ControlPosition.TOP_CENTER
                 },
+				mapTypeId: 'hybrid',
 		        fullscreenControl: true,
 		        fullscreenControlOptions: {
 		        	position: google.maps.ControlPosition.TOP_LEFT
@@ -79,8 +79,10 @@
 		 $('a.layer-control-toggle').click(function () {
 			 if ($(this).find('.glyphicon').hasClass('glyphicon-plus')) {
 				 $(this).find('.glyphicon').addClass('glyphicon-minus').removeClass('glyphicon-plus');
+				 $('.layer-control').css({'marginRight': '44%'});
 			 } else {
 				 $(this).find('.glyphicon').addClass('glyphicon-plus').removeClass('glyphicon-minus');
+				 $('.layer-control').css({'marginRight': '65%'});
 			 }
 		 });
 

@@ -47,38 +47,83 @@
     				<div class="panel-body">
                         <ul class="panel-collapse list-group">
                             <li class="list-group-item" ng-show="showTreeCanopyOpacitySlider">
-                                Tree Canopy
-                                <div class="custom-layer-switch pull-right">
-                                    <input id="treeCanopySwitch" name="treeCanopySwitch" type="checkbox" checked/>
-                                    <label for="treeCanopySwitch" class="label-primary"></label>
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-4 pull-left">
+                                        <span>Tree Canopy</span>
+                                    </div>
+                                    <div class="col-md-5 col-lg-5 pull-left">
+                                        <img src="{% static 'images/tree-canopy-legend.png' %}" style="width: 150px;" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-3">
+                                        <div class="custom-layer-switch pull-right">
+                                            <input id="treeCanopySwitch" name="treeCanopySwitch" type="checkbox" checked/>
+                                            <label for="treeCanopySwitch" class="label-primary"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                             <li class="list-group-item" ng-show="showTreeHeightOpacitySlider">
-                                Tree Height
-                                <div class="custom-layer-switch pull-right">
-                                    <input id="treeHeightSwitch" name="treeHeightSwitch" type="checkbox" checked />
-                                    <label for="treeHeightSwitch" class="label-primary"></label>
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-4 pull-left">
+                                        <span>Tree Height</span>
+                                    </div>
+                                    <div class="col-md-5 col-lg-5 pull-left">
+                                        <img src="{% static 'images/tree-canopy-legend.png' %}" style="width: 150px;" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-3">
+                                        <div class="custom-layer-switch pull-right">
+                                            <input id="treeHeightSwitch" name="treeHeightSwitch" type="checkbox" checked />
+                                            <label for="treeHeightSwitch" class="label-primary"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                             <li class="list-group-item" ng-show="showForestGainOpacitySlider">
-                                Forest Gain
-                                <div class="custom-layer-switch pull-right">
-                                    <input id="forestGainSwitch" name="forestGainSwitch" type="checkbox" checked />
-                                    <label for="forestGainSwitch" class="label-primary"></label>
+                                <div class="row">
+                                    <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                        <span>Forest Gain</span>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 pull-left">
+                                        <div class="lcp-class-color" style="background: blue;"></div>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                        <div class="custom-layer-switch pull-right">
+                                            <input id="forestGainSwitch" name="forestGainSwitch" type="checkbox" checked />
+                                            <label for="forestGainSwitch" class="label-primary"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                             <li class="list-group-item" ng-show="showForestLossOpacitySlider">
-                                Forest Loss
-                                <div class="custom-layer-switch pull-right">
-                                    <input id="forestLossSwitch" name="forestLossSwitch" type="checkbox" checked />
-                                    <label for="forestLossSwitch" class="label-primary"></label>
+                                <div class="row">
+                                    <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                        <span>Forest Loss</span>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 pull-left">
+                                        <div class="lcp-class-color" style="background: red;"></div>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                        <div class="custom-layer-switch pull-right">
+                                            <input id="forestLossSwitch" name="forestLossSwitch" type="checkbox" checked />
+                                            <label for="forestLossSwitch" class="label-primary"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                             <li class="list-group-item" ng-show="showForestChangeOpacitySlider">
-                                Forest Change
-                                <div class="custom-layer-switch pull-right">
-                                    <input id="forestChangeSwitch" name="forestChangeSwitch" type="checkbox" checked />
-                                    <label for="forestChangeSwitch" class="label-primary"></label>
+                                <div class="row">
+                                    <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                        <span>Forest Change</span>
+                                    </div>
+                                    <div class="col-md-4 col-lg-4 pull-left">
+                                        <div class="lcp-class-color" style="background: yellow;"></div>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                        <div class="custom-layer-switch pull-right">
+                                            <input id="forestChangeSwitch" name="forestChangeSwitch" type="checkbox" checked />
+                                            <label for="forestChangeSwitch" class="label-primary"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
