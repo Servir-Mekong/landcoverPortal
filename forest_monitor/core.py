@@ -86,8 +86,12 @@ class ForestMonitor():
             }
 
         if not img_coll:
+            def _apply_tree_canopy_definition(img):
+                mask = img.select('tcc').gt(tree_canopy_definition)
+                return img.updateMask(mask)
+
             img_coll = ForestMonitor.TREE_CANOPY_IMG_COLLECTION
-            img_coll = img_coll.map(lambda img: img.select('tcc').gt(tree_canopy_definition))
+            img_coll = img_coll.map(_apply_tree_canopy_definition)
 
         image = img_coll.filterMetadata('system:index',
                                         'equals',
@@ -102,9 +106,9 @@ class ForestMonitor():
         image = image.updateMask(image).clip(self.geometry)
 
         map_id = image.getMapId({
-            'min': '0',
+            'min': str(tree_canopy_definition),
             'max': '100',
-            'palette': '0eff00,1fc600,089000,0a5d00,063b00'
+            'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
         })
 
         data = {
@@ -146,8 +150,12 @@ class ForestMonitor():
             }
 
         if not img_coll:
+            def _apply_tree_height_definition(img):
+                mask = img.select('tch').gt(tree_height_definition)
+                return img.updateMask(mask)
+
             img_coll = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION
-            img_coll = img_coll.map(lambda img: img.select('tch').gt(tree_height_definition))
+            img_coll = img_coll.map(_apply_tree_height_definition)
 
         image = img_coll.filterMetadata('system:index',
                                         'equals',
@@ -162,9 +170,9 @@ class ForestMonitor():
         image = image.updateMask(image).clip(self.geometry)
 
         map_id = image.getMapId({
-            'min': '0',
-            'max': '100',
-            'palette': '0eff00,1fc600,089000,0a5d00,063b00'
+            'min': str(tree_height_definition),
+            'max': '30',
+            'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
         })
 
         return {
