@@ -339,7 +339,7 @@ angular.module('landcoverportal').constant('appSettings', {
 						   'cover map in two dates from 2006 and 2015 are ' +
 						   'products of this application. Accuracy assessment ' +
 						   'for typologies has been processed',
-			'url': '#',
+			'url': 'https://code.earthengine.google.com/aef9d4f25f8457bdd88bfff160408e61',
 			'imageURL': 'images/solr.png'
 		},
 		{
@@ -365,7 +365,7 @@ angular.module('landcoverportal').constant('appSettings', {
 			'imageURL': 'images/myanmar-ipcc.png'
 		},
 		{
-			'name': 'Myanmar FRA',
+			'name': 'Myanmar FRA (Under Development)',
 			'description': 'SERVIR-Mekong and partners collaborate and support ' +
 						   'the Forest Department of Myanmar to improve the ' +
 						   'forest monitoring system of Myanmar, which ' +
