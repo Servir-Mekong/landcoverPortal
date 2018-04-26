@@ -7,29 +7,54 @@
 
 {% block main_container %}
 
-    <div class="container" ng-controller="settingsCtrl" style="padding: 25px;">
-        <div class="row">
-            <!-- Card Projects -->
-            <div ng-repeat="applicationCard in serviceApplicationsCards" class="col-md-4">
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-responsive" src="{% static '' %}[[applicationCard.imageURL]]">
-                        <h4><b><span class="card-title">[[ applicationCard.name ]]</span></b></h4>
-                    </div>
+<div class="container" ng-controller="settingsCtrl" style="padding: 25px;">
+    <div class="row">
 
-                    <div class="card-content">
-                        <p text-collapse
-                           text-collapse-max-length="220"
-                           text-collapse-text="[[ applicationCard.description ]]">
-                       </p>
-                    </div>
-
-                    <div class="card-action text-center">
-                        <a href="[[ applicationCard.url ]]">Go To Application</a>
-                    </div>
+        <div id="descriptionModal" class="modal display-none-imp">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-close">&times;</span>
+                    <h2>[[ descriptionModalTitle ]]</h2>
+                </div>
+                <div class="modal-body">
+                    <h4 ng-bind-html="[[ descriptionModalBody ]]"></h4>
                 </div>
             </div>
         </div>
+
+        <!-- Card Projects -->
+        <div ng-repeat="applicationCard in serviceApplicationsCards" class="col-md-4">
+            <div class="card" style="height: 400px;">
+                <div class="card-image">
+                    <img class="img-responsive" src="{% static '' %}[[applicationCard.imageURL]]">
+                    <a href="[[ applicationCard.url ]]">
+                        <h4><span class="card-title">[[ applicationCard.name ]]</span></h4>
+                    </a>
+                </div>
+
+                <div class="card-content">
+                    <span ng-bind-html="[[ trimDescription(applicationCard.description) ]]"></span>
+                    <span>
+                           <a class="collapse-text-toggle" href=""
+                              style="text-decoration: none;"
+                              ng-click="showModal(applicationCard.name, applicationCard.description);">
+                              ... &nbsp;(more)
+                          </a>
+                    </span>
+                    <!--<p text-collapse
+                           text-collapse-max-length="220"
+                           text-collapse-text="[[ applicationCard.description ]]"
+                           text-collapse-title="[[ applicationCard.name ]]">
+                       </p>-->
+                </div>
+
+                <!--<div class="card-action text-center">
+                        <a href="[[ applicationCard.url ]]">Go To Application</a>
+                    </div>-->
+            </div>
+        </div>
     </div>
+</div>
 
 {% endblock main_container %}

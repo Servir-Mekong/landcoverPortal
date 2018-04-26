@@ -1,160 +1,160 @@
-(function () {
-	
-	'use strict';
-	
-	angular.module('landcoverportal')
-	.service('LandCoverService', function ($http, $q) {
+(function() {
 
-		this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName) {
+    'use strict';
 
-			var req = {
-				method: 'POST',
-				url: '/landcover/api/',
-				data: {
-					year: year,
-					primitives: primitives.toString()
-				},
-				params: {
-					action: 'landcovermap'
-				}
-			};
+    angular.module('landcoverportal')
+        .service('LandCoverService', function($http, $q) {
 
-			if (areaSelectFrom && areaName) {
-				req.data.areaSelectFrom = areaSelectFrom;
-				req.data.areaName = areaName;
-			} else {
-				var shapeType = shape.type;
-				if (shapeType === 'rectangle' || shapeType === 'polygon') {
-					req.data.shape = shapeType;
-					req.data.geom = shape.geom.toString();
-				} else if (shapeType === 'circle') {
-					req.data.shape = shapeType;
-					req.data.radius = shape.radius;
-					req.data.center = shape.center.toString();
-				}
-			}
+            this.getLandCoverMap = function(primitives, year, shape, areaSelectFrom, areaName) {
 
-			var promise = $http(req)
-			.then(function (response) {
-				return response.data;
-			});
-			return promise;
-		};
+                var req = {
+                    method: 'POST',
+                    url: '/landcover/api/',
+                    data: {
+                        year: year,
+                        primitives: primitives.toString()
+                    },
+                    params: {
+                        action: 'landcovermap'
+                    }
+                };
 
-		this.getPrimitiveMap = function (index, year, shape, areaSelectFrom, areaName) {
+                if (areaSelectFrom && areaName) {
+                    req.data.areaSelectFrom = areaSelectFrom;
+                    req.data.areaName = areaName;
+                } else {
+                    var shapeType = shape.type;
+                    if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                        req.data.shape = shapeType;
+                        req.data.geom = shape.geom.toString();
+                    } else if (shapeType === 'circle') {
+                        req.data.shape = shapeType;
+                        req.data.radius = shape.radius;
+                        req.data.center = shape.center.toString();
+                    }
+                }
 
-			var req = {
-				method: 'POST',
-				url: '/landcover/api/',
-				data: {
-					year: year,
-					index: index
-				},
-				params: {
-					action: 'primitive'
-				}
-			};
+                var promise = $http(req)
+                    .then(function(response) {
+                        return response.data;
+                    });
+                return promise;
+            };
 
-			if (areaSelectFrom && areaName) {
-				req.data.areaSelectFrom = areaSelectFrom;
-				req.data.areaName = areaName;
-			} else {
-				var shapeType = shape.type;
-				if (shapeType === 'rectangle' || shapeType === 'polygon') {
-					req.data.shape = shapeType;
-					req.data.geom = shape.geom.toString();
-				} else if (shapeType === 'circle') {
-					req.data.shape = shapeType;
-					req.data.radius = shape.radius;
-					req.data.center = shape.center.toString();
-				}
-			}
+            this.getPrimitiveMap = function(index, year, shape, areaSelectFrom, areaName) {
 
-			var promise = $http(req)
-			.then(function (response) {
-				return response.data;
-			});
-			return promise;
-		};
+                var req = {
+                    method: 'POST',
+                    url: '/landcover/api/',
+                    data: {
+                        year: year,
+                        index: index
+                    },
+                    params: {
+                        action: 'primitive'
+                    }
+                };
 
-		this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index) {
+                if (areaSelectFrom && areaName) {
+                    req.data.areaSelectFrom = areaSelectFrom;
+                    req.data.areaName = areaName;
+                } else {
+                    var shapeType = shape.type;
+                    if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                        req.data.shape = shapeType;
+                        req.data.geom = shape.geom.toString();
+                    } else if (shapeType === 'circle') {
+                        req.data.shape = shapeType;
+                        req.data.radius = shape.radius;
+                        req.data.center = shape.center.toString();
+                    }
+                }
 
-			var req = {
-				method: 'POST',
-				url: '/landcover/api/',
-				data: {
-					year: year,
-					type: type,
-					primitives: primitives.toString(),
-					index: index
-				},
-				params: {
-					action: 'get-download-url'
-				}
-			};
+                var promise = $http(req)
+                    .then(function(response) {
+                        return response.data;
+                    });
+                return promise;
+            };
 
-			if (areaSelectFrom && areaName) {
-				req.data.areaSelectFrom = areaSelectFrom;
-				req.data.areaName = areaName;
-			} else {
-				var shapeType = shape.type;
-				if (shapeType === 'rectangle' || shapeType === 'polygon') {
-					req.data.shape = shapeType;
-					req.data.geom = shape.geom.toString();
-				} else if (shapeType === 'circle') {
-					req.data.shape = shapeType;
-					req.data.radius = shape.radius;
-					req.data.center = shape.center.toString();
-				}
-			}
+            this.getDownloadURL = function(type, shape, areaSelectFrom, areaName, year, primitives, index) {
 
-			var promise = $http(req)
-			.then(function (response) {
-				return response.data;
-			});
-			return promise;
-		};
+                var req = {
+                    method: 'POST',
+                    url: '/landcover/api/',
+                    data: {
+                        year: year,
+                        type: type,
+                        primitives: primitives.toString(),
+                        index: index
+                    },
+                    params: {
+                        action: 'get-download-url'
+                    }
+                };
 
-		this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
+                if (areaSelectFrom && areaName) {
+                    req.data.areaSelectFrom = areaSelectFrom;
+                    req.data.areaName = areaName;
+                } else {
+                    var shapeType = shape.type;
+                    if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                        req.data.shape = shapeType;
+                        req.data.geom = shape.geom.toString();
+                    } else if (shapeType === 'circle') {
+                        req.data.shape = shapeType;
+                        req.data.radius = shape.radius;
+                        req.data.center = shape.center.toString();
+                    }
+                }
 
-			var req = {
-				method: 'POST',
-				url: '/landcover/api/',
-				data: {
-					year: year,
-					type: type,
-					primitives: primitives.toString(),
-					fileName: fileName,
-					index: index
-				},
-				params: {
-					action: 'download-to-drive'
-				}
-			};
+                var promise = $http(req)
+                    .then(function(response) {
+                        return response.data;
+                    });
+                return promise;
+            };
 
-			if (areaSelectFrom && areaName) {
-				req.data.areaSelectFrom = areaSelectFrom;
-				req.data.areaName = areaName;
-			} else {
-				var shapeType = shape.type;
-				if (shapeType === 'rectangle' || shapeType === 'polygon') {
-					req.data.shape = shapeType;
-					req.data.geom = shape.geom.toString();
-				} else if (shapeType === 'circle') {
-					req.data.shape = shapeType;
-					req.data.radius = shape.radius;
-					req.data.center = shape.center.toString();
-				}
-			}
+            this.saveToDrive = function(type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
 
-			var promise = $http(req)
-			.then(function (response) {
-				return response.data;
-			});
-			return promise;
+                var req = {
+                    method: 'POST',
+                    url: '/landcover/api/',
+                    data: {
+                        year: year,
+                        type: type,
+                        primitives: primitives.toString(),
+                        fileName: fileName,
+                        index: index
+                    },
+                    params: {
+                        action: 'download-to-drive'
+                    }
+                };
 
-		};
+                if (areaSelectFrom && areaName) {
+                    req.data.areaSelectFrom = areaSelectFrom;
+                    req.data.areaName = areaName;
+                } else {
+                    var shapeType = shape.type;
+                    if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                        req.data.shape = shapeType;
+                        req.data.geom = shape.geom.toString();
+                    } else if (shapeType === 'circle') {
+                        req.data.shape = shapeType;
+                        req.data.radius = shape.radius;
+                        req.data.center = shape.center.toString();
+                    }
+                }
 
-	});
-	
+                var promise = $http(req)
+                    .then(function(response) {
+                        return response.data;
+                    });
+                return promise;
+
+            };
+
+        });
+
 })();
