@@ -298,77 +298,90 @@ angular.module('landcoverportal').constant('appSettings', {
     ],
     serviceApplicationsCards: [{
             'name': 'Regional Land Cover Monitoring System',
-            'description': 'Regional Land Cover Monitoring System',
+            'description': 'The regional land cover monitoring system provides ' +
+                'a series of annual land cover maps with a ' +
+                'multi-purpose typology for the period of 2000-2016 which includes:<br />' +
+                '<ul><li>Highly accurate, high quality regional land cover maps ' +
+                'at a 30-meter resolution designed to serve explicit user-defined objectives.</li>' +
+                '<li>Highly consistent maps over time, by using consistent regional ' +
+                'classification scheme which harmonizes with land cover typologies ' +
+                'from five Lower Mekong countries (22 land cover categories, which ' +
+                'was identified through the regional consultative meeting).</li>' +
+                '<li>Frequently updated (annual or bi annually) maps which leverage ' +
+                'advantages of various open available remote sensing data sources.</li></ul>' +
+                'The purpose of this system is to facilitate the production of custom, ' +
+                'high-quality land cover information products to serve a variety of ' +
+                'policy, planning, management, and reporting needs of regional and ' +
+                'national institutions in the Lower Mekong Region. The system leverages ' +
+                'the power of Google Earth Engine and relies in most cases on field ' +
+                'observations and the interpretation of high resolution imagery by ' +
+                'stakeholders relevant to a given project.<br /> Once the system has ' +
+                'been customized to deliver a given product or set of products, these ' +
+                'can be updated regularly in a structured manner to serve ongoing monitoring needs.',
             'url': '/landcover/',
             'imageURL': 'images/rlcms.png'
         },
         {
             'name': 'Forest Monitoring System',
-            'description': 'Forest Monitoring System',
+            'description': 'The forest monitoring system is product of collaboration ' +
+                'between SERVIR-Mekong and the Global Land Analysis and Discovery Lab ' +
+                '(GLAD) from University of Maryland.<br />The tool allows users to view ' +
+                'and download annual tree canopy cover percentage, annual tree height, ' +
+                'ability to access annual forest extent by customizing country’s forest ' +
+                'definition. Users can also perform calculations of forest dynamic which ' +
+                'includes forest gain and loss by customizing forest definition and the change period.',
             'url': '/forest-monitor/',
             'imageURL': 'images/fms.png'
         },
         {
             'name': 'State of Land Report',
-            'description': 'Mekong region State of Land report is the ' +
-                'application of customizing RLCMS, response to ' +
-                'request from The Mekong Region Land Governance ' +
-                'Project, funded by the Swiss Agency for Development ' +
-                'and Cooperation (SDC) and other partners. The 2018 ' +
-                'State of Land will serve as a benchmark of current ' +
-                'conditions, and set a baseline for future measuring ' +
-                'and reporting of progress in land governance in the ' +
-                'Mekong region. <br />' +
-                'Based on the needs of the MRLG project to have a ' +
-                'comprehensive overview of land resources in Mekong ' +
-                'region including Cambodia, Laos, Myanmar, Thailand ' +
-                'and Viet Nam, the IPCC typologies (6 classes ' +
-                'including ) has been used for these products. ' +
-                'Customization of RLCMS for 6 IPCC classes has been ' +
-                'applied to selected primitives layers and data ' +
-                'assemblage process based on the IPCC typology ' +
-                'definition (IPCC guidelines in 2006). Regional land ' +
-                'cover map in two dates from 2006 and 2015 are ' +
-                'products of this application. Accuracy assessment ' +
-                'for typologies has been processed',
+            'description': 'The Mekong region State of Land report is the application ' +
+                'of customizing RLCMS, and a response to request from The Mekong Region ' +
+                'Land Governance Project (MRLG), funded by the Swiss Agency for Development ' +
+                'and Cooperation (SDC) and other partners. The 2018 State of Land will serve ' +
+                'as a benchmark of current conditions, and set a baseline for future ' +
+                'measurement and reporting of progress in land governance in the ' +
+                'Mekong region.<br />The MRLG project needs a comprehensive overview ' +
+                'of land resources in Mekong region including Cambodia, Laos, Myanmar, ' +
+                'Thailand and Viet Nam, and the IPCC typologies (6 classes including) are ' +
+                'used as representations for these products. The customization of the ' +
+                'RLCMS for 6 IPCC classes has been applied to selected primitive layers ' +
+                'and data assemblage processes based on the IPCC typology definition ' +
+                '(IPCC guidelines in 2006). Regional land cover maps in two dates ' +
+                'from 2006 and 2015 are products of this application.',
             'url': 'https://code.earthengine.google.com/aef9d4f25f8457bdd88bfff160408e61',
             'imageURL': 'images/solr.png'
         },
         {
             'name': 'Myanmar IPCC',
-            'description': 'SERVIR-Mekong and partners collaborate and support ' +
-                'the Forest Department of Myanmar to improve the ' +
-                'land cover monitoring system which contributes for ' +
-                'greenhouse gas emission inventory, climate change ' +
-                'monitoring and reporting to UNFCCC of Myanmar ' +
-                'government. <br />' +
-                'This customization product is a robust and ' +
-                'sustainable national land cover monitoring system ' +
-                'which can produce accurate LULC baseline datasets, ' +
-                'and be updated annually for Myanmar contribution to ' +
-                'UNFCCC report. <br />' +
-                'Products of this application are annual land cover ' +
-                'maps with 6 IPCC typologies classes (included: ' +
-                'Forest land, cropland, grassland, wetland) from ' +
-                '2000 to 2016. Activity data of 6 land cover ' +
-                'categories will also be calculated in this ' +
-                'application in different administrative level.',
+            'description': 'SERVIR-Mekong and partners are collaborating and ' +
+                'supporting the Forest Department of Myanmar to improve the land ' +
+                'cover monitoring system which contributes for greenhouse gas ' +
+                'emission inventory, climate change monitoring and reporting to ' +
+                'UNFCCC of Myanmar government. <br />' +
+                'This customized product is a robust and sustainable national ' +
+                'land cover monitoring system which can produce accurate LULC ' +
+                'baseline datasets, and be updated annually for Myanmar ' +
+                'contribution to UNFCCC report.<br />' +
+                'Products of this application are annual land cover maps with 6 ' +
+                'IPCC typologies classes (includes: Forest land, cropland, ' +
+                'grassland, wetland) from 2000 to 2016. Activity data of 6 land cover ' +
+                'categories will also be calculated in this application at different ' +
+                'administrative levels.',
             'url': 'http://servir-rlcms.appspot.com/static/html/services.html',
             'imageURL': 'images/myanmar-ipcc.png'
         },
         {
             'name': 'Myanmar FRA (Under Development)',
-            'description': 'SERVIR-Mekong and partners collaborate and support ' +
-                'the Forest Department of Myanmar to improve the ' +
-                'forest monitoring system of Myanmar, which ' +
-                'contributes for Myanmar National Forest Resources ' +
-                'Assessment to FAO. <br />' +
-                'The RLCMS is customized to meet the forest types ' +
-                'definition in Myanmar. Product of this application ' +
-                'is forest map with forest categories and sub ' +
-                'categories. Forest map products are from 2000 to ' +
-                '2016. The uncertainty and accuracy data assessment ' +
-                'is integrated in the assemblage and map results.',
+            'description': 'SERVIR-Mekong and partners are collaborating and supporting ' +
+                'the Forest Department of Myanmar to improve the forest monitoring ' +
+                'system of Myanmar, which contributes for Myanmar National Forest ' +
+                'Resources Assessment (FRA) to FAO. <br />' +
+                'The RLCMS is customized to meet the forest types definition in ' +
+                'Myanmar. The product of this application are forest maps with ' +
+                'forest categories and sub categories. Forest map products are from ' +
+                '2000 to 2016. The uncertainty and accuracy data assessment is ' +
+                'integrated in the assemblage and map results.',
             'url': '#',
             'imageURL': 'images/myanmar-fra.png'
         }

@@ -14,7 +14,7 @@
             $scope.descriptionModalTitle = '';
 
             $scope.trimDescription = function(description) {
-                return String(description).substring(0, 220);
+                return String(description).substring(0, 200);
             };
 
             // Modal Close Function
