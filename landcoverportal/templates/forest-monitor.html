@@ -7,34 +7,33 @@
 
 {% block main_container %}
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <div class="row" ng-controller="forestMonitorCtrl">
+    <div class="row" ng-controller="forestMonitorCtrl">
 
-            <!-- Alert Container -->
-            <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
-                <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>[[alertContent]]</strong>
-            </div>
+        <!-- Alert Container -->
+        <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
+            <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>[[alertContent]]</strong>
+        </div>
 
-            <!-- Loader Container -->
-            <div id="loader" class="loader" ng-show="showLoader">
-                <div class="loading-img" style="background: url({% static 'images/spinner.gif' %}) no-repeat"></div>
-            </div>
+        <!-- Loader Container -->
+        <div id="loader" class="loader" ng-show="showLoader">
+            <div class="loading-img" style="background: url({% static 'images/spinner.gif' %}) no-repeat"></div>
+        </div>
 
-            <!-- Sidebar Container -->
-            <div class="col-md-3 col-lg-3">
-                {% include "panels/forest-panel.html" %}
-            </div>
+        <!-- Sidebar Container -->
+        <div class="col-md-3 col-lg-3">
+            {% include "panels/forest-panel.html" %}
+        </div>
 
-            <!-- Map Container -->
-            <div class="col-md-9 col-lg-9 map" id="map"></div>
+        <!-- Map Container -->
+        <div class="col-md-9 col-lg-9 map" id="map"></div>
 
-            <!-- Layer Control Container -->
-            <div class="panel panel-default layer-control"
-                 ng-show="showTreeCanopyOpacitySlider || showTreeHeightOpacitySlider || showForestGainOpacitySlider || showForestLossOpacitySlider || showForestChangeOpacitySlider">
-    			<div class="panel-heading">
-                    <h4 class="panel-title">
+        <!-- Layer Control Container -->
+        <div class="panel panel-default layer-control" ng-show="showTreeCanopyOpacitySlider || showTreeHeightOpacitySlider || showForestGainOpacitySlider || showForestLossOpacitySlider || showForestChangeOpacitySlider">
+            <div class="panel-heading">
+                <h4 class="panel-title">
     					<a class="layer-control-toggle"
     					   data-toggle="collapse"
     					   data-parent="#accordion"
@@ -42,153 +41,150 @@
                            <span class="glyphicon glyphicon-plus"></span> Layers
                        </a>
                    </h4>
-    			</div>
-    			<div class="panel-collapse collapse out" id="layer-control-body">
-    				<div class="panel-body">
-                        <ul class="panel-collapse list-group">
-                            <li class="list-group-item" ng-show="showTreeCanopyOpacitySlider">
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-4 pull-left">
-                                        <span>Tree Canopy</span>
-                                    </div>
-                                    <div class="col-md-5 col-lg-5 pull-left">
-                                        <img src="{% static 'images/tree-canopy-legend.png' %}" style="width: 150px;" />
-                                    </div>
-                                    <div class="col-md-3 col-lg-3">
-                                        <div class="custom-layer-switch pull-right">
-                                            <input id="treeCanopySwitch" name="treeCanopySwitch" type="checkbox" checked/>
-                                            <label for="treeCanopySwitch" class="label-primary"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item" ng-show="showTreeHeightOpacitySlider">
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-4 pull-left">
-                                        <span>Tree Height</span>
-                                    </div>
-                                    <div class="col-md-5 col-lg-5 pull-left">
-                                        <img src="{% static 'images/tree-canopy-legend.png' %}" style="width: 150px;" />
-                                    </div>
-                                    <div class="col-md-3 col-lg-3">
-                                        <div class="custom-layer-switch pull-right">
-                                            <input id="treeHeightSwitch" name="treeHeightSwitch" type="checkbox" checked />
-                                            <label for="treeHeightSwitch" class="label-primary"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item" ng-show="showForestGainOpacitySlider">
-                                <div class="row">
-                                    <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
-                                        <span>Forest Gain</span>
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 pull-left">
-                                        <div class="lcp-class-color" style="background: blue;"></div>
-                                    </div>
-                                    <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
-                                        <div class="custom-layer-switch pull-right">
-                                            <input id="forestGainSwitch" name="forestGainSwitch" type="checkbox" checked />
-                                            <label for="forestGainSwitch" class="label-primary"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item" ng-show="showForestLossOpacitySlider">
-                                <div class="row">
-                                    <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
-                                        <span>Forest Loss</span>
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 pull-left">
-                                        <div class="lcp-class-color" style="background: red;"></div>
-                                    </div>
-                                    <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
-                                        <div class="custom-layer-switch pull-right">
-                                            <input id="forestLossSwitch" name="forestLossSwitch" type="checkbox" checked />
-                                            <label for="forestLossSwitch" class="label-primary"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item" ng-show="showForestChangeOpacitySlider">
-                                <div class="row">
-                                    <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
-                                        <span>Forest Change</span>
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 pull-left">
-                                        <div class="lcp-class-color" style="background: yellow;"></div>
-                                    </div>
-                                    <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
-                                        <div class="custom-layer-switch pull-right">
-                                            <input id="forestChangeSwitch" name="forestChangeSwitch" type="checkbox" checked />
-                                            <label for="forestChangeSwitch" class="label-primary"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-    				</div>
-    			</div>
             </div>
+            <div class="panel-collapse collapse out" id="layer-control-body">
+                <div class="panel-body">
+                    <ul class="panel-collapse list-group">
+                        <li class="list-group-item" ng-show="showTreeCanopyOpacitySlider">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4 pull-left">
+                                    <span>Tree Canopy</span>
+                                </div>
+                                <div class="col-md-5 col-lg-5 pull-left">
+                                    <img src="{% static 'images/tree-canopy-legend.png' %}" style="width: 150px;" />
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="custom-layer-switch pull-right">
+                                        <input id="treeCanopySwitch" name="treeCanopySwitch" type="checkbox" checked/>
+                                        <label for="treeCanopySwitch" class="label-primary"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" ng-show="showTreeHeightOpacitySlider">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4 pull-left">
+                                    <span>Tree Height</span>
+                                </div>
+                                <div class="col-md-5 col-lg-5 pull-left">
+                                    <img src="{% static 'images/tree-canopy-legend.png' %}" style="width: 150px;" />
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="custom-layer-switch pull-right">
+                                        <input id="treeHeightSwitch" name="treeHeightSwitch" type="checkbox" checked />
+                                        <label for="treeHeightSwitch" class="label-primary"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" ng-show="showForestGainOpacitySlider">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                    <span>Forest Gain</span>
+                                </div>
+                                <div class="col-md-4 col-lg-4 pull-left">
+                                    <div class="lcp-class-color" style="background: blue;"></div>
+                                </div>
+                                <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                    <div class="custom-layer-switch pull-right">
+                                        <input id="forestGainSwitch" name="forestGainSwitch" type="checkbox" checked />
+                                        <label for="forestGainSwitch" class="label-primary"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" ng-show="showForestLossOpacitySlider">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                    <span>Forest Loss</span>
+                                </div>
+                                <div class="col-md-4 col-lg-4 pull-left">
+                                    <div class="lcp-class-color" style="background: red;"></div>
+                                </div>
+                                <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                    <div class="custom-layer-switch pull-right">
+                                        <input id="forestLossSwitch" name="forestLossSwitch" type="checkbox" checked />
+                                        <label for="forestLossSwitch" class="label-primary"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" ng-show="showForestChangeOpacitySlider">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                    <span>Forest Change</span>
+                                </div>
+                                <div class="col-md-4 col-lg-4 pull-left">
+                                    <div class="lcp-class-color" style="background: yellow;"></div>
+                                </div>
+                                <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                    <div class="custom-layer-switch pull-right">
+                                        <input id="forestChangeSwitch" name="forestChangeSwitch" type="checkbox" checked />
+                                        <label for="forestChangeSwitch" class="label-primary"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-            <!-- Toogle button container -->
-            <div id="tool-control-container"></div>
+        <!-- Toogle button container -->
+        <div id="tool-control-container"></div>
 
-            <!-- Tab Container -->
-            <div class="tab-tool" ng-show="showTabContainer">
-                <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
-                    <div class="btn-group" role="group">
-                        <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
+        <!-- Tab Container -->
+        <div class="tab-tool" ng-show="showTabContainer">
+            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+                <div class="btn-group" role="group">
+                    <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
                             <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
                             <!--<div class="hidden-xs">Area</div>-->
                         </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="button" id="report" class="btn btn-default js-tooltip" href="#report-tab" data-toggle="tab" title="Reports">
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="report" class="btn btn-default js-tooltip" href="#report-tab" data-toggle="tab" title="Reports">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
-                    </div>
-                    <!--<div class="btn-group" role="group">
+                </div>
+                <!--<div class="btn-group" role="group">
                         <button type="button" id="download" class="btn btn-default js-tooltip" href="#download-tab" data-toggle="tab" title="Download">
                             <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
                         </button>
                     </div>-->
-                </div>
+            </div>
 
-                <div class="well tab-tool-content">
-                    <div class="tab-content">
+            <div class="well tab-tool-content">
+                <div class="tab-content">
 
-                        <div class="tab-pane fade active in" id="area-tab">
-                            <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-primary btn-sm js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
+                    <div class="tab-pane fade active in" id="area-tab">
+                        <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary btn-sm js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
                                         <div class="hidden-xs">Draw or <br/>Upload Area</div>
                                 </div>
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-default btn-sm js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
                                         <div class="hidden-xs">Administrative <br/> Region</div>
                                     </button>
-                                </div>
                             </div>
-                            <div class="tab-content inner-tab">
-                                <!-- Inner Tab -->
-                                <div class="tab-pane fade active in" id="draw-tab">
-                                    <button type="button" class="btn btn-primary btn-sm btn-block"
-                                            ng-click="drawShape('polygon')">
+                        </div>
+                        <div class="tab-content inner-tab">
+                            <!-- Inner Tab -->
+                            <div class="tab-pane fade active in" id="draw-tab">
+                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('polygon')">
                                         Draw Polygon
                                     </button>
-                                    <p class="-center">or</p>
-                                    <button type="button" class="btn btn-primary btn-sm btn-block"
-                                            ng-click="drawShape('circle')">
+                                <p class="-center">or</p>
+                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('circle')">
                                         Draw Circle
                                     </button>
-                                    <p class="-center">or</p>
-                                    <button type="button" class="btn btn-primary btn-sm btn-block"
-                                            ng-click="drawShape('rectangle')">
+                                <p class="-center">or</p>
+                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('rectangle')">
                                         Draw Rectangle
                                     </button>
-                                    <p class="-center">or</p>
-                                    <label class="btn btn-primary btn-sm btn-block" id="file-input-container">
+                                <p class="-center">or</p>
+                                <label class="btn btn-primary btn-sm btn-block" id="file-input-container">
                                         Upload Area
                                         <!-- ToDo: Better info window -->
                                         <br/>
@@ -196,62 +192,57 @@
                                         <input type="file" class="hide" id="file-input"
                                                accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
                                     </label>
+                            </div>
+                            <div class="tab-pane fade in" id="admin-tab">
+                                <div class="form-group">
+                                    <label for="area-index-filter">Filter Area By</label>
+                                    <select name="area-index-filter" class="form-control" ng-options="option.name for option in areaIndexSelectors" ng-model="areaIndexSelector" ng-change="populateAreaVariableOptions(areaIndexSelector)">
+                                        </select>
                                 </div>
-                                <div class="tab-pane fade in" id="admin-tab">
-                                    <div class="form-group">
-                                        <label for="area-index-filter">Filter Area By</label>
-                                        <select name="area-index-filter" class="form-control"
-                                                ng-options="option.name for option in areaIndexSelectors"
-                                                ng-model="areaIndexSelector"
-                                                ng-change="populateAreaVariableOptions(areaIndexSelector)">
+                                <div class="form-group" ng-show="showAreaVariableSelector">
+                                    <label for="area-variable-filter">Select From</label>
+                                    <select name="area-variable-filter" class="form-control" ng-options="option for option in areaVariableOptions" ng-model="areaName" ng-change="loadAreaFromFile(areaName)">
                                         </select>
-                                    </div>
-                                    <div class="form-group" ng-show="showAreaVariableSelector">
-                                        <label for="area-variable-filter">Select From</label>
-                                        <select name="area-variable-filter" class="form-control"
-                                                ng-options="option for option in areaVariableOptions"
-                                                ng-model="areaName"
-                                                ng-change="loadAreaFromFile(areaName)">
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade in" id="report-tab">
-                            <ul class="ul-no-bullets" style="margin-left: -30px;">
-                                <li ng-show="showReportNoPolygon">
-                                    <span class="report-title">No Polygon!</span>
-                                    <span class="report-detail">Draw a polygon to analyze</span>
-                                </li>
-                                <li ng-show="showReportTotalArea">
-                                    <span class="report-title">Total Selected Area</span>
-                                    <span class="report-detail">[[ reportTotalAreaValue ]]</span>
-                                </li>
-                                <br />
-                                <li ng-show="showReportTreeCanopy">
-                                    <span class="report-title">[[ reportTreeCanopyTitle ]]</span>
-                                    <span class="report-detail" style="color: #006400;">[[ reportTreeCanopyValue ]]</span>
-                                </li>
-                                <br />
-                                <li ng-show="showReportForestGain">
-                                    <span class="report-title">[[ reportForestGainTitle ]]</span>
-                                    <span class="report-detail" style="color: #6D6DE5;">[[ reportForestGainValue ]]</span>
-                                </li>
-                                <br />
-                                <li ng-show="showReportForestLoss">
-                                    <span class="report-title">[[ reportForestLossTitle ]]</span>
-                                    <span class="report-detail" style="color: #F69;">[[ reportForestLossValue ]]</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--<div class="tab-pane fade in" id="download-tab"></div>-->
                     </div>
+                    <div class="tab-pane fade in" id="report-tab">
+                        <ul class="ul-no-bullets" style="margin-left: -30px;">
+                            <li ng-show="showReportNoPolygon">
+                                <span class="report-title">No Polygon!</span>
+                                <span class="report-detail">Draw a polygon to analyze</span>
+                            </li>
+                            <li ng-show="showReportTotalArea">
+                                <span class="report-title">Total Selected Area</span>
+                                <span class="report-detail">[[ reportTotalAreaValue ]]</span>
+                            </li>
+                            <br />
+                            <li ng-show="showReportTreeCanopy">
+                                <span class="report-title">[[ reportTreeCanopyTitle ]]</span>
+                                <span class="report-detail" style="color: #006400;">[[ reportTreeCanopyValue ]]</span>
+                            </li>
+                            <br />
+                            <li ng-show="showReportForestGain">
+                                <span class="report-title">[[ reportForestGainTitle ]]</span>
+                                <span class="report-detail" style="color: #6D6DE5;">[[ reportForestGainValue ]]</span>
+                            </li>
+                            <br />
+                            <li ng-show="showReportForestLoss">
+                                <span class="report-title">[[ reportForestLossTitle ]]</span>
+                                <span class="report-detail" style="color: #F69;">[[ reportForestLossValue ]]</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<div class="tab-pane fade in" id="download-tab"></div>-->
                 </div>
-
-            </div><!-- end of tab -->
+            </div>
 
         </div>
+        <!-- end of tab -->
 
     </div>
+
+</div>
 
 {% endblock main_container %}
