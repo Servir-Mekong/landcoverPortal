@@ -400,3 +400,32 @@ input:checked+.switch-slider:before {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* fancy table */
+
+.fancy-table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.fancy-table td, .fancy-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.fancy-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.fancy-table tr:hover {
+    background-color: #ddd;
+}
+
+.fancy-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

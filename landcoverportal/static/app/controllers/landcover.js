@@ -9,6 +9,9 @@
         }])
         .controller('landCoverCtrl', function($scope, $sanitize, $timeout, appSettings, LandCoverService) {
 
+            // Typology CSV
+            $scope.typologyCSV = '/static/data/typology_value.csv';
+
             // Setting variables
             $scope.landCoverClasses = appSettings.landCoverClasses;
             $scope.primitiveClasses = appSettings.primitiveClasses;
