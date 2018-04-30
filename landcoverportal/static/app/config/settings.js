@@ -334,7 +334,7 @@ angular.module('landcoverportal').constant('appSettings', {
             'imageURL': 'images/fms.png'
         },
         {
-            'name': 'State of Land Report',
+            'name': 'State of Land Report (Under Development)',
             'description': 'The Mekong region State of Land report is the application ' +
                 'of customizing RLCMS, and a response to request from The Mekong Region ' +
                 'Land Governance Project (MRLG), funded by the Swiss Agency for Development ' +

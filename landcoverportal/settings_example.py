@@ -151,7 +151,6 @@ INSTALLED_APPS = (
     'djangocms_text_ckeditor',
     'filer',
     'easy_thumbnails',
-    'djangocms_column',
     'djangocms_link',
     'cmsplugin_filer_file',
     'cmsplugin_filer_folder',

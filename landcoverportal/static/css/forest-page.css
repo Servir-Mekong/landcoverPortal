@@ -140,7 +140,9 @@
 /* Sidebar */
 
 .sidebar-image-container {
-    width: 50%;
-    margin: 0 auto;
+    /*width: 50%;
+    margin: 0 auto;*/
     padding: 5px;
+    margin-left: 20%;
+    margin-right: 20%;
 }
