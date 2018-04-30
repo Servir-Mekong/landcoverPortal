@@ -349,7 +349,7 @@ angular.module('landcoverportal').constant('appSettings', {
                 'and data assemblage processes based on the IPCC typology definition ' +
                 '(IPCC guidelines in 2006). Regional land cover maps in two dates ' +
                 'from 2006 and 2015 are products of this application.',
-            'url': 'https://code.earthengine.google.com/aef9d4f25f8457bdd88bfff160408e61',
+            'url': 'https://code.earthengine.google.com/2cecf39d7e5587ef0b74e89f76f72ed8',
             'imageURL': 'images/solr.png'
         },
         {
@@ -358,10 +358,11 @@ angular.module('landcoverportal').constant('appSettings', {
                 'supporting the Forest Department of Myanmar to improve the land ' +
                 'cover monitoring system which contributes for greenhouse gas ' +
                 'emission inventory, climate change monitoring and reporting to ' +
-                'UNFCCC of Myanmar government. <br />' +
+                'the United Nations Climate Change (UNFCCC) by the government of ' +
+                'Myanmar. <br />' +
                 'This customized product is a robust and sustainable national ' +
                 'land cover monitoring system which can produce accurate LULC ' +
-                'baseline datasets, and be updated annually for Myanmar ' +
+                'baseline datasets, and be updated annually for Myanmar\'s ' +
                 'contribution to UNFCCC report.<br />' +
                 'Products of this application are annual land cover maps with 6 ' +
                 'IPCC typologies classes (includes: Forest land, cropland, ' +

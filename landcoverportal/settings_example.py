@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'djangocms_video',
     'landcoverportal',
     'forest_monitor',
+    'landcover_viewer',
     # Google Oauth
     'django.contrib.sessions.middleware',
     'oauth2client.contrib.django_util'
