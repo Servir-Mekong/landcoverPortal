@@ -27,7 +27,7 @@ class ForestMonitor():
             if (area_path == 'country'):
                 if (area_name == 'Myanmar'):
                     area_name = 'Myanmar (Burma)'
-                self.geometry = ForestMonitor.FEATURE_COLLECTION.filter(\
+                self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
                 if settings.DEBUG:
