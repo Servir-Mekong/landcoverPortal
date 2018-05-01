@@ -699,6 +699,11 @@
                 onFinish: function(data) {
                     if ($scope.sliderYear !== data.from) {
                         $scope.sliderYear = data.from;
+                        if ($('#land-cover-classes-tab').hasClass('active')) {
+                            $scope.updateAssemblageProduct();
+                        } else if ($('#primitive-tab').hasClass('active')) {
+                            $scope.updatePrimitive($scope.primitiveIndex);
+                        }
                     }
                 }
             });
