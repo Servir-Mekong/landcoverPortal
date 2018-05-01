@@ -353,7 +353,7 @@ angular.module('landcoverportal').constant('appSettings', {
             'imageURL': 'images/solr.png'
         },
         {
-            'name': 'Myanmar IPCC',
+            'name': 'Myanmar IPCC (Under Development)',
             'description': 'SERVIR-Mekong and partners are collaborating and ' +
                 'supporting the Forest Department of Myanmar to improve the land ' +
                 'cover monitoring system which contributes for greenhouse gas ' +
