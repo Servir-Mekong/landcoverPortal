@@ -30,16 +30,10 @@ class ForestMonitor():
                 self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
-                if settings.DEBUG:
-                    path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'landcoverportal/static/data/',
-                                        area_path,
-                                        '%s.%s' % (area_name, 'json'))
-                else:
-                    path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'static/data/',
-                                        area_path,
-                                        '%s.%s' % (area_name, 'json'))
+                path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                    'static/data/',
+                                    area_path,
+                                    '%s.%s' % (area_name, 'json'))
 
                 with open(path) as f:
                     feature = ee.Feature(json.load(f))
@@ -87,7 +81,7 @@ class ForestMonitor():
 
         if not img_coll:
             def _apply_tree_canopy_definition(img):
-                mask = img.select('tcc').gt(tree_canopy_definition)
+                mask = img.select(0).gt(tree_canopy_definition)
                 return img.updateMask(mask)
 
             img_coll = ForestMonitor.TREE_CANOPY_IMG_COLLECTION
@@ -151,7 +145,7 @@ class ForestMonitor():
 
         if not img_coll:
             def _apply_tree_height_definition(img):
-                mask = img.select('tch').gt(tree_height_definition)
+                mask = img.select(0).gt(tree_height_definition)
                 return img.updateMask(mask)
 
             img_coll = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION
@@ -184,7 +178,7 @@ class ForestMonitor():
     @staticmethod
     def _get_combined_img_coll():
 
-        years = ee.List.sequence(2000, 2016)
+        years = ee.List.sequence(2000, 2017)
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
@@ -204,8 +198,10 @@ class ForestMonitor():
                                           tree_canopy_definition,
                                           tree_height_definition):
 
-        return img_coll.map(lambda img: img.select('tcc').gt(tree_canopy_definition).\
-                            And(img.select('tch').gt(tree_height_definition)).
+        # 0 - tcc
+        # 1 - tch
+        return img_coll.map(lambda img: img.select(0).gt(tree_canopy_definition).\
+                            And(img.select(1).gt(tree_height_definition)).
                             rename(['forest_cover']))
 
     # -------------------------------------------------------------------------

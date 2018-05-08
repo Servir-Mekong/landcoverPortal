@@ -140,7 +140,7 @@
             var clearLayers = function(name) {
 
                 map.overlayMapTypes.forEach(function(layer, index) {
-                    if (layer.name === name) {
+                    if (layer && layer.name === name) {
                         map.overlayMapTypes.removeAt(index);
                     }
                 });
