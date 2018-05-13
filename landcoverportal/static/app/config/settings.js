@@ -349,7 +349,7 @@ angular.module('landcoverportal').constant('appSettings', {
                 'and data assemblage processes based on the IPCC typology definition ' +
                 '(IPCC guidelines in 2006). Regional land cover maps in two dates ' +
                 'from 2006 and 2015 are products of this application.',
-            'url': 'https://code.earthengine.google.com/2cecf39d7e5587ef0b74e89f76f72ed8',
+            'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
             'imageURL': 'images/solr.png'
         },
         {
