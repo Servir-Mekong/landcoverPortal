@@ -403,6 +403,68 @@ class ForestMonitor():
         }
 
     # -------------------------------------------------------------------------
+    def forest_extend(self,
+                        get_image = False,
+                        year = None,
+                        tree_canopy_definition = 10,
+                        tree_height_definition = 5,
+                        report_area = False,
+                        ):
+
+        if not year:
+            return {
+                'message': 'Please specify a year for which you want to perform the calculations!'
+            }
+
+        combined_img_coll = ForestMonitor._get_combined_img_coll()
+
+        filtered_img_coll = ForestMonitor._filter_for_forest_definition(\
+                                                        combined_img_coll,
+                                                        tree_canopy_definition,
+                                                        tree_height_definition)
+
+        image = self.tree_canopy(img_coll = filtered_img_coll,
+                                 get_image = True,
+                                 year = year,
+                                 tree_canopy_definition = tree_canopy_definition,
+                                 )
+
+        image = image.updateMask(image).clip(self.geometry)
+
+        if get_image:
+            return image
+
+        map_id = image.getMapId({
+            'min': str(tree_canopy_definition),
+            'max': '100',
+            'palette': '228B22'
+        })
+
+        data = {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+        if report_area:
+            # @ToDo: Better estimate of crs using the geometry
+            reducer = image.reduceRegion(reducer = ee.Reducer.sum(),
+                                         geometry = self.geometry,
+                                         crs = 'EPSG:32647', # WGS Zone N 47
+                                         scale = 100,
+                                         maxPixels = 10**15
+                                         )
+            # converting to meter square by multiplying with scale value i.e. 100*100
+            # and then converting to hectare multiplying with 0.0001
+            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+            # meaning we can use the value directly as the hectare
+            try:
+                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
+            except Exception as e:
+                data['reportError'] = e.message
+
+        return data
+
+    # -------------------------------------------------------------------------
     def get_download_url(self,
                            type,
                            start_year,
@@ -441,6 +503,12 @@ class ForestMonitor():
             image = self.forest_change(get_image = True,
                                        start_year = start_year,
                                        end_year = end_year,
+                                       tree_canopy_definition = tree_canopy_definition,
+                                       tree_height_definition = tree_height_definition,
+                                       )
+        elif (type == 'forestExtend'):
+            image = self.forest_extend(get_image = True,
+                                       year = start_year,
                                        tree_canopy_definition = tree_canopy_definition,
                                        tree_height_definition = tree_height_definition,
                                        )
@@ -497,6 +565,12 @@ class ForestMonitor():
             image = self.forest_change(get_image=True,
                                        start_year=start_year,
                                        end_year=end_year,
+                                       tree_canopy_definition = tree_canopy_definition,
+                                       tree_height_definition = tree_height_definition,
+                                       )
+        elif (type == 'forestExtend'):
+            image = self.forest_extend(get_image = True,
+                                       year = start_year,
                                        tree_canopy_definition = tree_canopy_definition,
                                        tree_height_definition = tree_height_definition,
                                        )

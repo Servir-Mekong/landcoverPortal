@@ -31,7 +31,7 @@
         <div class="col-md-9 col-lg-9 map" id="map"></div>
 
         <!-- Layer Control Container -->
-        <div class="panel panel-default layer-control" ng-show="showTreeCanopyOpacitySlider || showTreeHeightOpacitySlider || showForestGainOpacitySlider || showForestLossOpacitySlider || showForestChangeOpacitySlider">
+        <div class="panel panel-default layer-control" ng-show="showTreeCanopyOpacitySlider || showTreeHeightOpacitySlider || showForestGainOpacitySlider || showForestLossOpacitySlider || showForestChangeOpacitySlider || showForestExtendOpacitySlider">
             <div class="panel-heading">
                 <h4 class="panel-title">
     					<a class="layer-control-toggle"
@@ -125,6 +125,22 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="list-group-item" ng-show="showForestExtendOpacitySlider">
+                            <div class="row">
+                                <div class="col-md-5 col-lg-5 pull-left" style="margin-top: 4%;">
+                                    <span>Forest Extend</span>
+                                </div>
+                                <div class="col-md-4 col-lg-4 pull-left">
+                                    <div class="lcp-class-color" style="background: #228B22;"></div>
+                                </div>
+                                <div class="col-md-3 col-lg-3" style="margin-top: 4%;">
+                                    <div class="custom-layer-switch pull-right">
+                                        <input id="forestExtendSwitch" name="forestExtendSwitch" type="checkbox" checked />
+                                        <label for="forestExtendSwitch" class="label-primary"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -208,7 +224,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade in" id="report-tab">
-                        <ul class="ul-no-bullets" style="margin-left: -30px;">
+                        <ul class="ul-no-bullets inline-block-display" style="margin-left: -30px;">
                             <li ng-show="showReportNoPolygon">
                                 <span class="report-title">No Polygon!</span>
                                 <span class="report-detail">Draw a polygon to analyze</span>
@@ -231,6 +247,11 @@
                             <li ng-show="showReportForestLoss">
                                 <span class="report-title">[[ reportForestLossTitle ]]</span>
                                 <span class="report-detail" style="color: #F69;">[[ reportForestLossValue ]]</span>
+                            </li>
+                            <br />
+                            <li ng-show="showReportForestExtend">
+                                <span class="report-title">[[ reportForestExtendTitle ]]</span>
+                                <span class="report-detail" style="color: #006400;">[[ reportForestExtendValue ]]</span>
                             </li>
                         </ul>
                     </div>

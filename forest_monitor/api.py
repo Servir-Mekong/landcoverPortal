@@ -25,6 +25,7 @@ def api(request):
                           'forest-gain',
                           'forest-loss',
                           'forest-change',
+                          'forest-extend',
                           'get-download-url',
                           'download-to-drive'
                           ]
@@ -75,6 +76,12 @@ def api(request):
                                           end_year = end_year,
                                           tree_canopy_definition = tree_canopy_definition,
                                           tree_height_definition = tree_height_definition,
+                                          )
+            elif action == 'forest-extend':
+                data = core.forest_extend(year = post('year', ''),
+                                          tree_canopy_definition = tree_canopy_definition,
+                                          tree_height_definition = tree_height_definition,
+                                          report_area = report_area,
                                           )
             elif action == 'get-download-url':
                 data = core.get_download_url(type,

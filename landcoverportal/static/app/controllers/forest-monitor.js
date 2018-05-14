@@ -72,6 +72,7 @@
             $scope.showReportTreeCanopy = false;
             $scope.showReportForestGain = false;
             $scope.showReportForestLoss = false;
+            $scope.showReportForestExtend = false;
 
             $('.js-tooltip').tooltip();
 
@@ -1013,12 +1014,12 @@
             /*
              * Forest Change Calculations
              */
-            $scope.showForestChangeOpacitySlider = false;
+            /*$scope.showForestChangeOpacitySlider = false;
             $scope.forestChangeOpacitySliderValue = null;
             $scope.showForestChangeDownloadButtons = false;
             $scope.showForestChangeDownloadURL = false;
             $scope.showForestChangeGDriveFileName = false;
-            $scope.forestChangeDownloadURL = '';
+            $scope.forestChangeDownloadURL = '';*/
 
             /* slider init */
             /*var forestChangeSlider = $('#forest-change-opacity-slider').slider(sliderOptions)
@@ -1075,6 +1076,83 @@
                         });
                 }
             };*/
+
+            /*
+             * Forest Extend Calculations
+             */
+            $scope.showForestExtendOpacitySlider = false;
+            $scope.forestExtendOpacitySliderValue = null;
+            $scope.showForestExtendDownloadButtons = false;
+            $scope.showForestExtendDownloadURL = false;
+            $scope.showForestExtendGDriveFileName = false;
+            $scope.forestExtendDownloadURL = '';
+
+            /* slider init */
+            var forestExtendSlider = $('#forest-extend-opacity-slider').slider(sliderOptions)
+                .on('slideStart', function(event) {
+                    $scope.forestExtendOpacitySliderValue = $(this).data('slider').getValue();
+                })
+                .on('slideStop', function(event) {
+                    var value = $(this).data('slider').getValue();
+                    if (value !== $scope.forestExtendOpacitySliderValue) {
+                        $scope.forestExtendOpacitySliderValue = value;
+                        $scope.overlays.forestExtend.setOpacity(value);
+                    }
+                });
+
+            /* Layer switcher */
+            $('#forestExtendSwitch').change(function() {
+                if ($(this).is(':checked')) {
+                    $scope.overlays.forestExtend.setOpacity($scope.forestExtendOpacitySliderValue);
+                } else {
+                    $scope.overlays.forestExtend.setOpacity(0);
+                }
+            });
+
+            $scope.calculateForestExtend = function(year) {
+
+                $scope.showLoader = true;
+                var name = 'forestExtend';
+                clearLayers(name);
+                $scope.closeAlert();
+                // Close and restart this after success
+                $scope.showForestExtendOpacitySlider = false;
+
+                ForestMonitorService.forestExtend(
+                        year,
+                        $scope.shape,
+                        $scope.areaSelectFrom,
+                        $scope.areaName,
+                        $scope.treeCanopyDefinition,
+                        $scope.treeHeightDefinition,
+                        $scope.showReportNoPolygon ? false : true
+                    )
+                    .then(function(data) {
+                        removeShownGeoJson();
+                        loadMap(data.eeMapId, data.eeMapToken, name);
+                        forestExtendSlider.slider('setValue', 1);
+                        $scope.showForestExtendOpacitySlider = true;
+                        $scope.showForestExtendDownloadButtons = true;
+                        // Reporting Element
+                        if (!$scope.showReportNoPolygon) {
+                            if (data.reportArea) {
+                                $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
+                                $scope.reportForestExtendValue = data.reportArea + ' ha';
+                                //$scope.showReportForestExtend = true;
+                            } else if (data.reportError) {
+                                $scope.reportForestExtendTitle = 'Error calculating Canopy';
+                                $scope.reportForestExtendValue = data.reportError;
+                            }
+                            $scope.showReportForestExtend = true;
+                        }
+                        showSuccessAlert('Forest Extend for year ' + year + ' !');
+                        $scope.showLoader = false;
+                    }, function(error) {
+                        $scope.showLoader = false;
+                        console.log(error);
+                        showErrorAlert(error);
+                    });
+            };
 
         });
 

@@ -141,6 +141,60 @@
                 </li>
             </ul>
 
+            <li data-toggle="collapse" data-target="#forestExtend" class="collapsed">
+                <a href="#">
+                    <span class="glyphicon glyphicon-grain" aria-hidden="true"></span>
+                    Annual Forest Extend
+                    <span class="sidebar-arrow"></span>
+                </a>
+            </li>
+            <ul class="sub-menu collapse" id="forestExtend">
+                <li><a href="#">Annual Forest Extend for </a>
+                    <div class="form-group inline-block-display">
+                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="forestExtendYear" ng-change="calculateForestExtend(forestExtendYear)">
+                            </select>
+                    </div>
+                    <div class="form-group" ng-show="showForestExtendOpacitySlider">
+                        <label for="forest-extend-opacity-slider" style="margin-right: 10px;">Opacity </label>
+                        <input name="forest-extend-opacity-slider" id="forest-extend-opacity-slider" data-slider-id="tree-extend-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                    </div>
+                    <div class="form-group text-center" ng-show="showForestExtendDownloadButtons">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestExtend', forestExtendYear)">
+                                    Get Download URL
+                                </button>
+                            <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
+                                    Download to GDrive
+                                </button>
+                        </div>
+                    </div>
+                    <div class="input-group" ng-show="showForestExtendDownloadURL" style="margin: 10px;">
+                        <input type="text" class="form-control" value="[[forestExtendDownloadURL]]">
+                        <span class="input-group-btn">
+                                <button type="button" class="btn btn-default forestExtendCpyBtn js-tooltip"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Copy to clipboard"
+                                        ng-click="copyToClipBoard('forestExtend')"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    <!-- icon from google's material design library -->
+                                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                                </button>
+                            </span>
+                    </div>
+                    <div class="input-group" ng-show="showForestExtendGDriveFileName" style="margin: 10px;">
+                        <input type="text" id="forestExtendGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                        <span class="input-group-btn">
+                                <button type="button"
+                                        ng-click="saveToDrive('forestExtend', forestExtendYear)"
+                                        class="btn btn-primary"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    Start Download
+                                </button>
+                            </span>
+                    </div>
+                </li>
+            </ul>
+
             <li data-toggle="collapse" data-target="#forestDynamics" class="collapsed">
                 <a href="#">
                         <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Forest Dynamics <span class="sidebar-arrow"></span>
@@ -353,5 +407,5 @@
             </ul>
 
         </ul>
-        </div>
     </div>
+</div>
