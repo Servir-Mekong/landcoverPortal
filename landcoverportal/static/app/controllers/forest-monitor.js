@@ -1021,7 +1021,7 @@
             $scope.forestChangeDownloadURL = '';
 
             /* slider init */
-            var forestChangeSlider = $('#forest-change-opacity-slider').slider(sliderOptions)
+            /*var forestChangeSlider = $('#forest-change-opacity-slider').slider(sliderOptions)
                 .on('slideStart', function(event) {
                     $scope.forestChangeOpacitySliderValue = $(this).data('slider').getValue();
                 })
@@ -1032,17 +1032,18 @@
                         $scope.overlays.forestChange.setOpacity(value);
                     }
                 });
+            */
 
             /* Layer switcher */
-            $('#forestChangeSwitch').change(function() {
+            /*$('#forestChangeSwitch').change(function() {
                 if ($(this).is(':checked')) {
                     $scope.overlays.forestChange.setOpacity($scope.forestChangeOpacitySliderValue);
                 } else {
                     $scope.overlays.forestChange.setOpacity(0);
                 }
-            });
+            });*/
 
-            $scope.calculateForestChange = function(startYear, endYear) {
+            /*$scope.calculateForestChange = function(startYear, endYear) {
 
                 if (verifyBeforeDownload(startYear, endYear, true, false)) {
 
@@ -1073,7 +1074,7 @@
                             showErrorAlert(error);
                         });
                 }
-            };
+            };*/
 
         });
 
