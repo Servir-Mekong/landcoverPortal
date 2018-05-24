@@ -51,7 +51,7 @@ class LandCoverViewer():
             if (area_path == 'country'):
                 if (area_name == 'Myanmar'):
                     area_name = 'Myanmar (Burma)'
-                self.geometry = LandCoverViewer.FEATURE_COLLECTION.filter(\
+                self.geometry = LandCoverViewer.MEKONG_FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
                 if settings.DEBUG:

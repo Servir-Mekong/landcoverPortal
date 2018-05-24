@@ -13,6 +13,7 @@
             $scope.typologyCSV = '/static/data/typology_value.csv';
 
             // Setting variables
+            $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
             $scope.landCoverClasses = appSettings.landCoverClasses;
             $scope.primitiveClasses = appSettings.primitiveClasses;
 
@@ -685,6 +686,7 @@
                 $scope.showLoader = true;
                 clearLayer('landcovermap');
                 $scope.initMap($scope.sliderYear, 'landcovermap');
+                removeShownGeoJson();
             };
 
             // Time Slider
@@ -803,6 +805,7 @@
                 LandCoverService.getPrimitiveMap(index, $scope.sliderYear,
                         $scope.shape, $scope.areaSelectFrom, $scope.areaName)
                     .then(function(data) {
+                        removeShownGeoJson();
                         clearLayer('primitivemap');
                         loadMap(data.eeMapId, data.eeMapToken, 'primitivemap');
                         $timeout(function() {
