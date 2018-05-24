@@ -41,7 +41,7 @@
                         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                         position: google.maps.ControlPosition.TOP_CENTER
                     },
-                    mapTypeId: 'hybrid',
+                    mapTypeId: 'terrain',
                     fullscreenControl: true,
                     fullscreenControlOptions: {
                         position: google.maps.ControlPosition.TOP_LEFT

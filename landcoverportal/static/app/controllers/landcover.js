@@ -48,7 +48,7 @@
                     streetViewControlOptions: {
                         position: google.maps.ControlPosition.TOP_CENTER
                     },
-                    mapTypeId: 'hybrid'
+                    mapTypeId: 'terrain'
                 },
                 // Map variable
                 map = new google.maps.Map(document.getElementById('map'), mapOptions),
