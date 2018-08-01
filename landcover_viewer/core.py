@@ -156,11 +156,11 @@ class LandCoverViewer():
 
     # -------------------------------------------------------------------------
     def get_download_url(self,
-                           type = 'landcover',
-                           year = 2016,
-                           primitives = range(0, 21),
-                           index = 0,
-                           ):
+                         type = 'landcover',
+                         year = 2016,
+                         primitives = range(0, 21),
+                         index = 0,
+                         ):
 
         if type == 'landcover':
             image = self.get_landcover(primitives = primitives,
@@ -184,15 +184,15 @@ class LandCoverViewer():
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
-                            type = 'landcover',
-                            year = 2016,
-                            primitives = range(0, 21),
-                            index = 0,
-                            file_name = '',
-                            user_email = None,
-                            user_id = None,
-                            oauth2object = None,
-                            ):
+                          type = 'landcover',
+                          year = 2016,
+                          primitives = range(0, 21),
+                          index = 0,
+                          file_name = '',
+                          user_email = None,
+                          user_id = None,
+                          oauth2object = None,
+                          ):
 
         if not (user_email and user_id and oauth2object):
             return {'error': 'something wrong with the google drive api!'}
@@ -215,14 +215,19 @@ class LandCoverViewer():
         else:
             file_name = file_name + ".tif"
 
-        task = ee.batch.Export.image.toDrive(
-            image = image,
-            description = 'Export from SERVIR Mekong Team',
-            fileNamePrefix = temp_file_name,
-            scale = 30,
-            region = self.geometry.getInfo()['coordinates'],
-            skipEmptyTiles = True
-        )
+        try:
+            task = ee.batch.Export.image.toDrive(
+                image = image,
+                description = 'Export from SERVIR Mekong Team',
+                fileNamePrefix = temp_file_name,
+                scale = 30,
+                region = self.geometry.getInfo()['coordinates'],
+                skipEmptyTiles = True,
+                maxPixels = 1E13
+            )
+        except Exception as e:
+            return {'error': e.message}
+
         task.start()
 
         i = 1

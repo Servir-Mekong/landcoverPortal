@@ -66,13 +66,13 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def tree_canopy(self,
-                     img_coll = None,
-                     get_image = False,
-                     for_download = False,
-                     year = None,
-                     report_area = False,
-                     tree_canopy_definition = 10,
-                     ):
+                    img_coll = None,
+                    get_image = False,
+                    for_download = False,
+                    year = None,
+                    report_area = False,
+                    tree_canopy_definition = 10,
+                    ):
 
         if not year:
             return {
@@ -195,8 +195,8 @@ class ForestMonitor():
     # -------------------------------------------------------------------------
     @staticmethod
     def _filter_for_forest_definition(img_coll,
-                                          tree_canopy_definition,
-                                          tree_height_definition):
+                                      tree_canopy_definition,
+                                      tree_height_definition):
 
         # 0 - tcc
         # 1 - tch
@@ -206,13 +206,13 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def forest_gain(self,
-                     get_image = False,
-                     start_year = None,
-                     end_year = None,
-                     tree_canopy_definition = 10,
-                     tree_height_definition = 5,
-                     report_area = False,
-                     ):
+                    get_image = False,
+                    start_year = None,
+                    end_year = None,
+                    tree_canopy_definition = 10,
+                    tree_height_definition = 5,
+                    report_area = False,
+                    ):
 
         if not start_year and end_year:
             return {
@@ -274,13 +274,13 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def forest_loss(self,
-                     get_image = False,
-                     start_year = None,
-                     end_year = None,
-                     tree_canopy_definition = 10,
-                     tree_height_definition = 5,
-                     report_area = False,
-                     ):
+                    get_image = False,
+                    start_year = None,
+                    end_year = None,
+                    tree_canopy_definition = 10,
+                    tree_height_definition = 5,
+                    report_area = False,
+                    ):
 
         if not start_year and end_year:
             return {
@@ -342,12 +342,12 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def forest_change(self,
-                        get_image = False,
-                        start_year = None,
-                        end_year = None,
-                        tree_canopy_definition = 10,
-                        tree_height_definition = 5,
-                        ):
+                      get_image = False,
+                      start_year = None,
+                      end_year = None,
+                      tree_canopy_definition = 10,
+                      tree_height_definition = 5,
+                      ):
 
         if not start_year and end_year:
             return {
@@ -404,12 +404,12 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def forest_extend(self,
-                        get_image = False,
-                        year = None,
-                        tree_canopy_definition = 10,
-                        tree_height_definition = 5,
-                        report_area = False,
-                        ):
+                      get_image = False,
+                      year = None,
+                      tree_canopy_definition = 10,
+                      tree_height_definition = 5,
+                      report_area = False,
+                      ):
 
         if not year:
             return {
@@ -466,12 +466,12 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def get_download_url(self,
-                           type,
-                           start_year,
-                           end_year,
-                           tree_canopy_definition,
-                           tree_height_definition
-                           ):
+                         type,
+                         start_year,
+                         end_year,
+                         tree_canopy_definition,
+                         tree_height_definition
+                         ):
 
         if (type == 'treeCanopy'):
             image = self.tree_canopy(get_image = True,
@@ -524,16 +524,16 @@ class ForestMonitor():
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
-                            type,
-                            start_year,
-                            end_year,
-                            user_email,
-                            user_id,
-                            file_name,
-                            tree_canopy_definition,
-                            tree_height_definition,
-                            oauth2object
-                            ):
+                          type,
+                          start_year,
+                          end_year,
+                          user_email,
+                          user_id,
+                          file_name,
+                          tree_canopy_definition,
+                          tree_height_definition,
+                          oauth2object
+                          ):
 
         if (type == 'treeCanopy'):
             image = self.tree_canopy(get_image = True,
@@ -582,14 +582,19 @@ class ForestMonitor():
         else:
             file_name = file_name + ".tif"
 
-        task = ee.batch.Export.image.toDrive(
-            image = image,
-            description = 'Export from SERVIR Mekong Team',
-            fileNamePrefix = temp_file_name,
-            scale = 30,
-            region = self.geometry.getInfo()['coordinates'],
-            skipEmptyTiles = True
-        )
+        try:
+            task = ee.batch.Export.image.toDrive(
+                image = image,
+                description = 'Export from SERVIR Mekong Team',
+                fileNamePrefix = temp_file_name,
+                scale = 30,
+                region = self.geometry.getInfo()['coordinates'],
+                skipEmptyTiles = True,
+                maxPixels = 1E13
+            )
+        except Exception as e:
+            return {'error': e.message}
+
         task.start()
 
         i = 1

@@ -210,8 +210,8 @@
                         }, 3500);
                         //$scope.showLegend = true;
                     }, function(error) {
+                        showErrorAlert(error.error);
                         console.log(error);
-                        showErrorAlert(error.statusText);
                     });
             };
 
@@ -271,12 +271,17 @@
                 var polygonCheck = true,
                     primitiveCheck = true;
 
-                if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
+                /*if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
                     if (drawnArea > AREA_LIMIT) {
                         showErrorAlert('The drawn polygon is larger than ' + AREA_LIMIT + ' km2. This exceeds the current limitations for downloading data. Please draw a smaller polygon!');
                         polygonCheck = false;
                     }
                 } else {
+                    showErrorAlert('Please draw a polygon before proceding to download!');
+                    polygonCheck = false;
+                }*/
+
+                if (!(['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1)) {
                     showErrorAlert('Please draw a polygon before proceding to download!');
                     polygonCheck = false;
                 }
@@ -733,7 +738,7 @@
                             $scope[type + 'DownloadURL'] = data.downloadUrl;
                             $scope['show' + type.capitalize() + 'DownloadURL'] = true;
                         }, function(error) {
-                            showErrorAlert(error.message);
+                            showErrorAlert(error.error);
                             console.log(error);
                         });
                 }
@@ -778,7 +783,7 @@
                                 $('#' + type + 'GDriveFileName').val('');
                             }
                         }, function(error) {
-                            showErrorAlert(error);
+                            showErrorAlert(error.error);
                             console.log(error);
                         });
                 }
@@ -815,8 +820,8 @@
                         $scope.showPrimitiveOpacitySlider = true;
                         $scope.primitiveIndex = index;
                     }, function(error) {
+                        showErrorAlert(error.error);
                         console.log(error);
-                        showErrorAlert(error.statusText);
                     });
             };
         });

@@ -116,7 +116,7 @@ def api(request):
                                                    user_email = user_email,
                                                    user_id = user_id,
                                                    )
-                        data = {'info': 'I have started the export! You can check your drive after 5-10 mins to get the exported image!'}
+                        data = {'info': 'The export is started! Larger area takes longer time!'}
                     else:
                         from oauth2client.client import OAuth2Credentials
                         oauth2object = OAuth2Credentials(access_token,
@@ -140,9 +140,12 @@ def api(request):
                                                       file_name = file_name,
                                                       oauth2object = oauth2object,
                                                       )
-                        data['info'] = 'I have started the export! You can check your drive after 5-10 mins to get the exported image!'
+                        data['info'] = 'The export is started! Larger area takes longer time!'
                 else:
                     # default fallback
                     data = {'error': 'You have not allowed the tool to use your google drive to upload file! Allow it first and try again!'}
 
+            if 'error' in data:
+                return JsonResponse(data, status=500)
+            # success response
             return JsonResponse(data)

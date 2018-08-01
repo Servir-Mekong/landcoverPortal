@@ -308,7 +308,7 @@
                             $scope[type + 'DownloadURL'] = data.downloadUrl;
                             $scope['show' + type.capitalize() + 'DownloadURL'] = true;
                         }, function(error) {
-                            showErrorAlert(error.message);
+                            showErrorAlert(error.error);
                             console.log(error);
                         });
                 }
@@ -350,7 +350,7 @@
                                 $('#' + type + 'GDriveFileName').val('');
                             }
                         }, function(error) {
-                            showErrorAlert(error);
+                            showErrorAlert(error.error);
                             console.log(error);
                         });
                 }
@@ -790,7 +790,7 @@
                     }, function(error) {
                         $scope.showLoader = false;
                         console.log(error);
-                        showErrorAlert(error);
+                        showErrorAlert(error.error);
                     });
             };
 
@@ -852,7 +852,7 @@
                     }, function(error) {
                         $scope.showLoader = false;
                         console.log(error);
-                        showErrorAlert(error);
+                        showErrorAlert(error.error);
                     });
             };
 
@@ -929,7 +929,7 @@
                         }, function(error) {
                             $scope.showLoader = false;
                             console.log(error);
-                            showErrorAlert(error);
+                            showErrorAlert(error.error);
                         });
                 }
             };
@@ -1006,7 +1006,7 @@
                         }, function(error) {
                             $scope.showLoader = false;
                             console.log(error);
-                            showErrorAlert(error);
+                            showErrorAlert(error.error);
                         });
                 }
             };
@@ -1150,7 +1150,7 @@
                     }, function(error) {
                         $scope.showLoader = false;
                         console.log(error);
-                        showErrorAlert(error);
+                        showErrorAlert(error.error);
                     });
             };
 
