@@ -280,8 +280,8 @@
                     showErrorAlert('Please draw a polygon before proceding to download!');
                     polygonCheck = false;
                 }*/
-
-                if (!(['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1)) {
+                var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
+                if (!hasPolygon) {
                     showErrorAlert('Please draw a polygon before proceding to download!');
                     polygonCheck = false;
                 }
@@ -510,9 +510,9 @@
             /**
              * Upload Area Button
              **/
-            var readFile = function() {
+            var readFile = function (e) {
 
-                var files = event.target.files;
+                var files = e.target.files;
                 if (files.length > 1) {
                     showErrorAlert('upload one file at a time');
                     $scope.$apply();
@@ -523,7 +523,7 @@
                     var reader = new FileReader();
                     reader.readAsText(file);
 
-                    reader.onload = function() {
+                    reader.onload = function (event) {
 
                         var textResult = event.target.result;
                         var addedGeoJson;
@@ -592,11 +592,11 @@
                 }
             };
 
-            $('#file-input-container #file-input').change(function() {
+            $('#file-input-container #file-input').change(function (event) {
                 $scope.showLoader = true;
                 $scope.$apply();
                 clearDrawing();
-                readFile();
+                readFile(event);
                 $(this).remove();
                 $("<input type='file' class='hide' id='file-input' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz'>").change(readFile).appendTo($('#file-input-container'));
                 $scope.showLoader = false;
