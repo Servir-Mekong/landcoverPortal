@@ -3,9 +3,9 @@
     'use strict';
 
     angular.module('landcoverportal')
-        .service('LandCoverService', function($http, $q) {
+        .service('LandCoverService', function ($http, $q) {
 
-            this.getLandCoverMap = function(primitives, year, shape, areaSelectFrom, areaName) {
+            this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName) {
 
                 var req = {
                     method: 'POST',
@@ -45,7 +45,7 @@
                 return promise;
             };
 
-            this.getPrimitiveMap = function(index, year, shape, areaSelectFrom, areaName) {
+            this.getPrimitiveMap = function (index, year, shape, areaSelectFrom, areaName) {
 
                 var req = {
                     method: 'POST',
@@ -85,7 +85,7 @@
                 return promise;
             };
 
-            this.getDownloadURL = function(type, shape, areaSelectFrom, areaName, year, primitives, index) {
+            this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index) {
 
                 var req = {
                     method: 'POST',
@@ -127,7 +127,7 @@
                 return promise;
             };
 
-            this.saveToDrive = function(type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
+            this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
 
                 var req = {
                     method: 'POST',

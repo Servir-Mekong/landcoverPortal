@@ -17,47 +17,14 @@
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         }])
-        .controller('forestMonitorCtrl', function($scope, $sanitize, appSettings, ForestMonitorService) {
+        .controller('forestMonitorCtrl', function($scope, $sanitize, appSettings, MapService, ForestMonitorService) {
 
             // Setting variables
             $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
 
-            // Earth Engine
             // Global Variables
-            var EE_URL = 'https://earthengine.googleapis.com',
-                DEFAULT_ZOOM = 5,
-                MAX_ZOOM = 25,
-                DEFAULT_CENTER = {
-                    lng: 102.93,
-                    lat: 16.4
-                },
-                AREA_LIMIT = 20000,
-                // Map options
-                mapOptions = {
-                    center: DEFAULT_CENTER,
-                    zoom: DEFAULT_ZOOM,
-                    maxZoom: MAX_ZOOM,
-                    mapTypeControlOptions: {
-                        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                        position: google.maps.ControlPosition.TOP_CENTER
-                    },
-                    mapTypeId: 'terrain',
-                    fullscreenControl: true,
-                    fullscreenControlOptions: {
-                        position: google.maps.ControlPosition.TOP_LEFT
-                    },
-                    zoomControlOptions: {
-                        position: google.maps.ControlPosition.RIGHT_BOTTOM
-                    },
-                    scaleControl: true,
-                    streetViewControl: true,
-                    streetViewControlOptions: {
-                        position: google.maps.ControlPosition.TOP_CENTER
-                    }
-                },
-                // Map variable
-                map = new google.maps.Map(document.getElementById('map'), mapOptions),
-                drawnArea = null;
+            var drawnArea = null;
+            var map = MapService.init();
 
             // $scope variables
             $scope.alertContent = '';
@@ -118,19 +85,6 @@
                 $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
             };
 
-            /**
-             * Utilities function
-             **/
-
-            var removeShownGeoJson = function() {
-                if ($scope.shownGeoJson) {
-                    //map.data.remove($scope.shownGeoJson);
-                    map.data.forEach(function(feature) {
-                        map.data.remove(feature);
-                    });
-                }
-            };
-
             var clearSelectedArea = function() {
                 $scope.areaSelectFrom = '';
                 $scope.areaIndexSelector = '';
@@ -138,17 +92,7 @@
                 $scope.$apply();
             };
 
-            var clearLayers = function(name) {
-
-                map.overlayMapTypes.forEach(function(layer, index) {
-                    if (layer && layer.name === name) {
-                        map.overlayMapTypes.removeAt(index);
-                    }
-                });
-            };
-
             var clearDrawing = function() {
-
                 if ($scope.overlays.polygon) {
                     $scope.overlays.polygon.setMap(null);
                     $scope.showPolygonDrawing = false;
@@ -156,73 +100,9 @@
             };
 
             /* Updates the image based on the current control panel config. */
-            var loadMap = function(mapId, mapToken, type) {
-
-                if (typeof(type) === 'undefined') type = 'map';
-
-                var eeMapOptions = {
-                    getTileUrl: function(tile, zoom) {
-                        var url = EE_URL + '/map/';
-                        url += [mapId, zoom, tile.x, tile.y].join('/');
-                        url += '?token=' + mapToken;
-                        return url;
-                    },
-                    tileSize: new google.maps.Size(256, 256),
-                    opacity: 1.0,
-                    name: type
-                };
-                var mapType = new google.maps.ImageMapType(eeMapOptions);
+            var loadMap = function(type, mapType) {
                 map.overlayMapTypes.push(mapType);
                 $scope.overlays[type] = mapType;
-            };
-
-            /**
-             * Process each point in a Geometry, regardless of how deep the points may lie.
-             * @param {google.maps.Data.Geometry} geometry The structure to process
-             * @param {function(google.maps.LatLng)} callback A function to call on each
-             *     LatLng point encountered (e.g. Array.push)
-             * @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
-             *     myArray)
-             */
-            var processPoints = function(geometry, callback, thisArg) {
-                if (geometry instanceof google.maps.LatLng) {
-                    callback.call(thisArg, geometry);
-                } else if (geometry instanceof google.maps.Data.Point) {
-                    callback.call(thisArg, geometry.get());
-                } else {
-                    geometry.getArray().forEach(function(g) {
-                        processPoints(g, callback, thisArg);
-                    });
-                }
-            };
-
-            var getRectangleArray = function(bounds) {
-                var start = bounds.getNorthEast();
-                var end = bounds.getSouthWest();
-                return [start.lng().toFixed(2), start.lat().toFixed(2), end.lng().toFixed(2), end.lat().toFixed(2)];
-            };
-
-            var getPolygonArray = function(pathArray) {
-                var geom = [];
-                for (var i = 0; i < pathArray.length; i++) {
-                    var coordinatePair = [pathArray[i].lng().toFixed(2), pathArray[i].lat().toFixed(2)];
-                    geom.push(coordinatePair);
-                }
-                return geom;
-            };
-
-            var computeRectangleArea = function(bounds) {
-                if (!bounds) {
-                    return 0;
-                }
-
-                var sw = bounds.getSouthWest();
-                var ne = bounds.getNorthEast();
-                var southWest = new google.maps.LatLng(sw.lat(), sw.lng());
-                var northEast = new google.maps.LatLng(ne.lat(), ne.lng());
-                var southEast = new google.maps.LatLng(sw.lat(), ne.lng());
-                var northWest = new google.maps.LatLng(ne.lat(), sw.lng());
-                return google.maps.geometry.spherical.computeArea([northEast, northWest, southWest, southEast]) / 1e6;
             };
 
             var verifyBeforeDownload = function(startYear, endYear, requireBoth, checkPolygon) {
@@ -420,43 +300,14 @@
 
             var drawingManager = new google.maps.drawing.DrawingManager();
 
-            var stopDrawing = function() {
+            var stopDrawing = function () {
                 drawingManager.setDrawingMode(null);
             };
 
-            var getDrawingManagerOptions = function(type) {
-                var typeOptions;
-
-                if (type === 'rectangle') {
-                    typeOptions = 'rectangleOptions';
-                } else if (type === 'circle') {
-                    typeOptions = 'circleOptions';
-                } else if (type === 'polygon') {
-                    typeOptions = 'polygonOptions';
-                }
-
-                var drawingManagerOptions = {
-                    'drawingControl': false
-                };
-                drawingManagerOptions.drawingMode = type;
-                drawingManagerOptions[typeOptions] = {
-                    'strokeColor': '#ff0000',
-                    'strokeWeight': 5,
-                    'fillColor': 'yellow',
-                    'fillOpacity': 0,
-                    'editable': true
-                };
-
-                return drawingManagerOptions;
-
-            };
-
-            $scope.drawShape = function(type) {
-
-                drawingManager.setOptions(getDrawingManagerOptions(type));
+            $scope.drawShape = function (type) {
+                drawingManager.setOptions(MapService.getDrawingManagerOptions(type));
                 // Loading the drawing Tool in the Map.
                 drawingManager.setMap(map);
-
             };
 
             var updateReportTotalArea = function() {
@@ -469,7 +320,7 @@
 
             // Listeners
             // Overlay Listener
-            google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+            google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
                 // Clear Layer First
                 clearDrawing();
                 var overlay = event.overlay;
@@ -479,58 +330,82 @@
                 var drawingType = event.type;
                 $scope.shape.type = drawingType;
                 if (drawingType === 'rectangle') {
-                    $scope.shape.geom = getRectangleArray(overlay.getBounds());
-                    drawnArea = computeRectangleArea(overlay.getBounds());
+                    $scope.shape.geom = MapService.getRectangleBoundArray(overlay.getBounds());
+                    drawnArea = MapService.computeRectangleArea(overlay.getBounds());
                     // Change event
                     google.maps.event.addListener(overlay, 'bounds_changed', function() {
-                        $scope.shape.geom = getRectangleArray(event.overlay.getBounds());
-                        drawnArea = computeRectangleArea(event.overlay.getBounds());
+                        $scope.shape.geom = MapService.getRectangleBoundArray(event.overlay.getBounds());
+                        drawnArea = MapService.computeRectangleArea(event.overlay.getBounds());
                         updateReportTotalArea();
                     });
                 } else if (drawingType === 'circle') {
-                    $scope.shape.center = [overlay.getCenter().lng().toFixed(2), overlay.getCenter().lat().toFixed(2)];
-                    $scope.shape.radius = overlay.getRadius().toFixed(2); // unit: meter
-                    drawnArea = Math.PI * Math.pow(overlay.getRadius() / 1000, 2);
+                    $scope.shape.center = MapService.getCircleCenter(overlay);
+                    $scope.shape.radius = MapService.getRadius(overlay); // unit: meter
+                    drawnArea = MapService.computeCircleArea(overlay);
                     // Change event
-                    google.maps.event.addListener(overlay, 'radius_changed', function() {
-                        $scope.shape.radius = event.overlay.getRadius().toFixed(2);
-                        drawnArea = Math.PI * Math.pow(event.overlay.getRadius() / 1000, 2);
+                    google.maps.event.addListener(overlay, 'radius_changed', function () {
+                        $scope.shape.radius = MapService.getRadius(event.overlay);
+                        drawnArea = MapService.computeCircleArea(event.overlay);
                         updateReportTotalArea();
                     });
-                    google.maps.event.addListener(overlay, 'center_changed', function() {
-                        $scope.shape.center = [event.overlay.getCenter().lng().toFixed(2), event.overlay.getCenter().lat().toFixed(2)];
-                        drawnArea = Math.PI * Math.pow(event.overlay.getRadius() / 1000, 2);
+                    google.maps.event.addListener(overlay, 'center_changed', function () {
+                        $scope.shape.center = MapService.getCircleCenter(event.overlay);
+                        drawnArea = MapService.getRadius(event.overlay);
                         updateReportTotalArea();
                     });
                 } else if (drawingType === 'polygon') {
                     var path = overlay.getPath();
-                    $scope.shape.geom = getPolygonArray(path.getArray());
-                    drawnArea = google.maps.geometry.spherical.computeArea(path) / 1e6;
+                    $scope.shape.geom = MapService.getPolygonBoundArray(path.getArray());
+                    drawnArea = MapService.computePolygonArea(path);
                     // Change event
                     google.maps.event.addListener(path, 'insert_at', function() {
-                        $scope.shape.geom = getPolygonArray(event.overlay.getPath().getArray());
-                        drawnArea = google.maps.geometry.spherical.computeArea(event.overlay.getPath()) / 1e6;
+                        var insert_path = event.overlay.getPath();
+                        $scope.shape.geom = MapService.getPolygonBoundArray(insert_path.getArray());
+                        drawnArea = MapService.computePolygonArea(insert_path);
                         updateReportTotalArea();
                     });
                     google.maps.event.addListener(path, 'remove_at', function() {
-                        $scope.shape.geom = getPolygonArray(event.overlay.getPath().getArray());
-                        drawnArea = google.maps.geometry.spherical.computeArea(event.overlay.getPath()) / 1e6;
+                        var remove_path = event.overlay.getPath();
+                        $scope.shape.geom = MapService.getPolygonBoundArray(remove_path.getArray());
+                        drawnArea = MapService.computePolygonArea(remove_path);
                         updateReportTotalArea();
                     });
                     google.maps.event.addListener(path, 'set_at', function() {
-                        $scope.shape.geom = getPolygonArray(event.overlay.getPath().getArray());
-                        drawnArea = google.maps.geometry.spherical.computeArea(event.overlay.getPath()) / 1e6;
+                        var set_path = event.overlay.getPath();
+                        $scope.shape.geom = MapService.getPolygonBoundArray(set_path.getArray());
+                        drawnArea = MapService.computePolygonArea(set_path);
                         updateReportTotalArea();
                     });
                 }
 
                 stopDrawing();
                 clearSelectedArea();
-                removeShownGeoJson();
+                MapService.removeGeoJson(map);
                 updateReportTotalArea();
             });
 
             // Geojson listener
+
+            /**
+             * Process each point in a Geometry, regardless of how deep the points may lie.
+             * @param {google.maps.Data.Geometry} geometry The structure to process
+             * @param {function(google.maps.LatLng)} callback A function to call on each
+             *     LatLng point encountered (e.g. Array.push)
+             * @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
+             *     myArray)
+             */
+            var processPoints = function(geometry, callback, thisArg) {
+                if (geometry instanceof google.maps.LatLng) {
+                    callback.call(thisArg, geometry);
+                } else if (geometry instanceof google.maps.Data.Point) {
+                    callback.call(thisArg, geometry.get());
+                } else {
+                    geometry.getArray().forEach(function(g) {
+                        processPoints(g, callback, thisArg);
+                    });
+                }
+            };
+
             map.data.addListener('addfeature', function(event) {
                 $scope.shownGeoJson = event.feature;
                 var bounds = new google.maps.LatLngBounds();
@@ -548,20 +423,20 @@
             /**
              * Upload Area Button
              **/
-            var readFile = function() {
+            var readFile = function (e) {
 
-                var files = event.target.files;
+                var files = e.target.files;
                 if (files.length > 1) {
                     showErrorAlert('upload one file at a time');
                     $scope.$apply();
                 } else {
-                    removeShownGeoJson();
+                    MapService.removeGeoJson(map);
 
                     var file = files[0];
                     var reader = new FileReader();
                     reader.readAsText(file);
 
-                    reader.onload = function() {
+                    reader.onload = function (event) {
 
                         var textResult = event.target.result;
                         var addedGeoJson;
@@ -630,11 +505,11 @@
                 }
             };
 
-            $('#file-input-container #file-input').change(function() {
+            $('#file-input-container #file-input').change(function (event) {
                 $scope.showLoader = true;
                 $scope.$apply();
                 clearDrawing();
-                readFile();
+                readFile(event);
                 $(this).remove();
                 $("<input type='file' class='hide' id='file-input' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz'>").change(readFile).appendTo($('#file-input-container'));
                 $scope.showLoader = false;
@@ -677,30 +552,6 @@
             var analysisToolControl = new AnalysisToolControl(analysisToolControlDiv, map);
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
-            // KML Upload Tool Control
-            /*
-            var KMLUploadToolControl = function (controlDiv, map) {
-
-            	// Set CSS for the control border.
-            	var controlUI = document.createElement('div');
-            	controlUI.setAttribute('class', 'tool-control text-center');
-            	controlUI.title = 'Toogle Tools Visibility';
-            	controlUI.innerHTML = "<label for='file-input'><span class='glyphicon glyphicon-upload large-icon' type='file' aria-hidden='true'></span></label><input type='file' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz' class='hide form-control' name='file-input' id='file-input'>";
-            	controlDiv.appendChild(controlUI);
-
-            	// Setup the click event listeners
-            	controlUI.addEventListener('click', function() {
-            		$('#file-input').change( function () {
-            			readFile();
-            		});
-            	});
-            };
-
-            var kmlUploadToolControlDiv = document.createElement('div');
-            var kmlUploadToolControl = new KMLUploadToolControl(kmlUploadToolControlDiv, map);
-            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(kmlUploadToolControlDiv);
-            */
-
             var datepickerOptions = {
                 autoclose: true,
                 clearBtn: true,
@@ -708,6 +559,22 @@
             };
 
             $('#time-period-tab>#datepicker').datepicker(datepickerOptions);
+
+            // Parameters (forest canopy, change, loss etc)
+            var parameterChangeSuccessCallback = function (name, data, slider, message) {
+                MapService.removeGeoJson(map);
+                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, name);
+                loadMap(name, mapType);
+                slider.slider('setValue', 1);
+                showSuccessAlert(message);
+                $scope.showLoader = false;
+            };
+
+            var parameterChangeErrorCallback = function (error) {
+                $scope.showLoader = false;
+                console.log(error);
+                showErrorAlert(error.error);
+            };
 
             /**
              * Slider
@@ -754,7 +621,7 @@
 
                 $scope.showLoader = true;
                 var name = 'treeCanopy';
-                clearLayers(name);
+                MapService.clearLayer(map, name);
                 $scope.closeAlert();
                 // Close and restart this after success
                 $scope.showTreeCanopyOpacitySlider = false;
@@ -768,9 +635,7 @@
                         $scope.treeCanopyDefinition
                     )
                     .then(function(data) {
-                        removeShownGeoJson();
-                        loadMap(data.eeMapId, data.eeMapToken, name);
-                        treeCanopySlider.slider('setValue', 1);
+                        parameterChangeSuccessCallback(name, data, treeCanopySlider, 'Tree Canopy Cover for year ' + year + ' !');
                         $scope.showTreeCanopyOpacitySlider = true;
                         $scope.showTreeCanopyDownloadButtons = true;
                         // Reporting Element
@@ -785,12 +650,8 @@
                                 $scope.showReportTreeCanopy = true;
                             }
                         }
-                        showSuccessAlert('Tree Canopy Cover for year ' + year + ' !');
-                        $scope.showLoader = false;
                     }, function(error) {
-                        $scope.showLoader = false;
-                        console.log(error);
-                        showErrorAlert(error.error);
+                        parameterChangeErrorCallback(error);
                     });
             };
 
@@ -830,7 +691,7 @@
 
                 $scope.showLoader = true;
                 var name = 'treeHeight';
-                clearLayers(name);
+                MapService.clearLayer(map, name);
                 $scope.closeAlert();
                 $scope.showTreeHeightOpacitySlider = false;
 
@@ -842,17 +703,11 @@
                         $scope.treeHeightDefinition
                     )
                     .then(function(data) {
-                        removeShownGeoJson();
-                        loadMap(data.eeMapId, data.eeMapToken, name);
-                        treeHeightSlider.slider('setValue', 1);
+                        parameterChangeSuccessCallback(name, data, treeHeightSlider, 'Tree Canopy Height for year ' + year + ' !');
                         $scope.showTreeHeightOpacitySlider = true;
-                        showSuccessAlert('Tree Canopy Height for year ' + year + ' !');
                         $scope.showTreeHeightDownloadButtons = true;
-                        $scope.showLoader = false;
                     }, function(error) {
-                        $scope.showLoader = false;
-                        console.log(error);
-                        showErrorAlert(error.error);
+                        parameterChangeErrorCallback(error);
                     });
             };
 
@@ -894,7 +749,7 @@
 
                     $scope.showLoader = true;
                     var name = 'forestGain';
-                    clearLayers(name);
+                    MapService.clearLayer(map, name);
                     $scope.closeAlert();
                     $scope.showForestGainOpacitySlider = false;
 
@@ -907,11 +762,7 @@
                             $scope.treeHeightDefinition,
                             $scope.showReportNoPolygon ? false : true)
                         .then(function(data) {
-                            removeShownGeoJson();
-                            loadMap(data.eeMapId, data.eeMapToken, name);
-                            forestGainSlider.slider('setValue', 1);
-                            $scope.showForestGainOpacitySlider = true;
-                            $scope.showForestGainDownloadButtons = true;
+                            parameterChangeSuccessCallback(name, data, forestGainSlider, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
                             // Reporting Element
                             if (!$scope.showReportNoPolygon) {
                                 if (data.reportArea) {
@@ -924,12 +775,10 @@
                                     $scope.showReportForestGain = true;
                                 }
                             }
-                            showSuccessAlert('Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
-                            $scope.showLoader = false;
+                            $scope.showForestGainOpacitySlider = true;
+                            $scope.showForestGainDownloadButtons = true;
                         }, function(error) {
-                            $scope.showLoader = false;
-                            console.log(error);
-                            showErrorAlert(error.error);
+                            parameterChangeErrorCallback(error);
                         });
                 }
             };
@@ -971,7 +820,7 @@
                 if (verifyBeforeDownload(startYear, endYear, true, false)) {
                     $scope.showLoader = true;
                     var name = 'forestLoss';
-                    clearLayers(name);
+                    MapService.clearLayer(map, name);
                     $scope.closeAlert();
                     $scope.showForestLossOpacitySlider = false;
 
@@ -984,11 +833,7 @@
                             $scope.treeHeightDefinition,
                             $scope.showReportNoPolygon ? false : true)
                         .then(function(data) {
-                            removeShownGeoJson();
-                            loadMap(data.eeMapId, data.eeMapToken, name);
-                            forestLossSlider.slider('setValue', 1);
-                            $scope.showForestLossOpacitySlider = true;
-                            $scope.showForestLossDownloadButtons = true;
+                            parameterChangeSuccessCallback(name, data, forestLossSlider, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
                             // Reporting Element
                             if (!$scope.showReportNoPolygon) {
                                 if (data.reportArea) {
@@ -1001,81 +846,13 @@
                                     $scope.showReportForestLoss = true;
                                 }
                             }
-                            showSuccessAlert('Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
-                            $scope.showLoader = false;
+                            $scope.showForestLossOpacitySlider = true;
+                            $scope.showForestLossDownloadButtons = true;
                         }, function(error) {
-                            $scope.showLoader = false;
-                            console.log(error);
-                            showErrorAlert(error.error);
+                            parameterChangeErrorCallback(error);
                         });
                 }
             };
-
-            /*
-             * Forest Change Calculations
-             */
-            /*$scope.showForestChangeOpacitySlider = false;
-            $scope.forestChangeOpacitySliderValue = null;
-            $scope.showForestChangeDownloadButtons = false;
-            $scope.showForestChangeDownloadURL = false;
-            $scope.showForestChangeGDriveFileName = false;
-            $scope.forestChangeDownloadURL = '';*/
-
-            /* slider init */
-            /*var forestChangeSlider = $('#forest-change-opacity-slider').slider(sliderOptions)
-                .on('slideStart', function(event) {
-                    $scope.forestChangeOpacitySliderValue = $(this).data('slider').getValue();
-                })
-                .on('slideStop', function(event) {
-                    var value = $(this).data('slider').getValue();
-                    if (value !== $scope.forestChangeOpacitySliderValue) {
-                        $scope.forestChangeOpacitySliderValue = value;
-                        $scope.overlays.forestChange.setOpacity(value);
-                    }
-                });
-            */
-
-            /* Layer switcher */
-            /*$('#forestChangeSwitch').change(function() {
-                if ($(this).is(':checked')) {
-                    $scope.overlays.forestChange.setOpacity($scope.forestChangeOpacitySliderValue);
-                } else {
-                    $scope.overlays.forestChange.setOpacity(0);
-                }
-            });*/
-
-            /*$scope.calculateForestChange = function(startYear, endYear) {
-
-                if (verifyBeforeDownload(startYear, endYear, true, false)) {
-
-                    $scope.showLoader = true;
-                    var name = 'forestChange';
-                    clearLayers(name);
-                    $scope.closeAlert();
-                    $scope.showForestChangeOpacitySlider = false;
-
-                    ForestMonitorService.forestChange(startYear,
-                            endYear,
-                            $scope.shape,
-                            $scope.areaSelectFrom,
-                            $scope.areaName,
-                            $scope.treeCanopyDefinition,
-                            $scope.treeHeightDefinition)
-                        .then(function(data) {
-                            removeShownGeoJson();
-                            loadMap(data.eeMapId, data.eeMapToken, name);
-                            forestChangeSlider.slider('setValue', 1);
-                            $scope.showForestChangeOpacitySlider = true;
-                            $scope.showForestChangeDownloadButtons = true;
-                            showSuccessAlert('Forest Change from year ' + startYear + ' to ' + endYear + ' !');
-                            $scope.showLoader = false;
-                        }, function(error) {
-                            $scope.showLoader = false;
-                            console.log(error);
-                            showErrorAlert(error);
-                        });
-                }
-            };*/
 
             /*
              * Forest Extend Calculations
@@ -1113,7 +890,7 @@
 
                 $scope.showLoader = true;
                 var name = 'forestExtend';
-                clearLayers(name);
+                MapService.clearLayer(map, name);
                 $scope.closeAlert();
                 // Close and restart this after success
                 $scope.showForestExtendOpacitySlider = false;
@@ -1128,11 +905,7 @@
                         $scope.showReportNoPolygon ? false : true
                     )
                     .then(function(data) {
-                        removeShownGeoJson();
-                        loadMap(data.eeMapId, data.eeMapToken, name);
-                        forestExtendSlider.slider('setValue', 1);
-                        $scope.showForestExtendOpacitySlider = true;
-                        $scope.showForestExtendDownloadButtons = true;
+                        parameterChangeSuccessCallback(name, data, forestExtendSlider, 'Forest Extend for year ' + year + ' !');
                         // Reporting Element
                         if (!$scope.showReportNoPolygon) {
                             if (data.reportArea) {
@@ -1145,12 +918,10 @@
                             }
                             $scope.showReportForestExtend = true;
                         }
-                        showSuccessAlert('Forest Extend for year ' + year + ' !');
-                        $scope.showLoader = false;
+                        $scope.showForestExtendOpacitySlider = true;
+                        $scope.showForestExtendDownloadButtons = true;
                     }, function(error) {
-                        $scope.showLoader = false;
-                        console.log(error);
-                        showErrorAlert(error.error);
+                        parameterChangeErrorCallback(error);
                     });
             };
 
