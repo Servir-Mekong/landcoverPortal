@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('landcoverportal')
-        .controller('settingsCtrl', function($scope, appSettings) {
+        .controller('utilsController', function ($scope, appSettings) {
 
             $scope.menus = appSettings.menus;
             $scope.applicationName = appSettings.applicationName;

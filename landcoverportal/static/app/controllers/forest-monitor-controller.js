@@ -1,9 +1,9 @@
-(function() {
+(function () {
 
     'use strict';
     angular.module('landcoverportal')
-        .filter('treeCanopyHeightYearRange', function() {
-            return function(input, min, max) {
+        .filter('treeCanopyHeightYearRange', function () {
+            return function (input, min, max) {
                 min = parseInt(min);
                 max = parseInt(max);
                 for (var i = min; i <= max; i++) {
@@ -12,12 +12,12 @@
                 return input;
             };
         })
-        .config(['$httpProvider', function($httpProvider) {
+        .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         }])
-        .controller('forestMonitorCtrl', function($scope, $sanitize, appSettings, MapService, ForestMonitorService) {
+        .controller('forestMonitorCtrl', function ($scope, $sanitize, appSettings, MapService, ForestMonitorService) {
 
             // Setting variables
             $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
@@ -47,7 +47,7 @@
              * Layer switcher Style
              */
             // Toggle minus and plus sign in layer control
-            $('a.layer-control-toggle').click(function() {
+            $('a.layer-control-toggle').click(function () {
                 if ($(this).find('.glyphicon').hasClass('glyphicon-plus')) {
                     $(this).find('.glyphicon').addClass('glyphicon-minus').removeClass('glyphicon-plus');
                     $('.layer-control').css({
@@ -65,34 +65,34 @@
              * Alert
              */
 
-            $scope.closeAlert = function() {
+            $scope.closeAlert = function () {
                 $('.custom-alert').addClass('display-none');
                 $scope.alertContent = '';
             };
 
-            var showErrorAlert = function(alertContent) {
+            var showErrorAlert = function (alertContent) {
                 $scope.alertContent = alertContent;
                 $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
             };
 
-            var showSuccessAlert = function(alertContent) {
+            var showSuccessAlert = function (alertContent) {
                 $scope.alertContent = alertContent;
                 $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
             };
 
-            var showInfoAlert = function(alertContent) {
+            var showInfoAlert = function (alertContent) {
                 $scope.alertContent = alertContent;
                 $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
             };
 
-            var clearSelectedArea = function() {
+            var clearSelectedArea = function () {
                 $scope.areaSelectFrom = '';
                 $scope.areaIndexSelector = '';
                 $scope.areaName = '';
                 $scope.$apply();
             };
 
-            var clearDrawing = function() {
+            var clearDrawing = function () {
                 if ($scope.overlays.polygon) {
                     $scope.overlays.polygon.setMap(null);
                     $scope.showPolygonDrawing = false;
@@ -100,14 +100,14 @@
             };
 
             /* Updates the image based on the current control panel config. */
-            var loadMap = function(type, mapType) {
+            var loadMap = function (type, mapType) {
                 map.overlayMapTypes.push(mapType);
                 $scope.overlays[type] = mapType;
             };
 
-            var verifyBeforeDownload = function(startYear, endYear, requireBoth, checkPolygon) {
+            var verifyBeforeDownload = function (startYear, endYear, requireBoth, checkPolygon) {
 
-                if (typeof(checkPolygon) === 'undefined') checkPolygon = true;
+                /*if (typeof(checkPolygon) === 'undefined') checkPolygon = true;
                 if (checkPolygon) {
                     if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
                         if (drawnArea > AREA_LIMIT) {
@@ -118,7 +118,7 @@
                         showErrorAlert('Please draw a polygon before proceding to download!');
                         return false;
                     }
-                }
+                }*/
 
                 if (typeof(requireBoth) === 'undefined') requireBoth = false;
                 if (requireBoth) {
@@ -139,7 +139,7 @@
                 return true;
             };
 
-            $scope.copyToClipBoard = function(type) {
+            $scope.copyToClipBoard = function (type) {
                 // Function taken from https://codepen.io/nathanlong/pen/ZpAmjv?editors=0010
                 var btnCopy = $('.' + type + 'CpyBtn');
                 var copyTest = document.queryCommandSupported('copy');
@@ -165,13 +165,13 @@
                 }
             };
 
-            String.prototype.capitalize = function() {
-                return this.replace(/(^|\s)([a-z])/g, function(m, p1, p2) {
+            String.prototype.capitalize = function () {
+                return this.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
                     return p1 + p2.toUpperCase();
                 });
             };
 
-            $scope.getDownloadURL = function(type, startYear, endYear, requireBoth) {
+            $scope.getDownloadURL = function (type, startYear, endYear, requireBoth) {
                 var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
                 if (verified) {
                     showInfoAlert('Preparing Download Link...');
@@ -183,29 +183,29 @@
                             endYear,
                             $scope.treeCanopyDefinition,
                             $scope.treeHeightDefinition)
-                        .then(function(data) {
-                            showSuccessAlert('Your Download Link is ready!');
-                            $scope[type + 'DownloadURL'] = data.downloadUrl;
-                            $scope['show' + type.capitalize() + 'DownloadURL'] = true;
-                        }, function(error) {
-                            showErrorAlert(error.error);
-                            console.log(error);
-                        });
+                    .then(function (data) {
+                        showSuccessAlert('Your Download Link is ready!');
+                        $scope[type + 'DownloadURL'] = data.downloadUrl;
+                        $scope['show' + type.capitalize() + 'DownloadURL'] = true;
+                    }, function (error) {
+                        showErrorAlert(error.error);
+                        console.log(error);
+                    });
                 }
             };
 
-            $scope.showGDriveFileName = function(type, startYear, endYear, requireBoth) {
+            $scope.showGDriveFileName = function (type, startYear, endYear, requireBoth) {
                 var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
                 if (verified) {
                     $scope['show' + type.capitalize() + 'GDriveFileName'] = true;
                 }
             };
 
-            $scope.hideGDriveFileName = function(type) {
+            $scope.hideGDriveFileName = function (type) {
                 $scope['show' + type.capitalize() + 'GDriveFileName'] = false;
             };
 
-            $scope.saveToDrive = function(type, startYear, endYear, requireBoth) {
+            $scope.saveToDrive = function (type, startYear, endYear, requireBoth) {
                 var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
                 if (verified) {
                     // Check if filename is provided, if not use the default one
@@ -220,7 +220,7 @@
                             fileName,
                             $scope.treeCanopyDefinition,
                             $scope.treeHeightDefinition)
-                        .then(function(data) {
+                        .then(function (data) {
                             if (data.error) {
                                 showErrorAlert(data.error);
                                 console.log(data.error);
@@ -229,7 +229,7 @@
                                 $scope.hideGDriveFileName(type);
                                 $('#' + type + 'GDriveFileName').val('');
                             }
-                        }, function(error) {
+                        }, function (error) {
                             showErrorAlert(error.error);
                             console.log(error);
                         });
@@ -245,7 +245,7 @@
             $scope.areaName = null;
             $scope.shownGeoJson = null;
 
-            $scope.populateAreaVariableOptions = function(option) {
+            $scope.populateAreaVariableOptions = function (option) {
 
                 $scope.showAreaVariableSelector = true;
                 $scope.areaSelectFrom = option.value;
@@ -256,9 +256,9 @@
                 }
             };
 
-            $scope.loadAreaFromFile = function(name) {
+            $scope.loadAreaFromFile = function (name) {
 
-                removeShownGeoJson();
+                MapService.removeGeoJson(map);
                 clearDrawing();
 
                 if (name) {
@@ -283,13 +283,13 @@
             /**
              * Tab
              */
-            $('.btn-pref .btn').click(function() {
+            $('.btn-pref .btn').click(function () {
                 $('.btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
                 // $(".tab").addClass("active"); // instead of this do the below
                 $(this).removeClass('btn-default').addClass('btn-primary');
             });
 
-            $('.btn-pref-inner .btn').click(function() {
+            $('.btn-pref-inner .btn').click(function () {
                 $('.btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
                 $(this).removeClass('btn-default').addClass('btn-primary');
             });
@@ -310,7 +310,7 @@
                 drawingManager.setMap(map);
             };
 
-            var updateReportTotalArea = function() {
+            var updateReportTotalArea = function () {
                 // Reporting Element
                 $scope.showReportNoPolygon = false;
                 $scope.reportTotalAreaValue = (Math.round(drawnArea * 100 * 100) / 100).toLocaleString() + ' ha';
@@ -333,24 +333,24 @@
                     $scope.shape.geom = MapService.getRectangleBoundArray(overlay.getBounds());
                     drawnArea = MapService.computeRectangleArea(overlay.getBounds());
                     // Change event
-                    google.maps.event.addListener(overlay, 'bounds_changed', function() {
+                    google.maps.event.addListener(overlay, 'bounds_changed', function () {
                         $scope.shape.geom = MapService.getRectangleBoundArray(event.overlay.getBounds());
                         drawnArea = MapService.computeRectangleArea(event.overlay.getBounds());
                         updateReportTotalArea();
                     });
                 } else if (drawingType === 'circle') {
                     $scope.shape.center = MapService.getCircleCenter(overlay);
-                    $scope.shape.radius = MapService.getRadius(overlay); // unit: meter
+                    $scope.shape.radius = MapService.getCircleRadius(overlay); // unit: meter
                     drawnArea = MapService.computeCircleArea(overlay);
                     // Change event
                     google.maps.event.addListener(overlay, 'radius_changed', function () {
-                        $scope.shape.radius = MapService.getRadius(event.overlay);
+                        $scope.shape.radius = MapService.getCircleRadius(event.overlay);
                         drawnArea = MapService.computeCircleArea(event.overlay);
                         updateReportTotalArea();
                     });
                     google.maps.event.addListener(overlay, 'center_changed', function () {
                         $scope.shape.center = MapService.getCircleCenter(event.overlay);
-                        drawnArea = MapService.getRadius(event.overlay);
+                        drawnArea = MapService.getCircleRadius(event.overlay);
                         updateReportTotalArea();
                     });
                 } else if (drawingType === 'polygon') {
@@ -358,19 +358,19 @@
                     $scope.shape.geom = MapService.getPolygonBoundArray(path.getArray());
                     drawnArea = MapService.computePolygonArea(path);
                     // Change event
-                    google.maps.event.addListener(path, 'insert_at', function() {
+                    google.maps.event.addListener(path, 'insert_at', function () {
                         var insert_path = event.overlay.getPath();
                         $scope.shape.geom = MapService.getPolygonBoundArray(insert_path.getArray());
                         drawnArea = MapService.computePolygonArea(insert_path);
                         updateReportTotalArea();
                     });
-                    google.maps.event.addListener(path, 'remove_at', function() {
+                    google.maps.event.addListener(path, 'remove_at', function () {
                         var remove_path = event.overlay.getPath();
                         $scope.shape.geom = MapService.getPolygonBoundArray(remove_path.getArray());
                         drawnArea = MapService.computePolygonArea(remove_path);
                         updateReportTotalArea();
                     });
-                    google.maps.event.addListener(path, 'set_at', function() {
+                    google.maps.event.addListener(path, 'set_at', function () {
                         var set_path = event.overlay.getPath();
                         $scope.shape.geom = MapService.getPolygonBoundArray(set_path.getArray());
                         drawnArea = MapService.computePolygonArea(set_path);
@@ -394,19 +394,19 @@
              * @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
              *     myArray)
              */
-            var processPoints = function(geometry, callback, thisArg) {
+            var processPoints = function (geometry, callback, thisArg) {
                 if (geometry instanceof google.maps.LatLng) {
                     callback.call(thisArg, geometry);
                 } else if (geometry instanceof google.maps.Data.Point) {
                     callback.call(thisArg, geometry.get());
                 } else {
-                    geometry.getArray().forEach(function(g) {
+                    geometry.getArray().forEach(function (g) {
                         processPoints(g, callback, thisArg);
                     });
                 }
             };
 
-            map.data.addListener('addfeature', function(event) {
+            map.data.addListener('addfeature', function (event) {
                 $scope.shownGeoJson = event.feature;
                 var bounds = new google.maps.LatLngBounds();
                 var _geometry = event.feature.getGeometry();
@@ -416,7 +416,7 @@
                 updateReportTotalArea();
             });
 
-            map.data.addListener('removefeature', function(event) {
+            map.data.addListener('removefeature', function (event) {
                 $scope.shownGeoJson = null;
             });
 
@@ -520,7 +520,7 @@
              */
 
             // Analysis Tool Control
-            $scope.toggleToolControl = function() {
+            $scope.toggleToolControl = function () {
 
                 if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
                     $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
@@ -532,7 +532,7 @@
                 $scope.$apply();
             };
 
-            function AnalysisToolControl(controlDiv, map) {
+            function AnalysisToolControl(controlDiv) {
 
                 // Set CSS for the control border.
                 var controlUI = document.createElement('div');
@@ -543,13 +543,13 @@
                 controlDiv.appendChild(controlUI);
 
                 // Setup the click event listeners
-                controlUI.addEventListener('click', function() {
+                controlUI.addEventListener('click', function () {
                     $scope.toggleToolControl();
                 });
             }
 
             var analysisToolControlDiv = document.getElementById('tool-control-container');
-            var analysisToolControl = new AnalysisToolControl(analysisToolControlDiv, map);
+            new AnalysisToolControl(analysisToolControlDiv);
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
             var datepickerOptions = {
@@ -580,7 +580,7 @@
              * Slider
              */
             var sliderOptions = {
-                formatter: function(value) {
+                formatter: function (value) {
                     return 'Opacity: ' + value;
                 }
             };
@@ -597,19 +597,19 @@
 
             /* slider init */
             var treeCanopySlider = $('#tree-canopy-opacity-slider').slider(sliderOptions)
-                .on('slideStart', function(event) {
-                    $scope.treeCanopyOpacitySliderValue = $(this).data('slider').getValue();
-                })
-                .on('slideStop', function(event) {
-                    var value = $(this).data('slider').getValue();
-                    if (value !== $scope.treeCanopyOpacitySliderValue) {
-                        $scope.treeCanopyOpacitySliderValue = value;
-                        $scope.overlays.treeCanopy.setOpacity(value);
-                    }
-                });
+            .on('slideStart', function (event) {
+                $scope.treeCanopyOpacitySliderValue = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.treeCanopyOpacitySliderValue) {
+                    $scope.treeCanopyOpacitySliderValue = value;
+                    $scope.overlays.treeCanopy.setOpacity(value);
+                }
+            });
 
             /* Layer switcher */
-            $('#treeCanopySwitch').change(function() {
+            $('#treeCanopySwitch').change(function () {
                 if ($(this).is(':checked')) {
                     $scope.overlays.treeCanopy.setOpacity($scope.treeCanopyOpacitySliderValue);
                 } else {
@@ -617,7 +617,7 @@
                 }
             });
 
-            $scope.treeCanopyYearChange = function(year) {
+            $scope.treeCanopyYearChange = function (year) {
 
                 $scope.showLoader = true;
                 var name = 'treeCanopy';
@@ -634,25 +634,25 @@
                         $scope.showReportNoPolygon ? false : true,
                         $scope.treeCanopyDefinition
                     )
-                    .then(function(data) {
-                        parameterChangeSuccessCallback(name, data, treeCanopySlider, 'Tree Canopy Cover for year ' + year + ' !');
-                        $scope.showTreeCanopyOpacitySlider = true;
-                        $scope.showTreeCanopyDownloadButtons = true;
-                        // Reporting Element
-                        if (!$scope.showReportNoPolygon) {
-                            if (data.reportArea) {
-                                $scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
-                                $scope.reportTreeCanopyValue = data.reportArea + ' ha';
-                                $scope.showReportTreeCanopy = true;
-                            } else if (data.reportError) {
-                                $scope.reportTreeCanopyTitle = 'Error calculating Canopy';
-                                $scope.reportTreeCanopyValue = data.reportError;
-                                $scope.showReportTreeCanopy = true;
-                            }
+                .then(function (data) {
+                    parameterChangeSuccessCallback(name, data, treeCanopySlider, 'Tree Canopy Cover for year ' + year + ' !');
+                    $scope.showTreeCanopyOpacitySlider = true;
+                    $scope.showTreeCanopyDownloadButtons = true;
+                    // Reporting Element
+                    if (!$scope.showReportNoPolygon) {
+                        if (data.reportArea) {
+                            $scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
+                            $scope.reportTreeCanopyValue = data.reportArea + ' ha';
+                            $scope.showReportTreeCanopy = true;
+                        } else if (data.reportError) {
+                            $scope.reportTreeCanopyTitle = 'Error calculating Canopy';
+                            $scope.reportTreeCanopyValue = data.reportError;
+                            $scope.showReportTreeCanopy = true;
                         }
-                    }, function(error) {
-                        parameterChangeErrorCallback(error);
-                    });
+                    }
+                }, function (error) {
+                    parameterChangeErrorCallback(error);
+                });
             };
 
             /*
@@ -667,19 +667,19 @@
 
             /* slider init */
             var treeHeightSlider = $('#tree-height-opacity-slider').slider(sliderOptions)
-                .on('slideStart', function(event) {
-                    $scope.treeHeightOpacitySliderValue = $(this).data('slider').getValue();
-                })
-                .on('slideStop', function(event) {
-                    var value = $(this).data('slider').getValue();
-                    if (value !== $scope.treeHeightOpacitySliderValue) {
-                        $scope.treeHeightOpacitySliderValue = value;
-                        $scope.overlays.treeHeight.setOpacity(value);
-                    }
-                });
+            .on('slideStart', function (event) {
+                $scope.treeHeightOpacitySliderValue = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.treeHeightOpacitySliderValue) {
+                    $scope.treeHeightOpacitySliderValue = value;
+                    $scope.overlays.treeHeight.setOpacity(value);
+                }
+            });
 
             /* Layer switcher */
-            $('#treeHeightSwitch').change(function() {
+            $('#treeHeightSwitch').change(function () {
                 if ($(this).is(':checked')) {
                     $scope.overlays.treeHeight.setOpacity($scope.treeHeightOpacitySliderValue);
                 } else {
@@ -687,7 +687,7 @@
                 }
             });
 
-            $scope.treeHeightYearChange = function(year) {
+            $scope.treeHeightYearChange = function (year) {
 
                 $scope.showLoader = true;
                 var name = 'treeHeight';
@@ -702,13 +702,13 @@
                         $scope.areaName,
                         $scope.treeHeightDefinition
                     )
-                    .then(function(data) {
-                        parameterChangeSuccessCallback(name, data, treeHeightSlider, 'Tree Canopy Height for year ' + year + ' !');
-                        $scope.showTreeHeightOpacitySlider = true;
-                        $scope.showTreeHeightDownloadButtons = true;
-                    }, function(error) {
-                        parameterChangeErrorCallback(error);
-                    });
+                .then(function (data) {
+                    parameterChangeSuccessCallback(name, data, treeHeightSlider, 'Tree Canopy Height for year ' + year + ' !');
+                    $scope.showTreeHeightOpacitySlider = true;
+                    $scope.showTreeHeightDownloadButtons = true;
+                }, function (error) {
+                    parameterChangeErrorCallback(error);
+                });
             };
 
             /*
@@ -723,19 +723,19 @@
 
             /* slider init */
             var forestGainSlider = $('#forest-gain-opacity-slider').slider(sliderOptions)
-                .on('slideStart', function(event) {
-                    $scope.forestGainOpacitySliderValue = $(this).data('slider').getValue();
-                })
-                .on('slideStop', function(event) {
-                    var value = $(this).data('slider').getValue();
-                    if (value !== $scope.forestGainOpacitySliderValue) {
-                        $scope.forestGainOpacitySliderValue = value;
-                        $scope.overlays.forestGain.setOpacity(value);
-                    }
-                });
+            .on('slideStart', function (event) {
+                $scope.forestGainOpacitySliderValue = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.forestGainOpacitySliderValue) {
+                    $scope.forestGainOpacitySliderValue = value;
+                    $scope.overlays.forestGain.setOpacity(value);
+                }
+            });
 
             /* Layer switcher */
-            $('#forestGainSwitch').change(function() {
+            $('#forestGainSwitch').change(function () {
                 if ($(this).is(':checked')) {
                     $scope.overlays.forestGain.setOpacity($scope.forestGainOpacitySliderValue);
                 } else {
@@ -743,7 +743,7 @@
                 }
             });
 
-            $scope.calculateForestGain = function(startYear, endYear) {
+            $scope.calculateForestGain = function (startYear, endYear) {
 
                 if (verifyBeforeDownload(startYear, endYear, true, false)) {
 
@@ -761,25 +761,25 @@
                             $scope.treeCanopyDefinition,
                             $scope.treeHeightDefinition,
                             $scope.showReportNoPolygon ? false : true)
-                        .then(function(data) {
-                            parameterChangeSuccessCallback(name, data, forestGainSlider, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
-                            // Reporting Element
-                            if (!$scope.showReportNoPolygon) {
-                                if (data.reportArea) {
-                                    $scope.reportForestGainTitle = 'GAIN (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
-                                    $scope.reportForestGainValue = data.reportArea + ' ha';
-                                    $scope.showReportForestGain = true;
-                                } else if (data.reportError) {
-                                    $scope.reportForestGainTitle = 'Error calculating Forest Gain';
-                                    $scope.reportForestGainValue = data.reportError;
-                                    $scope.showReportForestGain = true;
-                                }
+                    .then(function (data) {
+                        parameterChangeSuccessCallback(name, data, forestGainSlider, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
+                        // Reporting Element
+                        if (!$scope.showReportNoPolygon) {
+                            if (data.reportArea) {
+                                $scope.reportForestGainTitle = 'GAIN (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
+                                $scope.reportForestGainValue = data.reportArea + ' ha';
+                                $scope.showReportForestGain = true;
+                            } else if (data.reportError) {
+                                $scope.reportForestGainTitle = 'Error calculating Forest Gain';
+                                $scope.reportForestGainValue = data.reportError;
+                                $scope.showReportForestGain = true;
                             }
-                            $scope.showForestGainOpacitySlider = true;
-                            $scope.showForestGainDownloadButtons = true;
-                        }, function(error) {
-                            parameterChangeErrorCallback(error);
-                        });
+                        }
+                        $scope.showForestGainOpacitySlider = true;
+                        $scope.showForestGainDownloadButtons = true;
+                    }, function (error) {
+                        parameterChangeErrorCallback(error);
+                    });
                 }
             };
 
@@ -795,19 +795,19 @@
 
             /* slider init */
             var forestLossSlider = $('#forest-loss-opacity-slider').slider(sliderOptions)
-                .on('slideStart', function(event) {
-                    $scope.forestLossOpacitySliderValue = $(this).data('slider').getValue();
-                })
-                .on('slideStop', function(event) {
-                    var value = $(this).data('slider').getValue();
-                    if (value !== $scope.forestLossOpacitySliderValue) {
-                        $scope.forestLossOpacitySliderValue = value;
-                        $scope.overlays.forestLoss.setOpacity(value);
-                    }
-                });
+            .on('slideStart', function (event) {
+                $scope.forestLossOpacitySliderValue = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.forestLossOpacitySliderValue) {
+                    $scope.forestLossOpacitySliderValue = value;
+                    $scope.overlays.forestLoss.setOpacity(value);
+                }
+            });
 
             /* Layer switcher */
-            $('#forestLossSwitch').change(function() {
+            $('#forestLossSwitch').change(function () {
                 if ($(this).is(':checked')) {
                     $scope.overlays.forestLoss.setOpacity($scope.forestLossOpacitySliderValue);
                 } else {
@@ -815,7 +815,7 @@
                 }
             });
 
-            $scope.calculateForestLoss = function(startYear, endYear) {
+            $scope.calculateForestLoss = function (startYear, endYear) {
 
                 if (verifyBeforeDownload(startYear, endYear, true, false)) {
                     $scope.showLoader = true;
@@ -832,25 +832,25 @@
                             $scope.treeCanopyDefinition,
                             $scope.treeHeightDefinition,
                             $scope.showReportNoPolygon ? false : true)
-                        .then(function(data) {
-                            parameterChangeSuccessCallback(name, data, forestLossSlider, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
-                            // Reporting Element
-                            if (!$scope.showReportNoPolygon) {
-                                if (data.reportArea) {
-                                    $scope.reportForestLossTitle = 'LOSS (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
-                                    $scope.reportForestLossValue = data.reportArea + ' ha';
-                                    $scope.showReportForestLoss = true;
-                                } else if (data.reportError) {
-                                    $scope.reportForestLossTitle = 'Error calculating Forest Loss';
-                                    $scope.reportForestLossValue = data.reportError;
-                                    $scope.showReportForestLoss = true;
-                                }
+                    .then(function (data) {
+                        parameterChangeSuccessCallback(name, data, forestLossSlider, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
+                        // Reporting Element
+                        if (!$scope.showReportNoPolygon) {
+                            if (data.reportArea) {
+                                $scope.reportForestLossTitle = 'LOSS (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
+                                $scope.reportForestLossValue = data.reportArea + ' ha';
+                                $scope.showReportForestLoss = true;
+                            } else if (data.reportError) {
+                                $scope.reportForestLossTitle = 'Error calculating Forest Loss';
+                                $scope.reportForestLossValue = data.reportError;
+                                $scope.showReportForestLoss = true;
                             }
-                            $scope.showForestLossOpacitySlider = true;
-                            $scope.showForestLossDownloadButtons = true;
-                        }, function(error) {
-                            parameterChangeErrorCallback(error);
-                        });
+                        }
+                        $scope.showForestLossOpacitySlider = true;
+                        $scope.showForestLossDownloadButtons = true;
+                    }, function (error) {
+                        parameterChangeErrorCallback(error);
+                    });
                 }
             };
 
@@ -866,19 +866,19 @@
 
             /* slider init */
             var forestExtendSlider = $('#forest-extend-opacity-slider').slider(sliderOptions)
-                .on('slideStart', function(event) {
-                    $scope.forestExtendOpacitySliderValue = $(this).data('slider').getValue();
-                })
-                .on('slideStop', function(event) {
-                    var value = $(this).data('slider').getValue();
-                    if (value !== $scope.forestExtendOpacitySliderValue) {
-                        $scope.forestExtendOpacitySliderValue = value;
-                        $scope.overlays.forestExtend.setOpacity(value);
-                    }
-                });
+            .on('slideStart', function (event) {
+                $scope.forestExtendOpacitySliderValue = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.forestExtendOpacitySliderValue) {
+                    $scope.forestExtendOpacitySliderValue = value;
+                    $scope.overlays.forestExtend.setOpacity(value);
+                }
+            });
 
             /* Layer switcher */
-            $('#forestExtendSwitch').change(function() {
+            $('#forestExtendSwitch').change(function () {
                 if ($(this).is(':checked')) {
                     $scope.overlays.forestExtend.setOpacity($scope.forestExtendOpacitySliderValue);
                 } else {
@@ -886,7 +886,7 @@
                 }
             });
 
-            $scope.calculateForestExtend = function(year) {
+            $scope.calculateForestExtend = function (year) {
 
                 $scope.showLoader = true;
                 var name = 'forestExtend';
@@ -904,25 +904,25 @@
                         $scope.treeHeightDefinition,
                         $scope.showReportNoPolygon ? false : true
                     )
-                    .then(function(data) {
-                        parameterChangeSuccessCallback(name, data, forestExtendSlider, 'Forest Extend for year ' + year + ' !');
-                        // Reporting Element
-                        if (!$scope.showReportNoPolygon) {
-                            if (data.reportArea) {
-                                $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
-                                $scope.reportForestExtendValue = data.reportArea + ' ha';
-                                //$scope.showReportForestExtend = true;
-                            } else if (data.reportError) {
-                                $scope.reportForestExtendTitle = 'Error calculating Canopy';
-                                $scope.reportForestExtendValue = data.reportError;
-                            }
-                            $scope.showReportForestExtend = true;
+                .then(function (data) {
+                    parameterChangeSuccessCallback(name, data, forestExtendSlider, 'Forest Extend for year ' + year + ' !');
+                    // Reporting Element
+                    if (!$scope.showReportNoPolygon) {
+                        if (data.reportArea) {
+                            $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
+                            $scope.reportForestExtendValue = data.reportArea + ' ha';
+                            //$scope.showReportForestExtend = true;
+                        } else if (data.reportError) {
+                            $scope.reportForestExtendTitle = 'Error calculating Canopy';
+                            $scope.reportForestExtendValue = data.reportError;
                         }
-                        $scope.showForestExtendOpacitySlider = true;
-                        $scope.showForestExtendDownloadButtons = true;
-                    }, function(error) {
-                        parameterChangeErrorCallback(error);
-                    });
+                        $scope.showReportForestExtend = true;
+                    }
+                    $scope.showForestExtendOpacitySlider = true;
+                    $scope.showForestExtendDownloadButtons = true;
+                }, function (error) {
+                    parameterChangeErrorCallback(error);
+                });
             };
 
         });

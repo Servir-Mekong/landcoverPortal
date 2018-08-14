@@ -122,12 +122,12 @@
 		<script src="{% static 'app/services/forest-monitor-service.js' %}"></script>
 
 	    <!-- Controllers -->
-	    <script src="{% static 'app/controllers/settings.js' %}"></script>
-	    <script src="{% static 'app/controllers/landcover.js' %}"></script>
-	    <script src="{% static 'app/controllers/forest-monitor.js' %}"></script>
+	    <script src="{% static 'app/controllers/utils-controller.js' %}"></script>
+	    <script src="{% static 'app/controllers/landcover-controller.js' %}"></script>
+	    <script src="{% static 'app/controllers/forest-monitor-controller.js' %}"></script>
 
 		<!-- Directives -->
-		<script src="{% static 'app/directives/text-collapse.js' %}"></script>
+		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->
 		{% else %}
 		<script src="{% static 'dist/application.min.js' %}"></script>
 		{% endif %}
