@@ -17,7 +17,7 @@
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         }])
-        .controller('forestMonitorCtrl', function ($scope, $sanitize, appSettings, MapService, ForestMonitorService) {
+        .controller('forestMonitorCtrl', function ($scope, $sanitize, appSettings, CommonService, MapService, ForestMonitorService) {
 
             // Setting variables
             $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
@@ -246,34 +246,18 @@
             $scope.shownGeoJson = null;
 
             $scope.populateAreaVariableOptions = function (option) {
-
                 $scope.showAreaVariableSelector = true;
                 $scope.areaSelectFrom = option.value;
-                if ($scope.areaSelectFrom === 'country') {
-                    $scope.areaVariableOptions = appSettings.countries;
-                } else if ($scope.areaSelectFrom === 'province') {
-                    $scope.areaVariableOptions = appSettings.provinces;
-                }
+                $scope.areaVariableOptions = CommonService.getAreaVariableOptions(option.value);
             };
 
             $scope.loadAreaFromFile = function (name) {
-
                 MapService.removeGeoJson(map);
                 clearDrawing();
 
                 if (name) {
                     $scope.areaName = name;
-
-                    map.data.loadGeoJson(
-                        '/static/data/' + $scope.areaSelectFrom + '/' + name + '.json'
-                    );
-
-                    map.data.setStyle({
-                        fillColor: 'red',
-                        strokeWeight: 2,
-                        clickable: false
-                    });
-
+                    MapService.loadGeoJson(map, $scope.areaSelectFrom, name);
                 } else {
                     $scope.areaName = null;
                     $scope.shownGeoJson = null;
@@ -385,32 +369,11 @@
             });
 
             // Geojson listener
-
-            /**
-             * Process each point in a Geometry, regardless of how deep the points may lie.
-             * @param {google.maps.Data.Geometry} geometry The structure to process
-             * @param {function(google.maps.LatLng)} callback A function to call on each
-             *     LatLng point encountered (e.g. Array.push)
-             * @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
-             *     myArray)
-             */
-            var processPoints = function (geometry, callback, thisArg) {
-                if (geometry instanceof google.maps.LatLng) {
-                    callback.call(thisArg, geometry);
-                } else if (geometry instanceof google.maps.Data.Point) {
-                    callback.call(thisArg, geometry.get());
-                } else {
-                    geometry.getArray().forEach(function (g) {
-                        processPoints(g, callback, thisArg);
-                    });
-                }
-            };
-
             map.data.addListener('addfeature', function (event) {
                 $scope.shownGeoJson = event.feature;
                 var bounds = new google.maps.LatLngBounds();
                 var _geometry = event.feature.getGeometry();
-                processPoints(_geometry, bounds.extend, bounds);
+                MapService.processPoints(_geometry, bounds.extend, bounds);
                 map.fitBounds(bounds);
                 drawnArea = google.maps.geometry.spherical.computeArea(_geometry.getArray()[0].b) / 1e6;
                 updateReportTotalArea();
@@ -468,14 +431,7 @@
                             var geometry = addedGeoJson.features ? addedGeoJson.features[0].geometry : addedGeoJson.geometry;
 
                             if (geometry.type === 'Polygon') {
-
-                                map.data.addGeoJson(addedGeoJson);
-                                map.data.setStyle({
-                                    fillColor: 'red',
-                                    strokeWeight: 2,
-                                    clickable: false
-                                });
-
+                                MapService.addGeoJson(map, addedGeoJson);
                                 // Convert to Polygon
                                 var polygonArray = [];
                                 var _coord = geometry.coordinates[0];

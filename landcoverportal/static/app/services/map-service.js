@@ -5,7 +5,9 @@
     angular.module('landcoverportal')
     .service('MapService', function () {
 
-        this.init = function () {
+        var service = this;
+
+        service.init = function () {
 
             // Global Variables
             var DEFAULT_ZOOM = 5,
@@ -44,16 +46,58 @@
         };
 
         /**
-         * Utilities function
+         * GeoJson
          **/
 
-        this.removeGeoJson = function (map) {
+        service.loadGeoJson = function (map, dir, name) {
+            map.data.loadGeoJson(
+                '/static/data/' + dir + '/' + name + '.json'
+            );
+
+            map.data.setStyle({
+                fillColor: 'red',
+                strokeWeight: 2,
+                clickable: false
+            });
+        };
+
+        service.addGeoJson = function (map, geojson) {
+            map.data.addGeoJson(geojson);
+
+            map.data.setStyle({
+                fillColor: 'red',
+                strokeWeight: 2,
+                clickable: false
+            });
+        };
+
+        service.removeGeoJson = function (map) {
             map.data.forEach(function (feature) {
                 map.data.remove(feature);
             });
         };
 
-        this.clearLayer = function (map, name) {
+        /**
+         * Process each point in a Geometry, regardless of how deep the points may lie.
+         * @param {google.maps.Data.Geometry} geometry The structure to process
+         * @param {function(google.maps.LatLng)} callback A function to call on each
+         *     LatLng point encountered (e.g. Array.push)
+         * @param {Object} thisArg The value of 'this' as provided to 'callback' (e.g.
+         *     myArray)
+         */
+        service.processPoints = function (geometry, callback, thisArg) {
+            if (geometry instanceof google.maps.LatLng) {
+                callback.call(thisArg, geometry);
+            } else if (geometry instanceof google.maps.Data.Point) {
+                callback.call(thisArg, geometry.get());
+            } else {
+                geometry.getArray().forEach(function (g) {
+                    service.processPoints(g, callback, thisArg);
+                });
+            }
+        };
+
+        service.clearLayer = function (map, name) {
             map.overlayMapTypes.forEach(function (layer, index) {
                 if (layer && layer.name === name) {
                     map.overlayMapTypes.removeAt(index);
@@ -61,7 +105,7 @@
             });
         };
     
-        this.getMapType = function (mapId, mapToken, type) {
+        service.getMapType = function (mapId, mapToken, type) {
             var eeMapOptions = {
                 getTileUrl: function (tile, zoom) {
                     var url = 'https://earthengine.googleapis.com/map/';
@@ -76,7 +120,7 @@
             return new google.maps.ImageMapType(eeMapOptions);
         };
 
-        this.getPolygonBoundArray = function (array) {
+        service.getPolygonBoundArray = function (array) {
             var geom = [];
             for (var i = 0; i < array.length; i++) {
                 var coordinatePair = [array[i].lng().toFixed(2), array[i].lat().toFixed(2)];
@@ -85,17 +129,17 @@
             return geom;
         };
 
-        this.computePolygonArea = function (path) {
+        service.computePolygonArea = function (path) {
             return google.maps.geometry.spherical.computeArea(path) / 1e6;
         };
 
-        this.getRectangleBoundArray = function (bounds) {
+        service.getRectangleBoundArray = function (bounds) {
             var start = bounds.getNorthEast();
             var end = bounds.getSouthWest();
             return [start.lng().toFixed(2), start.lat().toFixed(2), end.lng().toFixed(2), end.lat().toFixed(2)];
         };
 
-        this.computeRectangleArea = function (bounds) {
+        service.computeRectangleArea = function (bounds) {
             if (!bounds) {
                 return 0;
             }
@@ -109,19 +153,19 @@
             return google.maps.geometry.spherical.computeArea([northEast, northWest, southWest, southEast]) / 1e6;
         };
 
-        this.getCircleCenter = function (overlay) {
+        service.getCircleCenter = function (overlay) {
             return [overlay.getCenter().lng().toFixed(2), overlay.getCenter().lat().toFixed(2)];
         };
 
-        this.getCircleRadius = function (overlay) {
+        service.getCircleRadius = function (overlay) {
             return overlay.getRadius().toFixed(2);
         };
 
-        this.computeCircleArea = function (overlay) {
+        service.computeCircleArea = function (overlay) {
             return Math.PI * Math.pow(overlay.getRadius() / 1000, 2);
         };
 
-        this.getDrawingManagerOptions = function(type) {
+        service.getDrawingManagerOptions = function(type) {
             if (!type) {
                 return {};
             }

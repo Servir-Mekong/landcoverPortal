@@ -1,4 +1,5 @@
-angular.module('landcoverportal').constant('appSettings', {
+angular.module('landcoverportal')
+.constant('appSettings', {
     menus: [{
             'name': 'Map Viewer',
             'url': '/landcover/',
