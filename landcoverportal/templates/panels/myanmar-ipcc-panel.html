@@ -82,7 +82,7 @@
                             Update Map
                         </button>
                     </fieldset>
-                    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
+                    <div ng-repeat="class in myanmarIPCCLandCoverClasses" class="row lcp-class-container">
                         <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
                         <div class="col-md-5">
                             <h5><b>[[ class.name ]]</b></h5>
@@ -91,21 +91,6 @@
                             <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
                             <span class="switch-slider round"></span>
                         </label>
-                        <!--<div class="col-md-2" style="margin-top: 8px;">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="font-size: 15px;"></span>
-                        </div>
-                        <div class="col-md-1" style="margin-top: 15px;">
-                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true" style="font-size: 20px;"></span>
-                        </div>
-                        <div class="col-md-4" style="margin-top: 15px;">
-                            <input name="[[class.value]]-opacity-slider"
-                                   id="[[class.value]]-opacity-slider"
-                                   data-slider-id="[[class.value]]-opacity-slider" type="text"
-                                   data-slider-min="0"
-                                   data-slider-max="1"
-                                   data-slider-step="0.1"
-                                   style="width: 100%; width: -moz-available; width: -webkit-fill-available; width: fill-available;" />
-                        </div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="primitive-tab">
@@ -157,7 +142,7 @@
                         </div>
                     </fieldset>
 
-                    <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
+                    <div ng-repeat="class in myanmarIPCCLandCoverClasses" class="row lcp-class-container">
                         <label class="container-primitive">
                             <h5><b>[[ class.name ]]</b></h5>
                             <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex)" ng-model="primitiveIndex">

@@ -41,52 +41,51 @@ class MyanmarIPCC():
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
 
-    def __init__(self, area_path, area_name, shape, geom, radius, center):
+    def __init__(self, province, shape, geom, radius, center):
 
         self.geom = geom
         self.radius = radius
         self.center = center
-        if area_path:
-            if (area_path == 'province'):
+        if province:
+            try:
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'landcoverportal/static/data/',
-                                        area_path,
-                                        '%s.%s' % (area_name, 'json'))
+                                        'landcoverportal/static/data/province/',
+                                        '%s.%s' % (province, 'json'))
                 else:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'static/data/',
-                                        area_path,
-                                        '%s.%s' % (area_name, 'json'))
-
+                                        'static/data/province/',
+                                        '%s.%s' % (province, 'json'))
+    
                 with open(path) as f:
                     feature = ee.Feature(json.load(f))
                     self.geometry = feature.geometry()
-            else:
+            except OSError as e:
                 self.geometry = MyanmarIPCC.DEFAULT_GEOM
+        elif shape:
+            self.geometry = self._get_geometry_from_shape(shape)
         else:
-            self.geometry = self._get_geometry(shape)
+            self.geometry = MyanmarIPCC.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
-    def _get_geometry(self, shape):
+    def _get_geometry_from_shape(self, shape):
 
-        if shape:
-            if shape == 'rectangle':
-                _geom = self.geom.split(',')
-                coor_list = [float(_geom_) for _geom_ in _geom]
-                return ee.Geometry.Rectangle(coor_list)
-            elif shape == 'circle':
-                _geom = self.center.split(',')
-                coor_list = [float(_geom_) for _geom_ in _geom]
-                return ee.Geometry.Point(coor_list).buffer(float(self.radius))
-            elif shape == 'polygon':
-                _geom = self.geom.split(',')
-                coor_list = [float(_geom_) for _geom_ in _geom]
-                if len(coor_list) > 500:
-                    return ee.Geometry.Polygon(coor_list).convexHull()
-                return ee.Geometry.Polygon(coor_list)
-
-        return MyanmarIPCC.DEFAULT_GEOM
+        if shape == 'rectangle':
+            _geom = self.geom.split(',')
+            coor_list = [float(_geom_) for _geom_ in _geom]
+            return ee.Geometry.Rectangle(coor_list)
+        elif shape == 'circle':
+            _geom = self.center.split(',')
+            coor_list = [float(_geom_) for _geom_ in _geom]
+            return ee.Geometry.Point(coor_list).buffer(float(self.radius))
+        elif shape == 'polygon':
+            _geom = self.geom.split(',')
+            coor_list = [float(_geom_) for _geom_ in _geom]
+            if len(coor_list) > 500:
+                return ee.Geometry.Polygon(coor_list).convexHull()
+            return ee.Geometry.Polygon(coor_list)
+        else:
+            return MyanmarIPCC.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 21), year=2016, download=False):

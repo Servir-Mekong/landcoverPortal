@@ -13,9 +13,9 @@
         $scope.typologyCSV = '/static/data/myanmar_ipcc_typology_value.csv';
 
         // Setting variables
-        $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
-        $scope.landCoverClasses = appSettings.landCoverClasses;
+        $scope.myanmarIPCCLandCoverClasses = appSettings.myanmarIPCCLandCoverClasses;
         $scope.primitiveClasses = appSettings.primitiveClasses;
+        $scope.provinceVariableOptions = appSettings.myanmarProvinces;
 
         // Global Variables
         var drawnArea = null;
@@ -100,9 +100,7 @@
         };
 
         var clearSelectedArea = function () {
-            $scope.areaSelectFrom = '';
-            $scope.areaIndexSelector = '';
-            $scope.areaName = '';
+            $scope.province = null;
             $scope.$apply();
         };
 
@@ -125,7 +123,7 @@
          */
         $scope.initMap = function (year, type) {
             $scope.showLoader = true;
-            MyanmarIPCCService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            MyanmarIPCCService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.province)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
@@ -208,26 +206,18 @@
         **/
 
         $scope.showAreaVariableSelector = false;
-        $scope.areaSelectFrom = null;
-        $scope.areaName = null;
+        $scope.province = null;
         $scope.shownGeoJson = null;
-
-        $scope.populateAreaVariableOptions = function (option) {
-
-            $scope.showAreaVariableSelector = true;
-            $scope.areaSelectFrom = option.value;
-            $scope.areaVariableOptions = CommonService.getAreaVariableOptions(option.value);
-        };
 
         $scope.loadAreaFromFile = function (name) {
             MapService.removeGeoJson(map);
             clearDrawing();
 
             if (name) {
-                $scope.areaName = name;
-                MapService.loadGeoJson(map, $scope.areaSelectFrom, name);
+                $scope.province = name;
+                MapService.loadGeoJson(map, 'province', $scope.province);
             } else {
-                $scope.areaName = null;
+                $scope.province = null;
                 $scope.shownGeoJson = null;
             }
         };
@@ -475,36 +465,6 @@
             }
         };
 
-        /* Initialize values first */
-        /*
-        for (var i = $scope.landCoverClasses.length - 1; i >= 0; i--) {
-            $scope[$scope.landCoverClasses[i].value + 'SliderValue'] = null;
-        }
-
-        var slideStartEvent = function (event) {
-            $scope[event.target.id.split("-opacity-slider")[0] + 'SliderValue'] = $(this).data('slider').getValue();
-        };
-
-        var slideEndEvent = function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope[event.target.id.split("-opacity-slider")[0] + 'SliderValue']) {
-                //$scope.overlays.treeCanopy.setOpacity(value);
-                console.log('hello');
-            }
-        };
-
-        $timeout(function () {
-
-            for (var i = $scope.landCoverClasses.length - 1; i >= 0; i--) {
-
-                $scope[$scope.landCoverClasses[i].value + 'Slider'] = $('#' + $scope.landCoverClasses[i].value + '-opacity-slider').slider(sliderOptions)
-                .on('slideStart', slideStartEvent)
-                .on('slideStop', slideEndEvent);
-
-                $('#' + $scope.landCoverClasses[i].value + '-opacity-slider .slider-selection').css('background', '#BABABA');
-            }
-        });*/
-
         // Update Assemblage Map
         $scope.updateAssemblageProduct = function () {
 
@@ -555,8 +515,7 @@
                 MyanmarIPCCService.getDownloadURL(
                     type,
                     $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
+                    $scope.province,
                     $scope.sliderYear,
                     $scope.assemblageLayers,
                     $scope.primitiveIndex
@@ -595,8 +554,7 @@
                 MyanmarIPCCService.saveToDrive(
                     type,
                     $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
+                    $scope.province,
                     $scope.sliderYear,
                     $scope.assemblageLayers,
                     fileName,
@@ -636,7 +594,7 @@
         $scope.updatePrimitive = function (index) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
-            MyanmarIPCCService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            MyanmarIPCCService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.province)
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');

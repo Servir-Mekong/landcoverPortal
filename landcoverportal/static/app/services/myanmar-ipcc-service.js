@@ -5,7 +5,7 @@
     angular.module('landcoverportal')
     .service('MyanmarIPCCService', function ($http) {
 
-        this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName) {
+        this.getLandCoverMap = function (primitives, year, shape, province) {
 
             var req = {
                 method: 'POST',
@@ -19,9 +19,8 @@
                 }
             };
 
-            if (areaSelectFrom && areaName) {
-                req.data.areaSelectFrom = areaSelectFrom;
-                req.data.areaName = areaName;
+            if (province) {
+                req.data.province = province;
             } else {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -45,7 +44,7 @@
             return promise;
         };
 
-        this.getPrimitiveMap = function (index, year, shape, areaSelectFrom, areaName) {
+        this.getPrimitiveMap = function (index, year, shape, province) {
 
             var req = {
                 method: 'POST',
@@ -59,9 +58,8 @@
                 }
             };
 
-            if (areaSelectFrom && areaName) {
-                req.data.areaSelectFrom = areaSelectFrom;
-                req.data.areaName = areaName;
+            if (province) {
+                req.data.province = province;
             } else {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -85,7 +83,7 @@
             return promise;
         };
 
-        this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index) {
+        this.getDownloadURL = function (type, shape, province, year, primitives, index) {
 
             var req = {
                 method: 'POST',
@@ -101,9 +99,8 @@
                 }
             };
 
-            if (areaSelectFrom && areaName) {
-                req.data.areaSelectFrom = areaSelectFrom;
-                req.data.areaName = areaName;
+            if (province) {
+                req.data.province = province;
             } else {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -127,7 +124,7 @@
             return promise;
         };
 
-        this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
+        this.saveToDrive = function (type, shape, province, year, primitives, fileName, index) {
 
             var req = {
                 method: 'POST',
@@ -144,9 +141,8 @@
                 }
             };
 
-            if (areaSelectFrom && areaName) {
-                req.data.areaSelectFrom = areaSelectFrom;
-                req.data.areaName = areaName;
+            if (province) {
+                req.data.province = province;
             } else {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
