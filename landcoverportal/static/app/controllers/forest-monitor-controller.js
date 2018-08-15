@@ -17,7 +17,7 @@
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         }])
-        .controller('forestMonitorCtrl', function ($scope, $sanitize, appSettings, CommonService, MapService, ForestMonitorService) {
+        .controller('forestMonitorController', function ($scope, $sanitize, appSettings, CommonService, MapService, ForestMonitorService) {
 
             // Setting variables
             $scope.areaIndexSelectors = appSettings.areaIndexSelectors;

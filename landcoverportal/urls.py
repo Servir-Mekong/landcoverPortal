@@ -13,6 +13,7 @@ from django.views.generic import TemplateView
 from oauth2client.contrib.django_util.site import urls as oauth2_urls
 from forest_monitor import api as forest_monitor_api
 from landcover_viewer import api as landcover_api
+from myanmar_ipcc import api as myanmar_ipcc_api
 
 admin.autodiscover()
 
@@ -20,8 +21,9 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^oauth2/', include(oauth2_urls)),
-    url(r'^forest-monitor/api/$', forest_monitor_api.api),
-    url(r'^landcover/api/$', landcover_api.api),
+    url(r'^api/forest-monitor/$', forest_monitor_api.api),
+    url(r'^api/landcover/$', landcover_api.api),
+    url(r'^api/myanmar-ipcc/$', myanmar_ipcc_api.api),
 ]
 
 urlpatterns += i18n_patterns(
@@ -33,6 +35,7 @@ urlpatterns += i18n_patterns(
     url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
     url(r'', include('forest_monitor.urls')),
     url(r'', include('landcover_viewer.urls')),
+    url(r'', include('myanmar_ipcc.urls')),
     url(r'^', include('cms.urls')),
 )
 

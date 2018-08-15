@@ -16,7 +16,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     year: year,
                     treeCanopyDefinition: treeCanopyDefinition
@@ -63,7 +63,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     year: year,
                     treeHeightDefinition: treeHeightDefinition
@@ -112,7 +112,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     startYear: startYear,
                     endYear: endYear,
@@ -164,7 +164,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     startYear: startYear,
                     endYear: endYear,
@@ -215,7 +215,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     startYear: startYear,
                     endYear: endYear,
@@ -265,7 +265,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     year: year,
                     treeCanopyDefinition: treeCanopyDefinition,
@@ -316,7 +316,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     startYear: startYear,
                     endYear: endYear,

@@ -370,7 +370,7 @@ angular.module('landcoverportal')
                 'grassland, wetland) from 2000 to 2016. Activity data of 6 land cover ' +
                 'categories will also be calculated in this application at different ' +
                 'administrative levels.',
-            'url': 'http://servir-rlcms.appspot.com/static/html/services.html',
+            'url': '/myanmar-ipcc/',
             'imageURL': 'images/myanmar-ipcc.png'
         },
         {

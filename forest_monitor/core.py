@@ -7,9 +7,9 @@ import ee, json, os, time
 
 # -----------------------------------------------------------------------------
 class ForestMonitor():
-    """
+    '''
         Google Earth Engine API
-    """
+    '''
 
     ee.Initialize(settings.EE_CREDENTIALS)
     TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
@@ -578,9 +578,9 @@ class ForestMonitor():
         temp_file_name = get_unique_string()
 
         if not file_name:
-            file_name = temp_file_name + ".tif"
+            file_name = temp_file_name + '.tif'
         else:
-            file_name = file_name + ".tif"
+            file_name = file_name + '.tif'
 
         try:
             task = ee.batch.Export.image.toDrive(
@@ -599,7 +599,7 @@ class ForestMonitor():
 
         i = 1
         while task.active():
-            print ("past %d seconds" % (i * settings.EE_TASK_POLL_FREQUENCY))
+            print ('past %d seconds' % (i * settings.EE_TASK_POLL_FREQUENCY))
             i += 1
             time.sleep(settings.EE_TASK_POLL_FREQUENCY)
         

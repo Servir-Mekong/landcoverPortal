@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from core import ForestMonitor
+from core import MyanmarIPCC
 from django.conf import settings
 from django.http import JsonResponse
 from datetime import datetime
@@ -12,12 +12,8 @@ import json
 import time
 
 PUBLIC_METHODS = [
-    'tree-canopy',
-    'tree-height',
-    'forest-gain',
-    'forest-loss',
-    'forest-change',
-    'forest-extend',
+    'landcovermap',
+    'primitive',
     'get-download-url',
     'download-to-drive'
 ]
@@ -31,64 +27,46 @@ def api(request):
     action = get('action', '')
 
     if action and action in PUBLIC_METHODS:
+        year = post('year', 2016)
         shape = post('shape', '')
         geom = post('geom', '')
         radius = post('radius', '')
         center = post('center', '')
         area_path = post('areaSelectFrom', '')
         area_name = post('areaName', '')
-        start_year = post('startYear', '')
-        end_year = post('endYear', '')
-        type = post('type', '')
-        tree_canopy_definition = post('treeCanopyDefinition', 10) # in percentage
-        tree_height_definition = post('treeHeightDefinition', 5) # in meters
+        type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
+        primitives = post('primitives', range(0, 21))
+        index = int(post('index', 0))
+        if isinstance(primitives, (unicode, str)):
+            try:
+                primitives = primitives.split(',')
+                primitives = [int(primitive) for primitive in primitives]
+            except Exception as e:
+                return JsonResponse({'error': e.message()})
+        elif isinstance(primitives, list):
+            # Do nothing
+            pass
+        else:
+            return JsonResponse({'error': 'We accept comma-separated string!'})
         # sanitize
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
 
-        core = ForestMonitor(area_path, area_name, shape, geom, radius, center)
-        if action == 'tree-canopy':
-            data = core.tree_canopy(year = post('year', ''),
-                                    report_area = report_area,
-                                    tree_canopy_definition = tree_canopy_definition,
-                                    )
-        elif action == 'tree-height':
-            data = core.tree_height(year=post('year', ''),
-                                    tree_height_definition = tree_height_definition,
-                                    )
-        elif action == 'forest-gain':
-            data = core.forest_gain(start_year = start_year,
-                                    end_year = end_year,
-                                    tree_canopy_definition = tree_canopy_definition,
-                                    tree_height_definition = tree_height_definition,
-                                    report_area = report_area,
-                                    )
-        elif action == 'forest-loss':
-            data = core.forest_loss(start_year = start_year,
-                                    end_year = end_year,
-                                    tree_canopy_definition = tree_canopy_definition,
-                                    tree_height_definition = tree_height_definition,
-                                    report_area = report_area,
-                                    )
-        elif action == 'forest-change':
-            data = core.forest_change(start_year = start_year,
-                                      end_year = end_year,
-                                      tree_canopy_definition = tree_canopy_definition,
-                                      tree_height_definition = tree_height_definition,
+        core = MyanmarIPCC(area_path, area_name, shape, geom, radius, center)
+        if action == 'landcovermap':
+            data = core.get_landcover(primitives = primitives,
+                                      year = year,
                                       )
-        elif action == 'forest-extend':
-            data = core.forest_extend(year = post('year', ''),
-                                      tree_canopy_definition = tree_canopy_definition,
-                                      tree_height_definition = tree_height_definition,
-                                      report_area = report_area,
+        elif action == 'primitive':
+            data = core.get_primitive(index = index,
+                                      year = year,
                                       )
         elif action == 'get-download-url':
-            data = core.get_download_url(type,
-                                         start_year,
-                                         end_year,
-                                         tree_canopy_definition,
-                                         tree_height_definition,
+            data = core.get_download_url(type = type,
+                                         year = year,
+                                         primitives = primitives,
+                                         index = index
                                          )
         elif action == 'download-to-drive':
             session_cache = request.session._session_cache
@@ -111,8 +89,7 @@ def api(request):
                 user_id = id_token['sub']
 
                 if settings.USE_CELERY:
-                    export_to_drive_task.delay(start_year = start_year,
-                                               end_year = end_year,
+                    export_to_drive_task.delay(year = year,
                                                area_path = area_path,
                                                area_name = area_name,
                                                shape = shape,
@@ -121,8 +98,8 @@ def api(request):
                                                center = center,
                                                type = type,
                                                file_name = file_name,
-                                               tree_canopy_definition = tree_canopy_definition,
-                                               tree_height_definition = tree_canopy_definition,
+                                               primitives = primitives,
+                                               index = index,
                                                access_token = access_token,
                                                client_id = client_id,
                                                client_secret = client_secret,
@@ -155,15 +132,13 @@ def api(request):
                                                      scopes,
                                                      token_info_uri,
                                                      id_token_jwt)
-                    data = core.download_to_drive(type,
-                                                  start_year,
-                                                  end_year,
-                                                  user_email,
-                                                  user_id,
-                                                  file_name,
-                                                  tree_canopy_definition,
-                                                  tree_height_definition,
-                                                  oauth2object,
+                    data = core.download_to_drive(type = type,
+                                                  year = year,
+                                                  primitives = primitives,
+                                                  user_email = user_email,
+                                                  user_id = user_id,
+                                                  file_name = file_name,
+                                                  oauth2object = oauth2object,
                                                   )
                     data['info'] = 'The export is started! Larger area takes longer time!'
             else:

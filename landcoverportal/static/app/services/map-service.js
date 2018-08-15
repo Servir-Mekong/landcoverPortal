@@ -7,14 +7,14 @@
 
         var service = this;
 
-        service.init = function () {
+        service.init = function (lng, lat, zoom) {
 
             // Global Variables
-            var DEFAULT_ZOOM = 5,
+            var DEFAULT_ZOOM = zoom || 5,
                 MAX_ZOOM = 25,
                 DEFAULT_CENTER = {
-                    lng: 102.93,
-                    lat: 16.4
+                    lng: lng || 102.93,
+                    lat: lat || 16.4
                 },
                 // Map options
                 mapOptions = {

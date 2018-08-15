@@ -3,13 +3,13 @@
     'use strict';
 
     angular.module('landcoverportal')
-    .service('LandCoverService', function ($http) {
+    .service('MyanmarIPCCService', function ($http) {
 
         this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName) {
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: '/api/myanmar-ipcc/',
                 data: {
                     year: year,
                     primitives: primitives.toString()
@@ -49,7 +49,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: '/api/myanmar-ipcc/',
                 data: {
                     year: year,
                     index: index
@@ -89,7 +89,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: '/api/myanmar-ipcc/',
                 data: {
                     year: year,
                     type: type,
@@ -131,7 +131,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: '/api/myanmar-ipcc/',
                 data: {
                     year: year,
                     type: type,

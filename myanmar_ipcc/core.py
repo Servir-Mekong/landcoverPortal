@@ -6,7 +6,7 @@ from utils.utils import get_unique_string, transfer_files_to_user_drive
 import ee, json, os, time
 
 # -----------------------------------------------------------------------------
-class LandCoverViewer():
+class MyanmarIPCC():
     '''
         Google Earth Engine API
     '''
@@ -39,21 +39,15 @@ class LandCoverViewer():
                   PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT]
 
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
-                                               settings.COUNTRIES_NAME)).geometry()
+    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
 
     def __init__(self, area_path, area_name, shape, geom, radius, center):
 
         self.geom = geom
         self.radius = radius
         self.center = center
-        if (area_path and area_name):
-            if (area_path == 'country'):
-                if (area_name == 'Myanmar'):
-                    area_name = 'Myanmar (Burma)'
-                self.geometry = LandCoverViewer.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Country', [area_name])).geometry()
-            elif (area_path == 'province'):
+        if area_path:
+            if (area_path == 'province'):
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                         'landcoverportal/static/data/',
@@ -69,7 +63,7 @@ class LandCoverViewer():
                     feature = ee.Feature(json.load(f))
                     self.geometry = feature.geometry()
             else:
-                self.geometry = LandCoverViewer.COUNTRIES_GEOM
+                self.geometry = MyanmarIPCC.DEFAULT_GEOM
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -92,14 +86,13 @@ class LandCoverViewer():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return LandCoverViewer.COUNTRIES_GEOM
+        return MyanmarIPCC.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 21), year=2016, download=False):
 
-        image = ee.Image(LandCoverViewer.LANDCOVERMAP.filterDate(\
-                                                    '%s-01-01' % year,
-                                                    '%s-12-31' % year).mean())
+        image = ee.Image(MyanmarIPCC.LANDCOVERMAP.filterDate('%s-01-01' % year,
+                                                             '%s-12-31' % year).mean())
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -130,7 +123,7 @@ class LandCoverViewer():
     # -------------------------------------------------------------------------
     def get_primitive(self, index=0, year=2016, download=False):
 
-        primitive_img_coll = LandCoverViewer.PRIMITIVES[index]
+        primitive_img_coll = MyanmarIPCC.PRIMITIVES[index]
 
         image = ee.Image(primitive_img_coll.filterDate('%s-01-01' % year,
                                                        '%s-12-31' % year).mean())

@@ -7,10 +7,10 @@
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     }])
-    .controller('landCoverController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('myanmarIPCCController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, MyanmarIPCCService) {
 
         // Typology CSV
-        $scope.typologyCSV = '/static/data/typology_value.csv';
+        $scope.typologyCSV = '/static/data/myanmar_ipcc_typology_value.csv';
 
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
@@ -19,7 +19,7 @@
 
         // Global Variables
         var drawnArea = null;
-        var map = MapService.init();
+        var map = MapService.init(100.7666, 21.6166, 6);
 
         // $scope variables
         $scope.alertContent = '';
@@ -125,7 +125,7 @@
          */
         $scope.initMap = function (year, type) {
             $scope.showLoader = true;
-            LandCoverService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            MyanmarIPCCService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
@@ -552,7 +552,7 @@
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
                 showInfoAlert('Preparing Download Link...');
-                LandCoverService.getDownloadURL(
+                MyanmarIPCCService.getDownloadURL(
                     type,
                     $scope.shape,
                     $scope.areaSelectFrom,
@@ -592,7 +592,7 @@
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                LandCoverService.saveToDrive(
+                MyanmarIPCCService.saveToDrive(
                     type,
                     $scope.shape,
                     $scope.areaSelectFrom,
@@ -636,7 +636,7 @@
         $scope.updatePrimitive = function (index) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
-            LandCoverService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            MyanmarIPCCService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');
