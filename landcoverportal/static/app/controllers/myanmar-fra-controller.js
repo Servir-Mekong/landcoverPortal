@@ -2,11 +2,6 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
-        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-    }])
     .controller('myanmarFRAController', function ($scope, $sanitize, $timeout, appSettings, MapService, MyanmarFRAService) {
 
         // Typology CSV
@@ -18,13 +13,18 @@
         $scope.provinceVariableOptions = appSettings.myanmarProvinces;
 
         // Global Variables
-        var drawnArea = null;
         var map = MapService.init(100.7666, 21.6166, 6);
+        $.getJSON('/static/data/country/Myanmar.json', function (data) {
+            var myanmar_geometry = data.geometry.coordinates;
+        });
 
         // $scope variables
-        $scope.alertContent = '';
         $scope.overlays = {};
         $scope.shape = {};
+        $scope.province = null;
+        $scope.shownGeoJson = null;
+
+        $scope.alertContent = '';
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
         $scope.showLoader = false;
@@ -34,6 +34,14 @@
             $scope.assemblageLayers.push(i.toString());
         }
 
+        // Add string capitalize method
+        String.prototype.capitalize = function () {
+            return this.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
+                return p1 + p2.toUpperCase();
+            });
+        };
+
+        // get tooltip activated
         $('.js-tooltip').tooltip();
 
         // Landcover opacity slider
@@ -99,15 +107,9 @@
             $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
         };
 
-        var clearSelectedArea = function () {
-            $scope.province = null;
-            $scope.$apply();
-        };
-
         var clearDrawing = function () {
             if ($scope.overlays.polygon) {
                 $scope.overlays.polygon.setMap(null);
-                $scope.showPolygonDrawing = false;
             }
         };
 
@@ -138,24 +140,17 @@
         };
 
         var verifyBeforeDownload = function (type) {
-
             if (typeof(type) === 'undefined') type = 'landcover';
-
             var polygonCheck = true,
                 primitiveCheck = true;
 
-            /*if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
-                if (drawnArea > AREA_LIMIT) {
-                    showErrorAlert('The drawn polygon is larger than ' + AREA_LIMIT + ' km2. This exceeds the current limitations for downloading data. Please draw a smaller polygon!');
-                    polygonCheck = false;
-                }
-            } else {
-                showErrorAlert('Please draw a polygon before proceding to download!');
-                polygonCheck = false;
-            }*/
+            //var turf_polygon = turf.bboxPolygon(MapService.getRectangleBoundArray(overlay.getBounds()));
+            //var turf_myanmar = turf.polygon(myanmar_geometry);
+            //console.log(turf.booleanContains(turf_myanmar, turf_polygon));
+
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
-            if (!hasPolygon) {
-                showErrorAlert('Please draw a polygon before proceding to download!');
+            if (!hasPolygon && !$scope.province) {
+                showErrorAlert('Please draw a polygon or select administrative region before proceding to download!');
                 polygonCheck = false;
             }
 
@@ -195,31 +190,15 @@
             }
         };
 
-        String.prototype.capitalize = function () {
-            return this.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
-                return p1 + p2.toUpperCase();
-            });
-        };
-
         /*
         * Select Options for Variables
         **/
-
-        $scope.showAreaVariableSelector = false;
-        $scope.province = null;
-        $scope.shownGeoJson = null;
-
         $scope.loadAreaFromFile = function (name) {
-            MapService.removeGeoJson(map);
             clearDrawing();
-
-            if (name) {
-                $scope.province = name;
-                MapService.loadGeoJson(map, 'province', $scope.province);
-            } else {
-                $scope.province = null;
-                $scope.shownGeoJson = null;
-            }
+            MapService.removeGeoJson(map);
+            $scope.shape = {};
+            $scope.province = name;
+            MapService.loadGeoJson(map, 'province', name);
         };
 
         /**
@@ -264,6 +243,9 @@
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
             // Clear Layer First
             clearDrawing();
+            MapService.removeGeoJson(map);
+            $scope.province = null;
+
             var overlay = event.overlay;
             $scope.overlays.polygon = overlay;
             $scope.shape = {};
@@ -272,50 +254,41 @@
             $scope.shape.type = drawingType;
             if (drawingType === 'rectangle') {
                 $scope.shape.geom = MapService.getRectangleBoundArray(overlay.getBounds());
-                drawnArea = MapService.computeRectangleArea(overlay.getBounds());
+                //drawnArea = MapService.computeRectangleArea(overlay.getBounds());
                 // Change event
                 google.maps.event.addListener(overlay, 'bounds_changed', function () {
                     $scope.shape.geom = MapService.getRectangleBoundArray(event.overlay.getBounds());
-                    drawnArea = MapService.computeRectangleArea(event.overlay.getBounds());
                 });
             } else if (drawingType === 'circle') {
                 $scope.shape.center = MapService.getCircleCenter(overlay);
                 $scope.shape.radius = MapService.getCircleRadius(overlay);
-                drawnArea = MapService.computeCircleArea(overlay);
+                //drawnArea = MapService.computeCircleArea(overlay);
                 // Change event
                 google.maps.event.addListener(overlay, 'radius_changed', function () {
                     $scope.shape.radius = MapService.getCircleRadius(event.overlay);
-                    drawnArea = MapService.computeCircleArea(event.overlay);
                 });
                 google.maps.event.addListener(overlay, 'center_changed', function () {
                     $scope.shape.center = MapService.getCircleCenter(event.overlay);
-                    drawnArea = MapService.getRadius(event.overlay);
                 });
             } else if (drawingType === 'polygon') {
                 var path = overlay.getPath();
                 $scope.shape.geom = MapService.getPolygonBoundArray(path.getArray());
-                drawnArea = MapService.computePolygonArea(path);
+                //drawnArea = MapService.computePolygonArea(path);
                 // Change event
                 google.maps.event.addListener(path, 'insert_at', function () {
                     var insert_path = event.overlay.getPath();
                     $scope.shape.geom = MapService.getPolygonBoundArray(insert_path.getArray());
-                    drawnArea = MapService.computePolygonArea(insert_path);
                 });
                 google.maps.event.addListener(path, 'remove_at', function () {
                     var remove_path = event.overlay.getPath();
                     $scope.shape.geom = MapService.getPolygonBoundArray(remove_path.getArray());
-                    drawnArea = MapService.computePolygonArea(remove_path);
                 });
                 google.maps.event.addListener(path, 'set_at', function () {
                     var set_path = event.overlay.getPath();
                     $scope.shape.geom = MapService.getPolygonBoundArray(set_path.getArray());
-                    drawnArea = MapService.computePolygonArea(set_path);
                 });
             }
-
             stopDrawing();
-            clearSelectedArea();
-            MapService.removeGeoJson(map);
         });
 
         // Geojson listener
@@ -325,7 +298,6 @@
             var _geometry = event.feature.getGeometry();
             MapService.processPoints(_geometry, bounds.extend, bounds);
             map.fitBounds(bounds);
-            drawnArea = google.maps.geometry.spherical.computeArea(_geometry.getArray()[0].b) / 1e6;
         });
 
         map.data.addListener('removefeature', function (event) {
@@ -395,7 +367,7 @@
                                 $scope.$apply();
                             }
 
-                            clearSelectedArea();
+                            $scope.province = null;
                             $scope.shape.type = 'polygon';
                             $scope.shape.geom = polygonArray;
                         } else {
@@ -426,7 +398,6 @@
 
         // Analysis Tool Control
         $scope.toggleToolControl = function () {
-
             if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
                 $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
                 $scope.showTabContainer = false;
@@ -467,7 +438,6 @@
 
         // Update Assemblage Map
         $scope.updateAssemblageProduct = function () {
-
             $scope.closeAlert();
             $scope.assemblageLayers = [];
             $('input[name="assemblage-checkbox"]').each(function () {
@@ -511,6 +481,7 @@
         $scope.getDownloadURL = function (type) {
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
+                $scope['show' + type.capitalize() + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
                 MyanmarFRAService.getDownloadURL(
                     type,

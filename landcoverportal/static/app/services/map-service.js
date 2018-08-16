@@ -136,7 +136,7 @@
         service.getRectangleBoundArray = function (bounds) {
             var start = bounds.getNorthEast();
             var end = bounds.getSouthWest();
-            return [start.lng().toFixed(2), start.lat().toFixed(2), end.lng().toFixed(2), end.lat().toFixed(2)];
+            return [Number(start.lng().toFixed(2)), Number(start.lat().toFixed(2)), Number(end.lng().toFixed(2)), Number(end.lat().toFixed(2))];
         };
 
         service.computeRectangleArea = function (bounds) {

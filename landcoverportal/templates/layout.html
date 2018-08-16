@@ -108,6 +108,7 @@
 		<script src="{% static 'vendor/angular-sanitize/angular-sanitize.min.js' %}"></script>
 
 		<script src="{% static 'vendor/togeojson/togeojson.js' %}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.js"></script>
 
 		{% if debug %}
 	    <!-- Bootstrap Application -->
@@ -133,6 +134,7 @@
 
 		<!-- Directives -->
 		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->
+
 		{% else %}
 		<script src="{% static 'dist/application.min.js' %}"></script>
 		{% endif %}
