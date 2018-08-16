@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% load cms_tags staticfiles %}
+
+{% block navigation_container%}
+    {% include "navigation.html" %}
+{% endblock navigation_container %}
+
+{% block main_container %}
+
+<div class="container-fluid">
+
+    <div class="row" ng-controller="myanmarFRAController">
+
+        <!-- Alert Container -->
+        <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
+            <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>[[alertContent]]</strong>
+        </div>
+
+        <!-- Loader Container -->
+        <div id="loader" class="loader" ng-show="showLoader">
+            <div class="loading-img" style="background: url({% static 'images/spinner.gif' %}) no-repeat;"></div>
+        </div>
+
+        <!-- Sidebar Container -->
+        <div class="col-md-3 col-lg-3">
+            {% include "panels/myanmar-fra-panel.html" %}
+        </div>
+
+        <!-- Map Container -->
+        <div class="col-md-9 col-lg-9 map" id="map" ng-init="initMap(2016, 'landcovermap')"></div>
+
+        <!-- Toogle button container -->
+        <div id="tool-control-container"></div>
+
+        <!-- Time Slider -->
+        <div class="slider-year-container">
+            <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
+        </div>
+
+        <!-- Tab Container -->
+        <div class="tab-tool" ng-show="showTabContainer">
+            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+                <div class="btn-group" role="group">
+                    <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="report" class="btn btn-default js-tooltip" href="#report-tab" data-toggle="tab" title="Reports">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="well tab-tool-content">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade active in" id="area-tab">
+                        <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-primary js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
+                                    <div class="hidden-xs">Draw or <br/>Upload Area</div>
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
+                                    <div class="hidden-xs">Administrative <br/> Region</div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tab-content inner-tab">
+                            <!-- Inner Tab -->
+                            <div class="tab-pane fade active in" id="draw-tab">
+                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('polygon')">
+                                        Draw Polygon
+                                    </button>
+                                <p class="-center">or</p>
+                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('circle')">
+                                        Draw Circle
+                                    </button>
+                                <p class="-center">or</p>
+                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('rectangle')">
+                                        Draw Rectangle
+                                    </button>
+                                <p class="-center">or</p>
+                                <label class="btn btn-primary btn-sm btn-block" id="file-input-container">
+                                        Upload Area
+                                        <!-- ToDo: Better info window -->
+                                        <br/>
+                                        <h6>(accepts kml, kmz and geojson)</h6>
+                                        <input type="file" class="hide" id="file-input"
+                                               accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
+                                    </label>
+                            </div>
+                            <div class="tab-pane fade in" id="admin-tab">
+                                <div class="form-group">
+                                    <label for="area-index-filter">Provinces</label>
+                                    <select name="area-index-filter" class="form-control" ng-options="option for option in provinceVariableOptions" ng-model="areaName" ng-change="loadAreaFromFile(areaName)">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade in" id="report-tab">
+                        <h3>Information will be updated soon!</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- end of tab -->
+
+    </div>
+
+</div>
+
+{% endblock main_container %}

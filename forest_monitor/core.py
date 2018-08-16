@@ -12,12 +12,16 @@ class ForestMonitor():
     '''
 
     ee.Initialize(settings.EE_CREDENTIALS)
+    # image collection
     TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
     TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
+
+    # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
                                                settings.COUNTRIES_NAME)).geometry()
 
+    # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
 
         self.geom = geom

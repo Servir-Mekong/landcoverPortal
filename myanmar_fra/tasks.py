@@ -3,18 +3,18 @@
 from __future__ import absolute_import
 
 from celery import shared_task
-from .core import MyanmarIPCC
+from .core import MyanmarFRA
 from oauth2client.client import OAuth2Credentials
 
 @shared_task
 def export_to_drive_task(**kwargs):
 
-    core = MyanmarIPCC(kwargs['province'],
-                       kwargs['shape'],
-                       kwargs['geom'],
-                       kwargs['radius'],
-                       kwargs['center'],
-                       )
+    core = MyanmarFRA(kwargs['province'],
+                      kwargs['shape'],
+                      kwargs['geom'],
+                      kwargs['radius'],
+                      kwargs['center']
+                      )
 
     oauth2object = OAuth2Credentials(kwargs['access_token'],
                                      kwargs['client_id'],

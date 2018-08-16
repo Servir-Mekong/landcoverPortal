@@ -164,6 +164,7 @@ INSTALLED_APPS = (
     'forest_monitor',
     'landcover_viewer',
     'myanmar_ipcc',
+    'myanmar_fra',
     # Google Oauth
     'django.contrib.sessions.middleware',
     'oauth2client.contrib.django_util'

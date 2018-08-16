@@ -7,13 +7,13 @@
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     }])
-    .controller('myanmarIPCCController', function ($scope, $sanitize, $timeout, appSettings, MapService, MyanmarIPCCService) {
+    .controller('myanmarFRAController', function ($scope, $sanitize, $timeout, appSettings, MapService, MyanmarFRAService) {
 
         // Typology CSV
-        $scope.typologyCSV = '/static/data/myanmar_ipcc_typology_value.csv';
+        $scope.typologyCSV = '/static/data/myanmar_fra_typology_value.csv';
 
         // Setting variables
-        $scope.myanmarIPCCLandCoverClasses = appSettings.myanmarIPCCLandCoverClasses;
+        $scope.myanmarFRALandCoverClasses = appSettings.myanmarFRALandCoverClasses;
         $scope.primitiveClasses = appSettings.primitiveClasses;
         $scope.provinceVariableOptions = appSettings.myanmarProvinces;
 
@@ -123,7 +123,7 @@
          */
         $scope.initMap = function (year, type) {
             $scope.showLoader = true;
-            MyanmarIPCCService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.province)
+            MyanmarFRAService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.province)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
@@ -512,7 +512,7 @@
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
                 showInfoAlert('Preparing Download Link...');
-                MyanmarIPCCService.getDownloadURL(
+                MyanmarFRAService.getDownloadURL(
                     type,
                     $scope.shape,
                     $scope.province,
@@ -551,7 +551,7 @@
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                MyanmarIPCCService.saveToDrive(
+                MyanmarFRAService.saveToDrive(
                     type,
                     $scope.shape,
                     $scope.province,
@@ -594,7 +594,7 @@
         $scope.updatePrimitive = function (index) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
-            MyanmarIPCCService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.province)
+            MyanmarFRAService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.province)
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');

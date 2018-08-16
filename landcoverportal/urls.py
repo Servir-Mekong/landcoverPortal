@@ -14,6 +14,7 @@ from oauth2client.contrib.django_util.site import urls as oauth2_urls
 from forest_monitor import api as forest_monitor_api
 from landcover_viewer import api as landcover_api
 from myanmar_ipcc import api as myanmar_ipcc_api
+from myanmar_fra import api as myanmar_fra_api
 
 admin.autodiscover()
 
@@ -24,6 +25,7 @@ urlpatterns = [
     url(r'^api/forest-monitor/$', forest_monitor_api.api),
     url(r'^api/landcover/$', landcover_api.api),
     url(r'^api/myanmar-ipcc/$', myanmar_ipcc_api.api),
+    url(r'^api/myanmar-fra/$', myanmar_fra_api.api),
 ]
 
 urlpatterns += i18n_patterns(
@@ -36,6 +38,7 @@ urlpatterns += i18n_patterns(
     url(r'', include('forest_monitor.urls')),
     url(r'', include('landcover_viewer.urls')),
     url(r'', include('myanmar_ipcc.urls')),
+    url(r'', include('myanmar_fra.urls')),
     url(r'^', include('cms.urls')),
 )
 

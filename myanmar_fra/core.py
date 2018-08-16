@@ -6,7 +6,7 @@ from utils.utils import get_unique_string, transfer_files_to_user_drive
 import ee, json, os, time
 
 # -----------------------------------------------------------------------------
-class LandCoverViewer():
+class MyanmarFRA():
     '''
         Google Earth Engine API
     '''
@@ -36,75 +36,66 @@ class LandCoverViewer():
     PRIMITIVES = [
         PRIMITIVE_BARREN, PRIMITIVE_BIULTUP, PRIMITIVE_CANOPY, PRIMITIVE_CROPLAND,
         PRIMITIVE_DECIDUOUS, PRIMITIVE_EPHEMERAL_WATER, PRIMITIVE_EVERGREEN,
-        PRIMITIVE_FOREST_COVER, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, 
-        PRIMITIVE_MIXED_FOREST, PRIMITIVE_RICE, PRIMITIVE_SHRUB, 
-        PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
+        PRIMITIVE_FOREST_COVER, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, PRIMITIVE_MIXED_FOREST,
+        PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
     ]
 
     # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
-                                               settings.COUNTRIES_NAME)).geometry()
+    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
 
     # -------------------------------------------------------------------------
-    def __init__(self, area_path, area_name, shape, geom, radius, center):
+    def __init__(self, province, shape, geom, radius, center):
 
         self.geom = geom
         self.radius = radius
         self.center = center
-        if (area_path and area_name):
-            if (area_path == 'country'):
-                if (area_name == 'Myanmar'):
-                    area_name = 'Myanmar (Burma)'
-                self.geometry = LandCoverViewer.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Country', [area_name])).geometry()
-            elif (area_path == 'province'):
+        if province:
+            try:
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'landcoverportal/static/data/',
-                                        area_path,
-                                        '%s.%s' % (area_name, 'json'))
+                                        'landcoverportal/static/data/province/',
+                                        '%s.%s' % (province, 'json'))
                 else:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'static/data/',
-                                        area_path,
-                                        '%s.%s' % (area_name, 'json'))
-
+                                        'static/data/province/',
+                                        '%s.%s' % (province, 'json'))
+    
                 with open(path) as f:
                     feature = ee.Feature(json.load(f))
                     self.geometry = feature.geometry()
-            else:
-                self.geometry = LandCoverViewer.COUNTRIES_GEOM
+            except OSError as e:
+                self.geometry = MyanmarFRA.DEFAULT_GEOM
+        elif shape:
+            self.geometry = self._get_geometry_from_shape(shape)
         else:
-            self.geometry = self._get_geometry(shape)
+            self.geometry = MyanmarFRA.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
-    def _get_geometry(self, shape):
+    def _get_geometry_from_shape(self, shape):
 
-        if shape:
-            if shape == 'rectangle':
-                _geom = self.geom.split(',')
-                coor_list = [float(_geom_) for _geom_ in _geom]
-                return ee.Geometry.Rectangle(coor_list)
-            elif shape == 'circle':
-                _geom = self.center.split(',')
-                coor_list = [float(_geom_) for _geom_ in _geom]
-                return ee.Geometry.Point(coor_list).buffer(float(self.radius))
-            elif shape == 'polygon':
-                _geom = self.geom.split(',')
-                coor_list = [float(_geom_) for _geom_ in _geom]
-                if len(coor_list) > 500:
-                    return ee.Geometry.Polygon(coor_list).convexHull()
-                return ee.Geometry.Polygon(coor_list)
-
-        return LandCoverViewer.COUNTRIES_GEOM
+        if shape == 'rectangle':
+            _geom = self.geom.split(',')
+            coor_list = [float(_geom_) for _geom_ in _geom]
+            return ee.Geometry.Rectangle(coor_list)
+        elif shape == 'circle':
+            _geom = self.center.split(',')
+            coor_list = [float(_geom_) for _geom_ in _geom]
+            return ee.Geometry.Point(coor_list).buffer(float(self.radius))
+        elif shape == 'polygon':
+            _geom = self.geom.split(',')
+            coor_list = [float(_geom_) for _geom_ in _geom]
+            if len(coor_list) > 500:
+                return ee.Geometry.Polygon(coor_list).convexHull()
+            return ee.Geometry.Polygon(coor_list)
+        else:
+            return MyanmarFRA.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 21), year=2016, download=False):
 
-        image = ee.Image(LandCoverViewer.LANDCOVERMAP.filterDate(\
-                                                    '%s-01-01' % year,
-                                                    '%s-12-31' % year).mean())
+        image = ee.Image(MyanmarFRA.LANDCOVERMAP.filterDate('%s-01-01' % year,
+                                                            '%s-12-31' % year).mean())
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -135,7 +126,7 @@ class LandCoverViewer():
     # -------------------------------------------------------------------------
     def get_primitive(self, index=0, year=2016, download=False):
 
-        primitive_img_coll = LandCoverViewer.PRIMITIVES[index]
+        primitive_img_coll = MyanmarFRA.PRIMITIVES[index]
 
         image = ee.Image(primitive_img_coll.filterDate('%s-01-01' % year,
                                                        '%s-12-31' % year).mean())
