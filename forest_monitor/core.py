@@ -127,7 +127,7 @@ class ForestMonitor():
             #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
-                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
+                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
             except Exception as e:
                 data['reportError'] = e.message
 
@@ -270,7 +270,7 @@ class ForestMonitor():
             #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
-                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
+                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
             except Exception as e:
                 data['reportError'] = e.message
 
@@ -338,7 +338,7 @@ class ForestMonitor():
             #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
-                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
+                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
             except Exception as e:
                 data['reportError'] = e.message
 
@@ -462,7 +462,7 @@ class ForestMonitor():
             #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
-                data['reportArea'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
+                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
             except Exception as e:
                 data['reportError'] = e.message
 

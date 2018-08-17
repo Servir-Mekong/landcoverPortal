@@ -195,15 +195,6 @@
             var polygonCheck = true,
                 primitiveCheck = true;
 
-            /*if (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1) {
-                if (drawnArea > AREA_LIMIT) {
-                    showErrorAlert('The drawn polygon is larger than ' + AREA_LIMIT + ' km2. This exceeds the current limitations for downloading data. Please draw a smaller polygon!');
-                    polygonCheck = false;
-                }
-            } else {
-                showErrorAlert('Please draw a polygon before proceding to download!');
-                polygonCheck = false;
-            }*/
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
             if (!hasPolygon && !$scope.areaSelectFrom && !$scope.areaName) {
                 showErrorAlert('Please draw a polygon or select administrative region before proceding to download!');

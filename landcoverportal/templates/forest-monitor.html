@@ -154,75 +154,21 @@
             <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
                 <div class="btn-group" role="group">
                     <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
-                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-                            <!--<div class="hidden-xs">Area</div>-->
-                        </button>
+                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                    </button>
                 </div>
                 <div class="btn-group" role="group">
                     <button type="button" id="report" class="btn btn-default js-tooltip" href="#report-tab" data-toggle="tab" title="Reports">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </button>
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </button>
                 </div>
-                <!--<div class="btn-group" role="group">
-                        <button type="button" id="download" class="btn btn-default js-tooltip" href="#download-tab" data-toggle="tab" title="Download">
-                            <span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span>
-                        </button>
-                    </div>-->
             </div>
 
             <div class="well tab-tool-content">
                 <div class="tab-content">
 
-                    <div class="tab-pane fade active in" id="area-tab">
-                        <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-primary btn-sm js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
-                                        <div class="hidden-xs">Draw or <br/>Upload Area</div>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-default btn-sm js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
-                                        <div class="hidden-xs">Administrative <br/> Region</div>
-                                    </button>
-                            </div>
-                        </div>
-                        <div class="tab-content inner-tab">
-                            <!-- Inner Tab -->
-                            <div class="tab-pane fade active in" id="draw-tab">
-                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('polygon')">
-                                        Draw Polygon
-                                    </button>
-                                <p class="-center">or</p>
-                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('circle')">
-                                        Draw Circle
-                                    </button>
-                                <p class="-center">or</p>
-                                <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="drawShape('rectangle')">
-                                        Draw Rectangle
-                                    </button>
-                                <p class="-center">or</p>
-                                <label class="btn btn-primary btn-sm btn-block" id="file-input-container">
-                                        Upload Area
-                                        <!-- ToDo: Better info window -->
-                                        <br/>
-                                        <h6>(accepts kml, kmz and geojson)</h6>
-                                        <input type="file" class="hide" id="file-input"
-                                               accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
-                                    </label>
-                            </div>
-                            <div class="tab-pane fade in" id="admin-tab">
-                                <div class="form-group">
-                                    <label for="area-index-filter">Filter Area By</label>
-                                    <select name="area-index-filter" class="form-control" ng-options="option.name for option in areaIndexSelectors" ng-model="areaIndexSelector" ng-change="populateAreaVariableOptions(areaIndexSelector)">
-                                        </select>
-                                </div>
-                                <div class="form-group" ng-show="showAreaVariableSelector">
-                                    <label for="area-variable-filter">Select From</label>
-                                    <select name="area-variable-filter" class="form-control" ng-options="option for option in areaVariableOptions" ng-model="areaName" ng-change="loadAdminArea(areaName)">
-                                        </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "panels/area-selection-tab.html" %}
+
                     <div class="tab-pane fade in" id="report-tab">
                         <ul class="ul-no-bullets inline-block-display" style="margin-left: -30px;">
                             <li ng-show="showReportNoPolygon">
@@ -233,37 +179,29 @@
                                 <span class="report-title">Total Selected Area</span>
                                 <span class="report-detail">[[ reportTotalAreaValue ]]</span>
                             </li>
-                            <br />
                             <li ng-show="showReportTreeCanopy">
                                 <span class="report-title">[[ reportTreeCanopyTitle ]]</span>
                                 <span class="report-detail" style="color: #006400;">[[ reportTreeCanopyValue ]]</span>
                             </li>
-                            <br />
                             <li ng-show="showReportForestGain">
                                 <span class="report-title">[[ reportForestGainTitle ]]</span>
                                 <span class="report-detail" style="color: #6D6DE5;">[[ reportForestGainValue ]]</span>
                             </li>
-                            <br />
                             <li ng-show="showReportForestLoss">
                                 <span class="report-title">[[ reportForestLossTitle ]]</span>
                                 <span class="report-detail" style="color: #F69;">[[ reportForestLossValue ]]</span>
                             </li>
-                            <br />
                             <li ng-show="showReportForestExtend">
                                 <span class="report-title">[[ reportForestExtendTitle ]]</span>
                                 <span class="report-detail" style="color: #006400;">[[ reportForestExtendValue ]]</span>
                             </li>
                         </ul>
                     </div>
-                    <!--<div class="tab-pane fade in" id="download-tab"></div>-->
                 </div>
             </div>
-
         </div>
         <!-- end of tab -->
-
     </div>
-
 </div>
 
 {% endblock main_container %}
