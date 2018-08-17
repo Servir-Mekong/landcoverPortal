@@ -4,6 +4,12 @@
     angular.module('landcoverportal')
     .controller('myanmarIPCCController', function ($scope, $sanitize, $timeout, appSettings, MapService, MyanmarIPCCService) {
 
+        // Global Variables
+        var map = MapService.init(100.7666, 21.6166, 6);
+        $.getJSON('/static/data/country/Myanmar.json', function (data) {
+            var myanmar_geometry = data.geometry.coordinates;
+        });
+
         // Typology CSV
         $scope.typologyCSV = '/static/data/myanmar_ipcc_typology_value.csv';
 
@@ -11,12 +17,6 @@
         $scope.myanmarIPCCLandCoverClasses = appSettings.myanmarIPCCLandCoverClasses;
         $scope.primitiveClasses = appSettings.primitiveClasses;
         $scope.provinceVariableOptions = appSettings.myanmarProvinces;
-
-        // Global Variables
-        var map = MapService.init(100.7666, 21.6166, 6);
-        $.getJSON('/static/data/country/Myanmar.json', function (data) {
-            var myanmar_geometry = data.geometry.coordinates;
-        });
 
         // $scope variables
         $scope.overlays = {};
@@ -41,8 +41,92 @@
             });
         };
 
+        /**
+         * Start with UI
+         */
+
+        // Analysis Tool Control
+        $scope.toggleToolControl = function () {
+            if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
+                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
+                $scope.showTabContainer = false;
+            } else {
+                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
+                $scope.showTabContainer = true;
+            }
+            $scope.$apply();
+        };
+
+        function AnalysisToolControl (controlDiv) {
+            // Set CSS for the control border.
+            var controlUI = document.createElement('div');
+            controlUI.setAttribute('class', 'tool-control text-center');
+            controlUI.setAttribute('id', 'analysis-tool-control');
+            controlUI.title = 'Toogle Tools Visibility';
+            controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open large-icon' aria-hidden='true'></span>";
+            controlDiv.appendChild(controlUI);
+
+            // Setup the click event listeners
+            controlUI.addEventListener('click', function () {
+                $scope.toggleToolControl();
+            });
+        }
+
+        var analysisToolControlDiv = document.getElementById('tool-control-container');
+        new AnalysisToolControl(analysisToolControlDiv);
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
+
+        /**
+         * Tab
+         */
+        $('.tab-tool .btn-pref .btn').click(function () {
+            $('.tab-tool .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
+            // $(".tab").addClass("active"); // instead of this do the below
+            $(this).removeClass('btn-default').addClass('btn-primary');
+        });
+
+        $('.tab-tool .btn-pref-inner .btn').click(function () {
+            $('.tab-tool .btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
+            $(this).removeClass('btn-default').addClass('btn-primary');
+        });
+
+        $('#sidebar-tab .btn-pref .btn').click(function () {
+            $('#sidebar-tab .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
+            // $(".tab").addClass("active"); // instead of this do the below
+            $(this).removeClass('btn-default').addClass('btn-primary');
+        });
+
         // get tooltip activated
         $('.js-tooltip').tooltip();
+
+        /**
+         * Alert
+         */
+        $scope.closeAlert = function () {
+            $('.custom-alert').addClass('display-none');
+            $scope.alertContent = '';
+        };
+
+        var showErrorAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
+        };
+
+        var showSuccessAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
+        };
+
+        var showInfoAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        var clearDrawing = function () {
+            if ($scope.overlays.polygon) {
+                $scope.overlays.polygon.setMap(null);
+            }
+        };
 
         // Landcover opacity slider
         $scope.landcoverOpacity = 1;
@@ -83,35 +167,6 @@
                 $scope.overlays.primitivemap.setOpacity(value);
             }
         });
-
-        /**
-         * Alert
-         */
-        $scope.closeAlert = function () {
-            $('.custom-alert').addClass('display-none');
-            $scope.alertContent = '';
-        };
-
-        var showErrorAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
-        };
-
-        var showSuccessAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
-        };
-
-        var showInfoAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
-        };
-
-        var clearDrawing = function () {
-            if ($scope.overlays.polygon) {
-                $scope.overlays.polygon.setMap(null);
-            }
-        };
 
         /* Updates the image based on the current control panel config. */
         var loadMap = function (type, mapType) {
@@ -191,35 +246,15 @@
         };
 
         /*
-        * Select Options for Variables
+        * load administrative area
         **/
-        $scope.loadAreaFromFile = function (name) {
+        $scope.loadAdminArea = function (name) {
             clearDrawing();
             MapService.removeGeoJson(map);
             $scope.shape = {};
             $scope.province = name;
             MapService.loadGeoJson(map, 'province', name);
         };
-
-        /**
-         * Tab
-         */
-        $('.tab-tool .btn-pref .btn').click(function () {
-            $('.tab-tool .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-            // $(".tab").addClass("active"); // instead of this do the below
-            $(this).removeClass('btn-default').addClass('btn-primary');
-        });
-
-        $('.tab-tool .btn-pref-inner .btn').click(function () {
-            $('.tab-tool .btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
-            $(this).removeClass('btn-default').addClass('btn-primary');
-        });
-
-        $('#sidebar-tab .btn-pref .btn').click(function () {
-            $('#sidebar-tab .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-            // $(".tab").addClass("active"); // instead of this do the below
-            $(this).removeClass('btn-default').addClass('btn-primary');
-        });
 
         /**
          * Drawing Tool Manager
@@ -238,8 +273,7 @@
 
         };
 
-        // Listeners
-        // Overlay Listener
+        // Drawing Tool Manager Event Listeners
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
             // Clear Layer First
             clearDrawing();
@@ -382,6 +416,7 @@
             }
         };
 
+        // upload area change event
         $('#file-input-container #file-input').change(function (event) {
             $scope.showLoader = true;
             $scope.$apply();
@@ -391,41 +426,6 @@
             $("<input type='file' class='hide' id='file-input' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz'>").change(readFile).appendTo($('#file-input-container'));
             $scope.showLoader = false;
         });
-
-        /**
-         * Custom Control
-         */
-
-        // Analysis Tool Control
-        $scope.toggleToolControl = function () {
-            if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
-                $scope.showTabContainer = false;
-            } else {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
-                $scope.showTabContainer = true;
-            }
-            $scope.$apply();
-        };
-
-        function AnalysisToolControl (controlDiv) {
-            // Set CSS for the control border.
-            var controlUI = document.createElement('div');
-            controlUI.setAttribute('class', 'tool-control text-center');
-            controlUI.setAttribute('id', 'analysis-tool-control');
-            controlUI.title = 'Toogle Tools Visibility';
-            controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open large-icon' aria-hidden='true'></span>";
-            controlDiv.appendChild(controlUI);
-
-            // Setup the click event listeners
-            controlUI.addEventListener('click', function () {
-                $scope.toggleToolControl();
-            });
-        }
-
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        new AnalysisToolControl(analysisToolControlDiv);
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
         /*
         * Opacity Sliders
