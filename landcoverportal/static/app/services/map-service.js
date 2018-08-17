@@ -104,6 +104,13 @@
                 }
             });
         };
+
+        // Remove the Drawing Manager Polygon
+        service.clearDrawing = function (overlay) {
+            if (overlay) {
+                overlay.setMap(null);
+            }
+        };
     
         service.getMapType = function (mapId, mapToken, type) {
             var eeMapOptions = {

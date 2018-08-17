@@ -2,40 +2,111 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
-        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-    }])
     .controller('landCoverController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
-        // Typology CSV
-        $scope.typologyCSV = '/static/data/typology_value.csv';
+        // Global Variables
+        var map = MapService.init();
 
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
         $scope.landCoverClasses = appSettings.landCoverClasses;
         $scope.primitiveClasses = appSettings.primitiveClasses;
 
-        // Global Variables
-        var drawnArea = null;
-        var map = MapService.init();
-
         // $scope variables
-        $scope.alertContent = '';
         $scope.overlays = {};
         $scope.shape = {};
+        $scope.areaSelectFrom = null;
+        $scope.areaName = null;
+        $scope.shownGeoJson = null;
+
+        $scope.showAreaVariableSelector = false;
+        $scope.alertContent = '';
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
         $scope.showLoader = false;
+
         $scope.sliderYear = 2016;
         $scope.assemblageLayers = [];
         for (var i = 0; i <= 20; i++) {
             $scope.assemblageLayers.push(i.toString());
         }
 
+        // Typology CSV
+        $scope.typologyCSV = '/static/data/typology_value.csv';
+
+        /**
+         * Start with UI
+         */
+
+        // Analysis Tool Control
+        $scope.toggleToolControl = function () {
+            if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
+                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
+                $scope.showTabContainer = false;
+            } else {
+                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
+                $scope.showTabContainer = true;
+            }
+            $scope.$apply();
+        };
+
+        var analysisToolControlDiv = document.getElementById('tool-control-container');
+        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
+        // Setup the click event listener
+        analysisToolControlUI.addEventListener('click', function () {
+            $scope.toggleToolControl();
+        });
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
+
+        /**
+         * Tab
+         */
+        $('.tab-tool .btn-pref .btn').click(function () {
+            $('.tab-tool .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
+            // $(".tab").addClass("active"); // instead of this do the below
+            $(this).removeClass('btn-default').addClass('btn-primary');
+        });
+
+        $('.tab-tool .btn-pref-inner .btn').click(function () {
+            $('.tab-tool .btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
+            $(this).removeClass('btn-default').addClass('btn-primary');
+        });
+
+        $('#sidebar-tab .btn-pref .btn').click(function () {
+            $('#sidebar-tab .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
+            // $(".tab").addClass("active"); // instead of this do the below
+            $(this).removeClass('btn-default').addClass('btn-primary');
+        });
+
+        // get tooltip activated
         $('.js-tooltip').tooltip();
 
+        /**
+         * Alert
+         */
+        $scope.closeAlert = function () {
+            $('.custom-alert').addClass('display-none');
+            $scope.alertContent = '';
+        };
+
+        var showErrorAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
+        };
+
+        var showSuccessAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
+        };
+
+        var showInfoAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        /**
+         * Slider
+         */
         // Landcover opacity slider
         $scope.landcoverOpacity = 1;
         $scope.showLandcoverOpacitySlider = true;
@@ -76,41 +147,21 @@
             }
         });
 
-        /**
-         * Alert
-         */
-        $scope.closeAlert = function () {
-            $('.custom-alert').addClass('display-none');
-            $scope.alertContent = '';
+        /*
+        * Select Options for Variables
+        **/
+        $scope.populateAreaVariableOptions = function (option) {
+            $scope.showAreaVariableSelector = true;
+            $scope.areaSelectFrom = option.value;
+            $scope.areaVariableOptions = CommonService.getAreaVariableOptions(option.value);
         };
 
-        var showErrorAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
-        };
-
-        var showSuccessAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
-        };
-
-        var showInfoAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
-        };
-
+        // Default the administrative area selection
         var clearSelectedArea = function () {
             $scope.areaSelectFrom = '';
             $scope.areaIndexSelector = '';
             $scope.areaName = '';
             $scope.$apply();
-        };
-
-        var clearDrawing = function () {
-            if ($scope.overlays.polygon) {
-                $scope.overlays.polygon.setMap(null);
-                $scope.showPolygonDrawing = false;
-            }
         };
 
         /* Updates the image based on the current control panel config. */
@@ -140,9 +191,7 @@
         };
 
         var verifyBeforeDownload = function (type) {
-
             if (typeof(type) === 'undefined') type = 'landcover';
-
             var polygonCheck = true,
                 primitiveCheck = true;
 
@@ -156,8 +205,8 @@
                 polygonCheck = false;
             }*/
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
-            if (!hasPolygon) {
-                showErrorAlert('Please draw a polygon before proceding to download!');
+            if (!hasPolygon && !$scope.areaSelectFrom && !$scope.areaName) {
+                showErrorAlert('Please draw a polygon or select administrative region before proceding to download!');
                 polygonCheck = false;
             }
 
@@ -197,60 +246,16 @@
             }
         };
 
-        String.prototype.capitalize = function () {
-            return this.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
-                return p1 + p2.toUpperCase();
-            });
-        };
-
         /*
-        * Select Options for Variables
+        * load administrative area
         **/
-
-        $scope.showAreaVariableSelector = false;
-        $scope.areaSelectFrom = null;
-        $scope.areaName = null;
-        $scope.shownGeoJson = null;
-
-        $scope.populateAreaVariableOptions = function (option) {
-
-            $scope.showAreaVariableSelector = true;
-            $scope.areaSelectFrom = option.value;
-            $scope.areaVariableOptions = CommonService.getAreaVariableOptions(option.value);
-        };
-
-        $scope.loadAreaFromFile = function (name) {
+        $scope.loadAdminArea = function (name) {
+            MapService.clearDrawing($scope.overlays.polygon);
             MapService.removeGeoJson(map);
-            clearDrawing();
-
-            if (name) {
-                $scope.areaName = name;
-                MapService.loadGeoJson(map, $scope.areaSelectFrom, name);
-            } else {
-                $scope.areaName = null;
-                $scope.shownGeoJson = null;
-            }
+            $scope.shape = {};
+            $scope.areaName = name;
+            MapService.loadGeoJson(map, $scope.areaSelectFrom, name);
         };
-
-        /**
-         * Tab
-         */
-        $('.tab-tool .btn-pref .btn').click(function () {
-            $('.tab-tool .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-            // $(".tab").addClass("active"); // instead of this do the below
-            $(this).removeClass('btn-default').addClass('btn-primary');
-        });
-
-        $('.tab-tool .btn-pref-inner .btn').click(function () {
-            $('.tab-tool .btn-pref-inner .btn').removeClass('btn-primary').addClass('btn-default');
-            $(this).removeClass('btn-default').addClass('btn-primary');
-        });
-
-        $('#sidebar-tab .btn-pref .btn').click(function () {
-            $('#sidebar-tab .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
-            // $(".tab").addClass("active"); // instead of this do the below
-            $(this).removeClass('btn-default').addClass('btn-primary');
-        });
 
         /**
          * Drawing Tool Manager
@@ -264,16 +269,17 @@
 
         $scope.drawShape = function (type) {
             drawingManager.setOptions(MapService.getDrawingManagerOptions(type));
-            // Loading the drawing Tool in the Map.
             drawingManager.setMap(map);
 
         };
 
-        // Listeners
-        // Overlay Listener
+        // Drawing Tool Manager Event Listeners
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
             // Clear Layer First
-            clearDrawing();
+            MapService.clearDrawing($scope.overlays.polygon);
+            MapService.removeGeoJson(map);
+            clearSelectedArea();
+
             var overlay = event.overlay;
             $scope.overlays.polygon = overlay;
             $scope.shape = {};
@@ -282,50 +288,38 @@
             $scope.shape.type = drawingType;
             if (drawingType === 'rectangle') {
                 $scope.shape.geom = MapService.getRectangleBoundArray(overlay.getBounds());
-                drawnArea = MapService.computeRectangleArea(overlay.getBounds());
                 // Change event
                 google.maps.event.addListener(overlay, 'bounds_changed', function () {
                     $scope.shape.geom = MapService.getRectangleBoundArray(event.overlay.getBounds());
-                    drawnArea = MapService.computeRectangleArea(event.overlay.getBounds());
                 });
             } else if (drawingType === 'circle') {
                 $scope.shape.center = MapService.getCircleCenter(overlay);
                 $scope.shape.radius = MapService.getCircleRadius(overlay);
-                drawnArea = MapService.computeCircleArea(overlay);
                 // Change event
                 google.maps.event.addListener(overlay, 'radius_changed', function () {
                     $scope.shape.radius = MapService.getCircleRadius(event.overlay);
-                    drawnArea = MapService.computeCircleArea(event.overlay);
                 });
                 google.maps.event.addListener(overlay, 'center_changed', function () {
                     $scope.shape.center = MapService.getCircleCenter(event.overlay);
-                    drawnArea = MapService.getRadius(event.overlay);
                 });
             } else if (drawingType === 'polygon') {
                 var path = overlay.getPath();
                 $scope.shape.geom = MapService.getPolygonBoundArray(path.getArray());
-                drawnArea = MapService.computePolygonArea(path);
                 // Change event
                 google.maps.event.addListener(path, 'insert_at', function () {
                     var insert_path = event.overlay.getPath();
                     $scope.shape.geom = MapService.getPolygonBoundArray(insert_path.getArray());
-                    drawnArea = MapService.computePolygonArea(insert_path);
                 });
                 google.maps.event.addListener(path, 'remove_at', function () {
                     var remove_path = event.overlay.getPath();
                     $scope.shape.geom = MapService.getPolygonBoundArray(remove_path.getArray());
-                    drawnArea = MapService.computePolygonArea(remove_path);
                 });
                 google.maps.event.addListener(path, 'set_at', function () {
                     var set_path = event.overlay.getPath();
                     $scope.shape.geom = MapService.getPolygonBoundArray(set_path.getArray());
-                    drawnArea = MapService.computePolygonArea(set_path);
                 });
             }
-
             stopDrawing();
-            clearSelectedArea();
-            MapService.removeGeoJson(map);
         });
 
         // Geojson listener
@@ -335,7 +329,6 @@
             var _geometry = event.feature.getGeometry();
             MapService.processPoints(_geometry, bounds.extend, bounds);
             map.fitBounds(bounds);
-            drawnArea = google.maps.geometry.spherical.computeArea(_geometry.getArray()[0].b) / 1e6;
         });
 
         map.data.addListener('removefeature', function (event) {
@@ -420,51 +413,16 @@
             }
         };
 
+        // upload area change event
         $('#file-input-container #file-input').change(function (event) {
             $scope.showLoader = true;
             $scope.$apply();
-            clearDrawing();
+            MapService.clearDrawing($scope.overlays.polygon);
             readFile(event);
             $(this).remove();
             $("<input type='file' class='hide' id='file-input' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz'>").change(readFile).appendTo($('#file-input-container'));
             $scope.showLoader = false;
         });
-
-        /**
-         * Custom Control
-         */
-
-        // Analysis Tool Control
-        $scope.toggleToolControl = function () {
-
-            if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
-                $scope.showTabContainer = false;
-            } else {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
-                $scope.showTabContainer = true;
-            }
-            $scope.$apply();
-        };
-
-        function AnalysisToolControl (controlDiv) {
-            // Set CSS for the control border.
-            var controlUI = document.createElement('div');
-            controlUI.setAttribute('class', 'tool-control text-center');
-            controlUI.setAttribute('id', 'analysis-tool-control');
-            controlUI.title = 'Toogle Tools Visibility';
-            controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open large-icon' aria-hidden='true'></span>";
-            controlDiv.appendChild(controlUI);
-
-            // Setup the click event listeners
-            controlUI.addEventListener('click', function () {
-                $scope.toggleToolControl();
-            });
-        }
-
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        new AnalysisToolControl(analysisToolControlDiv);
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
         /*
         * Opacity Sliders
@@ -475,39 +433,8 @@
             }
         };
 
-        /* Initialize values first */
-        /*
-        for (var i = $scope.landCoverClasses.length - 1; i >= 0; i--) {
-            $scope[$scope.landCoverClasses[i].value + 'SliderValue'] = null;
-        }
-
-        var slideStartEvent = function (event) {
-            $scope[event.target.id.split("-opacity-slider")[0] + 'SliderValue'] = $(this).data('slider').getValue();
-        };
-
-        var slideEndEvent = function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope[event.target.id.split("-opacity-slider")[0] + 'SliderValue']) {
-                //$scope.overlays.treeCanopy.setOpacity(value);
-                console.log('hello');
-            }
-        };
-
-        $timeout(function () {
-
-            for (var i = $scope.landCoverClasses.length - 1; i >= 0; i--) {
-
-                $scope[$scope.landCoverClasses[i].value + 'Slider'] = $('#' + $scope.landCoverClasses[i].value + '-opacity-slider').slider(sliderOptions)
-                .on('slideStart', slideStartEvent)
-                .on('slideStop', slideEndEvent);
-
-                $('#' + $scope.landCoverClasses[i].value + '-opacity-slider .slider-selection').css('background', '#BABABA');
-            }
-        });*/
-
         // Update Assemblage Map
         $scope.updateAssemblageProduct = function () {
-
             $scope.closeAlert();
             $scope.assemblageLayers = [];
             $('input[name="assemblage-checkbox"]').each(function () {
@@ -551,6 +478,7 @@
         $scope.getDownloadURL = function (type) {
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
+                $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
                 LandCoverService.getDownloadURL(
                     type,
@@ -564,7 +492,7 @@
                 .then(function (data) {
                     showSuccessAlert('Your Download Link is ready!');
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
-                    $scope['show' + type.capitalize() + 'DownloadURL'] = true;
+                    $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true;
                 }, function (error) {
                     showErrorAlert(error.error);
                     console.log(error);
@@ -578,12 +506,12 @@
         $scope.showGDriveFileName = function (type) {
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
-                $scope['show' + type.capitalize() + 'GDriveFileName'] = true;
+                $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = true;
             }
         };
 
         $scope.hideGDriveFileName = function (type) {
-            $scope['show' + type.capitalize() + 'GDriveFileName'] = false;
+            $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = false;
         };
 
         $scope.saveToDrive = function (type) {

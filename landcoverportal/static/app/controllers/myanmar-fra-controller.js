@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('myanmarFRAController', function ($scope, $sanitize, $timeout, appSettings, MapService, MyanmarFRAService) {
+    .controller('myanmarFRAController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, MyanmarFRAService) {
 
         // Global Variables
         var map = MapService.init(100.7666, 21.6166, 6);
@@ -34,13 +34,6 @@
             $scope.assemblageLayers.push(i.toString());
         }
 
-        // Add string capitalize method
-        String.prototype.capitalize = function () {
-            return this.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
-                return p1 + p2.toUpperCase();
-            });
-        };
-
         /**
          * Start with UI
          */
@@ -57,23 +50,12 @@
             $scope.$apply();
         };
 
-        function AnalysisToolControl (controlDiv) {
-            // Set CSS for the control border.
-            var controlUI = document.createElement('div');
-            controlUI.setAttribute('class', 'tool-control text-center');
-            controlUI.setAttribute('id', 'analysis-tool-control');
-            controlUI.title = 'Toogle Tools Visibility';
-            controlUI.innerHTML = "<span class='glyphicon glyphicon-eye-open large-icon' aria-hidden='true'></span>";
-            controlDiv.appendChild(controlUI);
-
-            // Setup the click event listeners
-            controlUI.addEventListener('click', function () {
-                $scope.toggleToolControl();
-            });
-        }
-
         var analysisToolControlDiv = document.getElementById('tool-control-container');
-        new AnalysisToolControl(analysisToolControlDiv);
+        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
+        // Setup the click event listener
+        analysisToolControlUI.addEventListener('click', function () {
+            $scope.toggleToolControl();
+        });
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
         /**
@@ -162,12 +144,6 @@
             }
         });
 
-        var clearDrawing = function () {
-            if ($scope.overlays.polygon) {
-                $scope.overlays.polygon.setMap(null);
-            }
-        };
-
         /* Updates the image based on the current control panel config. */
         var loadMap = function (type, mapType) {
             map.overlayMapTypes.push(mapType);
@@ -249,7 +225,7 @@
         * load administrative area
         **/
         $scope.loadAdminArea = function (name) {
-            clearDrawing();
+            MapService.clearDrawing($scope.overlays.polygon);
             MapService.removeGeoJson(map);
             $scope.shape = {};
             $scope.province = name;
@@ -276,7 +252,7 @@
         // Drawing Tool Manager Event Listeners
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
             // Clear Layer First
-            clearDrawing();
+            MapService.clearDrawing($scope.overlays.polygon);
             MapService.removeGeoJson(map);
             $scope.province = null;
 
@@ -420,7 +396,7 @@
         $('#file-input-container #file-input').change(function (event) {
             $scope.showLoader = true;
             $scope.$apply();
-            clearDrawing();
+            MapService.clearDrawing($scope.overlays.polygon);
             readFile(event);
             $(this).remove();
             $("<input type='file' class='hide' id='file-input' accept='.kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz'>").change(readFile).appendTo($('#file-input-container'));
@@ -481,7 +457,7 @@
         $scope.getDownloadURL = function (type) {
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
-                $scope['show' + type.capitalize() + 'DownloadURL'] = false;
+                $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
                 MyanmarFRAService.getDownloadURL(
                     type,
@@ -494,7 +470,7 @@
                 .then(function (data) {
                     showSuccessAlert('Your Download Link is ready!');
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
-                    $scope['show' + type.capitalize() + 'DownloadURL'] = true;
+                    $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true;
                 }, function (error) {
                     showErrorAlert(error.error);
                     console.log(error);
@@ -508,12 +484,12 @@
         $scope.showGDriveFileName = function (type) {
             if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
-                $scope['show' + type.capitalize() + 'GDriveFileName'] = true;
+                $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = true;
             }
         };
 
         $scope.hideGDriveFileName = function (type) {
-            $scope['show' + type.capitalize() + 'GDriveFileName'] = false;
+            $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = false;
         };
 
         $scope.saveToDrive = function (type) {
