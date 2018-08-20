@@ -335,7 +335,7 @@ class ForestMonitor():
                                               )
             # converting to meter square by multiplying with scale value i.e. 100*100
             # and then converting to hectare multiplying with 0.0001
-            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+            # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
             # meaning we can use the value directly as the hectare
             try:
                 data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))

@@ -18,6 +18,7 @@
 		"angular": true,
 		"document": true,
 		"google": true,
+		"Highcharts": true,
 		"window": true,
 		"ActiveXObject": true,
 		"toGeoJSON": true

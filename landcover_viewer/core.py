@@ -46,6 +46,31 @@ class LandCoverViewer():
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
                                                settings.COUNTRIES_NAME)).geometry()
 
+    # Class and Index
+    INDEX_CLASS = {
+        0: 'Other',
+        1: 'Surface Water',
+        2: 'Snow and Ice',
+        3: 'Mangrove',
+        4: 'Flooded Forest',
+        5: 'Deciduous Forest',
+        6: 'Orchard or Plantation Forest',
+        7: 'Evergreen Broadleaf Alpine',
+        8: 'Evergreen Broadleaf',
+        9: 'Evergreen Needleleaf',
+        10: 'Evergreen Mixed Forest',
+        11: 'Mixed Evergreen and Deciduous',
+        12: 'Urban and Built Up',
+        13: 'Cropland',
+        14: 'Rice Paddy',
+        15: 'Mudflat and Intertidal',
+        16: 'Mining',
+        17: 'Barren',
+        18: 'Wetlands',
+        19: 'Grassland',
+        20: 'Shrubland'
+    }
+
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
 
@@ -257,3 +282,24 @@ class LandCoverViewer():
         else:
             print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
             return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}
+
+    # -------------------------------------------------------------------------
+    def get_stats(self, year=2016, primitives=range(0, 21)):
+
+        image = self.get_landcover(primitives = primitives,
+                                   year = year,
+                                   download = True,
+                                   )
+
+        stats = image.reduceRegion(reducer = ee.Reducer.frequencyHistogram(),
+                                   geometry = self.geometry,
+                                   crs = 'EPSG:32647', # WGS Zone N 47
+                                   scale = 100,
+                                   maxPixels = 1E13
+                                   )
+        data = stats.getInfo()['Mode']
+        # converting to meter square by multiplying with scale value i.e. 100*100
+        # and then converting to hectare multiplying with 0.0001
+        # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+        # meaning we can use the value directly as the hectare
+        return {LandCoverViewer.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}

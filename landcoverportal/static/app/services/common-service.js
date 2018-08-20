@@ -31,6 +31,41 @@
             return controlUI;
         };
 
+        this.buildChart = function (data, div, title) {
+            // build the chart
+            Highcharts.chart(div, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: title
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [
+                    {
+                        name: 'Percentage',
+                        coloyByPoint: true,
+                        data: data
+                    }
+                ]
+            });
+        };
+
     });
 
 })();

@@ -11,6 +11,10 @@
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
         $scope.landCoverClasses = appSettings.landCoverClasses;
         $scope.primitiveClasses = appSettings.primitiveClasses;
+        $scope.landCoverClassesColor = {};
+        for (var i = 0; i < $scope.landCoverClasses.length; i++) {
+            $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
+        }
 
         // $scope variables
         $scope.overlays = {};
@@ -27,8 +31,8 @@
 
         $scope.sliderYear = 2016;
         $scope.assemblageLayers = [];
-        for (var i = 0; i <= 20; i++) {
-            $scope.assemblageLayers.push(i.toString());
+        for (var j = 0; j <= 20; j++) {
+            $scope.assemblageLayers.push(j.toString());
         }
 
         // Typology CSV
@@ -186,6 +190,24 @@
                 //$scope.showLegend = true;
             }, function (error) {
                 showErrorAlert(error.error);
+                console.log(error);
+            });
+        };
+
+        /**
+         *  Graphs and Charts
+         */
+        // Get stats for the graph
+        $scope.getStats = function () {
+            $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
+            LandCoverService.getStats($scope.assemblageLayers, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            .then(function (data) {
+                var graphData = [];
+                for (var key in data) {
+                    graphData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
+                }
+                CommonService.buildChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear);
+            }, function (error) {
                 console.log(error);
             });
         };
@@ -436,6 +458,7 @@
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap');
+            $scope.getStats();
             MapService.removeGeoJson(map);
         };
 

@@ -15,7 +15,8 @@ PUBLIC_METHODS = [
     'landcovermap',
     'primitive',
     'get-download-url',
-    'download-to-drive'
+    'download-to-drive',
+    'get-stats',
 ]
 
 @csrf_exempt
@@ -55,19 +56,21 @@ def api(request):
 
         core = LandCoverViewer(area_path, area_name, shape, geom, radius, center)
         if action == 'landcovermap':
-            data = core.get_landcover(primitives = primitives,
-                                      year = year,
-                                      )
+            data = core.get_landcover(primitives=primitives, year=year)
+
         elif action == 'primitive':
-            data = core.get_primitive(index = index,
-                                      year = year,
-                                      )
+            data = core.get_primitive(index=index, year=year)
+
         elif action == 'get-download-url':
             data = core.get_download_url(type = type,
                                          year = year,
                                          primitives = primitives,
                                          index = index
                                          )
+
+        elif action == 'get-stats':
+            data = core.get_stats(year=year, primitives=primitives)
+
         elif action == 'download-to-drive':
             session_cache = request.session._session_cache
             if 'google_oauth2_credentials' in session_cache:
