@@ -58,11 +58,33 @@
                 },
                 series: [
                     {
-                        name: 'Percentage',
+                        name: 'Area',
                         coloyByPoint: true,
                         data: data
                     }
-                ]
+                ],
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    buttons: {
+                      contextButton: {
+                        menuItems: [
+                            "printChart",
+                            "separator",
+                            "downloadPNG",
+                            "downloadJPEG",
+                            "downloadPDF",
+                            "downloadSVG",
+                            "separator",
+                            "downloadCSV",
+                            "downloadXLS",
+                            //"viewData",
+                            //"openInCloud"
+                        ]
+                      }
+                    }
+                  }
             });
         };
 
