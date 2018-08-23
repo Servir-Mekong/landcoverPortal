@@ -1,0 +1,56 @@
+<div class="nav-side-menu">
+    <div id="sidebar-tab">
+
+        <div class="well tab-tool-content">
+            <div class="tab-content">
+
+                <div class="tab-pane fade active in" id="land-cover-classes-tab">
+                    <fieldset class="row lcp-class-container">
+                        <div class="form-group" style="padding: 20px 0 0 20px;">
+                            <label class="custom-checkbox-container">(Left) Land Cover for
+                                <input type="checkbox" checked="checked" ng-click="toggleLeftLayer(checkLeftLayer)" 
+                                       ng-model="checkLeftLayer" ng-init="checkLeftLayer=true">
+                                <span class="custom-checkbox-checkmark"></span>
+                                <div class="form-group inline-block-display">
+                                    <select name="year-filter" class="form-control" id="year-filter" 
+                                            ng-options="option for option in [] | landCoverYearRange:2000:2016" 
+                                            ng-model="leftLayerYear" ng-change="landCoverLeftYearChange(leftLayerYear)">
+                                    </select>
+                                </div>
+                            </label>
+                            <label class="custom-checkbox-container">(Right) Land Cover for
+                                <input type="checkbox" checked="checked" ng-click="toggleRightLayer(checkRightLayer)"
+                                       ng-model="checkRightLayer" ng-init="checkRightLayer=true">
+                                <span class="custom-checkbox-checkmark"></span>
+                                <div class="form-group inline-block-display">
+                                    <select name="year-filter" class="form-control" id="year-filter" 
+                                            ng-options="option for option in [] | landCoverYearRange:2000:2016" 
+                                            ng-model="rightLayerYear" ng-change="landCoverRightYearChange(rightLayerYear)">
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="row lcp-class-container">
+                        <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
+                        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct()" style="margin-bottom: 10px;">
+                            Update Map
+                        </button>
+                    </fieldset>
+                    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
+                        <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+                        <div class="col-md-5">
+                            <h5><b>[[ class.name ]]</b></h5>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                            <span class="switch-slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- end of tab -->
+</div>

@@ -2,25 +2,33 @@
 
     'use strict';
     angular.module('landcoverportal')
+    .filter('landCoverYearRange', function () {
+        return function (input, min, max) {
+            min = parseInt(min);
+            max = parseInt(max);
+            for (var i = min; i <= max; i++) {
+                input.push(i);
+            }
+            return input;
+        };
+    })
     .controller('sideBySideMapController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Mapping
-        // Base Layers
-		var mapbox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+        // Base Layers\
+        var mapbox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
 			{
-				minZoom: 4,
+                minZoom: 4,
 				attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, " +
 				"<a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, " +
 				"Imagery � <a href='http://mapbox.com'>Mapbox</a>", // jshint ignore:line
 				id: 'mapbox.light'
 			}
         );
-
         var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
             'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
         });
-
         var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         });
@@ -44,6 +52,11 @@
         // $scope variables
         $scope.leftLayer = null;
         $scope.rightLayer = null;
+        $scope.leftLayerYear = 2000;
+        $scope.rightLayerYear = 2016;
+        $scope.sideBySideControlInitialized = false;
+
+        $scope.landCoverClasses = appSettings.landCoverClasses;
         $scope.assemblageLayers = [];
         for (var j = 0; j <= 20; j++) {
             $scope.assemblageLayers.push(j.toString());
@@ -76,16 +89,27 @@
 
         /* Updates the image based on the current control panel config. */
         var loadMap = function (type, data) {
+            $scope[type + 'Layer'] = L.tileLayer('https://earthengine.googleapis.com/map/' + data.eeMapId + '/{z}/{x}/{y}?token=' + data.eeMapToken);
+            $scope[type + 'Layer'].setZIndex(99);
+            $scope[type + 'Layer'].addTo(map);
             $scope.showLoader = false;
-            if (type === 'left') {
-                $scope.leftLayer = L.tileLayer('https://earthengine.googleapis.com/map/' + data.eeMapId + '/{z}/{x}/{y}?token=' + data.eeMapToken);
-                $scope.leftLayer.setZIndex(99);
-                $scope.leftLayer.addTo(map);
-            } else if (type === 'right') {
-                $scope.rightLayer = L.tileLayer('https://earthengine.googleapis.com/map/' + data.eeMapId + '/{z}/{x}/{y}?token=' + data.eeMapToken);
-                $scope.rightLayer.setZIndex(99);
-                $scope.rightLayer.addTo(map);
+        };
+
+        var removeLayers = function (which) {
+            if (typeof(which) === 'undefined') which = 'both';
+            if (which === 'left') {
+                map.removeLayer($scope.leftLayer);
+                $scope.leftLayer = null;
+            } else if (which === 'right') {
+                map.removeLayer($scope.rightLayer);
+                $scope.rightLayer = null;
+            } else if (which === 'both') {
+                map.removeLayer($scope.leftLayer);
+                map.removeLayer($scope.rightLayer);
+                $scope.leftLayer = null;
+                $scope.rightLayer = null;
             }
+            $scope.sideBySideControlInitialized = false;
         };
 
         /**
@@ -103,13 +127,61 @@
         };
 
         // Map event
-        map.on('layeradd', function (e) {
-            if ($scope.leftLayer && $scope.rightLayer && !sideBySideControl._map) {
+        map.on('layeradd', function () {
+            if ($scope.leftLayer && $scope.rightLayer && !$scope.sideBySideControlInitialized) {
                 sideBySideControl.setLeftLayers($scope.leftLayer);
                 sideBySideControl.setRightLayers($scope.rightLayer);
                 sideBySideControl.addTo(map);
+                $scope.sideBySideControlInitialized = true;
             }
         });
+
+        // Turf on/off side layers
+        $scope.toggleLeftLayer = function (checked) {
+            if ($scope.leftLayer) {
+                if (checked) {
+                    $scope.leftLayer.setOpacity(1);
+                } else {
+                    $scope.leftLayer.setOpacity(0);
+                }
+            }
+        };
+
+        $scope.toggleRightLayer = function (checked) {
+            if ($scope.rightLayer) {
+                if (checked) {
+                    $scope.rightLayer.setOpacity(1);
+                } else {
+                    $scope.rightLayer.setOpacity(0);
+                }
+            }
+        };
+
+        // Update Assemblage Map
+        $scope.updateAssemblageProduct = function () {
+            $scope.showLoader = true;
+            $scope.closeAlert();
+            $scope.assemblageLayers = [];
+            $('input[name="assemblage-checkbox"]').each(function () {
+                if ($(this).prop('checked')) {
+                    $scope.assemblageLayers.push($(this).val());
+                }
+            });
+            removeLayers();
+            $scope.initMap($scope.leftLayerYear, 'left');
+            $scope.initMap($scope.rightLayerYear, 'right');
+        };
+
+        // Year Change
+        $scope.landCoverLeftYearChange = function () {
+            removeLayers('left');
+            $scope.initMap($scope.leftLayerYear, 'left');
+        };
+
+        $scope.landCoverRightYearChange = function () {
+            removeLayers('right');
+            $scope.initMap($scope.rightLayerYear, 'right');
+        };
     });
 
 })();
