@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% load cms_tags staticfiles %}
+
+{% block navigation_container%}
+    {% include "navigation.html" %}
+{% endblock navigation_container %}
+
+{% block main_container %}
+
+<div class="container-fluid">
+
+    <div class="row" ng-controller="sideBySideMapController">
+
+        <!-- Alert Container -->
+        <div class="alert alert-dismissible text-center display-none full-alert" role="alert">
+            <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>[[alertContent]]</strong>
+        </div>
+
+        <!-- Loader Container -->
+        <div id="loader" class="loader" ng-show="showLoader">
+            <div class="loading-img" style="background: url({% static 'images/spinner.gif' %}) no-repeat;"></div>
+        </div>
+
+        <!-- Map Container -->
+        <div class="col-md-12 col-lg-12 map" id="map" ng-init="initMap(2000, 'left'); initMap(2016, 'right');"></div>
+
+    </div>
+</div>
+
+{% endblock main_container %}

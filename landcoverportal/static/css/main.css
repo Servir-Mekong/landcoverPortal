@@ -178,6 +178,13 @@
     margin-top: 5px;
 }
 
+.full-alert {
+    position: fixed;
+    z-index: 1001;
+    margin-top: 5px;
+    width: 100vw;
+}
+
 .ul-no-bullets {
     list-style-type: none;
 }

@@ -42,6 +42,9 @@
 		<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
 		<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.skinHTML5.css' %}" rel="stylesheet">
 
+		<!-- Mapping -->
+		<link href="{% static 'vendor/leaflet/dist/leaflet.css' %}" rel="stylesheet">
+
 		<!-- Load CSS -->
 		{% if debug %}
 		<!-- Custom CSS -->
@@ -98,8 +101,12 @@
 	    <!-- Ion Range Slider -->
 	    <script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
 
+		<!-- Mapping Library -->
 	    <!-- Google Maps API -->
-	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCftEx2S9RjScdfNCGa4Z-8HgUVIUjOErk&v=3.exp&libraries=drawing,geometry"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCftEx2S9RjScdfNCGa4Z-8HgUVIUjOErk&v=3.exp&libraries=drawing,geometry"></script>
+		<!-- Leaflet -->
+		<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+		<script src="{% static 'vendor/leaflet-side-by-side/leaflet-side-by-side.js' %}"></script>
 
 		<!--  Load Angular  -->
 		<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
@@ -137,6 +144,7 @@
 		<script src="{% static 'app/controllers/forest-monitor-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/myanmar-ipcc-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/myanmar-fra-controller.js' %}"></script>
+		<script src="{% static 'app/controllers/side-by-side-map-controller.js' %}"></script>
 
 		<!-- Directives -->
 		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->

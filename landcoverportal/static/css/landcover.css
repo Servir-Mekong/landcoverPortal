@@ -96,3 +96,8 @@
     border-radius: 50%;
     background: white;
 }
+
+/* Leaflet overwrite */
+.leaflet-sbs-range {
+    left: 0;
+}

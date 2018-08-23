@@ -22,7 +22,7 @@
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
                 req.data.areaName = areaName;
-            } else {
+            } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
                     req.data.shape = shapeType;

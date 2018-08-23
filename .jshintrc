@@ -15,6 +15,7 @@
 	"globals": {
 		// Globals variables.
 		"$": true,
+		"L": true,
 		"angular": true,
 		"document": true,
 		"google": true,
