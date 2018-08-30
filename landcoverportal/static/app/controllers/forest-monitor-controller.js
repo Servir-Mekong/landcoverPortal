@@ -698,7 +698,7 @@
                     // Reporting Element
                     if (!$scope.showReportNoPolygon) {
                         if (data.area) {
-                            $scope.reportForestGainTitle = 'GAIN (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
+                            $scope.reportForestGainTitle = 'GAIN AREA (' + startYear + ' - ' + endYear + ') with tree cover canopy >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
                             $scope.reportForestGainValue = data.area + ' ha';
                             $scope.showReportForestGain = true;
                         } else if (data.reportError) {
@@ -768,7 +768,7 @@
                     // Reporting Element
                     if (!$scope.showReportNoPolygon) {
                         if (data.area) {
-                            $scope.reportForestLossTitle = 'LOSS (' + startYear + ' - ' + endYear + ') with >' + $scope.treeCanopyDefinition + '% canopy density and >' + $scope.treeHeightDefinition + ' meters';
+                            $scope.reportForestLossTitle = 'LOSS AREA (' + startYear + ' - ' + endYear + ') with tree canopy cover >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
                             $scope.reportForestLossValue = data.area + ' ha';
                             $scope.showReportForestLoss = true;
                         } else if (data.reportError) {
