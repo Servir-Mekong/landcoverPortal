@@ -450,7 +450,7 @@ angular.module('landcoverportal')
             'color': '#3bc3b2'
         },
         {
-            'name': 'Wooden Land',
+            'name': 'Other Wooden Land',
             'value': '11',
             'color': '#654321'
         }
@@ -497,7 +497,7 @@ angular.module('landcoverportal')
             'value': '10'
         },
         {
-            'name': 'Wooden Land',
+            'name': 'Other Wooden Land',
             'value': '11'
         }
     ],

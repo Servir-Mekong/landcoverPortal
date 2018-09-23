@@ -50,7 +50,7 @@ class MyanmarFRA():
         8: 'Closed Forest',
         9: 'Open Forest',
         10: 'Wet Land',
-        11: 'Wooden Land'
+        11: 'Other Wooden Land'
     }
 
     # -------------------------------------------------------------------------
@@ -114,7 +114,8 @@ class MyanmarFRA():
             _mask = image.eq(ee.Number(int(primitive)))
             masked_image = masked_image.add(_mask)
 
-        palette = '6f6f6f,1B58E8,b1f9ff,111149,8dc33b,8dc33b,cc0013,f4a460,26802C,25E733,3bc3b2,654321'
+        #palette = '6f6f6f,1B58E8,b1f9ff,111149,8dc33b,8dc33b,cc0013,f4a460,26802C,25E733,3bc3b2,654321'
+        palette = '6f6f6f,0000ff,808080,556b2f,ffff00,7cfc00,8b0000,20b2aa,006400,90ee90,42f4c2,8b4513'
 
         image = image.updateMask(masked_image)#.clip(self.geometry).buffer(10000)
 
