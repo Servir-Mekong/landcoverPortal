@@ -44,6 +44,46 @@
             return promise;
         };
 
+        this.getStats = function (primitives, year, shape, areaSelectFrom, areaName) {
+
+            var req = {
+                method: 'POST',
+                url: '/api/myanmar-fra/',
+                data: {
+                    year: year,
+                    primitives: primitives.toString()
+                },
+                params: {
+                    action: 'get-stats'
+                }
+            };
+
+            if (areaSelectFrom && areaName) {
+                req.data.areaSelectFrom = areaSelectFrom;
+                req.data.areaName = areaName;
+            } else {
+                var shapeType = shape.type;
+                if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                    req.data.shape = shapeType;
+                    req.data.geom = shape.geom.toString();
+                } else if (shapeType === 'circle') {
+                    req.data.shape = shapeType;
+                    req.data.radius = shape.radius;
+                    req.data.center = shape.center.toString();
+                }
+            }
+
+            var promise = $http(req)
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function (e) {
+                    console.log('Error: ', e);
+                    throw e.data;
+                });
+            return promise;
+        };
+
         this.getPrimitiveMap = function (index, year, shape, province) {
 
             var req = {

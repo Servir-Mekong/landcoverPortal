@@ -400,17 +400,17 @@ angular.module('landcoverportal')
     ],
     myanmarFRALandCoverClasses: [
         {
-            'name': 'Unknown',
+            'name': 'Other Land',
             'value': '0',
             'color': '#6f6f6f'
         },
         {
-            'name': 'Surface Water',
+            'name': 'Water',
             'value': '1',
-            'color': '#aec3d4'
+            'color': '#1B58E8'
         },
         {
-            'name': 'Snow and Ice',
+            'name': 'Snow',
             'value': '2',
             'color': '#b1f9ff'
         },
@@ -420,89 +420,85 @@ angular.module('landcoverportal')
             'color': '#111149'
         },
         {
-            'name': 'Flooded Forest',
-            'value': '4',
-            'color': '#287463'
-        },
-        {
-            'name': 'Deciduous Forest',
+            'name': 'Crop Land',
             'value': '5',
-            'color': '#152106'
-        },
-        {
-            'name': 'Orchard or Plantation forest',
-            'value': '6',
-            'color': '#c3aa69'
-        },
-        {
-            'name': 'Evergreen Broadleaf Alpine',
-            'value': '7',
-            'color': '#9ad2a5'
-        },
-        {
-            'name': 'Evergreen Broadleaf',
-            'value': '8',
-            'color': '#7db087'
-        },
-        {
-            'name': 'Evergreen Needleleaf',
-            'value': '9',
-            'color': '#486f50'
-        },
-        {
-            'name': 'Evergreen Mixed Forest',
-            'value': '10',
-            'color': '#387242'
-        },
-        {
-            'name': 'Evergreen Mixed and Deciduous',
-            'value': '11',
-            'color': '#115420'
-        },
-        {
-            'name': 'Urban and Built Up',
-            'value': '12',
-            'color': '#cc0013'
-        },
-        {
-            'name': 'Cropland',
-            'value': '13',
             'color': '#8dc33b'
         },
         {
-            'name': 'Rice Paddy',
-            'value': '14',
-            'color': '#ffff00'
+            'name': 'Settlements',
+            'value': '6',
+            'color': '#cc0013'
         },
         {
-            'name': 'Mudflat and Intertidal',
-            'value': '15',
-            'color': '#a1843b'
-        },
-        {
-            'name': 'Mining',
-            'value': '16',
-            'color': '#cec2a5'
-        },
-        {
-            'name': 'Barren',
-            'value': '17',
-            'color': '#674c06'
-        },
-        {
-            'name': 'Wetlands',
-            'value': '18',
-            'color': '#3bc3b2'
-        },
-        {
-            'name': 'Grassland',
-            'value': '19',
+            'name': 'Grass Land',
+            'value': '7',
             'color': '#f4a460'
         },
         {
-            'name': 'Shrubland',
-            'value': '20',
-            'color': '#800080'
+            'name': 'Closed Forest',
+            'value': '8',
+            'color': '#26802C'
+        },
+        {
+            'name': 'Open Forest',
+            'value': '9',
+            'color': '#25E733'
+        },
+        {
+            'name': 'Wet Land',
+            'value': '10',
+            'color': '#3bc3b2'
+        },
+        {
+            'name': 'Wooden Land',
+            'value': '11',
+            'color': '#654321'
+        }
+    ],
+    myanmarPrimitiveClasses: [
+        {
+            'name': 'Other Land',
+            'value': '0'
+        },
+        {
+            'name': 'Water',
+            'value': '1'
+        },
+        {
+            'name': 'Snow',
+            'value': '2'
+        },
+        {
+            'name': 'Mangrove',
+            'value': '3'
+        },
+        {
+            'name': 'Crop Land',
+            'value': '5'
+        },
+        {
+            'name': 'Settlements',
+            'value': '6'
+        },
+        {
+            'name': 'Grass Land',
+            'value': '7'
+        },
+        {
+            'name': 'Closed Forest',
+            'value': '8'
+        },
+        {
+            'name': 'Open Forest',
+            'value': '9'
+        },
+        {
+            'name': 'Wet Land',
+            'value': '10'
+        },
+        {
+            'name': 'Wooden Land',
+            'value': '11'
         }
     ],
     serviceApplicationsCards: [{

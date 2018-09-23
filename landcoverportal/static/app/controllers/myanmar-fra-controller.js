@@ -15,8 +15,12 @@
 
         // Setting variables
         $scope.myanmarFRALandCoverClasses = appSettings.myanmarFRALandCoverClasses;
-        $scope.primitiveClasses = appSettings.primitiveClasses;
+        $scope.primitiveClasses = appSettings.myanmarPrimitiveClasses;
         $scope.provinceVariableOptions = appSettings.myanmarProvinces;
+        $scope.landCoverClassesColor = {};
+        for (var i = 0; i < $scope.myanmarFRALandCoverClasses.length; i++) {
+            $scope.landCoverClassesColor[$scope.myanmarFRALandCoverClasses[i].name] = $scope.myanmarFRALandCoverClasses[i].color;
+        }
 
         // $scope variables
         $scope.overlays = {};
@@ -28,10 +32,10 @@
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
         $scope.showLoader = false;
-        $scope.sliderYear = 2016;
+        $scope.sliderYear = 2017;
         $scope.assemblageLayers = [];
-        for (var i = 0; i <= 20; i++) {
-            $scope.assemblageLayers.push(i.toString());
+        for (var j = 0; j <= 11; j++) {
+            $scope.assemblageLayers.push(j.toString());
         }
 
         /**
@@ -166,6 +170,24 @@
                 //$scope.showLegend = true;
             }, function (error) {
                 showErrorAlert(error.error);
+                console.log(error);
+            });
+        };
+
+        /**
+         *  Graphs and Charts
+         */
+        // Get stats for the graph
+        $scope.getStats = function () {
+            $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
+            MyanmarFRAService.getStats($scope.assemblageLayers, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            .then(function (data) {
+                var graphData = [];
+                for (var key in data) {
+                    graphData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
+                }
+                CommonService.buildChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear);
+            }, function (error) {
                 console.log(error);
             });
         };
@@ -424,6 +446,7 @@
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap');
+            $scope.getStats();
             MapService.removeGeoJson(map);
         };
 
@@ -431,8 +454,8 @@
         $("#slider-year-selector").ionRangeSlider({
             grid: true,
             min: 2000,
-            max: 2016,
-            from: 2016,
+            max: 2017,
+            from: 2017,
             force_edges: true,
             grid_num: 16,
             prettify_enabled: false,
