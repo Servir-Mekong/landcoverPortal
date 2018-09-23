@@ -116,14 +116,14 @@ class MyanmarFRA():
 
         palette = '6f6f6f,1B58E8,b1f9ff,111149,8dc33b,8dc33b,cc0013,f4a460,26802C,25E733,3bc3b2,654321'
 
-        image = image.updateMask(masked_image).clip(self.geometry)
+        image = image.updateMask(masked_image)#.clip(self.geometry).buffer(10000)
 
         if download:
             return image
 
         map_id = image.getMapId({
             'min': '0',
-            'max': '12',
+            'max': '11',
             'palette': palette
         })
 
