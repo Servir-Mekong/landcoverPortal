@@ -98,7 +98,7 @@ class MyanmarFRA():
                 return ee.Geometry.Polygon(coor_list).convexHull()
             return ee.Geometry.Polygon(coor_list)
         else:
-            return MyanmarFRA.DEFAULT_GEOM
+            return MyanmarFRA.DEFAULT_GEOM.buffer(100000)
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 12), year=2017, download=False):
