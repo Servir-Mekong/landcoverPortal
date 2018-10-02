@@ -74,11 +74,11 @@ class MyanmarFRA():
                     feature = ee.Feature(json.load(f))
                     self.geometry = feature.geometry()
             except OSError as e:
-                self.geometry = MyanmarFRA.DEFAULT_GEOM
+                self.geometry = MyanmarFRA.DEFAULT_GEOM.buffer(100000)
         elif shape:
             self.geometry = self._get_geometry_from_shape(shape)
         else:
-            self.geometry = MyanmarFRA.DEFAULT_GEOM
+            self.geometry = MyanmarFRA.DEFAULT_GEOM.buffer(100000)
 
     # -------------------------------------------------------------------------
     def _get_geometry_from_shape(self, shape):
@@ -117,7 +117,7 @@ class MyanmarFRA():
         #palette = '6f6f6f,1B58E8,b1f9ff,111149,8dc33b,8dc33b,cc0013,f4a460,26802C,25E733,3bc3b2,654321'
         palette = '6f6f6f,0000ff,808080,556b2f,ffff00,7cfc00,8b0000,20b2aa,006400,90ee90,42f4c2,8b4513'
 
-        image = image.updateMask(masked_image)#.clip(self.geometry).buffer(10000)
+        image = image.updateMask(masked_image).clip(self.geometry)
 
         if download:
             return image
