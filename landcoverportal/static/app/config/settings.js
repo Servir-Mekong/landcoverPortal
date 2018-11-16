@@ -1,5 +1,4 @@
-angular.module('landcoverportal')
-.constant('appSettings', {
+var settings = {
     menus: [
         {
             'name': 'Methods',
@@ -400,105 +399,59 @@ angular.module('landcoverportal')
     ],
     myanmarFRALandCoverClasses: [
         {
-            'name': 'Other Land',
+            'name': 'Unknown',
             'value': '0',
             'color': '#6f6f6f'
         },
         {
-            'name': 'Water',
+            'name': 'Surface Water',
             'value': '1',
-            'color': '#1B58E8'
+            'color': '#0000ff'
         },
         {
-            'name': 'Snow',
+            'name': 'Snow and Ice',
             'value': '2',
-            'color': '#b1f9ff'
+            'color': '#808080'
         },
         {
-            'name': 'Mangrove',
+            'name': 'Mangroves',
             'value': '3',
-            'color': '#111149'
+            'color': '#556b2f'
         },
         {
             'name': 'Crop Land',
-            'value': '5',
+            'value': '4',
             'color': '#8dc33b'
         },
         {
-            'name': 'Settlements',
+            'name': 'Urban and Built up',
+            'value': '5',
+            'color': '#ff0000'
+        },
+        {
+            'name': 'Grass Land',
             'value': '6',
-            'color': '#cc0013'
+            'color': '#20b2aa'
         },
         {
-            'name': 'Grass Land',
+            'name': 'Closed Forest',
             'value': '7',
-            'color': '#f4a460'
+            'color': '#006400'
         },
         {
-            'name': 'Closed Forest',
+            'name': 'Open Forest',
             'value': '8',
-            'color': '#26802C'
+            'color': '#7db087'
         },
         {
-            'name': 'Open Forest',
+            'name': 'Wet Land',
             'value': '9',
-            'color': '#25E733'
+            'color': '#42f4c2'
         },
         {
-            'name': 'Wet Land',
+            'name': 'Woody',
             'value': '10',
-            'color': '#3bc3b2'
-        },
-        {
-            'name': 'Other Wooden Land',
-            'value': '11',
-            'color': '#654321'
-        }
-    ],
-    myanmarPrimitiveClasses: [
-        {
-            'name': 'Other Land',
-            'value': '0'
-        },
-        {
-            'name': 'Water',
-            'value': '1'
-        },
-        {
-            'name': 'Snow',
-            'value': '2'
-        },
-        {
-            'name': 'Mangrove',
-            'value': '3'
-        },
-        {
-            'name': 'Crop Land',
-            'value': '5'
-        },
-        {
-            'name': 'Settlements',
-            'value': '6'
-        },
-        {
-            'name': 'Grass Land',
-            'value': '7'
-        },
-        {
-            'name': 'Closed Forest',
-            'value': '8'
-        },
-        {
-            'name': 'Open Forest',
-            'value': '9'
-        },
-        {
-            'name': 'Wet Land',
-            'value': '10'
-        },
-        {
-            'name': 'Other Wooden Land',
-            'value': '11'
+            'color': '#8b4513'
         }
     ],
     serviceApplicationsCards: [{
@@ -592,4 +545,14 @@ angular.module('landcoverportal')
             'imageURL': 'images/myanmar-fra.png'
         }
     ]
-});
+};
+
+var myanmarPrimitiveClasses = JSON.parse(JSON.stringify(settings.myanmarFRALandCoverClasses));
+for (var i = 0; i <= myanmarPrimitiveClasses.length - 1; i++) { 
+    delete myanmarPrimitiveClasses[i].color; 
+}
+
+settings.myanmarPrimitiveClasses = myanmarPrimitiveClasses;
+
+angular.module('landcoverportal')
+.constant('appSettings', settings);

@@ -34,7 +34,7 @@
         $scope.showLoader = false;
         $scope.sliderYear = 2017;
         $scope.assemblageLayers = [];
-        for (var j = 0; j <= 11; j++) {
+        for (var j = 0; j <= 10; j++) { // number of classes
             $scope.assemblageLayers.push(j.toString());
         }
 
