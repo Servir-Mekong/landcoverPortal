@@ -62,7 +62,12 @@ class MyanmarIPCC():
                                         '%s.%s' % (province, 'json'))
     
                 with open(path) as f:
-                    feature = ee.Feature(json.load(f))
+                    province_json = json.load(f)
+                    type = province_json['type']
+                    if type == 'FeatureCollection':
+                        feature = ee.FeatureCollection(province_json['features'])
+                    else:
+                        feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
             except OSError as e:
                 self.geometry = MyanmarIPCC.DEFAULT_GEOM

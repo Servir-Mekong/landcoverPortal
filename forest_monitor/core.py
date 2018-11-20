@@ -40,7 +40,12 @@ class ForestMonitor():
                                     '%s.%s' % (area_name, 'json'))
 
                 with open(path) as f:
-                    feature = ee.Feature(json.load(f))
+                    province_json = json.load(f)
+                    type = province_json['type']
+                    if type == 'FeatureCollection':
+                        feature = ee.FeatureCollection(province_json['features'])
+                    else:
+                        feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
             else:
                 self.geometry = ForestMonitor.COUNTRIES_GEOM
