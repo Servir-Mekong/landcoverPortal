@@ -5,11 +5,19 @@
     angular.module('landcoverportal')
     .service('LandCoverService', function ($http) {
 
-        this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName) {
+        this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName, type) {
+
+            //if (typeof(type) === 'undefined') type = 'landcover';
+            var url = '/api/landcover/';
+            if (type === 'myanmar-fra') {
+                url = '/api/myanmar-fra/';
+            } else if (type === 'myanmar-ipcc') {
+                url = '/api/myanmar-ipcc/';
+            }
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: url,
                 data: {
                     year: year,
                     primitives: primitives.toString()
@@ -45,11 +53,18 @@
             return promise;
         };
 
-        this.getStats = function (primitives, year, shape, areaSelectFrom, areaName) {
+        this.getStats = function (primitives, year, shape, areaSelectFrom, areaName, type) {
+
+            var url = '/api/landcover/';
+            if (type === 'myanmar-fra') {
+                url = '/api/myanmar-fra/';
+            } else if (type === 'myanmar-fra') {
+                url = '/api/myanmar-ipcc';
+            }
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: url,
                 data: {
                     year: year,
                     primitives: primitives.toString()
@@ -85,11 +100,18 @@
             return promise;
         };
 
-        this.getPrimitiveMap = function (index, year, shape, areaSelectFrom, areaName) {
+        this.getPrimitiveMap = function (index, year, shape, areaSelectFrom, areaName, type) {
+
+            var url = '/api/landcover/';
+            if (type === 'myanmar-fra') {
+                url = '/api/myanmar-fra/';
+            } else if (type === 'myanmar-fra') {
+                url = '/api/myanmar-ipcc';
+            }
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: url,
                 data: {
                     year: year,
                     index: index
@@ -125,11 +147,18 @@
             return promise;
         };
 
-        this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index) {
+        this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index, serviceType) {
+
+            var url = '/api/landcover/';
+            if (serviceType === 'myanmar-fra') {
+                url = '/api/myanmar-fra/';
+            } else if (serviceType === 'myanmar-fra') {
+                url = '/api/myanmar-ipcc';
+            }
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: url,
                 data: {
                     year: year,
                     type: type,
@@ -167,7 +196,14 @@
             return promise;
         };
 
-        this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index) {
+        this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+
+            var url = '/api/landcover/';
+            if (serviceType === 'myanmar-fra') {
+                url = '/api/myanmar-fra/';
+            } else if (serviceType === 'myanmar-fra') {
+                url = '/api/myanmar-ipcc';
+            }
 
             var req = {
                 method: 'POST',

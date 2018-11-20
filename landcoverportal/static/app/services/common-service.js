@@ -5,11 +5,17 @@
     angular.module('landcoverportal')
     .service('CommonService', function (appSettings) {
 
-        this.getAreaVariableOptions = function (option) {
-
+        this.getAreaVariableOptions = function (option, myanmar) {
+            if (typeof(myanmar) === 'undefined') myanmar = false;
             if (option === 'country') {
+                if (myanmar) {
+                    return ['Myanmar'];
+                }
                 return appSettings.countries;
             } else if (option === 'province') {
+                if (myanmar) {
+                    return appSettings.myanmarProvinces;
+                }
                 return appSettings.provinces;
             }
         };

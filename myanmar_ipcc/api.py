@@ -32,7 +32,8 @@ def api(request):
         geom = post('geom', '')
         radius = post('radius', '')
         center = post('center', '')
-        province = post('province', '')
+        area_path = post('areaSelectFrom', '')
+        area_name = post('areaName', '')
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
         primitives = post('primitives', range(0, 21))
@@ -52,7 +53,7 @@ def api(request):
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
 
-        core = MyanmarIPCC(province, shape, geom, radius, center)
+        core = MyanmarIPCC(rea_path, area_name, shape, geom, radius, center)
         if action == 'landcovermap':
             data = core.get_landcover(primitives = primitives,
                                       year = year,

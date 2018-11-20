@@ -103,22 +103,29 @@ class MyanmarFRA():
         INDEX_CLASS[int(_class['value'])] = _class['name']
 
     # -------------------------------------------------------------------------
-    def __init__(self, province, shape, geom, radius, center):
+    def __init__(self, area_path, area_name, shape, geom, radius, center):
 
         self.geom = geom
         self.radius = radius
         self.center = center
-        if province:
-            try:
+        if (area_path and area_name):
+            if (area_path == 'country'):
+                if (area_name == 'Myanmar'):
+                    area_name = 'Myanmar (Burma)'
+                self.geometry = MyanmarFRA.MEKONG_FEATURE_COLLECTION.filter(\
+                                    ee.Filter.inList('Country', [area_name])).geometry()
+            elif (area_path == 'province'):
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'landcoverportal/static/data/province/',
-                                        '%s.%s' % (province, 'json'))
+                                        'landcoverportal/static/data/',
+                                        area_path,
+                                        '%s.%s' % (area_name, 'json'))
                 else:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                        'static/data/province/',
-                                        '%s.%s' % (province, 'json'))
-    
+                                        'static/data/',
+                                        area_path,
+                                        '%s.%s' % (area_name, 'json'))
+
                 with open(path) as f:
                     province_json = json.load(f)
                     type = province_json['type']
@@ -127,30 +134,29 @@ class MyanmarFRA():
                     else:
                         feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
-            except OSError as e:
+            else:
                 self.geometry = MyanmarFRA.DEFAULT_GEOM.buffer(10000)
-        elif shape:
-            self.geometry = self._get_geometry_from_shape(shape)
         else:
-            self.geometry = MyanmarFRA.DEFAULT_GEOM.buffer(10000)
+            self.geometry = self._get_geometry(shape)
 
     # -------------------------------------------------------------------------
-    def _get_geometry_from_shape(self, shape):
+    def _get_geometry(self, shape):
 
-        if shape == 'rectangle':
-            _geom = self.geom.split(',')
-            coor_list = [float(_geom_) for _geom_ in _geom]
-            return ee.Geometry.Rectangle(coor_list)
-        elif shape == 'circle':
-            _geom = self.center.split(',')
-            coor_list = [float(_geom_) for _geom_ in _geom]
-            return ee.Geometry.Point(coor_list).buffer(float(self.radius))
-        elif shape == 'polygon':
-            _geom = self.geom.split(',')
-            coor_list = [float(_geom_) for _geom_ in _geom]
-            if len(coor_list) > 500:
-                return ee.Geometry.Polygon(coor_list).convexHull()
-            return ee.Geometry.Polygon(coor_list)
+        if shape:
+            if shape == 'rectangle':
+                _geom = self.geom.split(',')
+                coor_list = [float(_geom_) for _geom_ in _geom]
+                return ee.Geometry.Rectangle(coor_list)
+            elif shape == 'circle':
+                _geom = self.center.split(',')
+                coor_list = [float(_geom_) for _geom_ in _geom]
+                return ee.Geometry.Point(coor_list).buffer(float(self.radius))
+            elif shape == 'polygon':
+                _geom = self.geom.split(',')
+                coor_list = [float(_geom_) for _geom_ in _geom]
+                if len(coor_list) > 500:
+                    return ee.Geometry.Polygon(coor_list).convexHull()
+                return ee.Geometry.Polygon(coor_list)
 
         return MyanmarFRA.DEFAULT_GEOM.buffer(10000)
 

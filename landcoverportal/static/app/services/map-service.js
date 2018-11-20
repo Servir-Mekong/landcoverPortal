@@ -50,15 +50,17 @@
          **/
 
         service.loadGeoJson = function (map, dir, name) {
-            map.data.loadGeoJson(
-                '/static/data/' + dir + '/' + name + '.json'
-            );
-
-            map.data.setStyle({
-                fillColor: 'red',
-                strokeWeight: 2,
-                clickable: false
-            });
+            if (name) {
+                map.data.loadGeoJson(
+                    '/static/data/' + dir + '/' + name + '.json'
+                );
+    
+                map.data.setStyle({
+                    fillColor: 'red',
+                    strokeWeight: 2,
+                    clickable: false
+                });
+            }
         };
 
         service.addGeoJson = function (map, geojson) {
