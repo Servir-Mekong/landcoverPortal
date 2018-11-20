@@ -100,7 +100,7 @@ class MyanmarIPCC():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return MyanmarFRA.DEFAULT_GEOM.buffer(10000)
+        return MyanmarIPCC.DEFAULT_GEOM.buffer(10000)
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 21), year=2016, download=False):
