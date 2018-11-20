@@ -53,7 +53,7 @@ def api(request):
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
 
-        core = MyanmarIPCC(rea_path, area_name, shape, geom, radius, center)
+        core = MyanmarIPCC(area_path, area_name, shape, geom, radius, center)
         if action == 'landcovermap':
             data = core.get_landcover(primitives = primitives,
                                       year = year,
