@@ -12,10 +12,17 @@
                                        ng-model="checkLeftLayer" ng-init="checkLeftLayer=true">
                                 <span class="custom-checkbox-checkmark"></span>
                                 <div class="form-group inline-block-display">
-                                    <select name="year-filter" class="form-control" id="year-filter" 
-                                            ng-options="option for option in [] | landCoverYearRange:2000:2016" 
-                                            ng-model="leftLayerYear" ng-change="landCoverLeftYearChange(leftLayerYear)">
-                                    </select>
+                                    {% if version1 %}
+                                        <select name="year-filter" class="form-control" id="year-filter" 
+                                                ng-options="option for option in [] | landCoverYearRange:2000:2016" 
+                                                ng-model="leftLayerYear" ng-change="landCoverLeftYearChange(leftLayerYear, true)">
+                                        </select>
+                                    {% else %}
+                                        <select name="year-filter" class="form-control" id="year-filter" 
+                                                ng-options="option for option in [] | landCoverYearRange:2000:2017" 
+                                                ng-model="leftLayerYear" ng-change="landCoverLeftYearChange(leftLayerYear, false)">
+                                        </select>
+                                    {% endif %}
                                 </div>
                             </label>
                             <label class="custom-checkbox-container">(Right) Land Cover for
@@ -23,19 +30,32 @@
                                        ng-model="checkRightLayer" ng-init="checkRightLayer=true">
                                 <span class="custom-checkbox-checkmark"></span>
                                 <div class="form-group inline-block-display">
-                                    <select name="year-filter" class="form-control" id="year-filter" 
-                                            ng-options="option for option in [] | landCoverYearRange:2000:2016" 
-                                            ng-model="rightLayerYear" ng-change="landCoverRightYearChange(rightLayerYear)">
-                                    </select>
+                                    {% if version1 %}
+                                        <select name="year-filter" class="form-control" id="year-filter"
+                                                ng-options="option for option in [] | landCoverYearRange:2000:2016"
+                                                ng-model="rightLayerYear" ng-change="landCoverRightYearChange(rightLayerYear, true)">
+                                        </select>
+                                    {% else %}
+                                        <select name="year-filter" class="form-control" id="year-filter"
+                                                ng-options="option for option in [] | landCoverYearRange:2000:2017"
+                                                ng-model="rightLayerYear" ng-change="landCoverRightYearChange(rightLayerYear, false)">
+                                        </select>
+                                    {% endif %}
                                 </div>
                             </label>
                         </div>
                     </fieldset>
                     <fieldset class="row lcp-class-container">
                         <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
-                        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct()" style="margin-bottom: 10px;">
-                            Update Map
-                        </button>
+                        {% if version1 %}
+                            <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct(true)" style="margin-bottom: 10px;">
+                                Update Map
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct(false)" style="margin-bottom: 10px;">
+                                Update Map
+                            </button>
+                        {% endif %}
                     </fieldset>
                     <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
                         <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>

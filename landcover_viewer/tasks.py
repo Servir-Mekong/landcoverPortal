@@ -15,6 +15,7 @@ def export_to_drive_task(**kwargs):
                            kwargs['geom'],
                            kwargs['radius'],
                            kwargs['center'],
+                           kwargs['version'],
                            )
 
     oauth2object = OAuth2Credentials(kwargs['access_token'],

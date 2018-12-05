@@ -35,7 +35,7 @@ urlpatterns += i18n_patterns(
     url(r'^method/', TemplateView.as_view(template_name="method.html")),
     url(r'^privacy-policy/', TemplateView.as_view(template_name="privacy-policy.html")),
     url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
-    url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
+    #url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
     url(r'', include('forest_monitor.urls')),
     url(r'', include('landcover_viewer.urls')),
     url(r'', include('myanmar_ipcc.urls')),

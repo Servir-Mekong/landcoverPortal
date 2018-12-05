@@ -52,10 +52,10 @@
         $scope.leftLayer = null;
         $scope.rightLayer = null;
         $scope.leftLayerYear = 2000;
-        $scope.rightLayerYear = 2016;
+        $scope.rightLayerYear = null;
         $scope.sideBySideControlInitialized = false;
 
-        $scope.landCoverClasses = appSettings.landCoverClasses;
+        $scope.landCoverClasses = [];
         $scope.assemblageLayers = [];
         for (var j = 0; j <= 20; j++) {
             $scope.assemblageLayers.push(j.toString());
@@ -114,9 +114,22 @@
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
-        $scope.initMap = function (year, side) {
+        $scope.initMap = function (year, side, v1) {
             $scope.showLoader = true;
-            LandCoverService.getLandCoverMap($scope.assemblageLayers, year)
+            if (side === 'right') {
+                $scope.rightLayerYear = year;
+            }
+            if (v1) {
+                $scope.landCoverClasses = appSettings.landCoverClassesV1;
+            } else {
+                $scope.landCoverClasses = appSettings.landCoverClasses;
+            }
+            var parameters = {
+                primitives: $scope.assemblageLayers,
+                year: year,
+                v1: v1
+            };
+            LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
                 loadMap(side, data);
             }, function (error) {
@@ -157,7 +170,7 @@
         };
 
         // Update Assemblage Map
-        $scope.updateAssemblageProduct = function () {
+        $scope.updateAssemblageProduct = function (v1) {
             $scope.showLoader = true;
             $scope.closeAlert();
             $scope.assemblageLayers = [];
@@ -167,19 +180,21 @@
                 }
             });
             removeLayers();
-            $scope.initMap($scope.leftLayerYear, 'left');
-            $scope.initMap($scope.rightLayerYear, 'right');
+            $scope.initMap($scope.leftLayerYear, 'left', v1);
+            $scope.initMap($scope.rightLayerYear, 'right', v1);
         };
 
         // Year Change
-        $scope.landCoverLeftYearChange = function () {
+        $scope.landCoverLeftYearChange = function (year, v1) {
+            $scope.leftLayerYear = year;
             removeLayers('left');
-            $scope.initMap($scope.leftLayerYear, 'left');
+            $scope.initMap($scope.leftLayerYear, 'left', v1);
         };
 
-        $scope.landCoverRightYearChange = function () {
+        $scope.landCoverRightYearChange = function (year, v1) {
+            $scope.rightLayerYear = year;
             removeLayers('right');
-            $scope.initMap($scope.rightLayerYear, 'right');
+            $scope.initMap($scope.rightLayerYear, 'right', v1);
         };
     });
 

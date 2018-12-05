@@ -189,7 +189,7 @@ class MyanmarFRA():
 
         map_id = image.getMapId({
             'min': '0',
-            'max': '10',
+            'max': str(len(MyanmarFRA.LANDCOVERCLASSES) - 1),
             'palette': palette
         })
 

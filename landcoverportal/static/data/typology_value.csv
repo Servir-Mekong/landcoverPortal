@@ -1,22 +1,19 @@
 Land Cover Typology,Pixel Value,Color Code
-Other,0,6f6f6f
+Unknown,0,6f6f6f
 Surface Water,1,aec3d4
 Snow and Ice,2,b1f9ff
-Mangrove,3,111149
+Mangroves,3,111149
 Flooded Forest,4,287463
 Deciduous Forest,5,152106
 Orchard or Plantation Forest,6,c3aa69
-Evergreen Broadleaf Alpine,7,9ad2a5
-Evergreen Broadleaf,8,7db087
-Evergreen Needleleaf,9,486f50
-Evergreen Mixed Forest,10,387242
-Mixed Evergreen and Deciduous,11,115420
-Urban and Built Up,12,cc0013
-Cropland,13,8dc33b
-Rice Paddy,14,ffff00
-Mudflat and Intertidal,15,a1843b
-Mining,16,cec2a5
-Barren,17,674c06
-Wetlands,18,3bc3b2
-Grassland,19,f4a460
-Shrubland,20,800080
+Evergreen Broadleaf,7,7db087
+Mixed Forest,8,387242
+Urban and Built Up,9,cc0013
+Cropland,10,8dc33b
+Rice,11,ffff00
+Mining,12,cec2a5
+Barren,13,674c06
+Wetlands,14,3bc3b2
+Grassland,15,f4a460
+Shrubland,16,800080
+Aquaculture,17,51768e

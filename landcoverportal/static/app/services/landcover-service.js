@@ -5,7 +5,16 @@
     angular.module('landcoverportal')
     .service('LandCoverService', function ($http) {
 
-        this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName, type) {
+        //this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName, v1, type) {
+        this.getLandCoverMap = function (options) {
+
+            var primitives = options.primitives;
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var v1 = options.v1;
+            var type = options.type;
 
             //if (typeof(type) === 'undefined') type = 'landcover';
             var url = '/api/landcover/';
@@ -26,6 +35,10 @@
                     action: 'landcovermap'
                 }
             };
+
+            if (v1) {
+                req.params.version = 'v1';
+            }
 
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
@@ -53,7 +66,15 @@
             return promise;
         };
 
-        this.getStats = function (primitives, year, shape, areaSelectFrom, areaName, type) {
+        this.getStats = function (options) {
+
+            var primitives = options.primitives;
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var v1 = options.v1;
+            var type = options.type;
 
             var url = '/api/landcover/';
             if (type === 'myanmar-fra') {
@@ -73,6 +94,10 @@
                     action: 'get-stats'
                 }
             };
+
+            if (v1) {
+                req.params.version = 'v1';
+            }
 
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
@@ -147,7 +172,17 @@
             return promise;
         };
 
-        this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index, serviceType) {
+        //this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index, serviceType) {
+        this.getDownloadURL = function (options) {
+            var primitives = options.primitives;
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var v1 = options.v1;
+            var type = options.type;
+            var index = options.index;
+            var serviceType = options.serviceType;
 
             var url = '/api/landcover/';
             if (serviceType === 'myanmar-fra') {
@@ -169,6 +204,10 @@
                     action: 'get-download-url'
                 }
             };
+
+            if (v1) {
+                req.params.version = 'v1';
+            }
 
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
@@ -196,7 +235,18 @@
             return promise;
         };
 
-        this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+        //this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+        this.saveToDrive = function (options) {
+            var primitives = options.primitives;
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var v1 = options.v1;
+            var type = options.type;
+            var index = options.index;
+            var serviceType = options.serviceType;
+            var fileName = options.fileName;
 
             var url = '/api/landcover/';
             if (serviceType === 'myanmar-fra') {
@@ -219,6 +269,10 @@
                     action: 'download-to-drive'
                 }
             };
+
+            if (v1) {
+                req.params.version = 'v1';
+            }
 
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;

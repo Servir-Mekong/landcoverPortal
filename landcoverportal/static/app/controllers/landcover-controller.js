@@ -9,12 +9,12 @@
 
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
-        $scope.landCoverClasses = appSettings.landCoverClasses;
+        $scope.landCoverClasses = [];
         $scope.primitiveClasses = appSettings.primitiveClasses;
         $scope.landCoverClassesColor = {};
-        for (var i = 0; i < $scope.landCoverClasses.length; i++) {
-            $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
-        }
+        //for (var i = 0; i < $scope.landCoverClasses.length; i++) {
+        //    $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
+        //}
 
         // $scope variables
         $scope.overlays = {};
@@ -29,14 +29,15 @@
         $scope.showTabContainer = true;
         $scope.showLoader = false;
 
-        $scope.sliderYear = 2016;
+        $scope.sliderYear = null;
+        $scope.sliderEndYear = null;
         $scope.assemblageLayers = [];
         for (var j = 0; j <= 20; j++) {
             $scope.assemblageLayers.push(j.toString());
         }
 
         // Typology CSV
-        $scope.typologyCSV = '/static/data/typology_value.csv';
+        $scope.typologyCSV = null;
 
         /**
          * Start with UI
@@ -178,9 +179,31 @@
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
-        $scope.initMap = function (year, type) {
+        $scope.initMap = function (year, type, v1) {
+            $scope.sliderYear = year;
+            $scope.sliderEndYear = year;
+            if (v1) {
+                $scope.typologyCSV = '/static/data/typology_value_v1.csv';
+                $scope.landCoverClasses = appSettings.landCoverClassesV1;
+            } else {
+                $scope.typologyCSV = '/static/data/typology_value.csv';
+                $scope.landCoverClasses = appSettings.landCoverClasses;
+            }
+            $scope.landCoverClassesColor = {};
+            for (var i = 0; i < $scope.landCoverClasses.length; i++) {
+                $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
+            }
             $scope.showLoader = true;
-            LandCoverService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+
+            var parameters = {
+                primitives: $scope.assemblageLayers,
+                year: year,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                v1: v1
+            };
+            LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
@@ -198,9 +221,17 @@
          *  Graphs and Charts
          */
         // Get stats for the graph
-        $scope.getStats = function () {
+        $scope.getStats = function (v1) {
             $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
-            LandCoverService.getStats($scope.assemblageLayers, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+            var parameters = {
+                primitives:$scope.assemblageLayers,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                v1: v1
+            };
+            LandCoverService.getStats(parameters)
             .then(function (data) {
                 var graphData = [];
                 for (var key in data) {
@@ -447,7 +478,7 @@
         };
 
         // Update Assemblage Map
-        $scope.updateAssemblageProduct = function () {
+        $scope.updateAssemblageProduct = function (v1) {
             $scope.closeAlert();
             $scope.assemblageLayers = [];
             $('input[name="assemblage-checkbox"]').each(function () {
@@ -457,31 +488,33 @@
             });
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
-            $scope.initMap($scope.sliderYear, 'landcovermap');
-            $scope.getStats();
+            $scope.initMap($scope.sliderYear, 'landcovermap', v1);
+            $scope.getStats(v1);
             MapService.removeGeoJson(map);
         };
 
         // Time Slider
-        $("#slider-year-selector").ionRangeSlider({
-            grid: true,
-            min: 2000,
-            max: 2016,
-            from: 2016,
-            force_edges: true,
-            grid_num: 16,
-            prettify_enabled: false,
-            onFinish: function (data) {
-                if ($scope.sliderYear !== data.from) {
-                    $scope.sliderYear = data.from;
-                    if ($('#land-cover-classes-tab').hasClass('active')) {
-                        $scope.updateAssemblageProduct();
-                    } else if ($('#primitive-tab').hasClass('active')) {
-                        $scope.updatePrimitive($scope.primitiveIndex);
+        $timeout(function () {
+            $("#slider-year-selector").ionRangeSlider({
+                grid: true,
+                min: 2000,
+                max: $scope.sliderEndYear,
+                from: $scope.sliderEndYear,
+                force_edges: true,
+                grid_num: $scope.sliderEndYear - 2000,
+                prettify_enabled: false,
+                onFinish: function (data) {
+                    if ($scope.sliderYear !== data.from) {
+                        $scope.sliderYear = data.from;
+                        if ($('#land-cover-classes-tab').hasClass('active')) {
+                            $scope.updateAssemblageProduct();
+                        } else if ($('#primitive-tab').hasClass('active')) {
+                            $scope.updatePrimitive($scope.primitiveIndex);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }, 200);
 
         // Download URL
         $scope.landcoverDownloadURL = '';
@@ -489,20 +522,24 @@
         $scope.showPrimitiveDownloadURL = false;
         $scope.primitiveDownloadURL = '';
 
-        $scope.getDownloadURL = function (type) {
-            if (typeof(type) === 'undefined') type = 'landcover';
+        $scope.getDownloadURL = function (options) {
+            var type = options.primitives || 'landcover';
+            var v1 = options.v1;
             if (verifyBeforeDownload(type)) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
-                LandCoverService.getDownloadURL(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.sliderYear,
-                    $scope.assemblageLayers,
-                    $scope.primitiveIndex
-                )
+
+                var parameters = {
+                    primitives: $scope.assemblageLayers,
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    v1: v1,
+                    type: type,
+                    index: $scope.primitiveIndex
+                };
+                LandCoverService.getDownloadURL(parameters)
                 .then(function (data) {
                     showSuccessAlert('Your Download Link is ready!');
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
@@ -528,22 +565,27 @@
             $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = false;
         };
 
-        $scope.saveToDrive = function (type) {
-            if (typeof(type) === 'undefined') type = 'landcover';
+        $scope.saveToDrive = function (options) {
+            var type = options.primitives || 'landcover';
+            var v1 = options.v1;
             if (verifyBeforeDownload(type)) {
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                LandCoverService.saveToDrive(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.sliderYear,
-                    $scope.assemblageLayers,
-                    fileName,
-                    $scope.primitiveIndex
-                )
+                
+                var parameters = {
+                    primitives: $scope.assemblageLayers,
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    v1: v1,
+                    type: type,
+                    index: $scope.primitiveIndex,
+                    fileName: fileName
+                };
+
+                LandCoverService.saveToDrive(parameters)
                 .then(function (data) {
                     if (data.error) {
                         showErrorAlert(data.error);

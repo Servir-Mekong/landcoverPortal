@@ -26,6 +26,7 @@ def api(request):
     post = json.loads(request.body).get
     get = request.GET.get
     action = get('action', '')
+    version = get('version', '')
 
     if action and action in PUBLIC_METHODS:
         year = post('year', 2016)
@@ -54,7 +55,7 @@ def api(request):
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
 
-        core = LandCoverViewer(area_path, area_name, shape, geom, radius, center)
+        core = LandCoverViewer(area_path, area_name, shape, geom, radius, center, version)
         if action == 'landcovermap':
             data = core.get_landcover(primitives=primitives, year=year)
 
@@ -103,6 +104,7 @@ def api(request):
                                                file_name = file_name,
                                                primitives = primitives,
                                                index = index,
+                                               version = version,
                                                access_token = access_token,
                                                client_id = client_id,
                                                client_secret = client_secret,

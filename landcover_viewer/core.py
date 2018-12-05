@@ -12,9 +12,6 @@ class LandCoverViewer():
     '''
 
     ee.Initialize(settings.EE_CREDENTIALS)
-    # @ToDo: use the product from new run    
-    # land-use map
-    LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/Assemblage/RegionalLC')
 
     # primitives
     PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/Primitives/P_barren')
@@ -46,33 +43,8 @@ class LandCoverViewer():
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
                                                settings.COUNTRIES_NAME)).geometry()
 
-    # Class and Index
-    INDEX_CLASS = {
-        0: 'Other',
-        1: 'Surface Water',
-        2: 'Snow and Ice',
-        3: 'Mangrove',
-        4: 'Flooded Forest',
-        5: 'Deciduous Forest',
-        6: 'Orchard or Plantation Forest',
-        7: 'Evergreen Broadleaf Alpine',
-        8: 'Evergreen Broadleaf',
-        9: 'Evergreen Needleleaf',
-        10: 'Evergreen Mixed Forest',
-        11: 'Mixed Evergreen and Deciduous',
-        12: 'Urban and Built Up',
-        13: 'Cropland',
-        14: 'Rice Paddy',
-        15: 'Mudflat and Intertidal',
-        16: 'Mining',
-        17: 'Barren',
-        18: 'Wetlands',
-        19: 'Grassland',
-        20: 'Shrubland'
-    }
-
     # -------------------------------------------------------------------------
-    def __init__(self, area_path, area_name, shape, geom, radius, center):
+    def __init__(self, area_path, area_name, shape, geom, radius, center, version):
 
         self.geom = geom
         self.radius = radius
@@ -108,6 +80,223 @@ class LandCoverViewer():
         else:
             self.geometry = self._get_geometry(shape)
 
+        self.v1 = False
+        if version and version == 'v1':
+            self.v1 = True
+            self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/Assemblage/RegionalLC')
+            # Class and Index
+            self.LANDCOVERCLASSES = [
+                {
+                    'name': 'Other',
+                    'value': '0',
+                    'color': '6f6f6f'
+                },
+                {
+                    'name': 'Surface Water',
+                    'value': '1',
+                    'color': 'aec3d4'
+                },
+                {
+                    'name': 'Snow and Ice',
+                    'value': '2',
+                    'color': 'b1f9ff'
+                },
+                {
+                    'name': 'Mangroves',
+                    'value': '3',
+                    'color': '111149'
+                },
+                {
+                    'name': 'Flooded Forest',
+                    'value': '4',
+                    'color': '287463'
+                },
+                {
+                    'name': 'Deciduous Forest',
+                    'value': '5',
+                    'color': '152106'
+                },
+                {
+                    'name': 'Orchard or Plantation Forest',
+                    'value': '6',
+                    'color': 'c3aa69'
+                },
+                {
+                    'name': 'Evergreen Broadleaf Alpine',
+                    'value': '7',
+                    'color': '9ad2a5'
+                },
+                {
+                    'name': 'Evergreen Broadleaf',
+                    'value': '8',
+                    'color': '7db087'
+                },
+                {
+                    'name': 'Evergreen Needleleaf',
+                    'value': '9',
+                    'color': '486f50'
+                },
+                {
+                    'name': 'Evergreen Mixed Forest',
+                    'value': '10',
+                    'color': '387242'
+                },
+                {
+                    'name': 'Mixed Evergreen and Deciduous',
+                    'value': '11',
+                    'color': '115420'
+                },
+                {
+                    'name': 'Urban and Built Up',
+                    'value': '12',
+                    'color': 'cc0013'
+                },
+                {
+                    'name': 'Cropland',
+                    'value': '13',
+                    'color': '8dc33b'
+                },
+                {
+                    'name': 'Rice Paddy',
+                    'value': '14',
+                    'color': 'ffff00'
+                },
+                {
+                    'name': 'Mudflat and Intertidal',
+                    'value': '15',
+                    'color': 'a1843b'
+                },
+                {
+                    'name': 'Mining',
+                    'value': '16',
+                    'color': 'cec2a5'
+                },
+                {
+                    'name': 'Barren',
+                    'value': '17',
+                    'color': '674c06'
+                },
+                {
+                    'name': 'Wetlands',
+                    'value': '18',
+                    'color': '3bc3b2'
+                },
+                {
+                    'name': 'Grassland',
+                    'value': '19',
+                    'color': 'f4a460'
+                },
+                {
+                    'name': 'Shrubland',
+                    'value': '20',
+                    'color': '800080'
+                }
+            ]
+        
+            self.INDEX_CLASS = {}
+            for _class in self.LANDCOVERCLASSES:
+                self.INDEX_CLASS[int(_class['value'])] = _class['name']
+            
+        else:
+            self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/rlcms')
+            # Class and Index
+            self.LANDCOVERCLASSES = [
+                {
+                    'name': 'Unknown',
+                    'value': '0',
+                    'color': '6f6f6f'
+                },
+                {
+                    'name': 'Surface Water',
+                    'value': '1',
+                    'color': 'aec3d4'
+                },
+                {
+                    'name': 'Snow and Ice',
+                    'value': '2',
+                    'color': 'b1f9ff'
+                },
+                {
+                    'name': 'Mangroves',
+                    'value': '3',
+                    'color': '111149'
+                },
+                {
+                    'name': 'Flooded Forest',
+                    'value': '4',
+                    'color': '287463'
+                },
+                {
+                    'name': 'Deciduous Forest',
+                    'value': '5',
+                    'color': '152106'
+                },
+                {
+                    'name': 'Orchard or Plantation Forest',
+                    'value': '6',
+                    'color': 'c3aa69'
+                },
+                {
+                    'name': 'Evergreen Broadleaf',
+                    'value': '7',
+                    'color': '7db087'
+                },
+                {
+                    'name': 'Mixed Forest',
+                    'value': '8',
+                    'color': '387242'
+                },
+                {
+                    'name': 'Urban and Built Up',
+                    'value': '9',
+                    'color': 'cc0013'
+                },
+                {
+                    'name': 'Cropland',
+                    'value': '10',
+                    'color': '8dc33b'
+                },
+                {
+                    'name': 'Rice',
+                    'value': '11',
+                    'color': 'ffff00'
+                },
+                {
+                    'name': 'Mining',
+                    'value': '12',
+                    'color': 'cec2a5'
+                },
+                {
+                    'name': 'Barren',
+                    'value': '13',
+                    'color': '674c06'
+                },
+                {
+                    'name': 'Wetlands',
+                    'value': '14',
+                    'color': '3bc3b2'
+                },
+                {
+                    'name': 'Grassland',
+                    'value': '15',
+                    'color': 'f4a460'
+                },
+                {
+                    'name': 'Shrubland',
+                    'value': '16',
+                    'color': '800080'
+                },
+                {
+                    'name': 'Aquaculture',
+                    'value': '17',
+                    'color': '51768e'
+                }
+            ]
+        
+            self.INDEX_CLASS = {}
+            for _class in self.LANDCOVERCLASSES:
+                self.INDEX_CLASS[int(_class['value'])] = _class['name']
+
     # -------------------------------------------------------------------------
     def _get_geometry(self, shape):
 
@@ -132,9 +321,10 @@ class LandCoverViewer():
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 21), year=2016, download=False):
 
-        image = ee.Image(LandCoverViewer.LANDCOVERMAP.filterDate(\
-                                                    '%s-01-01' % year,
-                                                    '%s-12-31' % year).mean())
+        image = ee.Image(self.LANDCOVERMAP.filterDate('%s-01-01' % year,
+                                                      '%s-12-31' % year).mean())
+        if not self.v1:
+            image = image.select('lc')
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -144,7 +334,12 @@ class LandCoverViewer():
             _mask = image.eq(ee.Number(int(primitive)))
             masked_image = masked_image.add(_mask)
 
-        palette = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+        #palette = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+        palette = []
+        for _class in self.LANDCOVERCLASSES:
+            palette.append(_class['color'])
+
+        palette = ','.join(palette)
 
         image = image.updateMask(masked_image).clip(self.geometry)
 
@@ -153,7 +348,7 @@ class LandCoverViewer():
 
         map_id = image.getMapId({
             'min': '0',
-            'max': '20',
+            'max': str(len(self.LANDCOVERCLASSES) - 1),
             'palette': palette
         })
 
@@ -302,9 +497,12 @@ class LandCoverViewer():
                                    scale = 100,
                                    maxPixels = 1E13
                                    )
-        data = stats.getInfo()['Mode']
+        if self.v1:
+            data = stats.getInfo()['Mode']
+        else:
+            data = stats.getInfo()['lc']
         # converting to meter square by multiplying with scale value i.e. 100*100
         # and then converting to hectare multiplying with 0.0001
         # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
         # meaning we can use the value directly as the hectare
-        return {LandCoverViewer.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
+        return {self.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}

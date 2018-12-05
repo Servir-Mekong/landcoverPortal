@@ -117,7 +117,7 @@ var settings = {
     // this list is generated from python script at /scripts/list-provience.py
     provinces: ['Amnat Charoen', 'An Giang', 'Ang Thong', 'Attapu', 'Ayeyarwady', 'Ba Ria - VTau', 'Bac Giang', 'Bac Kan', 'Bac Lieu', 'Bac Ninh', 'Bago', 'Bangkok Metropolis', 'Banteay Mean Cheay', 'Battambang', 'Ben Tre', 'Binh Dinh', 'Binh Duong', 'Binh Phuoc', 'Binh Thuan', 'Bokeo', 'Bolikhamxai', 'Bueng Kan', 'Buri Ram', 'Ca Mau', 'Can Tho', 'Cao Bang', 'Chachoengsao', 'Chai Nat', 'Chaiyaphum', 'Champasak', 'Chanthaburi', 'Chiang Mai', 'Chiang Rai', 'Chin', 'Chon Buri', 'Chumphon', 'Da Nang City', 'Dac Nong', 'Dak Lak', 'Dien Bien', 'Dong Nai', 'Dong Thap', 'Gia Lai', 'Ha Giang', 'Ha Nam', 'Ha Tay', 'Ha Tinh', 'Hai Duong', 'Haiphong', 'Hanoi', 'Hau Giang', 'Ho Chi Minh', 'Hoa Binh', 'Houaphan', 'Hung Yen', 'Kachin', 'Kalasin', 'Kamphaeng Phet', 'Kampong Chaam', 'Kampong Speu', 'Kampong Thom', 'Kampot', 'Kanchanaburi', 'Kandaal', 'Kayah', 'Kayin', 'Keb', 'Khammouan', 'Khanh Hoa', 'Khon Kaen', 'Kien Giang', 'Koh Kong', 'Kompong Chnang', 'Kon Tum', 'Krabi', 'Kratie', 'Lai Chau', 'Lam Dong', 'Lampang', 'Lamphun', 'Lang Son', 'Lao Cai', 'Loei', 'Long An', 'Lop Buri', 'Louang Namtha', 'Louangphrabang', 'Mae Hong Son', 'Magway', 'Maha Sarakham', 'Mandalay', 'Mon', 'Mondul Kiri', 'Mukdahan', 'Nakhon Nayok', 'Nakhon Pathom', 'Nakhon Phanom', 'Nakhon Ratchasima', 'Nakhon Sawan', 'Nakhon Si Thammarat', 'Nam Dinh', 'Nan', 'Narathiwat', 'Naypyitaw', 'Nghe An', 'Ninh Binh', 'Ninh Thuan', 'Nong Bua Lam Phu', 'Nong Khai', 'Nonthaburi', 'Oddar Meanchey', 'Oudomxai', 'Pailin', 'Pathum Thani', 'Pattani', 'Phangnga', 'Phatthalung', 'Phayao', 'Phetchabun', 'Phetchaburi', 'Phichit', 'Phitsanulok', 'Phnum Penh', 'Phongsali', 'Phra Nakhon Si Ayutthaya', 'Phrae', 'Phu Tho', 'Phu Yen', 'Phuket', 'Prachin Buri', 'Prachuap Khiri Khan', 'Preah Vihear', 'Prey Veaeng', 'Pursat', 'Quang Binh', 'Quang Nam', 'Quang Ngai', 'Quang Ninh', 'Quang Tri', 'Rakhine', 'Ranong', 'Ratana Kiri', 'Ratchaburi', 'Rayong', 'Roi Et', 'Sa Kaeo', 'Sagaing', 'Sakon Nakhon', 'Samut Prakan', 'Samut Sakhon', 'Samut Songkhram', 'Saraburi', 'Saravan', 'Satun', 'Savannakhot', 'Shan', 'Si Sa Ket', 'Siem Reap', 'Sihanoukville', 'Sing Buri', 'Soairieng', 'Soc Trang', 'Son La', 'Songkhla', 'Stung Treng', 'Sukhothai', 'Suphan Buri', 'Surat Thani', 'Surin', 'Tak', 'Takeo', 'Tanintharyi', 'Tay Ninh', 'Tbong Khmum', 'Thai Binh', 'Thai Nguyen', 'Thanh Hoa', 'Thua Thien - Hue', 'Tien Giang', 'Tra Vinh', 'Trang', 'Trat', 'Tuyen Quang', 'Ubon Ratchathani', 'Udon Thani', 'Uthai Thani', 'Uttaradit', 'Vientiane', 'Vinh Long', 'Vinh Phuc', 'Xaignabouri', 'Xaisomboun', 'Xekong', 'Xiangkhoang', 'Yala', 'Yangon', 'Yasothon', 'Yen Bai'],
     myanmarProvinces: ['Ayeyarwady', 'Bago', 'Chin', 'Kachin', 'Kayah', 'Kayin', 'Magway', 'Mandalay', 'Mon', 'Naypyitaw', 'Rakhine', 'Sagaing', 'Shan', 'Tanintharyi', 'Yangon'],
-    landCoverClasses: [
+    landCoverClassesV1: [
         {
             'name': 'Unknown',
             'value': '0',
@@ -222,6 +222,98 @@ var settings = {
             'name': 'Shrubland',
             'value': '20',
             'color': '#800080'
+        }
+    ],
+    landCoverClasses: [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '#6f6f6f'
+        },
+        {
+            'name': 'Surface Water',
+            'value': '1',
+            'color': '#aec3d4'
+        },
+        {
+            'name': 'Snow and Ice',
+            'value': '2',
+            'color': '#b1f9ff'
+        },
+        {
+            'name': 'Mangroves',
+            'value': '3',
+            'color': '#111149'
+        },
+        {
+            'name': 'Flooded Forest',
+            'value': '4',
+            'color': '#287463'
+        },
+        {
+            'name': 'Deciduous Forest',
+            'value': '5',
+            'color': '#152106'
+        },
+        {
+            'name': 'Orchard or Plantation Forest',
+            'value': '6',
+            'color': '#c3aa69'
+        },
+        {
+            'name': 'Evergreen Broadleaf',
+            'value': '7',
+            'color': '#7db087'
+        },
+        {
+            'name': 'Mixed Forest',
+            'value': '8',
+            'color': '#387242'
+        },
+        {
+            'name': 'Urban and Built Up',
+            'value': '9',
+            'color': '#cc0013'
+        },
+        {
+            'name': 'Cropland',
+            'value': '10',
+            'color': '#8dc33b'
+        },
+        {
+            'name': 'Rice',
+            'value': '11',
+            'color': '#ffff00'
+        },
+        {
+            'name': 'Mining',
+            'value': '12',
+            'color': '#cec2a5'
+        },
+        {
+            'name': 'Barren',
+            'value': '13',
+            'color': '#674c06'
+        },
+        {
+            'name': 'Wetlands',
+            'value': '14',
+            'color': '#3bc3b2'
+        },
+        {
+            'name': 'Grassland',
+            'value': '15',
+            'color': '#f4a460'
+        },
+        {
+            'name': 'Shrubland',
+            'value': '16',
+            'color': '#800080'
+        },
+        {
+            'name': 'Aquaculture',
+            'value': '17',
+            'color': '#51768e'
         }
     ],
     primitiveClasses: [
