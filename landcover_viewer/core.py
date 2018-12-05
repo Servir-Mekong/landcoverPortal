@@ -13,31 +13,6 @@ class LandCoverViewer():
 
     ee.Initialize(settings.EE_CREDENTIALS)
 
-    # primitives
-    PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/Primitives/P_barren')
-    PRIMITIVE_BIULTUP = ee.ImageCollection('projects/servir-mekong/Primitives/P_builtup')
-    PRIMITIVE_CANOPY = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
-    PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/Primitives/P_cropland')
-    PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/Primitives/P_deciduous')
-    PRIMITIVE_EPHEMERAL_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_ephemeral_water')
-    PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen')
-    PRIMITIVE_FOREST_COVER = ee.ImageCollection('projects/servir-mekong/Primitives/P_forest_cover')
-    PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/Primitives/P_grass')
-    PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/Primitives/P_mangrove')
-    PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/Primitives/P_mixed_forest')
-    PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_rice')
-    PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/Primitives/P_shrub')
-    PRIMITIVE_SNOW_ICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_snow_ice').select('max_snow')
-    PRIMITIVE_SURFACE_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_surface_water')
-    PRIMITIVE_TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
-    PRIMITIVES = [
-        PRIMITIVE_BARREN, PRIMITIVE_BIULTUP, PRIMITIVE_CANOPY, PRIMITIVE_CROPLAND,
-        PRIMITIVE_DECIDUOUS, PRIMITIVE_EPHEMERAL_WATER, PRIMITIVE_EVERGREEN,
-        PRIMITIVE_FOREST_COVER, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, 
-        PRIMITIVE_MIXED_FOREST, PRIMITIVE_RICE, PRIMITIVE_SHRUB, 
-        PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
-    ]
-
     # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
@@ -196,6 +171,34 @@ class LandCoverViewer():
             self.INDEX_CLASS = {}
             for _class in self.LANDCOVERCLASSES:
                 self.INDEX_CLASS[int(_class['value'])] = _class['name']
+
+            # primitives
+            PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/Primitives/P_barren')
+            PRIMITIVE_BUILTUP = ee.ImageCollection('projects/servir-mekong/Primitives/P_builtup')
+            PRIMITIVE_CANOPY = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
+            PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/Primitives/P_cropland')
+            PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/Primitives/P_deciduous')
+            PRIMITIVE_EPHEMERAL_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_ephemeral_water')
+            PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen')
+            PRIMITIVE_EVERGREEN_BROADLEAF = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen_broadleaf')
+            PRIMITIVE_EVERGREEN_NEEDLELEAF = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen_needleleaf')
+            #PRIMITIVE_FOREST_COVER = ee.ImageCollection('projects/servir-mekong/Primitives/P_forest_cover')
+            PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/Primitives/P_grass')
+            PRIMITIVE_IMPERVIOUS = ee.ImageCollection('projects/servir-mekong/Primitives/P_impervious')
+            PRIMITIVE_IRRIGATED = ee.ImageCollection('projects/servir-mekong/Primitives/P_irrigated')
+            PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/Primitives/P_mangrove')
+            #PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/Primitives/P_mixed_forest')
+            PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_rice')
+            PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/Primitives/P_shrub')
+            PRIMITIVE_SNOW_ICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_snow_ice').select('max_snow')
+            PRIMITIVE_SURFACE_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_surface_water')
+            PRIMITIVE_TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
+            self.PRIMITIVES = [
+                PRIMITIVE_BARREN, PRIMITIVE_BUILTUP, PRIMITIVE_CANOPY, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
+                PRIMITIVE_EPHEMERAL_WATER, PRIMITIVE_EVERGREEN, PRIMITIVE_EVERGREEN_BROADLEAF, PRIMITIVE_EVERGREEN_NEEDLELEAF,
+                PRIMITIVE_GRASS, PRIMITIVE_IMPERVIOUS, PRIMITIVE_IRRIGATED, PRIMITIVE_MANGROVE, 
+                PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
+            ]
             
         else:
             self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/rlcms')
@@ -297,6 +300,34 @@ class LandCoverViewer():
             for _class in self.LANDCOVERCLASSES:
                 self.INDEX_CLASS[int(_class['value'])] = _class['name']
 
+            # primitives
+            PRIMITIVE_AQUACULTURE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/aquaculture')
+            PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/barren')
+            PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
+            PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/cropland')
+            PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/deciduous')
+            PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/evergreen')
+            PRIMITIVE_FLOODED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/floodedForest')
+            PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/grass')
+            PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mangrove')
+            PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mixedForest')
+            PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/openForest')
+            PRIMITIVE_PLANTATIONS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/plantations')
+            PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/rice')
+            PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/shrub')
+            PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/snow')
+            PRIMITIVE_TIDAL = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tidal')
+            PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/urban')
+            PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/water')
+            PRIMITIVE_WETLANDS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/wetlands')
+            PRIMITIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/woody')
+            self.PRIMITIVES = [
+                PRIMITIVE_AQUACULTURE, PRIMITIVE_BARREN, PRIMITIVE_CLOSED_FOREST, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
+                PRIMITIVE_EVERGREEN, PRIMITIVE_FLOODED_FOREST, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, PRIMITIVE_MIXED_FOREST,
+                PRIMITIVE_OPEN_FOREST, PRIMITIVE_PLANTATIONS, PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW,
+                PRIMITIVE_TIDAL, PRIMITIVE_URBAN, PRIMITIVE_WATER, PRIMITIVE_WETLANDS, PRIMITIVE_WOODY
+            ]
+
     # -------------------------------------------------------------------------
     def _get_geometry(self, shape):
 
@@ -360,7 +391,7 @@ class LandCoverViewer():
     # -------------------------------------------------------------------------
     def get_primitive(self, index=0, year=2016, download=False):
 
-        primitive_img_coll = LandCoverViewer.PRIMITIVES[index]
+        primitive_img_coll = self.PRIMITIVES[index]
 
         image = ee.Image(primitive_img_coll.filterDate('%s-01-01' % year,
                                                        '%s-12-31' % year).mean())
@@ -376,7 +407,7 @@ class LandCoverViewer():
         map_id = image.getMapId({
             'min': '0',
             'max': '100',
-            'palette': 'FFFFFF, 000000'
+            'palette': 'ffffff, e5e5e5, cccccc, b2b2b2, 999999, 7f7f7f, 666666, 4c4c4c, 323232, 191919, 000000'
         })
 
         return {

@@ -316,7 +316,7 @@ var settings = {
             'color': '#51768e'
         }
     ],
-    primitiveClasses: [
+    primitiveClassesV1: [
         {
             'name': 'Barren',
             'value': '0'
@@ -346,40 +346,130 @@ var settings = {
             'value': '6'
         },
         {
-            'name': 'Forest Cover',
+            'name': 'Evergreen Broadleaf',
             'value': '7'
         },
         {
-            'name': 'Grass',
+            'name': 'Evergreen Needleleaf',
             'value': '8'
         },
         {
-            'name': 'Mangrove',
+            'name': 'Grass',
             'value': '9'
         },
         {
-            'name': 'Mixed Forest',
+            'name': 'Impervious',
             'value': '10'
         },
         {
-            'name': 'Rice',
+            'name': 'Irrigated',
             'value': '11'
         },
         {
-            'name': 'Shrub',
+            'name': 'Mangrove',
             'value': '12'
         },
         {
-            'name': 'Snow Ice',
+            'name': 'Rice',
             'value': '13'
         },
         {
-            'name': 'Surface Water',
+            'name': 'Shrub',
             'value': '14'
         },
         {
-            'name': 'Tree Height',
+            'name': 'Snow Ice',
             'value': '15'
+        },
+        {
+            'name': 'Surface Water',
+            'value': '16'
+        },
+        {
+            'name': 'Tree Height',
+            'value': '17'
+        }
+    ],
+    primitiveClasses: [
+        {
+            'name': 'Aquaculture',
+            'value': '0'
+        },
+        {
+            'name': 'Barren',
+            'value': '1'
+        },
+        {
+            'name': 'Closed Forest',
+            'value': '2'
+        },
+        {
+            'name': 'Cropland',
+            'value': '3'
+        },
+        {
+            'name': 'Deciduous',
+            'value': '4'
+        },
+        {
+            'name': 'Evergreen',
+            'value': '5'
+        },
+        {
+            'name': 'Flooded Forest',
+            'value': '6'
+        },
+        {
+            'name': 'Grass',
+            'value': '7'
+        },
+        {
+            'name': 'Mangrove',
+            'value': '8'
+        },
+        {
+            'name': 'Mixed Forest',
+            'value': '9'
+        },
+        {
+            'name': 'Open Forest',
+            'value': '10'
+        },
+        {
+            'name': 'Plantations',
+            'value': '11'
+        },
+        {
+            'name': 'Rice',
+            'value': '12'
+        },
+        {
+            'name': 'Shrub',
+            'value': '13'
+        },
+        {
+            'name': 'Snow',
+            'value': '14'
+        },
+        {
+            'name': 'Tidal',
+            'value': '15'
+        },
+        {
+            'name': 'Urban',
+            'value': '16'
+        },
+        {
+            'name': 'Water',
+            'value': '17'
+        },
+        {
+            'name': 'Wetlands',
+            'value': '18'
+        },
+        {
+            'name': 'Woody',
+            'value': '19'
         }
     ],
     myanmarIPCCLandCoverClasses: [

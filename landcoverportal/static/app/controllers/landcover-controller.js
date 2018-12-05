@@ -10,7 +10,7 @@
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
         $scope.landCoverClasses = [];
-        $scope.primitiveClasses = appSettings.primitiveClasses;
+        $scope.primitiveClasses = [];
         $scope.landCoverClassesColor = {};
         //for (var i = 0; i < $scope.landCoverClasses.length; i++) {
         //    $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
@@ -31,10 +31,6 @@
 
         $scope.sliderYear = null;
         $scope.sliderEndYear = null;
-        $scope.assemblageLayers = [];
-        for (var j = 0; j <= 20; j++) {
-            $scope.assemblageLayers.push(j.toString());
-        }
 
         // Typology CSV
         $scope.typologyCSV = null;
@@ -179,21 +175,33 @@
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
-        $scope.initMap = function (year, type, v1) {
+        $scope.initMap = function (year, type, v1, firstLoad) {
+            $scope.showLoader = true;
+
             $scope.sliderYear = year;
             $scope.sliderEndYear = year;
             if (v1) {
                 $scope.typologyCSV = '/static/data/typology_value_v1.csv';
                 $scope.landCoverClasses = appSettings.landCoverClassesV1;
+                $scope.primitiveClasses = appSettings.primitiveClassesV1;
             } else {
                 $scope.typologyCSV = '/static/data/typology_value.csv';
                 $scope.landCoverClasses = appSettings.landCoverClasses;
+                $scope.primitiveClasses = appSettings.primitiveClasses;
             }
+
+            if (typeof(firstLoad) === 'undefined') firstLoad = false;
+            if (firstLoad) {
+                $scope.assemblageLayers = [];
+                for (var j = 0; j <= $scope.landCoverClasses.length - 1; j++) {
+                    $scope.assemblageLayers.push(j.toString());
+                }
+            }
+
             $scope.landCoverClassesColor = {};
             for (var i = 0; i < $scope.landCoverClasses.length; i++) {
                 $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
             }
-            $scope.showLoader = true;
 
             var parameters = {
                 primitives: $scope.assemblageLayers,
@@ -479,6 +487,7 @@
 
         // Update Assemblage Map
         $scope.updateAssemblageProduct = function (v1) {
+            $scope.showLoader = true;
             $scope.closeAlert();
             $scope.assemblageLayers = [];
             $('input[name="assemblage-checkbox"]').each(function () {
@@ -486,7 +495,6 @@
                     $scope.assemblageLayers.push($(this).val());
                 }
             });
-            $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap', v1);
             $scope.getStats(v1);
@@ -523,7 +531,7 @@
         $scope.primitiveDownloadURL = '';
 
         $scope.getDownloadURL = function (options) {
-            var type = options.primitives || 'landcover';
+            var type = options.type || 'landcover';
             var v1 = options.v1;
             if (verifyBeforeDownload(type)) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
@@ -566,7 +574,7 @@
         };
 
         $scope.saveToDrive = function (options) {
-            var type = options.primitives || 'landcover';
+            var type = options.type || 'landcover';
             var v1 = options.v1;
             if (verifyBeforeDownload(type)) {
                 // Check if filename is provided, if not use the default one
@@ -617,10 +625,20 @@
             return '';
         };
 
-        $scope.updatePrimitive = function (index) {
+        $scope.updatePrimitive = function (index, v1) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
-            LandCoverService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName)
+
+            var parameters = {
+                index: index,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                v1: v1
+            };
+
+            LandCoverService.getPrimitiveMap(parameters)
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');

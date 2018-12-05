@@ -125,7 +125,15 @@
             return promise;
         };
 
-        this.getPrimitiveMap = function (index, year, shape, areaSelectFrom, areaName, type) {
+        this.getPrimitiveMap = function (options) {
+
+            var index = options.index;
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var v1 = options.v1;
+            var type = options.type;
 
             var url = '/api/landcover/';
             if (type === 'myanmar-fra') {
@@ -145,6 +153,10 @@
                     action: 'primitive'
                 }
             };
+
+            if (v1) {
+                req.params.version = 'v1';
+            }
 
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;

@@ -18,7 +18,7 @@
 
         <div class="well tab-tool-content">
             <div class="tab-content">
-
+                <!-- Land Cover Assemblage Tab -->
                 <div class="tab-pane fade active in" id="land-cover-classes-tab">
                     <div class="row">
 
@@ -152,6 +152,8 @@
                         </label>
                     </div>
                 </div>
+
+                <!-- Primitive Tab -->
                 <div class="tab-pane fade in" id="primitive-tab">
                     <fieldset class="row lcp-class-container">
                         <!-- Download button -->
@@ -162,7 +164,11 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu col-md-12">
-                                <li><a href="#" ng-click="getDownloadURL('primitive')" style="color: black;">Get Download Link</a></li>
+                                {% if version1 %}
+                                <li><a href="#" ng-click="getDownloadURL({type: 'primitive', v1: true})" style="color: black;">Get Download Link</a></li>
+                                {% else %}
+                                <li><a href="#" ng-click="getDownloadURL({type: 'primitive', v1: false})" style="color: black;">Get Download Link</a></li>
+                                {% endif %}
                                 <li><a href="#" ng-click="showGDriveFileName('primitive')" style="color: black;">To your Google Drive!</a></li>
                             </ul>
                         </div>
@@ -183,12 +189,21 @@
                         <div class="input-group" ng-show="showPrimitiveGDriveFileName" style="top: 15px;">
                             <input type="text" id="primitiveGDriveFileName" placeholder="Enter Filename!" class="form-control">
                             <span class="input-group-btn">
+                                {% if version1 %}
                                 <button type="button"
-                                        ng-click="saveToDrive('primitive')"
+                                        ng-click="saveToDrive({type: 'primitive', v1: true})"
                                         class="btn btn-primary"
                                         style="height: 34px;margin-bottom: 14px;">
                                     Start Download
                                 </button>
+                                {% else %}
+                                <button type="button"
+                                        ng-click="saveToDrive({type: 'primitive', v1: false})"
+                                        class="btn btn-primary"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    Start Download
+                                </button>
+                                {% endif %}
                             </span>
                         </div>
                         <!-- End -->
@@ -204,7 +219,12 @@
                     <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
                         <label class="container-primitive">
                             <h5><b>[[ class.name ]]</b></h5>
-                            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex)" ng-model="primitiveIndex">
+
+                            {% if version1 %}
+                            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex, true)" ng-model="primitiveIndex">
+                            {% else %}
+                            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex, false)" ng-model="primitiveIndex">
+                            {% endif %}
                             <span class="checkmark"></span>
                         </label>
                     </div>
