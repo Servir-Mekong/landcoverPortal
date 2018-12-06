@@ -34,7 +34,6 @@
 
         // Typology CSV
         $scope.typologyCSV = null;
-        
 
         /**
          * Start with UI
@@ -660,76 +659,81 @@
             });
         };
 
-        // Probability Map
-        // Probability opacity slider
-        $scope.probabilityOpacity = 1;
-        $scope.showProbabilityOpacityController = true;
-        /* slider init */
-        var probabilitySlider = $('#probability-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
+        // check to see if probability map exists
+        // does not exists for v1 products
+        if ($('#probability-map-container').length > 0) {
+
+            // Probability Map
+            // Probability opacity slider
+            $scope.probabilityOpacity = 1;
+            $scope.showProbabilityOpacityController = true;
+            /* slider init */
+            var probabilitySlider = $('#probability-opacity-slider').slider({
+                    formatter: function (value) {
+                        return 'Opacity: ' + value;
+                    },
+                    tooltip: 'always'
+                })
+            .on('slideStart', function (event) {
+                $scope.probabilityOpacity = $(this).data('slider').getValue();
             })
-        .on('slideStart', function (event) {
-            $scope.probabilityOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.probabilityOpacity) {
-                $scope.probabilityOpacity = value;
-                $scope.overlays.probabilitymap.setOpacity(value);
-            }
-        });
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.probabilityOpacity) {
+                    $scope.probabilityOpacity = value;
+                    $scope.overlays.probabilitymap.setOpacity(value);
+                }
+            });
 
-        var toggleProbabilityOpacityController = function () {
-            var checked = $('#probability-map-checkbox').prop('checked');
-            if (checked) {
-                $scope.showProbabilityOpacityController = true;
-            } else {
-                $scope.showProbabilityOpacityController = false;
-            }
-        };
+            var toggleProbabilityOpacityController = function () {
+                var checked = $('#probability-map-checkbox').prop('checked');
+                if (checked) {
+                    $scope.showProbabilityOpacityController = true;
+                } else {
+                    $scope.showProbabilityOpacityController = false;
+                }
+            };
 
-        $scope.showProbabilityMap = function () {
-            toggleProbabilityOpacityController();
-            $timeout(function () {
-                var parameters = {
-                    year: $scope.sliderYear,
-                    shape: $scope.shape,
-                    areaSelectFrom: $scope.areaSelectFrom,
-                    areaName: $scope.areaName
-                };
-    
-                LandCoverService.getProbabilityMap(parameters)
-                .then(function (data) {
-                    MapService.removeGeoJson(map);
-                    MapService.clearLayer(map, 'probabilitymap');
-                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'probabilitymap');
-                    loadMap('probabilitymap', mapType);
-                    $timeout(function () {
-                        showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
-                    }, 5500);
-                    //$scope.showLegend = true;
-                    $scope.showProbabilityLayer = true;
-                }, function (error) {
-                    showErrorAlert(error.error);
-                    console.log(error);
-                });
-            }, 1000);
-        };
+            $scope.showProbabilityMap = function () {
+                toggleProbabilityOpacityController();
+                $timeout(function () {
+                    var parameters = {
+                        year: $scope.sliderYear,
+                        shape: $scope.shape,
+                        areaSelectFrom: $scope.areaSelectFrom,
+                        areaName: $scope.areaName
+                    };
+        
+                    LandCoverService.getProbabilityMap(parameters)
+                    .then(function (data) {
+                        MapService.removeGeoJson(map);
+                        MapService.clearLayer(map, 'probabilitymap');
+                        var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'probabilitymap');
+                        loadMap('probabilitymap', mapType);
+                        $timeout(function () {
+                            showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
+                        }, 5500);
+                        //$scope.showLegend = true;
+                        $scope.showProbabilityLayer = true;
+                    }, function (error) {
+                        showErrorAlert(error.error);
+                        console.log(error);
+                    });
+                }, 1000);
+            };
 
-        $scope.toggleProbabilityMap = function () {
-            var checked = $('#probability-map-checkbox').prop('checked');
-            if (checked) {
-                $scope.showProbabilityOpacityController = true;
-                $scope.overlays.probabilitymap.setOpacity($scope.probabilityOpacity);
-            } else {
-                $scope.showProbabilityOpacityController = false;
-                $scope.overlays.probabilitymap.setOpacity(0);
-            }
+            $scope.toggleProbabilityMap = function () {
+                var checked = $('#probability-map-checkbox').prop('checked');
+                if (checked) {
+                    $scope.showProbabilityOpacityController = true;
+                    $scope.overlays.probabilitymap.setOpacity($scope.probabilityOpacity);
+                } else {
+                    $scope.showProbabilityOpacityController = false;
+                    $scope.overlays.probabilitymap.setOpacity(0);
+                }
 
-        };
+            };
+        }
 
     });
 
