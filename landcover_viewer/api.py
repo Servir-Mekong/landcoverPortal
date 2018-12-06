@@ -14,6 +14,7 @@ import time
 PUBLIC_METHODS = [
     'landcovermap',
     'primitive',
+    'probability',
     'get-download-url',
     'download-to-drive',
     'get-stats',
@@ -61,6 +62,9 @@ def api(request):
 
         elif action == 'primitive':
             data = core.get_primitive(index=index, year=year)
+
+        elif action == 'probability':
+            data = core.get_probability(year=year)
 
         elif action == 'get-download-url':
             data = core.get_download_url(type = type,

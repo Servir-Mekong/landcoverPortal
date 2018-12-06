@@ -1,0 +1,77 @@
+<!-- Primitive Tab -->
+<div class="tab-pane fade in" id="primitive-tab">
+    <fieldset class="row lcp-class-container">
+        <!-- Download button -->
+        <div class="btn-group btn-block">
+            <button type="button" class="btn col-md-11 btn-sm btn-primary">Download Primitive Data</button>
+            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu col-md-12">
+                {% if version1 %}
+                <li><a href="#" ng-click="getDownloadURL({type: 'primitive', v1: true})" style="color: black;">Get Download Link</a></li>
+                {% else %}
+                <li><a href="#" ng-click="getDownloadURL({type: 'primitive', v1: false})" style="color: black;">Get Download Link</a></li>
+                {% endif %}
+                <li><a href="#" ng-click="showGDriveFileName('primitive')" style="color: black;">To your Google Drive!</a></li>
+            </ul>
+        </div>
+        <!-- Start -->
+        <div class="input-group" ng-show="showPrimitiveDownloadURL" style="top: 15px;">
+            <input type="text" class="form-control" value="[[primitiveDownloadURL]]">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default primitiveCanopyCpyBtn js-tooltip"
+                        data-toggle="tooltip" data-placement="bottom"
+                        title="Copy to clipboard"
+                        ng-click="copyToClipBoard('primitive')"
+                        style="height: 34px;margin-bottom: 14px;">
+                    <!-- icon from google's material design library -->
+                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                </button>
+            </span>
+        </div>
+        <div class="input-group" ng-show="showPrimitiveGDriveFileName" style="top: 15px;">
+            <input type="text" id="primitiveGDriveFileName" placeholder="Enter Filename!" class="form-control">
+            <span class="input-group-btn">
+                {% if version1 %}
+                <button type="button"
+                        ng-click="saveToDrive({type: 'primitive', v1: true})"
+                        class="btn btn-primary"
+                        style="height: 34px;margin-bottom: 14px;">
+                    Start Download
+                </button>
+                {% else %}
+                <button type="button"
+                        ng-click="saveToDrive({type: 'primitive', v1: false})"
+                        class="btn btn-primary"
+                        style="height: 34px;margin-bottom: 14px;">
+                    Start Download
+                </button>
+                {% endif %}
+            </span>
+        </div>
+        <!-- End -->
+    </fieldset>
+
+    <fieldset class="row lcp-class-container" ng-show="showPrimitiveOpacitySlider">
+        <div class="form-group col-md-12">
+            <label for="primitive-opacity-slider">Change Opacity</label>
+            <input name="primitive-opacity-slider" id="primitive-opacity-slider" data-slider-id="primitive-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+        </div>
+    </fieldset>
+
+    <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
+        <label class="container-primitive">
+            <h5><b>[[ class.name ]]</b></h5>
+
+            {% if version1 %}
+            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex, true)" ng-model="primitiveIndex">
+            {% else %}
+            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex, false)" ng-model="primitiveIndex">
+            {% endif %}
+            <span class="checkmark"></span>
+        </label>
+    </div>
+</div>
+<!-- End of Primitive Tab -->

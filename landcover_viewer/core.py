@@ -13,6 +13,8 @@ class LandCoverViewer():
 
     ee.Initialize(settings.EE_CREDENTIALS)
 
+    PROBABILITY_MAP = ee.ImageCollection('users/servirmekong/LandCover')
+
     # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
@@ -416,6 +418,28 @@ class LandCoverViewer():
         }
 
     # -------------------------------------------------------------------------
+    def get_probability(self, year=2017, download=False):
+
+        image = ee.Image(LandCoverViewer.PROBABILITY_MAP.filterDate(\
+                                                    '%s-01-01' % year,
+                                                    '%s-12-31' % year).mean())
+        image = image.select('probability').clip(self.geometry)
+
+        if download:
+            return image
+
+        map_id = image.getMapId({
+            'min': '0',
+            'max': '100',
+            'palette': 'red,orange,yellow,green,darkgreen'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
     def get_download_url(self,
                          type = 'landcover',
                          year = 2016,
@@ -433,6 +457,9 @@ class LandCoverViewer():
                                        year = year,
                                        download = True,
                                        )
+
+        elif type == 'probability':
+            image = self.get_probability(year=year, download=True)
 
         try:
             url = image.getDownloadURL({
@@ -468,6 +495,9 @@ class LandCoverViewer():
                                        year = year,
                                        download = True,
                                        )
+
+        elif type == 'probability':
+            image = self.get_probability(year=year, download=True)
 
         temp_file_name = get_unique_string()
 
