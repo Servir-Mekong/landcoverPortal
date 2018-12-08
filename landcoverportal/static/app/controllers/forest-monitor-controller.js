@@ -234,16 +234,19 @@
             if (verified) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
-                ForestMonitorService.getDownloadURL(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    startYear,
-                    endYear,
-                    $scope.treeCanopyDefinition,
-                    $scope.treeHeightDefinition
-                )
+
+                var parameters = {
+                    startYear: startYear,
+                    endYear: endYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    treeCanopyDefinition: $scope.treeCanopyDefinition,
+                    treeHeightDefinition: $scope.treeHeightDefinition,
+                    type: type
+                };
+
+                ForestMonitorService.getDownloadURL(parameters)
                 .then(function (data) {
                     showSuccessAlert('Your Download Link is ready!');
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
@@ -279,17 +282,20 @@
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                ForestMonitorService.saveToDrive(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    startYear,
-                    endYear,
-                    fileName,
-                    $scope.treeCanopyDefinition,
-                    $scope.treeHeightDefinition
-                )
+
+                var parameters = {
+                    startYear: startYear,
+                    endYear: endYear,
+                    fileName: fileName,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    treeCanopyDefinition: $scope.treeCanopyDefinition,
+                    treeHeightDefinition: $scope.treeHeightDefinition,
+                    type: type
+                };
+
+                ForestMonitorService.saveToDrive(parameters)
                 .then(function (data) {
                     if (data.error) {
                         showErrorAlert(data.error);
@@ -528,8 +534,8 @@
         };
 
         /*
-            * Tree Canopy Calculations
-            */
+        * Tree Canopy Calculations
+        */
         $scope.showTreeCanopyOpacitySlider = false;
         $scope.treeCanopyOpacitySliderValue = null;
         $scope.showTreeCanopyDownloadButtons = false;
@@ -564,20 +570,22 @@
             // Close and restart this after success
             $scope.showTreeCanopyOpacitySlider = false;
 
-            ForestMonitorService.treeCanopyChange(
-                year,
-                $scope.shape,
-                $scope.areaSelectFrom,
-                $scope.areaName,
-                $scope.showReportNoPolygon ? false : true,
-                $scope.treeCanopyDefinition
-            )
+            var parameters = {
+                year: year,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                treeCanopyDefinition: $scope.treeCanopyDefinition,
+                type: name
+            };
+
+            ForestMonitorService.treeCanopyChange(parameters)
             .then(function (data) {
                 parameterChangeSuccessCallback(name, data, treeCanopySlider, 'Tree Canopy Cover for year ' + year + ' !');
                 $scope.showTreeCanopyOpacitySlider = true;
                 $scope.showTreeCanopyDownloadButtons = true;
                 // Reporting Element
-                if (!$scope.showReportNoPolygon) {
+                /*if (!$scope.showReportNoPolygon) {
                     if (data.area) {
                         $scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
                         $scope.reportTreeCanopyValue = data.area + ' ha';
@@ -587,7 +595,26 @@
                         $scope.reportTreeCanopyValue = data.reportError;
                         $scope.showReportTreeCanopy = true;
                     }
+                }*/
+            }, function (error) {
+                parameterChangeErrorCallback(error);
+            });
+
+            ForestMonitorService.getStats(parameters)
+            .then(function (data) {
+                // Reporting Element
+                //if (!$scope.showReportNoPolygon) {
+                $scope.showReportNoPolygon = false;
+                if (data.area) {
+                    $scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
+                    $scope.reportTreeCanopyValue = data.area;
+                    $scope.showReportTreeCanopy = true;
+                } else if (data.reportError) {
+                    $scope.reportTreeCanopyTitle = 'Error calculating Canopy';
+                    $scope.reportTreeCanopyValue = data.reportError;
+                    $scope.showReportTreeCanopy = true;
                 }
+                //}
             }, function (error) {
                 parameterChangeErrorCallback(error);
             });
@@ -629,13 +656,15 @@
             $scope.closeAlert();
             $scope.showTreeHeightOpacitySlider = false;
 
-            ForestMonitorService.treeHeightChange(
-                year,
-                $scope.shape,
-                $scope.areaSelectFrom,
-                $scope.areaName,
-                $scope.treeHeightDefinition
-            )
+            var parameters = {
+                year: year,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                treeHeightDefinition: $scope.treeHeightDefinition
+            };
+
+            ForestMonitorService.treeHeightChange(parameters)
             .then(function (data) {
                 parameterChangeSuccessCallback(name, data, treeHeightSlider, 'Tree Canopy Height for year ' + year + ' !');
                 $scope.showTreeHeightOpacitySlider = true;
@@ -646,8 +675,8 @@
         };
 
         /*
-            * Forest Gain Calculations
-            */
+        * Forest Gain Calculations
+        */
         $scope.showForestGainOpacitySlider = false;
         $scope.forestGainOpacitySliderValue = null;
         $scope.showForestGainDownloadButtons = false;
@@ -676,27 +705,31 @@
 
         $scope.calculateForestGain = function (startYear, endYear) {
 
-            if (verifyBeforeDownload(startYear, endYear, true)) {
+            //if (verifyBeforeDownload(startYear, endYear, true)) {
                 $scope.showLoader = true;
                 var name = 'forestGain';
                 MapService.clearLayer(map, name);
                 $scope.closeAlert();
                 $scope.showForestGainOpacitySlider = false;
 
-                ForestMonitorService.forestGain(
-                    startYear,
-                    endYear,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.treeCanopyDefinition,
-                    $scope.treeHeightDefinition,
-                    $scope.showReportNoPolygon ? false : true
-                )
+                var parameters = {
+                    startYear: startYear,
+                    endYear: endYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    treeCanopyDefinition: $scope.treeCanopyDefinition,
+                    treeHeightDefinition: $scope.treeHeightDefinition,
+                    type: name
+                };
+
+                ForestMonitorService.forestGain(parameters)
                 .then(function (data) {
                     parameterChangeSuccessCallback(name, data, forestGainSlider, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
+                    $scope.showForestGainOpacitySlider = true;
+                    $scope.showForestGainDownloadButtons = true;
                     // Reporting Element
-                    if (!$scope.showReportNoPolygon) {
+                    /*if (!$scope.showReportNoPolygon) {
                         if (data.area) {
                             $scope.reportForestGainTitle = 'GAIN AREA (' + startYear + ' - ' + endYear + ') with tree cover canopy >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
                             $scope.reportForestGainValue = data.area + ' ha';
@@ -706,18 +739,35 @@
                             $scope.reportForestGainValue = data.reportError;
                             $scope.showReportForestGain = true;
                         }
-                    }
-                    $scope.showForestGainOpacitySlider = true;
-                    $scope.showForestGainDownloadButtons = true;
+                    }*/
                 }, function (error) {
                     parameterChangeErrorCallback(error);
                 });
-            }
+
+                ForestMonitorService.getStats(parameters)
+                .then(function (data) {
+                    // Reporting Element
+                    //if (!$scope.showReportNoPolygon) {
+                    $scope.showReportNoPolygon = false;
+                    if (data.area) {
+                        $scope.reportForestGainTitle = 'GAIN AREA (' + startYear + ' - ' + endYear + ') with tree cover canopy >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
+                        $scope.reportForestGainValue = data.area;
+                        $scope.showReportForestGain = true;
+                    } else if (data.reportError) {
+                        $scope.reportForestGainTitle = 'Error calculating Forest Gain';
+                        $scope.reportForestGainValue = data.reportError;
+                        $scope.showReportForestGain = true;
+                    }
+                    //}
+                }, function (error) {
+                    parameterChangeErrorCallback(error);
+                });
+            //}
         };
 
         /*
-            * Forest Loss Calculations
-            */
+        * Forest Loss Calculations
+        */
         $scope.showForestLossOpacitySlider = false;
         $scope.forestLossOpacitySliderValue = null;
         $scope.showForestLossDownloadButtons = false;
@@ -746,27 +796,31 @@
 
         $scope.calculateForestLoss = function (startYear, endYear) {
 
-            if (verifyBeforeDownload(startYear, endYear, true)) {
+            //if (verifyBeforeDownload(startYear, endYear, true)) {
                 $scope.showLoader = true;
                 var name = 'forestLoss';
                 MapService.clearLayer(map, name);
                 $scope.closeAlert();
                 $scope.showForestLossOpacitySlider = false;
 
-                ForestMonitorService.forestLoss(
-                    startYear,
-                    endYear,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.treeCanopyDefinition,
-                    $scope.treeHeightDefinition,
-                    $scope.showReportNoPolygon ? false : true
-                )
+                var parameters = {
+                    startYear: startYear,
+                    endYear: endYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    treeCanopyDefinition: $scope.treeCanopyDefinition,
+                    treeHeightDefinition: $scope.treeHeightDefinition,
+                    type: name
+                };
+
+                ForestMonitorService.forestLoss(parameters)
                 .then(function (data) {
                     parameterChangeSuccessCallback(name, data, forestLossSlider, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
+                    $scope.showForestLossOpacitySlider = true;
+                    $scope.showForestLossDownloadButtons = true;
                     // Reporting Element
-                    if (!$scope.showReportNoPolygon) {
+                    /*if (!$scope.showReportNoPolygon) {
                         if (data.area) {
                             $scope.reportForestLossTitle = 'LOSS AREA (' + startYear + ' - ' + endYear + ') with tree canopy cover >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
                             $scope.reportForestLossValue = data.area + ' ha';
@@ -776,13 +830,30 @@
                             $scope.reportForestLossValue = data.reportError;
                             $scope.showReportForestLoss = true;
                         }
-                    }
-                    $scope.showForestLossOpacitySlider = true;
-                    $scope.showForestLossDownloadButtons = true;
+                    }*/
                 }, function (error) {
                     parameterChangeErrorCallback(error);
                 });
-            }
+
+                ForestMonitorService.getStats(parameters)
+                .then(function (data) {
+                    // Reporting Element
+                    //if (!$scope.showReportNoPolygon) {
+                    $scope.showReportNoPolygon = false;
+                    if (data.area) {
+                        $scope.reportForestLossTitle = 'LOSS AREA (' + startYear + ' - ' + endYear + ') with tree canopy cover >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
+                        $scope.reportForestLossValue = data.area;
+                        $scope.showReportForestLoss = true;
+                    } else if (data.reportError) {
+                        $scope.reportForestLossTitle = 'Error calculating Forest Loss';
+                        $scope.reportForestLossValue = data.reportError;
+                        $scope.showReportForestLoss = true;
+                    }
+                    //}
+                }, function (error) {
+                    parameterChangeErrorCallback(error);
+                });
+            //}
         };
 
         /*
@@ -823,19 +894,23 @@
             // Close and restart this after success
             $scope.showForestExtendOpacitySlider = false;
 
-            ForestMonitorService.forestExtend(
-                year,
-                $scope.shape,
-                $scope.areaSelectFrom,
-                $scope.areaName,
-                $scope.treeCanopyDefinition,
-                $scope.treeHeightDefinition,
-                $scope.showReportNoPolygon ? false : true
-            )
+            var parameters = {
+                year: year,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                treeCanopyDefinition: $scope.treeCanopyDefinition,
+                treeHeightDefinition: $scope.treeHeightDefinition,
+                type: name
+            };
+
+            ForestMonitorService.forestExtend(parameters)
             .then(function (data) {
                 parameterChangeSuccessCallback(name, data, forestExtendSlider, 'Forest Extend for year ' + year + ' !');
+                $scope.showForestExtendOpacitySlider = true;
+                $scope.showForestExtendDownloadButtons = true;
                 // Reporting Element
-                if (!$scope.showReportNoPolygon) {
+                /*if (!$scope.showReportNoPolygon) {
                     if (data.area) {
                         $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
                         $scope.reportForestExtendValue = data.area + ' ha';
@@ -845,9 +920,25 @@
                         $scope.reportForestExtendValue = data.reportError;
                     }
                     $scope.showReportForestExtend = true;
+                }*/
+            }, function (error) {
+                parameterChangeErrorCallback(error);
+            });
+
+            ForestMonitorService.getStats(parameters)
+            .then(function (data) {
+                // Reporting Element
+                //if (!$scope.showReportNoPolygon) {
+                $scope.showReportNoPolygon = false;
+                if (data.area) {
+                    $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
+                    $scope.reportForestExtendValue = data.area;
+                    $scope.showReportForestExtend = true;
+                } else if (data.reportError) {
+                    $scope.reportForestExtendTitle = 'Error calculating Forest Extend';
+                    $scope.reportForestExtendValue = data.reportError;
                 }
-                $scope.showForestExtendOpacitySlider = true;
-                $scope.showForestExtendDownloadButtons = true;
+                //}
             }, function (error) {
                 parameterChangeErrorCallback(error);
             });

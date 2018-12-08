@@ -468,7 +468,7 @@ class LandCoverViewer():
             })
             return {'downloadUrl': url}
         except Exception as e:
-            return {'error': e.message}
+            return {'error': '{} Try using download to drive options for larger area!'.format(e.message)}
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
@@ -512,7 +512,7 @@ class LandCoverViewer():
                 description = 'Export from SERVIR Mekong Team',
                 fileNamePrefix = temp_file_name,
                 scale = 30,
-                region = self.geometry.getInfo()['coordinates'],
+                region = self.geometry.bounds().getInfo()['coordinates'],#self.geometry.getInfo()['coordinates'],
                 skipEmptyTiles = True,
                 maxPixels = 1E13
             )

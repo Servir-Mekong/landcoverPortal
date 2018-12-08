@@ -13,8 +13,8 @@ class ForestMonitor():
 
     ee.Initialize(settings.EE_CREDENTIALS)
     # image collection
-    TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
-    TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
+    TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
+    TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
 
     # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
@@ -33,6 +33,7 @@ class ForestMonitor():
                     area_name = 'Myanmar (Burma)'
                 self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
+                self.scale = 30
             elif (area_path == 'province'):
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                     'static/data/',
@@ -47,8 +48,10 @@ class ForestMonitor():
                     else:
                         feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
+                    self.scale = 30
             else:
                 self.geometry = ForestMonitor.COUNTRIES_GEOM
+                self.scale = 100
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -70,7 +73,9 @@ class ForestMonitor():
                 if len(coor_list) > 500:
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
+            self.scale = 30
 
+        self.scale = 100
         return ForestMonitor.COUNTRIES_GEOM
 
     # -------------------------------------------------------------------------
@@ -79,7 +84,6 @@ class ForestMonitor():
                     get_image = False,
                     for_download = False,
                     year = None,
-                    report_area = False,
                     tree_canopy_definition = 10,
                     ):
 
@@ -91,14 +95,13 @@ class ForestMonitor():
         if not img_coll:
             def _apply_tree_canopy_definition(img):
                 mask = img.select(0).gt(tree_canopy_definition)
-                return img.updateMask(mask)
+                return img.updateMask(mask).rename(['tcc'])
 
             img_coll = ForestMonitor.TREE_CANOPY_IMG_COLLECTION
             img_coll = img_coll.map(_apply_tree_canopy_definition)
 
-        image = img_coll.filterMetadata('system:index',
-                                        'equals',
-                                        'P_canopy_%s' % year).mosaic()
+        image = ee.Image(img_coll.filterDate('%s-01-01' % year,
+                                             '%s-12-31' % year).mean())
 
         if get_image:
             if for_download:
@@ -114,29 +117,10 @@ class ForestMonitor():
             'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
         })
 
-        data = {
+        return {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
-
-        if report_area:
-            # @ToDo: Better estimate of crs using the geometry
-            reducer = image.gt(0).reduceRegion(reducer = ee.Reducer.sum(),
-                                               geometry = self.geometry,
-                                               crs = 'EPSG:32647', # WGS Zone N 47
-                                               scale = 100,
-                                               maxPixels = 10**15
-                                               )
-            # converting to meter square by multiplying with scale value i.e. 100*100
-            # and then converting to hectare multiplying with 0.0001
-            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
-            # meaning we can use the value directly as the hectare
-            try:
-                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['tcc']))
-            except Exception as e:
-                data['reportError'] = e.message
-
-        return data
 
     # -------------------------------------------------------------------------
     def tree_height(self,
@@ -160,9 +144,8 @@ class ForestMonitor():
             img_coll = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION
             img_coll = img_coll.map(_apply_tree_height_definition)
 
-        image = img_coll.filterMetadata('system:index',
-                                        'equals',
-                                        'P_tree_height_%s' % year).mosaic()
+        image = ee.Image(img_coll.filterDate('%s-01-01' % year,
+                                             '%s-12-31' % year).mean())
 
         if get_image:
             if for_download:
@@ -194,9 +177,12 @@ class ForestMonitor():
             tcc = ForestMonitor.TREE_CANOPY_IMG_COLLECTION.filterDate(\
                                                 date_ymd(year, 1, 1),
                                                 date_ymd(year, 12, 31)).first()
+            tcc = ee.Image(tcc).rename(['tcc'])
             tch = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION.filterDate(\
                                                 date_ymd(year, 1, 1),
                                                 date_ymd(year, 12, 31)).first()
+            tch = ee.Image(tch).rename(['tch'])
+
             return ee.Image(tcc).addBands(tch)
 
         return ee.ImageCollection.fromImages(years.map(addBands))
@@ -209,9 +195,9 @@ class ForestMonitor():
 
         # 0 - tcc
         # 1 - tch
-        return img_coll.map(lambda img: img.select(0).gt(tree_canopy_definition).\
-                            And(img.select(1).gt(tree_height_definition)).
-                            rename(['forest_cover']))
+        return img_coll.map(lambda img: img.select('tcc').gt(tree_canopy_definition).\
+                            And(img.select('tch').gt(tree_height_definition)).
+                            rename(['forest_cover']).copyProperties(img, img.propertyNames()))
 
     # -------------------------------------------------------------------------
     def forest_gain(self,
@@ -220,7 +206,6 @@ class ForestMonitor():
                     end_year = None,
                     tree_canopy_definition = 10,
                     tree_height_definition = 5,
-                    report_area = False,
                     ):
 
         if not start_year and end_year:
@@ -257,29 +242,10 @@ class ForestMonitor():
             'palette': 'blue'
         })
 
-        data = {
+        return {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
-
-        if report_area:
-            # @ToDo: Better estimate of crs using the geometry
-            reducer = gain_image.reduceRegion(reducer = ee.Reducer.sum(),
-                                              geometry = self.geometry,
-                                              crs = 'EPSG:32647', # WGS Zone N 47
-                                              scale = 100,
-                                              maxPixels = 10**15
-                                              )
-            # converting to meter square by multiplying with scale value i.e. 100*100
-            # and then converting to hectare multiplying with 0.0001
-            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
-            # meaning we can use the value directly as the hectare
-            try:
-                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
-            except Exception as e:
-                data['reportError'] = e.message
-
-        return data
 
     # -------------------------------------------------------------------------
     def forest_loss(self,
@@ -288,7 +254,6 @@ class ForestMonitor():
                     end_year = None,
                     tree_canopy_definition = 10,
                     tree_height_definition = 5,
-                    report_area = False,
                     ):
 
         if not start_year and end_year:
@@ -325,29 +290,10 @@ class ForestMonitor():
             'palette': 'red'
         })
 
-        data = {
+        return {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
-
-        if report_area:
-            # @ToDo: Better estimate of crs using the geometry
-            reducer = loss_image.reduceRegion(reducer = ee.Reducer.sum(),
-                                              geometry = self.geometry,
-                                              crs = 'EPSG:32647', # WGS Zone N 47
-                                              scale = 100,
-                                              maxPixels = 10**15
-                                              )
-            # converting to meter square by multiplying with scale value i.e. 100*100
-            # and then converting to hectare multiplying with 0.0001
-            # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
-            # meaning we can use the value directly as the hectare
-            try:
-                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
-            except Exception as e:
-                data['reportError'] = e.message
-
-        return data
 
     # -------------------------------------------------------------------------
     def forest_change(self,
@@ -416,9 +362,7 @@ class ForestMonitor():
                       get_image = False,
                       year = None,
                       tree_canopy_definition = 10,
-                      tree_height_definition = 5,
-                      report_area = False,
-                      ):
+                      tree_height_definition = 5):
 
         if not year:
             return {
@@ -449,29 +393,10 @@ class ForestMonitor():
             'palette': '228B22'
         })
 
-        data = {
+        return {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
-
-        if report_area:
-            # @ToDo: Better estimate of crs using the geometry
-            reducer = image.reduceRegion(reducer = ee.Reducer.sum(),
-                                         geometry = self.geometry,
-                                         crs = 'EPSG:32647', # WGS Zone N 47
-                                         scale = 100,
-                                         maxPixels = 10**15
-                                         )
-            # converting to meter square by multiplying with scale value i.e. 100*100
-            # and then converting to hectare multiplying with 0.0001
-            #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
-            # meaning we can use the value directly as the hectare
-            try:
-                data['area'] = '{:,}'.format(float('%.2f' % reducer.getInfo()['forest_cover']))
-            except Exception as e:
-                data['reportError'] = e.message
-
-        return data
 
     # -------------------------------------------------------------------------
     def get_download_url(self,
@@ -529,7 +454,7 @@ class ForestMonitor():
             })
             return {'downloadUrl': url}
         except Exception as e:
-            return {'error': e.message}
+            return {'error': '{} Try using download to drive options for larger area!'.format(e.message)}
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
@@ -597,7 +522,7 @@ class ForestMonitor():
                 description = 'Export from SERVIR Mekong Team',
                 fileNamePrefix = temp_file_name,
                 scale = 30,
-                region = self.geometry.getInfo()['coordinates'],
+                region = self.geometry.bounds().getInfo()['coordinates'],#self.geometry.getInfo()['coordinates'],
                 skipEmptyTiles = True,
                 maxPixels = 1E13
             )
@@ -628,3 +553,59 @@ class ForestMonitor():
         else:
             print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
             return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}
+
+    # -------------------------------------------------------------------------
+    def get_stats(self, type, year, start_year, end_year, tree_canopy_definition, tree_height_definition):
+
+
+        name = 'forest_cover'
+        if (type == 'treeCanopy'):
+            name = 'tcc'
+            image = self.tree_canopy(get_image = True,
+                                     for_download = True,
+                                     year = year,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     )
+        elif (type == 'forestGain'):
+            image = self.forest_gain(get_image = True,
+                                     start_year = start_year,
+                                     end_year = end_year,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_height_definition,
+                                     )
+        elif (type == 'forestLoss'):
+            image = self.forest_loss(get_image = True,
+                                     start_year = start_year,
+                                     end_year = end_year,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_canopy_definition,
+                                     )
+        elif (type == 'forestExtend'):
+            image = self.forest_extend(get_image = True,
+                                       year = year,
+                                       tree_canopy_definition = tree_canopy_definition,
+                                       tree_height_definition = tree_height_definition,
+                                       )
+        else:
+            return {
+                'reportError': 'type must be one of treeCanopy, forestGain, forestLoss or forestExtend'
+            }
+
+        reducer = image.reduceRegion(reducer = ee.Reducer.sum(),
+                                     geometry = self.geometry,
+                                     crs = 'EPSG:32647', # WGS Zone N 47
+                                     scale = self.scale,
+                                     maxPixels = 10**15
+                                     )
+        # converting to meter square by multiplying with scale value i.e. 100*100
+        # and then converting to hectare multiplying with 0.0001
+        #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+        # meaning we can use the value directly as the hectare
+        try:
+            return {
+                'area': '{:,} hectare at {} m resolution'.format(float('%.2f' % reducer.getInfo()[name]), self.scale)
+            }
+        except Exception as e:
+            return {
+                'reportError': e.message
+            }

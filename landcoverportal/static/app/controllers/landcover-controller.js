@@ -322,7 +322,6 @@
         $scope.drawShape = function (type) {
             drawingManager.setOptions(MapService.getDrawingManagerOptions(type));
             drawingManager.setMap(map);
-
         };
 
         // Drawing Tool Manager Event Listeners

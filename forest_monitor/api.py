@@ -19,7 +19,8 @@ PUBLIC_METHODS = [
     'forest-change',
     'forest-extend',
     'get-download-url',
-    'download-to-drive'
+    'download-to-drive',
+    'get-stats',
 ]
 
 @csrf_exempt
@@ -38,11 +39,12 @@ def api(request):
         area_path = post('areaSelectFrom', '')
         area_name = post('areaName', '')
         start_year = post('startYear', '')
-        end_year = post('endYear', '')
-        type = post('type', '')
+        end_year = post('endYear', start_year)
+        year = post('year', '')
+        type = get('type', '')
         tree_canopy_definition = post('treeCanopyDefinition', 10) # in percentage
         tree_height_definition = post('treeHeightDefinition', 5) # in meters
-        report_area = True if get('report-area') == 'true' else False
+        #report_area = True if get('report-area') == 'true' else False
         # sanitize
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
@@ -50,7 +52,6 @@ def api(request):
         core = ForestMonitor(area_path, area_name, shape, geom, radius, center)
         if action == 'tree-canopy':
             data = core.tree_canopy(year = post('year', ''),
-                                    report_area = report_area,
                                     tree_canopy_definition = tree_canopy_definition,
                                     )
         elif action == 'tree-height':
@@ -62,14 +63,12 @@ def api(request):
                                     end_year = end_year,
                                     tree_canopy_definition = tree_canopy_definition,
                                     tree_height_definition = tree_height_definition,
-                                    report_area = report_area,
                                     )
         elif action == 'forest-loss':
             data = core.forest_loss(start_year = start_year,
                                     end_year = end_year,
                                     tree_canopy_definition = tree_canopy_definition,
                                     tree_height_definition = tree_height_definition,
-                                    report_area = report_area,
                                     )
         elif action == 'forest-change':
             data = core.forest_change(start_year = start_year,
@@ -81,7 +80,6 @@ def api(request):
             data = core.forest_extend(year = post('year', ''),
                                       tree_canopy_definition = tree_canopy_definition,
                                       tree_height_definition = tree_height_definition,
-                                      report_area = report_area,
                                       )
         elif action == 'get-download-url':
             data = core.get_download_url(type,
@@ -90,6 +88,8 @@ def api(request):
                                          tree_canopy_definition,
                                          tree_height_definition,
                                          )
+        elif action == 'get-stats':
+            data = core.get_stats(type, year, start_year, end_year, tree_canopy_definition, tree_height_definition)
         elif action == 'download-to-drive':
             session_cache = request.session._session_cache
             if 'google_oauth2_credentials' in session_cache:
@@ -171,7 +171,7 @@ def api(request):
                 data = {'error': 'You have not allowed the tool to use your google drive to upload file! Allow it first and try again!'}
 
         if 'error' in data:
-            return JsonResponse(data, status=500)
+            return JsonResponse({'error': data['error']}, status=500)
         # success response
         return JsonResponse(data)
     else:

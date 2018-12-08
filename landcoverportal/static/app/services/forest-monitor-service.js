@@ -5,14 +5,13 @@
     angular.module('landcoverportal')
     .service('ForestMonitorService', function ($http) {
 
-        this.treeCanopyChange = function (
-            year,
-            shape,
-            areaSelectFrom,
-            areaName,
-            reportArea,
-            treeCanopyDefinition
-        ) {
+        this.treeCanopyChange = function (options) {
+
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
 
             var req = {
                 method: 'POST',
@@ -22,8 +21,7 @@
                     treeCanopyDefinition: treeCanopyDefinition
                 },
                 params: {
-                    action: 'tree-canopy',
-                    'report-area': reportArea
+                    action: 'tree-canopy'
                 }
             };
 
@@ -53,13 +51,13 @@
             return promise;
         };
 
-        this.treeHeightChange = function (
-            year,
-            shape,
-            areaSelectFrom,
-            areaName,
-            treeHeightDefinition
-        ) {
+        this.treeHeightChange = function (options) {
+
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeHeightDefinition = options.treeCanopyDefinition;
 
             var req = {
                 method: 'POST',
@@ -99,16 +97,15 @@
             return promise;
         };
 
-        this.forestGain = function (
-            startYear,
-            endYear,
-            shape,
-            areaSelectFrom,
-            areaName,
-            treeCanopyDefinition,
-            treeHeightDefinition,
-            reportArea
-        ) {
+        this.forestGain = function (options) {
+
+            var startYear = options.startYear;
+            var endYear = options.endYear;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
 
             var req = {
                 method: 'POST',
@@ -120,8 +117,7 @@
                     treeHeightDefinition: treeHeightDefinition
                 },
                 params: {
-                    action: 'forest-gain',
-                    'report-area': reportArea
+                    action: 'forest-gain'
                 }
             };
 
@@ -151,16 +147,15 @@
             return promise;
         };
 
-        this.forestLoss = function (
-            startYear,
-            endYear,
-            shape,
-            areaSelectFrom,
-            areaName,
-            treeCanopyDefinition,
-            treeHeightDefinition,
-            reportArea
-        ) {
+        this.forestLoss = function (options) {
+
+            var startYear = options.startYear;
+            var endYear = options.endYear;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
 
             var req = {
                 method: 'POST',
@@ -172,8 +167,7 @@
                     treeHeightDefinition: treeHeightDefinition
                 },
                 params: {
-                    action: 'forest-loss',
-                    'report-area': reportArea
+                    action: 'forest-loss'
                 }
             };
 
@@ -253,15 +247,14 @@
             return promise;
         };
 
-        this.forestExtend = function (
-            year,
-            shape,
-            areaSelectFrom,
-            areaName,
-            treeCanopyDefinition,
-            treeHeightDefinition,
-            reportArea
-        ) {
+        this.forestExtend = function (options) {
+
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
 
             var req = {
                 method: 'POST',
@@ -272,8 +265,7 @@
                     treeHeightDefinition: treeHeightDefinition
                 },
                 params: {
-                    action: 'forest-extend',
-                    'report-area': reportArea
+                    action: 'forest-extend'
                 }
             };
 
@@ -303,16 +295,16 @@
             return promise;
         };
 
-        this.getDownloadURL = function (
-            type,
-            shape,
-            areaSelectFrom,
-            areaName,
-            startYear,
-            endYear,
-            treeCanopyDefinition,
-            treeHeightDefinition
-        ) {
+        this.getDownloadURL = function (options) {
+
+            var type = options.type;
+            var startYear = options.startYear;
+            var endYear = options.endYear;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
 
             var req = {
                 method: 'POST',
@@ -320,12 +312,12 @@
                 data: {
                     startYear: startYear,
                     endYear: endYear,
-                    type: type,
                     treeCanopyDefinition: treeCanopyDefinition,
                     treeHeightDefinition: treeHeightDefinition
                 },
                 params: {
-                    action: 'get-download-url'
+                    action: 'get-download-url',
+                    type: type
                 }
             };
 
@@ -355,31 +347,31 @@
             return promise;
         };
 
-        this.saveToDrive = function (
-            type,
-            shape,
-            areaSelectFrom,
-            areaName,
-            startYear,
-            endYear,
-            fileName,
-            treeCanopyDefinition,
-            treeHeightDefinition
-        ) {
+        this.saveToDrive = function (options) {
+
+            var type = options.type;
+            var startYear = options.startYear;
+            var endYear = options.endYear;
+            var fileName = options.fileName;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
 
             var req = {
                 method: 'POST',
-                url: '/forest-monitor/api/',
+                url: '/api/forest-monitor/',
                 data: {
                     startYear: startYear,
                     endYear: endYear,
-                    type: type,
                     fileName: fileName,
                     treeCanopyDefinition: treeCanopyDefinition,
                     treeHeightDefinition: treeHeightDefinition
                 },
                 params: {
-                    action: 'download-to-drive'
+                    action: 'download-to-drive',
+                    type: type
                 }
             };
 
@@ -399,15 +391,69 @@
             }
 
             var promise = $http(req)
-                .then(function (response) {
-                    return response.data;
-                })
-                .catch(function (e) {
-                    console.log('Error: ', e);
-                    throw e.data;
-                });
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e.data;
+            });
             return promise;
 
+        };
+
+        this.getStats = function (options) {
+
+            var year = options.year;
+            var startYear = options.startYear;
+            var endYear = options.endYear;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
+            var type = options.type; // can be treeCanopy, forestGain, forestLoss or forestExtend
+
+            var req = {
+                method: 'POST',
+                url: '/api/forest-monitor/',
+                data: {
+                    year: year,
+                    startYear: startYear,
+                    endYear: endYear,
+                    treeCanopyDefinition: treeCanopyDefinition,
+                    treeHeightDefinition: treeHeightDefinition
+                },
+                params: {
+                    action: 'get-stats',
+                    type: type
+                }
+            };
+
+            if (areaSelectFrom && areaName) {
+                req.data.areaSelectFrom = areaSelectFrom;
+                req.data.areaName = areaName;
+            } else {
+                var shapeType = shape.type;
+                if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                    req.data.shape = shapeType;
+                    req.data.geom = shape.geom.toString();
+                } else if (shapeType === 'circle') {
+                    req.data.shape = shapeType;
+                    req.data.radius = shape.radius;
+                    req.data.center = shape.center.toString();
+                }
+            }
+
+            var promise = $http(req)
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e.data;
+            });
+            return promise;
         };
 
     });
