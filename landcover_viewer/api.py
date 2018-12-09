@@ -77,24 +77,24 @@ def api(request):
             data = core.get_stats(year=year, primitives=primitives)
 
         elif action == 'download-to-drive':
-            session_cache = request.session._session_cache
-            if 'google_oauth2_credentials' in session_cache:
-                google_oauth2_credentials = json.loads(session_cache['google_oauth2_credentials'])
-                access_token = google_oauth2_credentials['access_token']
-                client_id = google_oauth2_credentials['client_id']
-                client_secret = google_oauth2_credentials['client_secret']
-                refresh_token = google_oauth2_credentials['refresh_token']
-                token_expiry = datetime.strptime(google_oauth2_credentials['token_expiry'], '%Y-%m-%dT%H:%M:%SZ')
-                token_uri = google_oauth2_credentials['token_uri']
-                user_agent = google_oauth2_credentials['user_agent']
-                revoke_uri = google_oauth2_credentials['revoke_uri']
-                id_token = google_oauth2_credentials['id_token']
-                token_response = google_oauth2_credentials['token_response']
-                scopes = set(google_oauth2_credentials['scopes'])
-                token_info_uri = google_oauth2_credentials['token_info_uri']
-                id_token_jwt = google_oauth2_credentials['id_token_jwt']
-                user_email = id_token['email']
-                user_id = id_token['sub']
+            session_get = request.session.get
+            if session_get('email') and session_get('sub') and session_get('credentials'):
+                credentials = session_get('credentials')
+                access_token = credentials['access_token']
+                client_id = credentials['client_id']
+                client_secret = credentials['client_secret']
+                refresh_token = credentials['refresh_token']
+                token_expiry = datetime.strptime(credentials['token_expiry'], '%Y-%m-%dT%H:%M:%SZ')
+                token_uri = credentials['token_uri']
+                user_agent = credentials['user_agent']
+                revoke_uri = credentials['revoke_uri']
+                id_token = credentials['id_token']
+                token_response = credentials['token_response']
+                scopes = set(credentials['scopes'])
+                token_info_uri = credentials['token_info_uri']
+                id_token_jwt = credentials['id_token_jwt']
+                user_email = session_get('email')
+                user_id = session_get('sub')
 
                 if settings.USE_CELERY:
                     export_to_drive_task.delay(year = year,

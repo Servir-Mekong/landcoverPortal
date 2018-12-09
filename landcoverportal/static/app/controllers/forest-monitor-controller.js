@@ -12,7 +12,7 @@
             return input;
         };
     })
-    .controller('forestMonitorController', function ($scope, $sanitize, appSettings, CommonService, MapService, ForestMonitorService) {
+    .controller('forestMonitorController', function ($scope, $sanitize, $http, appSettings, CommonService, MapService, ForestMonitorService) {
 
         // Global Variables
         var drawningManagerArea = null;
@@ -41,6 +41,78 @@
         $scope.showReportForestGain = false;
         $scope.showReportForestLoss = false;
         $scope.showReportForestExtend = false;
+
+        /**
+         * Alert
+         */
+        $scope.closeAlert = function () {
+            $('.custom-alert').addClass('display-none');
+            $scope.alertContent = '';
+        };
+
+        var showErrorAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
+        };
+
+        var showSuccessAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
+        };
+
+        var showInfoAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        // Google sign in
+        $scope.showEmailID = false;
+        $scope.emailID = '';
+        $scope.googleSignIn = function () {
+            auth2.grantOfflineAccess().then(function (authResult) {
+                if (authResult.code) {
+
+                    var req = {
+                        method: 'POST',
+                        url: '/storeauthcode/',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/octet-stream; charset=utf-8',
+                        },
+                        data: {
+                            authcode: authResult.code
+                        }
+                    };
+
+                    $http(req)
+                    .then(function (response) {
+                        var data = response.data;
+                        if (data.success) {
+                            $scope.showEmailID = true;
+                            $scope.emailID = data.email;
+                        } else {
+                            showErrorAlert('there was an error while authenticating using google sign-in');
+                        }
+                    })
+                    .catch(function (e) {
+                        console.log('Error: ', e);
+                        throw e.data;
+                    });
+                } else {
+                    showErrorAlert('there was an error while authenticating using google sign-in');
+                }
+            });
+        };
+
+        $scope.googleSignOut = function () {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              console.log('User signed out.');
+              $scope.emailID = '';
+              $scope.showEmailID = false;
+              $scope.$apply();
+            });
+        };
 
         /**
          * Start with UI
@@ -109,29 +181,6 @@
                 });
             }
         });
-
-        /**
-         * Alert
-         */
-        $scope.closeAlert = function () {
-            $('.custom-alert').addClass('display-none');
-            $scope.alertContent = '';
-        };
-
-        var showErrorAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
-        };
-
-        var showSuccessAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
-        };
-
-        var showInfoAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
-        };
 
         /*
          * Select Options for Variables
@@ -584,26 +633,12 @@
                 parameterChangeSuccessCallback(name, data, treeCanopySlider, 'Tree Canopy Cover for year ' + year + ' !');
                 $scope.showTreeCanopyOpacitySlider = true;
                 $scope.showTreeCanopyDownloadButtons = true;
-                // Reporting Element
-                /*if (!$scope.showReportNoPolygon) {
-                    if (data.area) {
-                        $scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
-                        $scope.reportTreeCanopyValue = data.area + ' ha';
-                        $scope.showReportTreeCanopy = true;
-                    } else if (data.reportError) {
-                        $scope.reportTreeCanopyTitle = 'Error calculating Canopy';
-                        $scope.reportTreeCanopyValue = data.reportError;
-                        $scope.showReportTreeCanopy = true;
-                    }
-                }*/
             }, function (error) {
                 parameterChangeErrorCallback(error);
             });
 
             ForestMonitorService.getStats(parameters)
             .then(function (data) {
-                // Reporting Element
-                //if (!$scope.showReportNoPolygon) {
                 $scope.showReportNoPolygon = false;
                 if (data.area) {
                     $scope.reportTreeCanopyTitle = 'Tree Canopy Cover for ' + year;
@@ -614,7 +649,6 @@
                     $scope.reportTreeCanopyValue = data.reportError;
                     $scope.showReportTreeCanopy = true;
                 }
-                //}
             }, function (error) {
                 parameterChangeErrorCallback(error);
             });
@@ -728,18 +762,6 @@
                     parameterChangeSuccessCallback(name, data, forestGainSlider, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
                     $scope.showForestGainOpacitySlider = true;
                     $scope.showForestGainDownloadButtons = true;
-                    // Reporting Element
-                    /*if (!$scope.showReportNoPolygon) {
-                        if (data.area) {
-                            $scope.reportForestGainTitle = 'GAIN AREA (' + startYear + ' - ' + endYear + ') with tree cover canopy >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
-                            $scope.reportForestGainValue = data.area + ' ha';
-                            $scope.showReportForestGain = true;
-                        } else if (data.reportError) {
-                            $scope.reportForestGainTitle = 'Error calculating Forest Gain';
-                            $scope.reportForestGainValue = data.reportError;
-                            $scope.showReportForestGain = true;
-                        }
-                    }*/
                 }, function (error) {
                     parameterChangeErrorCallback(error);
                 });
@@ -747,7 +769,6 @@
                 ForestMonitorService.getStats(parameters)
                 .then(function (data) {
                     // Reporting Element
-                    //if (!$scope.showReportNoPolygon) {
                     $scope.showReportNoPolygon = false;
                     if (data.area) {
                         $scope.reportForestGainTitle = 'GAIN AREA (' + startYear + ' - ' + endYear + ') with tree cover canopy >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
@@ -758,7 +779,6 @@
                         $scope.reportForestGainValue = data.reportError;
                         $scope.showReportForestGain = true;
                     }
-                    //}
                 }, function (error) {
                     parameterChangeErrorCallback(error);
                 });
@@ -819,18 +839,6 @@
                     parameterChangeSuccessCallback(name, data, forestLossSlider, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
                     $scope.showForestLossOpacitySlider = true;
                     $scope.showForestLossDownloadButtons = true;
-                    // Reporting Element
-                    /*if (!$scope.showReportNoPolygon) {
-                        if (data.area) {
-                            $scope.reportForestLossTitle = 'LOSS AREA (' + startYear + ' - ' + endYear + ') with tree canopy cover >' + $scope.treeCanopyDefinition + '% and tree height >' + $scope.treeHeightDefinition + ' meters';
-                            $scope.reportForestLossValue = data.area + ' ha';
-                            $scope.showReportForestLoss = true;
-                        } else if (data.reportError) {
-                            $scope.reportForestLossTitle = 'Error calculating Forest Loss';
-                            $scope.reportForestLossValue = data.reportError;
-                            $scope.showReportForestLoss = true;
-                        }
-                    }*/
                 }, function (error) {
                     parameterChangeErrorCallback(error);
                 });
@@ -909,18 +917,6 @@
                 parameterChangeSuccessCallback(name, data, forestExtendSlider, 'Forest Extend for year ' + year + ' !');
                 $scope.showForestExtendOpacitySlider = true;
                 $scope.showForestExtendDownloadButtons = true;
-                // Reporting Element
-                /*if (!$scope.showReportNoPolygon) {
-                    if (data.area) {
-                        $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
-                        $scope.reportForestExtendValue = data.area + ' ha';
-                        //$scope.showReportForestExtend = true;
-                    } else if (data.reportError) {
-                        $scope.reportForestExtendTitle = 'Error calculating Canopy';
-                        $scope.reportForestExtendValue = data.reportError;
-                    }
-                    $scope.showReportForestExtend = true;
-                }*/
             }, function (error) {
                 parameterChangeErrorCallback(error);
             });
@@ -928,7 +924,6 @@
             ForestMonitorService.getStats(parameters)
             .then(function (data) {
                 // Reporting Element
-                //if (!$scope.showReportNoPolygon) {
                 $scope.showReportNoPolygon = false;
                 if (data.area) {
                     $scope.reportForestExtendTitle = 'Forest Extend for ' + year;
@@ -938,7 +933,6 @@
                     $scope.reportForestExtendTitle = 'Error calculating Forest Extend';
                     $scope.reportForestExtendValue = data.reportError;
                 }
-                //}
             }, function (error) {
                 parameterChangeErrorCallback(error);
             });

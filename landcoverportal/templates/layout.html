@@ -12,6 +12,18 @@
 
 		gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
 	</script>
+	<!-- Google Sign in -->
+	<script>
+		function start() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+					client_id: '{{ GOOGLE_OAUTH2_CLIENT_ID }}',
+					// Scopes to request in addition to 'profile' and 'email'
+					scope: 'https://www.googleapis.com/auth/drive'
+				});
+			});
+		}
+	</script>
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -93,6 +105,7 @@
 		<!-- Load JS Lib -->
 		<!-- jQuery -->
 		<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 		<!-- Bootstrap Core JavaScript -->
 		<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 		<!-- Bootstrap Plugins -->

@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('myanmarFRAController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('myanmarFRAController', function ($http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
         var map = MapService.init(100.7666, 21.6166, 6);
@@ -39,6 +39,78 @@
         for (var j = 0; j <= 10; j++) { // number of classes
             $scope.assemblageLayers.push(j.toString());
         }
+
+        /**
+         * Alert
+         */
+        $scope.closeAlert = function () {
+            $('.custom-alert').addClass('display-none');
+            $scope.alertContent = '';
+        };
+
+        var showErrorAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
+        };
+
+        var showSuccessAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
+        };
+
+        var showInfoAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        // Google sign in
+        $scope.showEmailID = false;
+        $scope.emailID = '';
+        $scope.googleSignIn = function () {
+            auth2.grantOfflineAccess().then(function (authResult) {
+                if (authResult.code) {
+
+                    var req = {
+                        method: 'POST',
+                        url: '/storeauthcode/',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/octet-stream; charset=utf-8',
+                        },
+                        data: {
+                            authcode: authResult.code
+                        }
+                    };
+
+                    $http(req)
+                    .then(function (response) {
+                        var data = response.data;
+                        if (data.success) {
+                            $scope.showEmailID = true;
+                            $scope.emailID = data.email;
+                        } else {
+                            showErrorAlert('there was an error while authenticating using google sign-in');
+                        }
+                    })
+                    .catch(function (e) {
+                        console.log('Error: ', e);
+                        throw e.data;
+                    });
+                } else {
+                    showErrorAlert('there was an error while authenticating using google sign-in');
+                }
+            });
+        };
+
+        $scope.googleSignOut = function () {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                $scope.emailID = '';
+                $scope.showEmailID = false;
+                $scope.$apply();
+            });
+        };
 
         /**
          * Start with UI
@@ -86,29 +158,6 @@
 
         // get tooltip activated
         $('.js-tooltip').tooltip();
-
-        /**
-         * Alert
-         */
-        $scope.closeAlert = function () {
-            $('.custom-alert').addClass('display-none');
-            $scope.alertContent = '';
-        };
-
-        var showErrorAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
-        };
-
-        var showSuccessAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
-        };
-
-        var showInfoAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
-        };
 
         // Landcover opacity slider
         $scope.landcoverOpacity = 1;
@@ -179,7 +228,17 @@
          */
         $scope.initMap = function (year, type) {
             $scope.showLoader = true;
-            LandCoverService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.areaSelectFrom, $scope.areaName, 'myanmar-fra')
+
+            var parameters = {
+                primitives: $scope.assemblageLayers,
+                year: year,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                type: 'myanmar-fra'
+            };
+
+            LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
@@ -199,7 +258,15 @@
         // Get stats for the graph
         $scope.getStats = function () {
             $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
-            LandCoverService.getStats($scope.assemblageLayers, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName, 'myanmar-fra')
+            var parameters = {
+                primitives:$scope.assemblageLayers,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                type: 'myanmar-fra'
+            };
+            LandCoverService.getStats(parameters)
             .then(function (data) {
                 var graphData = [];
                 for (var key in data) {
@@ -501,16 +568,17 @@
             if (verifyBeforeDownload(type)) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
-                LandCoverService.getDownloadURL(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.sliderYear,
-                    $scope.assemblageLayers,
-                    $scope.primitiveIndex,
-                    'myanmar-fra'
-                )
+                var parameters = {
+                    primitives: $scope.assemblageLayers,
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    type: type,
+                    index: $scope.primitiveIndex,
+                    serviceType: 'myanmar-fra'
+                };
+                LandCoverService.getDownloadURL(parameters)
                 .then(function (data) {
                     showSuccessAlert('Your Download Link is ready!');
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
@@ -542,17 +610,20 @@
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                LandCoverService.saveToDrive(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.sliderYear,
-                    $scope.assemblageLayers,
-                    fileName,
-                    $scope.primitiveIndex,
-                    'myanmar-fra'
-                )
+
+                var parameters = {
+                    primitives: $scope.assemblageLayers,
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    type: type,
+                    index: $scope.primitiveIndex,
+                    fileName: fileName,
+                    serviceType: 'myanmar-fra'
+                };
+
+                LandCoverService.saveToDrive(parameters)
                 .then(function (data) {
                     if (data.error) {
                         showErrorAlert(data.error);
@@ -587,7 +658,17 @@
         $scope.updatePrimitive = function (index) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
-            LandCoverService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName, 'myanmar-fra')
+
+            var parameters = {
+                index: index,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                type: 'myanmar-fra'
+            };
+
+            LandCoverService.getPrimitiveMap(parameters)
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');

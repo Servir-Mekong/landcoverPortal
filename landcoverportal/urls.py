@@ -15,6 +15,7 @@ from forest_monitor import api as forest_monitor_api
 from landcover_viewer import api as landcover_api
 from myanmar_ipcc import api as myanmar_ipcc_api
 from myanmar_fra import api as myanmar_fra_api
+from .views import store_auth_code
 
 admin.autodiscover()
 
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^api/landcover/$', landcover_api.api),
     url(r'^api/myanmar-ipcc/$', myanmar_ipcc_api.api),
     url(r'^api/myanmar-fra/$', myanmar_fra_api.api),
+    url(r'^storeauthcode/$', store_auth_code),
 ]
 
 urlpatterns += i18n_patterns(

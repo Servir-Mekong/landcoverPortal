@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('landCoverController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('landCoverController', function ($http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
         var map = MapService.init();
@@ -34,6 +34,78 @@
 
         // Typology CSV
         $scope.typologyCSV = null;
+
+        /**
+         * Alert
+         */
+        $scope.closeAlert = function () {
+            $('.custom-alert').addClass('display-none');
+            $scope.alertContent = '';
+        };
+
+        var showErrorAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
+        };
+
+        var showSuccessAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
+        };
+
+        var showInfoAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        // Google sign in
+        $scope.showEmailID = false;
+        $scope.emailID = '';
+        $scope.googleSignIn = function () {
+            auth2.grantOfflineAccess().then(function (authResult) {
+                if (authResult.code) {
+
+                    var req = {
+                        method: 'POST',
+                        url: '/storeauthcode/',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/octet-stream; charset=utf-8',
+                        },
+                        data: {
+                            authcode: authResult.code
+                        }
+                    };
+
+                    $http(req)
+                    .then(function (response) {
+                        var data = response.data;
+                        if (data.success) {
+                            $scope.showEmailID = true;
+                            $scope.emailID = data.email;
+                        } else {
+                            showErrorAlert('there was an error while authenticating using google sign-in');
+                        }
+                    })
+                    .catch(function (e) {
+                        console.log('Error: ', e);
+                        throw e.data;
+                    });
+                } else {
+                    showErrorAlert('there was an error while authenticating using google sign-in');
+                }
+            });
+        };
+
+        $scope.googleSignOut = function () {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                $scope.emailID = '';
+                $scope.showEmailID = false;
+                $scope.$apply();
+            });
+        };
 
         /**
          * Start with UI
@@ -81,29 +153,6 @@
 
         // get tooltip activated
         $('.js-tooltip').tooltip();
-
-        /**
-         * Alert
-         */
-        $scope.closeAlert = function () {
-            $('.custom-alert').addClass('display-none');
-            $scope.alertContent = '';
-        };
-
-        var showErrorAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
-        };
-
-        var showSuccessAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
-        };
-
-        var showInfoAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
-        };
 
         /**
          * Slider

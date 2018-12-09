@@ -41,13 +41,13 @@
             }
 
             var promise = $http(req)
-                .then(function (response) {
-                    return response.data;
-                })
-                .catch(function (e) {
-                    console.log('Error: ', e);
-                    throw e.data;
-                });
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e.data;
+            });
             return promise;
         };
 

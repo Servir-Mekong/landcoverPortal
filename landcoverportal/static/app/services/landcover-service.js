@@ -317,7 +317,7 @@
 
             var req = {
                 method: 'POST',
-                url: '/api/landcover/',
+                url: url,
                 data: {
                     year: year,
                     type: type,
