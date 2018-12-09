@@ -20,8 +20,8 @@
         </div>
 
         <button ng-hide="showEmailID" type="button" class="btn btn-default btn-block" style="margin: 10px 0 10px 0;" ng-click="googleSignIn()">
-            <i class="fa fa-google fa-2x pull-left" style="margin-top: 5px;"></i>
-            <h4>Sign in with Google</h4>
+            <i class="fa fa-google fa-2x pull-left" style="margin-top: 15px;"></i>
+            <h4>Sign in with Google</h4><h5>(to download data to your Google drive)</h5>
         </button>
 
         <div ng-show="showEmailID">
@@ -78,7 +78,7 @@
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
+                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -122,7 +122,7 @@
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeHeight', treeHeightYear)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
+                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -176,7 +176,7 @@
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestExtend', forestExtendYear)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
+                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -263,7 +263,7 @@
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
+                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -320,7 +320,7 @@
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                 Download to GDrive
                             </button>
                         </div>

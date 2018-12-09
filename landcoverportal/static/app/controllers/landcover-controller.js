@@ -562,14 +562,15 @@
                 onFinish: function (data) {
                     if ($scope.sliderYear !== data.from) {
                         $scope.sliderYear = data.from;
-                        $scope.updateAssemblageProduct();
-                        $scope.updatePrimitive($scope.primitiveIndex);
-                        $scope.showProbabilityMap();
-                        /*if ($('#land-cover-classes-tab').hasClass('active')) {
+                        //$scope.updateAssemblageProduct();
+                        //$scope.updatePrimitive($scope.primitiveIndex);
+                        //$scope.showProbabilityMap();
+                        if ($('#land-cover-classes-tab').hasClass('active')) {
                             $scope.updateAssemblageProduct();
+                            $scope.showProbabilityMap();
                         } else if ($('#primitive-tab').hasClass('active')) {
                             $scope.updatePrimitive($scope.primitiveIndex);
-                        }*/
+                        }
                     }
                 }
             });
@@ -757,12 +758,16 @@
                         MapService.removeGeoJson(map);
                         MapService.clearLayer(map, 'probabilitymap');
                         var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'probabilitymap');
+                        var checked = $('#probability-map-checkbox').prop('checked');
                         loadMap('probabilitymap', mapType);
-                        $timeout(function () {
-                            showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
-                        }, 5500);
-                        //$scope.showLegend = true;
-                        $scope.showProbabilityLayer = true;
+                        if (checked) {
+                            $timeout(function () {
+                                showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
+                            }, 5500);
+                            $scope.showProbabilityLayer = true;
+                        } else {
+                            $scope.overlays.probabilitymap.setOpacity(0);
+                        }
                     }, function (error) {
                         showErrorAlert(error.error);
                         console.log(error);
