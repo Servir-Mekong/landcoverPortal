@@ -52,9 +52,7 @@
 
         <ul id="menu-content" class="menu-content collapse out">
 
-            <li>
-
-            </li>
+            <li></li>
 
             <li data-toggle="collapse" data-target="#treeCanopy" class="collapsed">
                 <a href="#">
@@ -64,7 +62,7 @@
                 </a>
             </li>
             <ul class="sub-menu collapse" id="treeCanopy">
-                <li><a href="#">Tree Canopy Cover for </a>
+                <li><p class="inline-block-display">Tree Canopy Cover for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
                             </select>
@@ -74,13 +72,19 @@
                         <input name="tree-canopy-opacity-slider" id="tree-canopy-opacity-slider" data-slider-id="tree-canopy-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showTreeCanopyDownloadButtons">
-                        <div class="btn-group" role="group">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
+                            <button type="button" class="btn btn-info" ng-switch-when="true" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
                                 Download to GDrive
                             </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
+                                Download to GDrive
+                            </button>
+                            <!--<button type="button" class="btn btn-info" disabled="!showEmailID ? 'disabled' : ''" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
+                                Download to GDrive
+                            </button>-->
                         </div>
                     </div>
                     <div class="input-group" ng-show="showTreeCanopyDownloadURL" style="margin: 10px;">
@@ -108,7 +112,7 @@
                         </span>
                     </div>
                 </li>
-                <li><a href="#">Tree Canopy Height for </a>
+                <li><p class="inline-block-display">Tree Canopy Height for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)">
                         </select>
@@ -118,11 +122,14 @@
                         <input name="tree-height-opacity-slider" id="tree-height-opacity-slider" style="width: 70%;" data-slider-id="tree-height-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showTreeHeightDownloadButtons">
-                        <div class="btn-group" role="group">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeHeight', treeHeightYear)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
+                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
+                                Download to GDrive
+                            </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -162,7 +169,7 @@
                 </a>
             </li>
             <ul class="sub-menu collapse" id="forestExtend">
-                <li><a href="#">Annual Forest Extend for </a>
+                <li><p class="inline-block-display">Annual Forest Extend for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="forestExtendYear" ng-change="calculateForestExtend(forestExtendYear)">
                         </select>
@@ -172,11 +179,14 @@
                         <input name="forest-extend-opacity-slider" id="forest-extend-opacity-slider" data-slider-id="tree-extend-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showForestExtendDownloadButtons">
-                        <div class="btn-group" role="group">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestExtend', forestExtendYear)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
+                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
+                                Download to GDrive
+                            </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -236,7 +246,7 @@
                             </div>-->
                 <!--</form>
                     </li>-->
-                <li><a href="#">Forest Gain </a>
+                <li><p class="display-block text-align-center">Forest Gain </p>
                     <div class="text-center">
                         <span>From </span>
                         <div class="form-group inline-block-display">
@@ -259,11 +269,14 @@
                         <input name="forest-gain-opacity-slider" id="forest-gain-opacity-slider" style="width: 70%;" data-slider-id="forest-gain-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showForestGainDownloadButtons">
-                        <div class="btn-group" role="group">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
+                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
+                                Download to GDrive
+                            </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                 Download to GDrive
                             </button>
                         </div>
@@ -293,7 +306,7 @@
                         </span>
                     </div>
                 </li>
-                <li><a href="#">Forest Loss </a>
+                <li><p class="display-block text-align-center">Forest Loss </p>
                     <div class="text-center">
                         <span>From </span>
                         <div class="form-group inline-block-display">
@@ -316,11 +329,14 @@
                         <input name="forest-loss-opacity-slider" id="forest-loss-opacity-slider" style="width: 70%;" data-slider-id="forest-loss-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showForestLossDownloadButtons">
-                        <div class="btn-group" role="group">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
                             <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                 Get Download URL
                             </button>
-                            <button type="button" class="btn btn-info" ng-class="!showEmailID ? 'disabled' : ''" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+                                Download to GDrive
+                            </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                 Download to GDrive
                             </button>
                         </div>

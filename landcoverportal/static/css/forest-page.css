@@ -64,8 +64,32 @@
 
 /* Sliders */
 
-#tree-canopy-opacity-slider .slider-selection, #tree-height-opacity-slider .slider-selection, #forest-gain-opacity-slider .slider-selection, #forest-loss-opacity-slider .slider-selection, #forest-change-opacity-slider .slider-selection {
-    background: #BABABA;
+#tree-canopy-opacity-slider .slider-selection,
+#tree-height-opacity-slider .slider-selection,
+#forest-gain-opacity-slider .slider-selection,
+#forest-loss-opacity-slider .slider-selection,
+#forest-change-opacity-slider .slider-selection {
+    /*background: #BABABA;*/
+    background: rgb(198, 40, 40);
+}
+
+#tree-canopy-opacity-slider .slider-handle,
+#tree-height-opacity-slider .slider-handle,
+#forest-gain-opacity-slider .slider-handle,
+#forest-loss-opacity-slider .slider-handle,
+#forest-change-opacity-slider .slider-handle {
+    /*background: #BABABA;*/
+    background: rgb(198, 40, 40);
+    width: 20px;
+    height: 20px;
+}
+
+#tree-canopy-opacity-slider .slider-track,
+#tree-height-opacity-slider .slider-track,
+#forest-gain-opacity-slider .slider-track,
+#forest-loss-opacity-slider .slider-track,
+#forest-change-opacity-slider .slider-track {
+    height: 8px;
 }
 
 /*

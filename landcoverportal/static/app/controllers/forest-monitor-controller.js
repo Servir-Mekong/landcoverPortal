@@ -578,7 +578,7 @@
          */
         var sliderOptions = {
             formatter: function (value) {
-                return 'Opacity: ' + value;
+                return value;
             }
         };
 
