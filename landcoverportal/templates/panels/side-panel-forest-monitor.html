@@ -62,10 +62,11 @@
                 </a>
             </li>
             <ul class="sub-menu collapse" id="treeCanopy">
-                <li><p class="inline-block-display">Tree Canopy Cover for </p>
+                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy cover"></span>
+                    <p class="inline-block-display">Tree Canopy Cover for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
-                            </select>
+                        </select>
                     </div>
                     <div class="form-group" ng-show="showTreeCanopyOpacitySlider">
                         <label for="tree-canopy-opacity-slider" style="margin-right: 10px;">Opacity </label>
@@ -112,7 +113,8 @@
                         </span>
                     </div>
                 </li>
-                <li><p class="inline-block-display">Tree Canopy Height for </p>
+                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy height"></span>
+                    <p class="inline-block-display">Tree Canopy Height for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)">
                         </select>
@@ -169,7 +171,8 @@
                 </a>
             </li>
             <ul class="sub-menu collapse" id="forestExtend">
-                <li><p class="inline-block-display">Annual Forest Extend for </p>
+                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="annual forest extend"></span>
+                    <p class="inline-block-display">Annual Forest Extend for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="forestExtendYear" ng-change="calculateForestExtend(forestExtendYear)">
                         </select>
@@ -246,7 +249,11 @@
                             </div>-->
                 <!--</form>
                     </li>-->
-                <li><p class="display-block text-align-center">Forest Gain </p>
+                <li>
+                    <p class="display-block text-align-center">
+                        Forest Gain 
+                        <span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="forest gain"></span>
+                    </p>
                     <div class="text-center">
                         <span>From </span>
                         <div class="form-group inline-block-display">
@@ -306,7 +313,11 @@
                         </span>
                     </div>
                 </li>
-                <li><p class="display-block text-align-center">Forest Loss </p>
+                <li>
+                    <p class="display-block text-align-center">
+                        Forest Loss 
+                        <span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="forest loss"></span>
+                    </p>
                     <div class="text-center">
                         <span>From </span>
                         <div class="form-group inline-block-display">

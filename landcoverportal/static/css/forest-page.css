@@ -80,8 +80,8 @@
 #forest-change-opacity-slider .slider-handle {
     /*background: #BABABA;*/
     background: rgb(198, 40, 40);
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 #tree-canopy-opacity-slider .slider-track,
@@ -89,7 +89,7 @@
 #forest-gain-opacity-slider .slider-track,
 #forest-loss-opacity-slider .slider-track,
 #forest-change-opacity-slider .slider-track {
-    height: 8px;
+    height: 6px;
 }
 
 /*
