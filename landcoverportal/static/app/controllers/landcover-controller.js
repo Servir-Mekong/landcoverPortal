@@ -571,7 +571,7 @@
                     }
                 }
             });
-        }, 200);
+        }, 2000);
 
         $timeout(function () {
             $('#slider-year-selector-version1').ionRangeSlider({
@@ -593,7 +593,7 @@
                     }
                 }
             });
-        }, 200);
+        }, 2000);
 
         // Download URL
         $scope.landcoverDownloadURL = '';
