@@ -562,14 +562,33 @@
                 onFinish: function (data) {
                     if ($scope.sliderYear !== data.from) {
                         $scope.sliderYear = data.from;
-                        //$scope.updateAssemblageProduct();
-                        //$scope.updatePrimitive($scope.primitiveIndex);
-                        //$scope.showProbabilityMap();
                         if ($('#land-cover-classes-tab').hasClass('active')) {
                             $scope.updateAssemblageProduct();
                             $scope.showProbabilityMap();
                         } else if ($('#primitive-tab').hasClass('active')) {
                             $scope.updatePrimitive($scope.primitiveIndex);
+                        }
+                    }
+                }
+            });
+        }, 200);
+
+        $timeout(function () {
+            $('#slider-year-selector-version1').ionRangeSlider({
+                grid: true,
+                min: 2000,
+                max: $scope.sliderEndYear,
+                from: $scope.sliderEndYear,
+                force_edges: true,
+                grid_num: $scope.sliderEndYear - 2000,
+                prettify_enabled: false,
+                onFinish: function (data) {
+                    if ($scope.sliderYear !== data.from) {
+                        $scope.sliderYear = data.from;
+                        if ($('#land-cover-classes-tab').hasClass('active')) {
+                            $scope.updateAssemblageProduct(true);
+                        } else if ($('#primitive-tab').hasClass('active')) {
+                            $scope.updatePrimitive($scope.primitiveIndex, true);
                         }
                     }
                 }

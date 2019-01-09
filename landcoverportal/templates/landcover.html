@@ -38,9 +38,15 @@
         <div id="tool-control-container"></div>
 
         <!-- Time Slider -->
-        <div class="slider-year-container">
-            <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
-        </div>
+        {% if version1 %}
+            <div class="slider-year-container">
+                <input type="text" id="slider-year-selector-version1" name="slider-year-selector" value="" />
+            </div>
+        {% else %}
+            <div class="slider-year-container">
+                <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
+            </div>
+        {% endif %}
 
         <!-- Tab Container -->
         <div class="tab-tool" ng-show="showTabContainer">
