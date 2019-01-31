@@ -33,7 +33,7 @@ class ForestMonitor():
                     area_name = 'Myanmar (Burma)'
                 self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
-                self.scale = 30
+                self.scale = 100
             elif (area_path == 'province'):
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                     'static/data/',
