@@ -592,19 +592,19 @@ class ForestMonitor():
                 'reportError': 'type must be one of treeCanopy, forestGain, forestLoss or forestExtend'
             }
 
-        reducer = image.reduceRegion(reducer = ee.Reducer.sum(),
-                                     geometry = self.geometry,
-                                     crs = 'EPSG:32647', # WGS Zone N 47
-                                     scale = self.scale,
-                                     maxPixels = 10**15
-                                     )
-        # converting to meter square by multiplying with scale value i.e. 100*100
-        # and then converting to hectare multiplying with 0.0001
-        #area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
-        # meaning we can use the value directly as the hectare
+        reducer = image.gt(0).multiply(self.scale).multiply(self.scale).reduceRegion(
+            reducer = ee.Reducer.sum(),
+            geometry = self.geometry,
+            crs = 'EPSG:32647', # WGS Zone N 47
+            scale = self.scale,
+            maxPixels = 10**15
+        )
+        stats = reducer.getInfo()[name]
+        # in hectare
+        stats = stats * 0.0001
         try:
             return {
-                'area': '{:,} hectare at {} m resolution'.format(float('%.2f' % reducer.getInfo()[name]), self.scale)
+                'area': '{:,} hectare at {} m resolution'.format(float('%.2f' % stats), self.scale)
             }
         except Exception as e:
             return {
