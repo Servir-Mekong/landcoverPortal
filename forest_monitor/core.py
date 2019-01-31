@@ -101,7 +101,7 @@ class ForestMonitor():
             img_coll = img_coll.map(_apply_tree_canopy_definition)
 
         image = ee.Image(img_coll.filterDate('%s-01-01' % year,
-                                             '%s-12-31' % year).mean())
+                                             '%s-12-31' % year).first())
 
         if get_image:
             if for_download:

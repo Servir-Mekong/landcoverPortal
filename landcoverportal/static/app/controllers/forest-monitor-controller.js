@@ -460,8 +460,10 @@
             var _geometry = event.feature.getGeometry();
             MapService.processPoints(_geometry, bounds.extend, bounds);
             map.fitBounds(bounds);
-            drawningManagerArea = google.maps.geometry.spherical.computeArea(_geometry.getArray()[0].b) / 1e6;
-            updateReportTotalArea();
+            if (typeof($scope.areaSelectFrom) === 'undefined') {
+                drawningManagerArea = google.maps.geometry.spherical.computeArea(_geometry.getArray()[0].b) / 1e6;
+                updateReportTotalArea();
+            }
         });
 
         map.data.addListener('removefeature', function (event) {
