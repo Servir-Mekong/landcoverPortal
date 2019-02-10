@@ -216,37 +216,6 @@
             }
         });
 
-        /**
-         * User Modal Info and starting download
-         */
-        $scope.modalSubmit = function (user) {
-            var targetData = $('button#downloadURL').data();
-            var verified = verifyBeforeDownload(targetData.downloadYear);
-            if (verified) {
-                // Start with the user info
-                var data = {
-                    name: user.name,
-                    email: user.email,
-                    organization: user.organization,
-                    purpose: user.purpose
-                };
-                ForestMonitorService.setUserDownloadInfo(user);
-                var dataType = targetData.downloadTarget;
-                var downloadType = targetData.downloadButton;
-                if (downloadType === 'getURL') {
-                    if (dataType === 'treeCanopy') {
-                        delete data.purpose;
-                        data.purpose = user.purpose.value;
-                        data.type = 'tree_canopy';
-                        ForestMonitorService.postUserDownloadInfo(data);
-                        $scope.getDownloadURL(downloadType, targetData.downloadYear);
-                    }
-                }
-            } else {
-                $('#fms-user-info-modal').modal('hide');
-            }
-        };
-
         /*
          * Select Options for Variables
          **/
@@ -316,32 +285,85 @@
         $scope.showForestExtendDownloadURL = false;
         $scope.forestExtendDownloadURL = '';
 
+        /**
+         * User Modal Info and starting download
+         */
+        $scope.modalSubmit = function (user) {
+            $scope.fmsUserDownloadInfo = user;
+            var targetData = $('button#downloadURL').data();
+            // Start with the user info
+            var data = {
+                name: user.name,
+                email: user.email,
+                organization: user.organization,
+                purpose: user.purpose
+            };
+            ForestMonitorService.setUserDownloadInfo(user);
+            var dataType = targetData.downloadTarget;
+            var downloadType = targetData.downloadButton;
+            if (downloadType === 'getURL') {
+                if (dataType === 'treeCanopy') {
+                    delete data.purpose;
+                    data.usage = user.purpose.value;
+                    data.type = 'tree_canopy';
+                    ForestMonitorService.postUserDownloadInfo(data);
+                    $scope.getDownloadURL(dataType, targetData.downloadYear);
+                }
+            }
+            $('#fms-user-info-modal').modal('hide');
+        };
+
         $scope.getDownloadURL = function (type, startYear, endYear, requireBoth) {
             var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
             if (verified) {
-                $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
-                showInfoAlert('Preparing Download Link...');
+                if ($scope.fmsUserDownloadInfo) {
+                    $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
+                    showInfoAlert('Preparing Download Link...');
+                    var dataType;
+                    if (type === 'treeCanopy') {
+                        dataType = 'tree_canopy';
+                    }
+                    var data = {
+                        name: $scope.fmsUserDownloadInfo.name,
+                        email: $scope.fmsUserDownloadInfo.email,
+                        organization: $scope.fmsUserDownloadInfo.organization,
+                        usage: $scope.fmsUserDownloadInfo.purpose.value,
+                        type: dataType
+                    };
+                    ForestMonitorService.postUserDownloadInfo(data).
+                    then(function (data) {
+                        if (data.id) {
 
-                var parameters = {
-                    startYear: startYear,
-                    endYear: endYear,
-                    shape: $scope.shape,
-                    areaSelectFrom: $scope.areaSelectFrom,
-                    areaName: $scope.areaName,
-                    treeCanopyDefinition: $scope.treeCanopyDefinition,
-                    treeHeightDefinition: $scope.treeHeightDefinition,
-                    type: type
-                };
+                            var parameters = {
+                                startYear: startYear,
+                                endYear: endYear,
+                                shape: $scope.shape,
+                                areaSelectFrom: $scope.areaSelectFrom,
+                                areaName: $scope.areaName,
+                                treeCanopyDefinition: $scope.treeCanopyDefinition,
+                                treeHeightDefinition: $scope.treeHeightDefinition,
+                                type: type
+                            };
+            
+                            ForestMonitorService.getDownloadURL(parameters)
+                            .then(function (data) {
+                                showSuccessAlert('Your Download Link is ready!');
+                                $scope[type + 'DownloadURL'] = data.downloadUrl;
+                                $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true;
+                            }, function (error) {
+                                showErrorAlert(error.error);
+                                console.log(error);
+                            });
 
-                ForestMonitorService.getDownloadURL(parameters)
-                .then(function (data) {
-                    showSuccessAlert('Your Download Link is ready!');
-                    $scope[type + 'DownloadURL'] = data.downloadUrl;
-                    $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true;
-                }, function (error) {
-                    showErrorAlert(error.error);
-                    console.log(error);
-                });
+                        }
+                    }, function (error) {
+                        showErrorAlert(error.error);
+                        console.log(error);
+                    });
+                } else {
+                    $('#fms-user-info-modal').modal('show');
+                    return true;
+                }
             }
         };
 

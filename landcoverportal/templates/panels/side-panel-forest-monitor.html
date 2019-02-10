@@ -76,8 +76,9 @@
                     </div>
                     <div class="form-group text-center" ng-show="showTreeCanopyDownloadButtons">
                         <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" id="downloadURL" class="btn btn-success" href="" data-toggle="modal" data-target="#fms-user-info-modal"
-                                    data-download-button="getURL" data-download-target="treeCanopy" data-download-year=[[treeCanopyYear]]>
+                            <button type="button" id="downloadURL" class="btn btn-success" href="" data-toggle="modal"
+                                    data-download-button="getURL" data-download-target="treeCanopy" data-download-year=[[treeCanopyYear]]
+                                    ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
                                 Get Download URL
                             </button>
                             <button type="button" class="btn btn-info" ng-switch-when="true" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">

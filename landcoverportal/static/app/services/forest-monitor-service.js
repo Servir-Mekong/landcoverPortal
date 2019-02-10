@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('landcoverportal')
-    .service('ForestMonitorService', function ($http, $localStorage) {
+    .service('ForestMonitorService', function ($http, $sessionStorage) {
 
         this.treeCanopyChange = function (options) {
 
@@ -457,21 +457,21 @@
         };
 
         this.getUserDownloadInfo = function () {
-            if ($localStorage.fmsUserDownloadInfo) {
-                return $localStorage.fmsUserDownloadInfo;
+            if ($sessionStorage.fmsUserDownloadInfo) {
+                return $sessionStorage.fmsUserDownloadInfo;
             }
             return null;
         };
 
         this.setUserDownloadInfo = function (data) {
-            $localStorage.fmsUserDownloadInfo = {};
+            $sessionStorage.fmsUserDownloadInfo = {};
             var fmsUserDownloadInfo = {
                 name: data.name,
                 email: data.email,
                 organization: data.organization,
                 purpose: data.purpose
             };
-            $localStorage.fmsUserDownloadInfo = fmsUserDownloadInfo;
+            $sessionStorage.fmsUserDownloadInfo = fmsUserDownloadInfo;
         };
 
         this.postUserDownloadInfo = function (options) {
@@ -479,6 +479,9 @@
             var req = {
                 method: 'POST',
                 url: '/api/forest-monitor/download-info/',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 data: {
                     name: options.name,
                     organization: options.organization,
@@ -487,8 +490,7 @@
                     type: options.type
                 }
             };
-            console.log(req);
-            /*var promise = $http(req)
+            var promise = $http(req)
                 .then(function (response) {
                     return response.data;
                 })
@@ -496,7 +498,7 @@
                     console.log('Error: ', e);
                     throw e.data;
                 });
-            return promise;*/
+            return promise;
 
         };
     });
