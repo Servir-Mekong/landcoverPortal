@@ -1,0 +1,53 @@
+<!-- Modal -->
+<div class="modal fade" id="fms-user-info-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Data Usage Form!</h4>
+            </div>
+            <div class="modal-body">
+                <form id="user-info-form" role="form" name="userInfoForm" ng-submit="userRegister(user)" novalidate>
+                    <p>Note the generated values (if any) are based on information that you provided earlier!</p>
+                    <div class="form-group" style="margin-top: 20px;" ng-class="{ 'has-error': userInfoForm.name.$touched && userInfoForm.name.$invalid }">
+                        <label for="name" class="float-left">Name <p class="color-red inline-block-display">*</p></label>
+                        <input type="text" class="form-control" id="name" name="name" value="[[ fmsUserDownloadInfo.name ]]" ng-model="fmsUserDownloadInfo.name" placeholder="Name" required>
+                        <div class="help-block" ng-messages="userInfoForm.name.$error" ng-if="userInfoForm.name.$touched && userInfoForm.name.$invalid">
+                            <p ng-message="required">Enter a Name.</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': userInfoForm.email.$touched && userInfoForm.email.$invalid }">
+                        <label for="email" class="float-left">Email Address <p class="color-red inline-block-display">*</p></label>
+                        <input type="email" class="form-control" id="email" name="email" value="[[ fmsUserDownloadInfo.email ]]" ng-model="fmsUserDownloadInfo.email" placeholder="Email Address" required>
+                        <div class="help-block" ng-messages="userInfoForm.email.$error" ng-if="userInfoForm.email.$touched && userInfoForm.email.$invalid">
+                            <p ng-message="required">Enter a valid email!</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': userInfoForm.organization.$touched && userInfoForm.organization.$invalid }">
+                        <label for="organization" class="float-left">Organization <p class="color-red inline-block-display">*</p></label>
+                        <input type="text" class="form-control" id="organization" name="organization" value="[[ fmsUserDownloadInfo.organization ]]" ng-model="fmsUserDownloadInfo.organization" placeholder="Organization" required>
+                        <div class="help-block" ng-messages="userInfoForm.organization.$error" ng-if="userInfoForm.organization.$touched && userInfoForm.organization.$invalid">
+                            <p ng-message="required">Enter the name of your organization.</p>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': (userInfoForm.purpose.$touched && userInfoForm.purpose.$invalid) }">
+                        <label for="purpose" class="float-left">Purpose <p class="color-red inline-block-display">*</p></label>
+                        <select name="purpose" class="form-control" id="purpose" ng-options="option.name for option in fmsDataPurpose"
+                                ng-model="fmsUserDownloadInfo.purpose" required>
+                        </select>
+                        <div class="help-block" ng-messages="userInfoForm.purpose.$error" ng-if="userInfoForm.purpose.$touched && userInfoForm.purpose.$invalid">
+                            <p ng-message="required">Purpose is required!</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="modalSubmit(fmsUserDownloadInfo)"
+                        ng-disabled="userInfoForm.name.$invalid || userInfoForm.email.$invalid || userInfoForm.organization.$invalid || userInfoForm.purpose.$invalid">
+                    Start Download
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

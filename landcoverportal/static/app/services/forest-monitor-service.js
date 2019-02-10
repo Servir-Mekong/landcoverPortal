@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('landcoverportal')
-    .service('ForestMonitorService', function ($http) {
+    .service('ForestMonitorService', function ($http, $localStorage) {
 
         this.treeCanopyChange = function (options) {
 
@@ -456,6 +456,49 @@
             return promise;
         };
 
+        this.getUserDownloadInfo = function () {
+            if ($localStorage.fmsUserDownloadInfo) {
+                return $localStorage.fmsUserDownloadInfo;
+            }
+            return null;
+        };
+
+        this.setUserDownloadInfo = function (data) {
+            $localStorage.fmsUserDownloadInfo = {};
+            var fmsUserDownloadInfo = {
+                name: data.name,
+                email: data.email,
+                organization: data.organization,
+                purpose: data.purpose
+            };
+            $localStorage.fmsUserDownloadInfo = fmsUserDownloadInfo;
+        };
+
+        this.postUserDownloadInfo = function (options) {
+
+            var req = {
+                method: 'POST',
+                url: '/api/forest-monitor/download-info/',
+                data: {
+                    name: options.name,
+                    organization: options.organization,
+                    email: options.email,
+                    usage: options.usage,
+                    type: options.type
+                }
+            };
+            console.log(req);
+            /*var promise = $http(req)
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function (e) {
+                    console.log('Error: ', e);
+                    throw e.data;
+                });
+            return promise;*/
+
+        };
     });
 
 })();

@@ -20,6 +20,10 @@
 
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
+        $scope.fmsDataPurpose = appSettings.fmsDataPurpose;
+
+        // User Info
+        $scope.fmsUserDownloadInfo = ForestMonitorService.getUserDownloadInfo();
 
         // $scope variables
         $scope.overlays = {};
@@ -63,6 +67,36 @@
         var showInfoAlert = function (alertContent) {
             $scope.alertContent = alertContent;
             $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        /**
+         * Map related functions - defined first
+         */
+        var verifyBeforeDownload = function (startYear, endYear, requireBoth) {
+
+            var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
+            if (!hasPolygon && !$scope.areaSelectFrom && !$scope.areaName) {
+                showErrorAlert('Please draw a polygon or select administrative region before proceding to download!');
+                return false;
+            }
+
+            if (typeof(requireBoth) === 'undefined') requireBoth = false;
+            if (requireBoth) {
+                if (startYear && !endYear) {
+                    showErrorAlert('Please provide the end year!');
+                    return false;
+                } else if (!startYear && endYear) {
+                    showErrorAlert('Please provide start year!');
+                    return false;
+                } else if (!(startYear && endYear)) {
+                    showErrorAlert('Please select both start and end date!');
+                    return false;
+                } else if (Number(startYear) >= Number(endYear)) {
+                    showErrorAlert('End year must be greater than start year!');
+                    return false;
+                }
+            }
+            return true;
         };
 
         // Google sign in
@@ -182,6 +216,37 @@
             }
         });
 
+        /**
+         * User Modal Info and starting download
+         */
+        $scope.modalSubmit = function (user) {
+            var targetData = $('button#downloadURL').data();
+            var verified = verifyBeforeDownload(targetData.downloadYear);
+            if (verified) {
+                // Start with the user info
+                var data = {
+                    name: user.name,
+                    email: user.email,
+                    organization: user.organization,
+                    purpose: user.purpose
+                };
+                ForestMonitorService.setUserDownloadInfo(user);
+                var dataType = targetData.downloadTarget;
+                var downloadType = targetData.downloadButton;
+                if (downloadType === 'getURL') {
+                    if (dataType === 'treeCanopy') {
+                        delete data.purpose;
+                        data.purpose = user.purpose.value;
+                        data.type = 'tree_canopy';
+                        ForestMonitorService.postUserDownloadInfo(data);
+                        $scope.getDownloadURL(downloadType, targetData.downloadYear);
+                    }
+                }
+            } else {
+                $('#fms-user-info-modal').modal('hide');
+            }
+        };
+
         /*
          * Select Options for Variables
          **/
@@ -211,33 +276,6 @@
         var loadMap = function (type, mapType) {
             map.overlayMapTypes.push(mapType);
             $scope.overlays[type] = mapType;
-        };
-
-        var verifyBeforeDownload = function (startYear, endYear, requireBoth) {
-
-            var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
-            if (!hasPolygon && !$scope.areaSelectFrom && !$scope.areaName) {
-                showErrorAlert('Please draw a polygon or select administrative region before proceding to download!');
-                return false;
-            }
-
-            if (typeof(requireBoth) === 'undefined') requireBoth = false;
-            if (requireBoth) {
-                if (startYear && !endYear) {
-                    showErrorAlert('Please provide the end year!');
-                    return false;
-                } else if (!startYear && endYear) {
-                    showErrorAlert('Please provide start year!');
-                    return false;
-                } else if (!(startYear && endYear)) {
-                    showErrorAlert('Please select both start and end date!');
-                    return false;
-                } else if (Number(startYear) >= Number(endYear)) {
-                    showErrorAlert('End year must be greater than start year!');
-                    return false;
-                }
-            }
-            return true;
         };
 
         $scope.copyToClipBoard = function (type) {
@@ -656,9 +694,9 @@
             });
         };
 
-        /*
-            * Tree Height Calculations
-            */
+        /**
+         * Tree Height Calculations
+         */
         $scope.showTreeHeightOpacitySlider = false;
         $scope.treeHeightOpacitySliderValue = null;
         $scope.showTreeHeightDownloadButtons = false;
