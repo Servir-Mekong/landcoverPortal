@@ -284,13 +284,13 @@
         $scope.forestLossDownloadURL = '';
         $scope.showForestExtendDownloadURL = false;
         $scope.forestExtendDownloadURL = '';
+        $scope.fmsUserInfoTrigger = null;
 
         /**
          * User Modal Info and starting download
          */
         $scope.modalSubmit = function (user) {
             $scope.fmsUserDownloadInfo = user;
-            var targetData = $('button#downloadURL').data();
             // Start with the user info
             var data = {
                 name: user.name,
@@ -299,15 +299,26 @@
                 purpose: user.purpose
             };
             ForestMonitorService.setUserDownloadInfo(user);
-            var dataType = targetData.downloadTarget;
+            var dataType = $scope.fmsUserInfoTrigger;
+            var targetData = $('button#' + $scope.fmsUserInfoTrigger + 'Button').data();
+
             var downloadType = targetData.downloadButton;
+            delete data.purpose;
+            data.usage = user.purpose.value;
+            var dataTypeLookup = {
+                'treeCanopy'  : 'tree_canopy',
+                'treeHeight'  : 'tree_height',
+                'forestGain'  : 'forest_gain',
+                'forestLoss'  : 'forest_loss',
+                'forestExtend': 'forest_extend'
+
+            };
+            data.type = dataTypeLookup[dataType];
             if (downloadType === 'getURL') {
-                if (dataType === 'treeCanopy') {
-                    delete data.purpose;
-                    data.usage = user.purpose.value;
-                    data.type = 'tree_canopy';
-                    ForestMonitorService.postUserDownloadInfo(data);
+                if (['treeCanopy', 'treeHeight', 'forestExtend'].indexOf(dataType) > -1) {
                     $scope.getDownloadURL(dataType, targetData.downloadYear);
+                } else if (['forestGain', 'forestLoss'].indexOf(dataType) > -1) {
+                    $scope.getDownloadURL(dataType, targetData.downloadYearStart, targetData.downloadYearEnd, true);
                 }
             }
             $('#fms-user-info-modal').modal('hide');
@@ -319,16 +330,20 @@
                 if ($scope.fmsUserDownloadInfo) {
                     $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                     showInfoAlert('Preparing Download Link...');
-                    var dataType;
-                    if (type === 'treeCanopy') {
-                        dataType = 'tree_canopy';
-                    }
+                    var dataTypeLookup = {
+                        'treeCanopy'  : 'tree_canopy',
+                        'treeHeight'  : 'tree_height',
+                        'forestGain'  : 'forest_gain',
+                        'forestLoss'  : 'forest_loss',
+                        'forestExtend': 'forest_extend'
+        
+                    };
                     var data = {
                         name: $scope.fmsUserDownloadInfo.name,
                         email: $scope.fmsUserDownloadInfo.email,
                         organization: $scope.fmsUserDownloadInfo.organization,
                         usage: $scope.fmsUserDownloadInfo.purpose.value,
-                        type: dataType
+                        type: dataTypeLookup[type]
                     };
                     ForestMonitorService.postUserDownloadInfo(data).
                     then(function (data) {
@@ -361,6 +376,7 @@
                         console.log(error);
                     });
                 } else {
+                    $scope.fmsUserInfoTrigger = type;
                     $('#fms-user-info-modal').modal('show');
                     return true;
                 }

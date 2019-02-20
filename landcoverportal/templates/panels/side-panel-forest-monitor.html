@@ -76,8 +76,8 @@
                     </div>
                     <div class="form-group text-center" ng-show="showTreeCanopyDownloadButtons">
                         <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" id="downloadURL" class="btn btn-success" href="" data-toggle="modal"
-                                    data-download-button="getURL" data-download-target="treeCanopy" data-download-year=[[treeCanopyYear]]
+                            <button type="button" class="btn btn-success" href="" data-toggle="modal" id="treeCanopyButton"
+                                    data-download-button="getURL" data-download-year=[[treeCanopyYear]]
                                     ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
                                 Get Download URL
                             </button>
@@ -129,7 +129,9 @@
                     </div>
                     <div class="form-group text-center" ng-show="showTreeHeightDownloadButtons">
                         <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('treeHeight', treeHeightYear)">
+                            <button type="button" class="btn btn-success" id="treeHeightButton" href="" data-toggle="modal"
+                                    data-download-button="getURL" data-download-year=[[treeHeightYear]]
+                                    ng-click="getDownloadURL('treeHeight', treeHeightYear)">
                                 Get Download URL
                             </button>
                             <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
@@ -187,7 +189,9 @@
                     </div>
                     <div class="form-group text-center" ng-show="showForestExtendDownloadButtons">
                         <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestExtend', forestExtendYear)">
+                            <button type="button" id="forestExtendButton" class="btn btn-success" href="" data-toggle="modal"
+                                    data-download-button="getURL" data-download-year=[[forestExtendYear]]
+                                    ng-click="getDownloadURL('forestExtend', forestExtendYear)">
                                 Get Download URL
                             </button>
                             <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
@@ -281,7 +285,9 @@
                     </div>
                     <div class="form-group text-center" ng-show="showForestGainDownloadButtons">
                         <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
+                            <button type="button" class="btn btn-success" id="forestGainButton" href="" data-toggle="modal"
+                                    data-download-button="getURL" data-download-year-start=[[forestGainStartYear]] data-download-year-end=[[forestGainEndYear]]
+                                    ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
                                 Get Download URL
                             </button>
                             <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
@@ -345,7 +351,9 @@
                     </div>
                     <div class="form-group text-center" ng-show="showForestLossDownloadButtons">
                         <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+                            <button type="button" class="btn btn-success" id="forestLossButton" href="" data-toggle="modal"
+                                    data-download-button="getURL" data-download-year-start=[[forestLossStartYear]] data-download-year-end=[[forestLossEndYear]]
+                                    ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
                                 Get Download URL
                             </button>
                             <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
