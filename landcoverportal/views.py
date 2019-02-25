@@ -2,10 +2,11 @@
 
 import json
 
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse, HttpResponseRedirect
 from django.conf import settings
+from django.http import JsonResponse, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from django.views.decorators.http import require_POST
 
 from oauth2client.client import OAuth2WebServerFlow
 from apiclient import discovery
@@ -51,3 +52,7 @@ def store_auth_code(request):
     request.session['sub'] = str(credentials.id_token['sub'])
     request.session['credentials'] = json.loads(credentials.to_json())
     return JsonResponse({'success': True, 'email': email})
+
+def home(request):
+
+    return render(request, 'home.html', {'version1': True})

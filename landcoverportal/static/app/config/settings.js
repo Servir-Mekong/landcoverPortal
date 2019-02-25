@@ -58,29 +58,47 @@ var settings = {
             'url': 'https://www.usaid.gov/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/USAID_Logo_Color.png',
             'src': 'images/usaid.png',
-            'className': 'usaid'
+            'className': 'usaid',
+            'version1': true
         },
         {
             'alt': 'The National Aeronautics and Space Administration',
             'url': 'https://www.nasa.gov/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/NASA_Logo_Color.png',
             'src': 'images/nasa.png',
-            'className': 'nasa'
+            'className': 'nasa',
+            'version1': true
         },
         {
             'alt': 'Asian Disaster Preparedness Center',
             'url': 'http://www.adpc.net/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/partner-adbc.png',
             'src': 'images/adpc.png',
-            'className': 'adpc'
+            'className': 'adpc',
+            'version1': true
         },
         {
-            'alt': 'SERVIR',
+            'alt': 'ICIMOD',
+            'url': 'http://www.icimod.org/',
+            'src': 'images/icimod.png',
+            'className': 'icimod',
+            'version1': false
+        },
+        {
+            'alt': 'SERVIR-HKH',
+            'url': 'http://servir.icimod.org/',
+            'src': 'images/servir-himalaya.png',
+            'className': 'servir-hkh',
+            'version1': false
+        },
+        {
+            'alt': 'SERVIR-Mekong',
             'url': 'https://servir.adpc.net/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png',
             'src': 'images/servir-mekong.png',
-            'className': 'servir'
-        }
+            'className': 'servir',
+            'version1': true
+        },
     ],
     partnersFooter: [{
             'alt': 'Spatial Infomatics Group',
