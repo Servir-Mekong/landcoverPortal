@@ -30,7 +30,10 @@ def landcover_v2(request):
     return render(request, 'landcover.html', {'version2': True})
 
 def side_by_side_map(request):
-    return render(request, 'side-by-side-map.html', {'version1': False})
+    return render(request, 'side-by-side-map.html', {})
 
-def side_by_side_map_v(request):
+def side_by_side_map_v1(request):
     return render(request, 'side-by-side-map.html', {'version1': True})
+
+def side_by_side_map_v2(request):
+    return render(request, 'side-by-side-map.html', {'version2': True})

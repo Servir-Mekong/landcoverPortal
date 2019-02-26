@@ -567,10 +567,10 @@
                     if ($scope.sliderYear !== data.from) {
                         $scope.sliderYear = data.from;
                         if ($('#land-cover-classes-tab').hasClass('active')) {
-                            $scope.updateAssemblageProduct();
-                            $scope.showProbabilityMap('v3');
+                            $scope.updateAssemblageProduct('v3');
+                            $scope.showProbabilityMap();
                         } else if ($('#primitive-tab').hasClass('active')) {
-                            $scope.updatePrimitive($scope.primitiveIndex);
+                            $scope.updatePrimitive($scope.primitiveIndex, 'v3');
                         }
                     }
                 }
@@ -590,9 +590,9 @@
                     if ($scope.sliderYear !== data.from) {
                         $scope.sliderYear = data.from;
                         if ($('#land-cover-classes-tab').hasClass('active')) {
-                            $scope.updateAssemblageProduct(true);
+                            $scope.updateAssemblageProduct('v1');
                         } else if ($('#primitive-tab').hasClass('active')) {
-                            $scope.updatePrimitive($scope.primitiveIndex, true);
+                            $scope.updatePrimitive($scope.primitiveIndex, 'v1');
                         }
                     }
                 }
@@ -612,10 +612,10 @@
                     if ($scope.sliderYear !== data.from) {
                         $scope.sliderYear = data.from;
                         if ($('#land-cover-classes-tab').hasClass('active')) {
-                            $scope.updateAssemblageProduct();
-                            $scope.showProbabilityMap('v2');
+                            $scope.updateAssemblageProduct('v2');
+                            $scope.showProbabilityMap();
                         } else if ($('#primitive-tab').hasClass('active')) {
-                            $scope.updatePrimitive($scope.primitiveIndex);
+                            $scope.updatePrimitive($scope.primitiveIndex, 'v2');
                         }
                     }
                 }
@@ -723,7 +723,7 @@
             return '';
         };
 
-        $scope.updatePrimitive = function (index, v1) {
+        $scope.updatePrimitive = function (index, version) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
 
@@ -733,7 +733,7 @@
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                v1: v1
+                version: version
             };
 
             LandCoverService.getPrimitiveMap(parameters)
