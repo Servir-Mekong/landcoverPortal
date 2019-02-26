@@ -13,7 +13,7 @@
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
-            var v1 = options.v1;
+            var version = options.version;
             var type = options.type;
 
             //if (typeof(type) === 'undefined') type = 'landcover';
@@ -36,8 +36,10 @@
                 }
             };
 
-            if (v1) {
+            if (version === 'v1') {
                 req.params.version = 'v1';
+            } else if (version === 'v2') {
+                req.params.version = 'v2';
             }
 
             if (areaSelectFrom && areaName) {
@@ -73,7 +75,7 @@
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
-            var v1 = options.v1;
+            var version = options.version;
             var type = options.type;
 
             var url = '/api/landcover/';
@@ -95,8 +97,10 @@
                 }
             };
 
-            if (v1) {
+            if (version === 'v1') {
                 req.params.version = 'v1';
+            } else if (version === 'v2') {
+                req.params.version = 'v2';
             }
 
             if (areaSelectFrom && areaName) {
@@ -180,7 +184,7 @@
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
-            var v1 = options.v1;
+            var version = options.version;
             var type = options.type;
 
             var url = '/api/landcover/';
@@ -202,8 +206,10 @@
                 }
             };
 
-            if (v1) {
+            if (version === 'v1') {
                 req.params.version = 'v1';
+            } else if (version === 'v2') {
+                req.params.version = 'v2';
             }
 
             if (areaSelectFrom && areaName) {
@@ -239,7 +245,7 @@
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
-            var v1 = options.v1;
+            var version = options.version;
             var type = options.type;
             var index = options.index;
             var serviceType = options.serviceType;
@@ -265,8 +271,10 @@
                 }
             };
 
-            if (v1) {
+            if (version === 'v1') {
                 req.params.version = 'v1';
+            } else if (version === 'v2') {
+                req.params.version = 'v2';
             }
 
             if (areaSelectFrom && areaName) {
@@ -302,7 +310,7 @@
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
-            var v1 = options.v1;
+            var version = options.version;
             var type = options.type;
             var index = options.index;
             var serviceType = options.serviceType;
@@ -330,8 +338,10 @@
                 }
             };
 
-            if (v1) {
+            if (version === 'v1') {
                 req.params.version = 'v1';
+            } else if (version === 'v2') {
+                req.params.version = 'v2';
             }
 
             if (areaSelectFrom && areaName) {

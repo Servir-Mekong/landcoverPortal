@@ -29,9 +29,11 @@
 
         <!-- Map Container -->
         {% if version1 %}
-            <div class="col-md-9 col-lg-9 map" id="map" ng-init="initMap(2016, 'landcovermap', true, true); getStats(true);"></div>
+            <div class="col-md-9 col-lg-9 map" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); getStats('v1');"></div>
+        {% elif version2 %}
+            <div class="col-md-9 col-lg-9 map" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', 'v2', true); getStats('v2');"></div>
         {% else %}
-            <div class="col-md-9 col-lg-9 map" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', false, true); getStats(false);"></div>
+            <div class="col-md-9 col-lg-9 map" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', 'v3', true); getStats('v3');"></div>
         {% endif %}
 
         <!-- Toogle button container -->
@@ -41,6 +43,10 @@
         {% if version1 %}
             <div class="slider-year-container">
                 <input type="text" id="slider-year-selector-version1" name="slider-year-selector" value="" />
+            </div>
+        {% elif version2 %}
+            <div class="slider-year-container">
+                <input type="text" id="slider-year-selector-version2" name="slider-year-selector" value="" />
             </div>
         {% else %}
             <div class="slider-year-container">

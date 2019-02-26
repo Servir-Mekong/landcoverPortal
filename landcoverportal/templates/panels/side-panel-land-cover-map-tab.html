@@ -3,20 +3,32 @@
     <div class="row">
 
         {% if version1 %}
-        <div class="alert alert-danger alert-dismissible" role="alert">
+        <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <strong>The Map and the product shows the preliminary result!</strong>
+            <strong>This is the version 1 product!</strong>
+        </div>
+        {% elif version2 %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>This is the version 2 product!</strong>
         </div>
         {% endif %}
     </div>
 
-    {% if not version1 %}
+    {% if not version1 and not version2 %}
     <fieldset class="row lcp-class-container">
-        <a class="btn btn-primary btn-sm btn-block" href="/landcover/v1/" role="button" target="_blank" style="margin-bottom: 10px;">
-            View Version 1 Products
-        </a>
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <a class="btn btn-primary btn-sm" href="/landcover/v1/" role="button" target="_blank" style="margin-bottom: 10px;">
+                View Version 1 Products
+            </a>
+            <a class="btn btn-primary btn-sm" href="/landcover/v2/" role="button" target="_blank" style="margin-bottom: 10px;">
+                View Version 2 Products
+            </a>
+        </div>
     </fieldset>
     {% endif %}
 
@@ -26,6 +38,12 @@
             Compare Landcover of different years
         </a>
     </fieldset>
+    {% elif version2 %}
+    <fieldset class="row lcp-class-container">
+            <a class="btn btn-primary btn-sm btn-block" href="/side-by-side-map/v2/" role="button" target="_blank" style="margin-bottom: 10px;">
+                Compare Landcover of different years
+            </a>
+        </fieldset>
     {% else %}
     <fieldset class="row lcp-class-container">
         <a class="btn btn-primary btn-sm btn-block" href="/side-by-side-map/" role="button" target="_blank" style="margin-bottom: 10px;">
@@ -58,9 +76,11 @@
             <ul class="dropdown-menu col-md-12">
 
                 {% if version1 %}
-                <li><a href="#" ng-click="getDownloadURL({v1: true})" style="color: black;">Get Download Link</a></li>
+                <li><a href="#" ng-click="getDownloadURL({version: 'v1'})" style="color: black;">Get Download Link</a></li>
+                {% elif version2 %}
+                <li><a href="#" ng-click="getDownloadURL({version: 'v2'})" style="color: black;">Get Download Link</a></li>
                 {% else %}
-                <li><a href="#" ng-click="getDownloadURL({v1: false})" style="color: black;">Get Download Link</a></li>
+                <li><a href="#" ng-click="getDownloadURL({version: 'v3'})" style="color: black;">Get Download Link</a></li>
                 {% endif %}
 
                 <li><a href="#" ng-click="showGDriveFileName()" style="color: black;">To your Google Drive!</a></li>
@@ -89,14 +109,21 @@
 
                 {% if version1 %}
                 <button type="button"
-                        ng-click="saveToDrive({v1: true})"
+                        ng-click="saveToDrive({version: 'v1'})"
+                        class="btn btn-primary"
+                        style="height: 34px;margin-bottom: 14px;">
+                    Start Download
+                </button>
+                {% elif version2 %}
+                <button type="button"
+                        ng-click="saveToDrive({version: 'v2'})"
                         class="btn btn-primary"
                         style="height: 34px;margin-bottom: 14px;">
                     Start Download
                 </button>
                 {% else %}
                 <button type="button"
-                        ng-click="saveToDrive({v1: false})"
+                        ng-click="saveToDrive({version: 'v3'})"
                         class="btn btn-primary"
                         style="height: 34px;margin-bottom: 14px;">
                     Start Download
@@ -119,11 +146,15 @@
         <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
 
         {% if version1 %}
-        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct(true)" style="margin-bottom: 10px;">
+        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct('v1')" style="margin-bottom: 10px;">
+            Update Map
+        </button>
+        {% elif version2 %}
+        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct('v2')" style="margin-bottom: 10px;">
             Update Map
         </button>
         {% else %}
-        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct(false)" style="margin-bottom: 10px;">
+        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct('v3')" style="margin-bottom: 10px;">
             Update Map
         </button>
         {% endif %}

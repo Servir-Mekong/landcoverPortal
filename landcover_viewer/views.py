@@ -21,18 +21,16 @@ def landcover(request):
 '''
 
 def landcover(request):
+    return render(request, 'landcover.html', {})
 
-    return render(request, 'landcover.html', {'version1': False})
-
-
-def landcover_version1(request):
-
+def landcover_v1(request):
     return render(request, 'landcover.html', {'version1': True})
 
-def side_by_side_map(request):
+def landcover_v2(request):
+    return render(request, 'landcover.html', {'version2': True})
 
+def side_by_side_map(request):
     return render(request, 'side-by-side-map.html', {'version1': False})
 
-def side_by_side_map_version1(request):
-
+def side_by_side_map_v(request):
     return render(request, 'side-by-side-map.html', {'version1': True})

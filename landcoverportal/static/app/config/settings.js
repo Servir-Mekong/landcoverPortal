@@ -272,7 +272,7 @@ var settings = {
             'color': '#800080'
         }
     ],
-    landCoverClasses: [
+    landCoverClassesV2: [
         {
             'name': 'Unknown',
             'value': '0',
@@ -300,6 +300,98 @@ var settings = {
         },
         {
             'name': 'Deciduous Forest',
+            'value': '5',
+            'color': '#152106'
+        },
+        {
+            'name': 'Orchard or Plantation Forest',
+            'value': '6',
+            'color': '#c3aa69'
+        },
+        {
+            'name': 'Evergreen Broadleaf',
+            'value': '7',
+            'color': '#7db087'
+        },
+        {
+            'name': 'Mixed Forest',
+            'value': '8',
+            'color': '#387242'
+        },
+        {
+            'name': 'Urban and Built Up',
+            'value': '9',
+            'color': '#cc0013'
+        },
+        {
+            'name': 'Cropland',
+            'value': '10',
+            'color': '#8dc33b'
+        },
+        {
+            'name': 'Rice',
+            'value': '11',
+            'color': '#ffff00'
+        },
+        {
+            'name': 'Mining',
+            'value': '12',
+            'color': '#cec2a5'
+        },
+        {
+            'name': 'Barren',
+            'value': '13',
+            'color': '#674c06'
+        },
+        {
+            'name': 'Wetlands',
+            'value': '14',
+            'color': '#3bc3b2'
+        },
+        {
+            'name': 'Grassland',
+            'value': '15',
+            'color': '#f4a460'
+        },
+        {
+            'name': 'Shrubland',
+            'value': '16',
+            'color': '#800080'
+        },
+        {
+            'name': 'Aquaculture',
+            'value': '17',
+            'color': '#51768e'
+        }
+    ],
+    landCoverClasses: [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '#6f6f6f'
+        },
+        {
+            'name': 'Surface Water',
+            'value': '1',
+            'color': '#aec3d4'
+        },
+        {
+            'name': 'Snow and Ice',
+            'value': '2',
+            'color': '#b1f9ff'
+        },
+        {
+            'name': 'Mangroves',
+            'value': '3',
+            'color': '#111149'
+        },
+        {
+            'name': 'Flooded Forest',
+            'value': '4',
+            'color': '#287463'
+        },
+        {
+            'name': 'Forest',
             'value': '5',
             'color': '#152106'
         },

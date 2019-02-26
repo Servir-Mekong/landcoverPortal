@@ -224,15 +224,19 @@
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
-        $scope.initMap = function (year, type, v1, firstLoad) {
+        $scope.initMap = function (year, type, version, firstLoad) {
             $scope.showLoader = true;
 
             $scope.sliderYear = year;
             $scope.sliderEndYear = year;
-            if (v1) {
+            if (version === 'v1') {
                 $scope.typologyCSV = '/static/data/typology_value_v1.csv';
                 $scope.landCoverClasses = appSettings.landCoverClassesV1;
                 $scope.primitiveClasses = appSettings.primitiveClassesV1;
+            } else if (version === 'v2') {
+                $scope.typologyCSV = '/static/data/typology_value_v2.csv';
+                $scope.landCoverClasses = appSettings.landCoverClassesV2;
+                $scope.primitiveClasses = appSettings.primitiveClasses;
             } else {
                 $scope.typologyCSV = '/static/data/typology_value.csv';
                 $scope.landCoverClasses = appSettings.landCoverClasses;
@@ -258,7 +262,7 @@
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                v1: v1
+                version: version
             };
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
@@ -278,7 +282,7 @@
          *  Graphs and Charts
          */
         // Get stats for the graph
-        $scope.getStats = function (v1) {
+        $scope.getStats = function (version) {
             $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
             var parameters = {
                 primitives:$scope.assemblageLayers,
@@ -286,7 +290,7 @@
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                v1: v1
+                version: version
             };
             LandCoverService.getStats(parameters)
             .then(function (data) {
@@ -534,7 +538,7 @@
         };
 
         // Update Assemblage Map
-        $scope.updateAssemblageProduct = function (v1) {
+        $scope.updateAssemblageProduct = function (version) {
             $scope.showLoader = true;
             $scope.closeAlert();
             $scope.assemblageLayers = [];
@@ -544,8 +548,8 @@
                 }
             });
             MapService.clearLayer(map, 'landcovermap');
-            $scope.initMap($scope.sliderYear, 'landcovermap', v1);
-            $scope.getStats(v1);
+            $scope.initMap($scope.sliderYear, 'landcovermap', version);
+            $scope.getStats(version);
             MapService.removeGeoJson(map);
         };
 
@@ -553,7 +557,7 @@
         $timeout(function () {
             $('#slider-year-selector').ionRangeSlider({
                 grid: true,
-                min: 2000,
+                min: 1987,
                 max: $scope.sliderEndYear,
                 from: $scope.sliderEndYear,
                 force_edges: true,
@@ -564,7 +568,7 @@
                         $scope.sliderYear = data.from;
                         if ($('#land-cover-classes-tab').hasClass('active')) {
                             $scope.updateAssemblageProduct();
-                            $scope.showProbabilityMap();
+                            $scope.showProbabilityMap('v3');
                         } else if ($('#primitive-tab').hasClass('active')) {
                             $scope.updatePrimitive($scope.primitiveIndex);
                         }
@@ -595,6 +599,29 @@
             });
         }, 2000);
 
+        $timeout(function () {
+            $('#slider-year-selector-version2').ionRangeSlider({
+                grid: true,
+                min: 2000,
+                max: $scope.sliderEndYear,
+                from: $scope.sliderEndYear,
+                force_edges: true,
+                grid_num: $scope.sliderEndYear - 2000,
+                prettify_enabled: false,
+                onFinish: function (data) {
+                    if ($scope.sliderYear !== data.from) {
+                        $scope.sliderYear = data.from;
+                        if ($('#land-cover-classes-tab').hasClass('active')) {
+                            $scope.updateAssemblageProduct();
+                            $scope.showProbabilityMap('v2');
+                        } else if ($('#primitive-tab').hasClass('active')) {
+                            $scope.updatePrimitive($scope.primitiveIndex);
+                        }
+                    }
+                }
+            });
+        }, 2000);
+
         // Download URL
         $scope.landcoverDownloadURL = '';
         $scope.showLandcoverDownloadURL = false;
@@ -603,7 +630,7 @@
 
         $scope.getDownloadURL = function (options) {
             var type = options.type || 'landcover';
-            var v1 = options.v1;
+            var version = options.version;
             if (verifyBeforeDownload(type)) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
@@ -614,7 +641,7 @@
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
                     areaName: $scope.areaName,
-                    v1: v1,
+                    version: version,
                     type: type,
                     index: $scope.primitiveIndex
                 };
@@ -646,7 +673,7 @@
 
         $scope.saveToDrive = function (options) {
             var type = options.type || 'landcover';
-            var v1 = options.v1;
+            var version = options.version;
             if (verifyBeforeDownload(type)) {
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
@@ -658,7 +685,7 @@
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
                     areaName: $scope.areaName,
-                    v1: v1,
+                    version: version,
                     type: type,
                     index: $scope.primitiveIndex,
                     fileName: fileName
