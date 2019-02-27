@@ -538,6 +538,7 @@
 
         // Time Slider
         $("#slider-year-selector").ionRangeSlider({
+            skin: 'round',
             grid: true,
             min: 2000,
             max: 2017,

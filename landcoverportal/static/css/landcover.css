@@ -28,6 +28,15 @@
     bottom: 5px;
 }
 
+.irs--round .irs-from, .irs--round .irs-to, .irs--round .irs-single {
+    background-color: #ff0048;
+}
+
+.irs--round .irs-grid-text {
+    color: black;
+    font-size: 15px;
+}
+
 #landcover-opacity-slider .slider-selection, #primitive-opacity-slider .slider-selection, #probability-opacity-slider .slider-selection {
     background: #BABABA;
 }

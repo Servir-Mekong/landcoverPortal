@@ -556,6 +556,7 @@
         // Time Slider
         $timeout(function () {
             $('#slider-year-selector').ionRangeSlider({
+                skin: 'round',
                 grid: true,
                 min: 1987,
                 max: $scope.sliderEndYear,
@@ -579,6 +580,7 @@
 
         $timeout(function () {
             $('#slider-year-selector-version1').ionRangeSlider({
+                skin: 'round',
                 grid: true,
                 min: 2000,
                 max: $scope.sliderEndYear,
@@ -601,6 +603,7 @@
 
         $timeout(function () {
             $('#slider-year-selector-version2').ionRangeSlider({
+                skin: 'round',
                 grid: true,
                 min: 2000,
                 max: $scope.sliderEndYear,
