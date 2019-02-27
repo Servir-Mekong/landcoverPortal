@@ -56,8 +56,11 @@
                 );
     
                 map.data.setStyle({
-                    fillColor: 'red',
-                    strokeWeight: 2,
+                    //fillColor: 'red',
+                    //strokeWeight: 2,
+                    visible: true,
+                    fillOpacity: 0,
+                    strokeColor: 'black',
                     clickable: false
                 });
             }
@@ -67,8 +70,11 @@
             map.data.addGeoJson(geojson);
 
             map.data.setStyle({
-                fillColor: 'red',
-                strokeWeight: 2,
+                //fillColor: 'red',
+                //strokeWeight: 2,
+                visible: true,
+                fillOpacity: 0,
+                strokeColor: 'black',
                 clickable: false
             });
         };
