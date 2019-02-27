@@ -17,8 +17,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.7.5",
-    "angular-sanitize": "^1.7.5",
+    "angular": "^1.7.7",
+    "angular-sanitize": "^1.7.7",
     "bootstrap": "3.3.7",
     "bootstrap-datepicker": "^1.7.1",
     "components-font-awesome": "^5.4.2",
