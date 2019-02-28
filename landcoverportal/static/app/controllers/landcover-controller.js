@@ -154,6 +154,28 @@
         // get tooltip activated
         $('.js-tooltip').tooltip();
 
+        $timeout(function () { 
+            var toggler = document.getElementsByClassName('tree-caret');
+
+            var togglerClick = function () {
+                //this.parentElement.parentElement.querySelector('.nested').classList.toggle('tree-caret-active');
+                $(this.parentElement.parentElement).find('.nested').toggle('tree-caret-active');
+                this.classList.toggle('tree-caret-down');
+            };
+
+            for (var i = 0; i < toggler.length; i++) {
+                toggler[i].addEventListener('click', togglerClick);
+            }
+
+            $('.nested-checkbox').change(function () {
+                var checked = $('.nested-checkbox input').is(':checked');
+                var nested = $(this.parentElement.parentElement).find('.nested');
+                for (var j = 0; j < nested.length; j++) {
+                    $(nested[j]).find('.custom-checkbox-container input').prop('checked', checked);
+                }
+            });
+        }, 0);
+
         /**
          * Slider
          */

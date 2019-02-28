@@ -161,15 +161,66 @@
 
     </fieldset>
 
-    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
-        <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
-        <div class="col-md-5">
-            <h5><b>[[ class.name ]]</b></h5>
+    <div ng-repeat="class in landCoverClasses">
+        <div ng-if="class.caret">
+            <div class="caret-container">
+                <div class="row lcp-class-container">
+                    <span class="tree-caret pull-left" style="margin-top: 0.5em; margin-left: 5px;" ng-click="treeCaretClick()"></span>
+                    <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+                    <div class="col-md-5">
+                        <h5><b>[[ class.name ]]</b></h5>
+                    </div>
+                    <!--<label class="switch">
+                        <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                        <span class="switch-slider round"></span>
+                    </label>-->
+                    <label class="custom-checkbox-container nested-checkbox pull-right" style="margin-right: 5em; margin-top: 0.5em;">
+                        <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                        <span class="custom-checkbox-checkmark"></span>
+                    </label>
+                </div>
+
+                <div ng-repeat="_class in landCoverClasses">
+                    <div class="nested" style="margin-left: 2.5em;">
+                        <div ng-if="_class.nestedUnder == class.value">
+                            <div class="row lcp-class-container">
+                                <div class="col-md-5 lcp-class-color" style="background: [[ _class.color ]]"></div>
+                                <div class="col-md-5">
+                                    <h5><b>[[ _class.name ]]</b></h5>
+                                </div>
+                                <!--<label class="switch">
+                                    <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                                    <span class="switch-slider round"></span>
+                                </label>-->
+                                <label class="custom-checkbox-container pull-right" style="margin-right: 5em; margin-top: 0.5em;">
+                                    <input type="checkbox" value="[[ _class.value ]]" name="assemblage-checkbox" checked>
+                                    <span class="custom-checkbox-checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <label class="switch">
-            <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
-            <span class="switch-slider round"></span>
-        </label>
+
+        <div ng-if="!class.caret && !class.nestedUnder">
+            <div class="row lcp-class-container">
+                <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+                <div class="col-md-5">
+                    <h5><b>[[ class.name ]]</b></h5>
+                </div>
+                <!--<label class="switch">
+                    <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                    <span class="switch-slider round"></span>
+                </label>-->
+                <label class="custom-checkbox-container pull-right" style="margin-right: 5em; margin-top: 0.5em;">
+                    <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                    <span class="custom-checkbox-checkmark"></span>
+                </label>
+            </div>
+        </div>
+        
     </div>
+
 </div>
 <!-- End of Land Cover Assemblage Tab -->
