@@ -17,9 +17,12 @@ class ForestMonitor():
     TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
 
     # geometries
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
-                                               settings.COUNTRIES_NAME)).geometry()
+    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
+    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
+    #                                           settings.COUNTRIES_NAME)).geometry()
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/mekong-admin-0')
+    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Name',
+                                                                       settings.COUNTRIES_NAME)).geometry()
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
@@ -29,10 +32,10 @@ class ForestMonitor():
         self.center = center
         if (area_path and area_name):
             if (area_path == 'country'):
-                if (area_name == 'Myanmar'):
-                    area_name = 'Myanmar (Burma)'
+                #if (area_name == 'Myanmar'):
+                #    area_name = 'Myanmar (Burma)'
                 self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Country', [area_name])).geometry()
+                                    ee.Filter.inList('Name', [area_name])).geometry()
                 self.scale = 100
             elif (area_path == 'province'):
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
