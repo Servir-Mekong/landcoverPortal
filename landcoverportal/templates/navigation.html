@@ -24,7 +24,10 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
-		    </button>
+			</button>
+			<a class="float-left" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#" ng-click="toggleFullScreen()">
+				<i class="fas fa-bars fa-2x"></i>
+			</a>
 		    <a class="navbar-brand navmenu" href="/home/">[[applicationName]]</a>
 		</div>
 
@@ -32,7 +35,10 @@
 	        <ul class="nav navbar-nav navbar-right">
 	            <li ng-repeat="menu in menus">
 	                <a ng-show="menu.show" class="navmenu" href="[[menu.url]]">[[menu.name]]</a>
-	            </li>
+				</li>
+				<a class="float-right" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#" ng-click="toggleLogoBar()">
+					<i class="fas [[ toggleHandleClass ]] fa-2x"></i>
+				</a>
 	        </ul>
 		</div>
 	</div>

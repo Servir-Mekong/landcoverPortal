@@ -2,10 +2,13 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('landCoverController', function ($http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('landCoverController', function ($http, $rootScope, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
         var map = MapService.init();
+
+        $scope.mapClass = CommonService.mapClass;
+        $scope.sideClass = CommonService.sideClass;
 
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
@@ -15,6 +18,20 @@
         //for (var i = 0; i < $scope.landCoverClasses.length; i++) {
         //    $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
         //}
+
+        $rootScope.$on('toggleFullScreen', function (event, data) {
+            // do what you want with the data from the event
+            $scope.mapClass = data.mapClass;
+            $scope.sideClass = data.sideClass;
+            if (data.mapClass === 'col-md-12 col-lg-12') {
+                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
+                $('.slider-year-container').css({'width': '85%'});
+            } else {
+                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
+                $('.slider-year-container').css({'width': '60%'});
+            }
+
+        });
 
         // $scope variables
         $scope.overlays = {};

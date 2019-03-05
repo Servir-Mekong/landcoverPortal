@@ -5,6 +5,9 @@
     angular.module('landcoverportal')
     .service('CommonService', function (appSettings) {
 
+        this.mapClass = 'col-md-9 col-lg-9';
+        this.sideClass = 'col-md-3 col-lg-3';
+
         this.getAreaVariableOptions = function (option, myanmar) {
             if (typeof(myanmar) === 'undefined') myanmar = false;
             if (option === 'country') {

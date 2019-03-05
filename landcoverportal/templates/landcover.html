@@ -24,17 +24,17 @@
         </div>
 
         <!-- Sidebar Container -->
-        <div class="col-md-3 col-lg-3">
+        <div class="[[ sideClass ]]">
             {% include "panels/side-panel-landcover.html" %}
         </div>
 
         <!-- Map Container -->
         {% if version1 %}
-            <div class="col-md-9 col-lg-9 map" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); getStats('v1');"></div>
+            <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); getStats('v1');"></div>
         {% elif version2 %}
-            <div class="col-md-9 col-lg-9 map" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', 'v2', true); getStats('v2');"></div>
+            <div class="map [[ mapClass ]]" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', 'v2', true); getStats('v2');"></div>
         {% else %}
-            <div class="col-md-9 col-lg-9 map" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', 'v3', true); getStats('v3');"></div>
+            <div class="map [[ mapClass ]]" id="map" ng-init="showProbabilityMap(); initMap(2017, 'landcovermap', 'v3', true); getStats('v3');"></div>
         {% endif %}
 
         <!-- Toogle button container -->

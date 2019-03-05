@@ -24,12 +24,12 @@
         </div>
 
         <!-- Sidebar Container -->
-        <div class="col-md-3 col-lg-3">
+        <div class="[[ sideClass ]]">
             {% include "panels/side-panel-forest-monitor.html" %}
         </div>
 
         <!-- Map Container -->
-        <div class="col-md-9 col-lg-9 map" id="map"></div>
+        <div class="[[ mapClass ]] map" id="map"></div>
 
         <!-- Layer Control Container -->
         <div class="panel panel-default layer-control" ng-show="showTreeCanopyOpacitySlider || showTreeHeightOpacitySlider || showForestGainOpacitySlider || showForestLossOpacitySlider || showForestChangeOpacitySlider || showForestExtendOpacitySlider">
