@@ -16,7 +16,7 @@ from forest_monitor import views as forest_monitor_views
 from landcover_viewer import api as landcover_api
 from myanmar_ipcc import api as myanmar_ipcc_api
 from myanmar_fra import api as myanmar_fra_api
-from .views import store_auth_code, home
+from .views import store_auth_code, home, service_applications
 
 admin.autodiscover()
 
@@ -40,9 +40,10 @@ urlpatterns += i18n_patterns(
     #url(r'^home/', TemplateView.as_view(template_name="home.html")),
     url(r'^$', home),
     url(r'^home/', home),
+    url(r'^service-applications/', service_applications),
     url(r'^method/', TemplateView.as_view(template_name="method.html")),
     url(r'^privacy-policy/', TemplateView.as_view(template_name="privacy-policy.html")),
-    url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
+    #url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
     #url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
     url(r'^', include('forest_monitor.urls')),
     url(r'^', include('landcover_viewer.urls')),

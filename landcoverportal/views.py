@@ -54,5 +54,7 @@ def store_auth_code(request):
     return JsonResponse({'success': True, 'email': email})
 
 def home(request):
-
     return render(request, 'home.html', {'version1': True})
+
+def service_applications(request):
+    return render(request, 'service-applications.html', {'version1': True})

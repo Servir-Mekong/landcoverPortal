@@ -19,14 +19,14 @@
 
             // Modal Close Function
             $scope.closeModal = function() {
-                $('#descriptionModal').addClass('display-none-imp');
+                $('#descriptionModal').modal('hide');
             };
 
             // Modal Open Function
             $scope.showModal = function(title, description) {
                 $scope.descriptionModalTitle = title;
                 $scope.descriptionModalBody = description;
-                $('#descriptionModal').removeClass('display-none-imp');
+                $('#descriptionModal').modal('show');
             };
 
             // Close the Modal

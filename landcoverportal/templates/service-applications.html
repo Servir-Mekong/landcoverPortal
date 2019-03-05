@@ -10,15 +10,16 @@
 <div class="container" ng-controller="utilsController" style="padding: 25px;">
     <div class="row">
 
-        <div id="descriptionModal" class="modal display-none-imp">
-            <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="modal-close">&times;</span>
-                    <h2>[[ descriptionModalTitle ]]</h2>
-                </div>
-                <div class="modal-body">
-                    <h4 ng-bind-html="[[ descriptionModalBody ]]" style="font-size:17px;"></h4>
+        <div id="descriptionModal" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h2>[[ descriptionModalTitle ]]</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p ng-bind-html="[[ descriptionModalBody ]]" style="font-size:17px;"></p>
+                    </div>
                 </div>
             </div>
         </div>
