@@ -19,6 +19,8 @@
         //    $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
         //}
 
+        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
+
         $rootScope.$on('toggleFullScreen', function (event, data) {
             // do what you want with the data from the event
             $scope.mapClass = data.mapClass;

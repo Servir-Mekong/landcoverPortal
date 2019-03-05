@@ -70,6 +70,14 @@
                 }
             };
 
+            $rootScope.$on('showToggleFullScreenIcon', function (event, data) {
+                if (data && data.show) {
+                    $scope.showToggleFullScreenIcon = true;
+                } else {
+                    $scope.showToggleFullScreenIcon = false;
+                }
+            });
+
         });
 
 })();

@@ -14,6 +14,8 @@
     })
     .controller('forestMonitorController', function ($rootScope, $scope, $sanitize, $http, appSettings, CommonService, MapService, ForestMonitorService) {
 
+        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
+
         // Global Variables
         var drawningManagerArea = null;
         var map = MapService.init();
