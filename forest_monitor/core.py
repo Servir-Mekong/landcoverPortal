@@ -454,7 +454,7 @@ class ForestMonitor():
         try:
             url = image.getDownloadURL({
                 'name': type,
-                'scale': 30
+                'scale': 100
             })
             return {'downloadUrl': url}
         except Exception as e:
