@@ -7,20 +7,21 @@
 
         var service = this;
 
+        service.DEFAULT_ZOOM = 5;
+        service.MAX_ZOOM = 25;
+        service.DEFAULT_CENTER = {
+            lng: 102.93, lat: 16.4
+        };
+        service.CENTER = [16.4, 102.93];
+
+
         service.init = function (lng, lat, zoom) {
 
             // Global Variables
-            var DEFAULT_ZOOM = zoom || 5,
-                MAX_ZOOM = 25,
-                DEFAULT_CENTER = {
-                    lng: lng || 102.93,
-                    lat: lat || 16.4
-                },
-                // Map options
-                mapOptions = {
-                    center: DEFAULT_CENTER,
-                    zoom: DEFAULT_ZOOM,
-                    maxZoom: MAX_ZOOM,
+            var mapOptions = {
+                    center: service.DEFAULT_CENTER,
+                    zoom: service.DEFAULT_ZOOM,
+                    maxZoom: service.MAX_ZOOM,
                     mapTypeControlOptions: {
                         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                         position: google.maps.ControlPosition.TOP_CENTER

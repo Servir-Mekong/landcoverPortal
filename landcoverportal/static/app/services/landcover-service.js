@@ -3,10 +3,12 @@
     'use strict';
 
     angular.module('landcoverportal')
-    .service('LandCoverService', function ($http) {
+    .service('LandCoverService', function ($http, $q) {
 
-        //this.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName, v1, type) {
-        this.getLandCoverMap = function (options) {
+        var service = this;
+
+        //service.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName, v1, type) {
+            service.getLandCoverMap = function (options) {
 
             var primitives = options.primitives;
             var year = options.year;
@@ -68,7 +70,7 @@
             return promise;
         };
 
-        this.getPrimitiveMap = function (options) {
+        service.getPrimitiveMap = function (options) {
 
             var index = options.index;
             var year = options.year;
@@ -106,7 +108,7 @@
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
                 req.data.areaName = areaName;
-            } else {
+            } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
                     req.data.shape = shapeType;
@@ -129,7 +131,7 @@
             return promise;
         };
 
-        this.getProbabilityMap = function (options) {
+        service.getProbabilityMap = function (options) {
 
             var year = options.year;
             var shape = options.shape;
@@ -154,7 +156,7 @@
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
                 req.data.areaName = areaName;
-            } else {
+            } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
                     req.data.shape = shapeType;
@@ -177,7 +179,7 @@
             return promise;
         };
 
-        this.getStats = function (options) {
+        service.getStats = function (options) {
 
             var primitives = options.primitives;
             var year = options.year;
@@ -215,7 +217,7 @@
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
                 req.data.areaName = areaName;
-            } else {
+            } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
                     req.data.shape = shapeType;
@@ -238,8 +240,8 @@
             return promise;
         };
 
-        //this.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index, serviceType) {
-        this.getDownloadURL = function (options) {
+        //service.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index, serviceType) {
+        service.getDownloadURL = function (options) {
             var primitives = options.primitives;
             var year = options.year;
             var shape = options.shape;
@@ -280,7 +282,7 @@
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
                 req.data.areaName = areaName;
-            } else {
+            } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
                     req.data.shape = shapeType;
@@ -303,8 +305,8 @@
             return promise;
         };
 
-        //this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
-        this.saveToDrive = function (options) {
+        //service.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+        service.saveToDrive = function (options) {
             var primitives = options.primitives;
             var year = options.year;
             var shape = options.shape;
@@ -347,7 +349,7 @@
             if (areaSelectFrom && areaName) {
                 req.data.areaSelectFrom = areaSelectFrom;
                 req.data.areaName = areaName;
-            } else {
+            } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
                     req.data.shape = shapeType;
@@ -369,6 +371,22 @@
                 });
             return promise;
 
+        };
+
+        service.getColumnStatData = function (options, years) {
+            var promises = [];
+            years.forEach(function (year) {
+                options.year = year;
+                promises.push(service.getStats(options));
+            });
+            var promise = $q.all(promises)
+            .then(function (results) {
+                return results;
+                /*results.forEach(function(data, status, headers, config) {
+                    return data;
+                });*/
+            });
+            return promise;
         };
 
     });

@@ -1,0 +1,108 @@
+
+.change-detection-inner {
+    padding: 20px;
+    background: #fff;
+}
+
+#change-detection-map {
+    position: absolute;
+    height: 70vh;
+    width: 98%;
+    padding: 0;
+    margin: 0;
+}
+
+/*
+ * Card
+ */
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 2px;
+    color: black;
+    padding-right: 2px;
+    padding-left: 2px;
+    min-height: 400px;
+    position: relative;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card .card-title {
+    text-transform: uppercase;
+    transition: color 150ms ease;
+}
+
+.card-title {
+    position: relative;
+    padding-left: 10px;
+    top: -10px;
+}
+
+.card .card-content {
+    padding: 9px;
+    border-radius: 0 0 2px 2px;
+    /*background-clip: padding-box;
+    box-sizing: border-box;*/
+    margin-top: -10px;
+}
+
+.card-title select {
+    float: right;
+    width: 12vh;
+    height: 34px;
+    margin-top: 15px;
+    margin-right: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+
+.card-title p {
+    float: right;
+    margin-top: 20px;
+    margin-right: 10px;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.card-title button {
+    float: right;
+    height: 34px;
+    margin-top: 15px;
+    margin-right: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}
+
+/* Legend */
+.info-legend {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+} 
+
+.info-legend h4 {
+    /*margin: 0 0 5px;*/ 
+    color: #777;
+}
+
+.legend {
+    text-align: left;
+    /*line-height: 18px;*/
+    color: #555;
+}
+.legend i {
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin-right: 8px;
+}
+
+.info-legend p {
+    margin: 1px 0 0 0;
+    line-height: 5px;
+}

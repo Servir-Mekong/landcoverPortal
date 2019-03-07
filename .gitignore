@@ -24,6 +24,7 @@ landcoverportal/settings.py
 .settings/
 .vs/
 *.sln
+.vscode/
 
 # Vendor files
 # ======================
