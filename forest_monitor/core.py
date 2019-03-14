@@ -13,8 +13,10 @@ class ForestMonitor():
 
     ee.Initialize(settings.EE_CREDENTIALS)
     # image collection
-    TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
-    TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
+    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
+    TREE_CANOPY_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy_uncertainty')
+    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
+    TREE_HEIGHT_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height_uncertainty')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
@@ -101,7 +103,7 @@ class ForestMonitor():
                 mask = img.select(0).gt(tree_canopy_definition)
                 return img.updateMask(mask).rename(['tcc'])
 
-            img_coll = ForestMonitor.TREE_CANOPY_IMG_COLLECTION
+            img_coll = ForestMonitor.TREE_CANOPY
             img_coll = img_coll.map(_apply_tree_canopy_definition)
 
         image = ee.Image(img_coll.filterDate('%s-01-01' % year,
@@ -119,6 +121,34 @@ class ForestMonitor():
             'min': str(tree_canopy_definition),
             'max': '100',
             'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
+    def tree_canopy_uncertainty(self, get_image=False, year=None):
+
+        if not year:
+            return {
+                'message': 'Please specify a year for which you want to perform the calculations!'
+            }
+
+        image = ee.Image(ForestMonitor.TREE_CANOPY_UNCERTAINTY.filterDate(\
+                                                    '%s-01-01' % year,
+                                                    '%s-12-31' % year).first())
+
+        image = image.select('b1').updateMask(image.neq(0)).clip(self.geometry)
+
+        if get_image:
+            return image
+
+        map_id = image.getMapId({
+            'min': '0',
+            'max': '10',
+            'palette': 'f7fcf5,e4f4e0,c6e8c1,a1d79d,76c17a,47a862,2c894b,126c34,0f592c,0b4523'
         })
 
         return {
@@ -145,7 +175,7 @@ class ForestMonitor():
                 mask = img.select(0).gt(tree_height_definition)
                 return img.updateMask(mask)
 
-            img_coll = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION
+            img_coll = ForestMonitor.TREE_HEIGHT
             img_coll = img_coll.map(_apply_tree_height_definition)
 
         image = ee.Image(img_coll.filterDate('%s-01-01' % year,
@@ -193,8 +223,7 @@ class ForestMonitor():
 
         map_id = image.getMapId({
             'min': '0',
-            'max': '1', #'{}'.format(int(math.ceil(max.getInfo()[max.getInfo().keys()[0]]))),
-            #'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
+            'max': '1',
             'palette': '0b4523'
         })
 
@@ -211,13 +240,11 @@ class ForestMonitor():
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
-            tcc = ForestMonitor.TREE_CANOPY_IMG_COLLECTION.filterDate(\
-                                                date_ymd(year, 1, 1),
-                                                date_ymd(year, 12, 31)).first()
+            tcc = ForestMonitor.TREE_CANOPY.filterDate(date_ymd(year, 1, 1),
+                                                       date_ymd(year, 12, 31)).first()
             tcc = ee.Image(tcc).rename(['tcc'])
-            tch = ForestMonitor.TREE_HEIGHT_IMG_COLLECTION.filterDate(\
-                                                date_ymd(year, 1, 1),
-                                                date_ymd(year, 12, 31)).first()
+            tch = ForestMonitor.TREE_HEIGHT.filterDate(date_ymd(year, 1, 1),
+                                                       date_ymd(year, 12, 31)).first()
             tch = ee.Image(tch).rename(['tch'])
 
             return ee.Image(tcc).addBands(tch)
@@ -450,6 +477,9 @@ class ForestMonitor():
                                      year = start_year,
                                      tree_canopy_definition = tree_canopy_definition,
                                      )
+        elif (type == 'treeCanopyUncertainty'):
+            image = self.tree_canopy_uncertainty(get_image=True, year=start_year)
+            image = image.toByte()
         elif (type == 'treeHeight'):
             image = self.tree_height(get_image = True,
                                      for_download = True,
@@ -486,6 +516,10 @@ class ForestMonitor():
                                        tree_canopy_definition = tree_canopy_definition,
                                        tree_height_definition = tree_height_definition,
                                        )
+        else:
+            return {
+                'error': 'invalid type! check your request!'
+            }
 
         _scale = 100
         while True:
@@ -519,6 +553,9 @@ class ForestMonitor():
                                      year = start_year,
                                      tree_canopy_definition = tree_canopy_definition,
                                      )
+        elif (type == 'treeCanopyUncertainty'):
+            image = self.tree_canopy_uncertainty(get_image=True, year=start_year)
+            image = image.toByte()
         elif (type == 'treeHeight'):
             image = self.tree_height(get_image = True,
                                      for_download = True,
@@ -527,6 +564,7 @@ class ForestMonitor():
                                      )
         elif (type == 'primaryForest'):
             image = self.primary_forest(get_image=True, year=start_year)
+            image = image.toByte()
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,
@@ -637,7 +675,7 @@ class ForestMonitor():
                                        )
         else:
             return {
-                'reportError': 'type must be one of treeCanopy, forestGain, forestLoss or forestExtend'
+                'reportError': 'type must be one of treeCanopy, primaryForest, forestGain, forestLoss or forestExtend'
             }
 
         reducer = image.gt(0).multiply(self.scale).multiply(self.scale).reduceRegion(

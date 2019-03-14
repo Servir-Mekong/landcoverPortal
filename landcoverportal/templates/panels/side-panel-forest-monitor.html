@@ -65,7 +65,7 @@
             </li>
             <ul class="sub-menu collapse" id="treeCanopy">
                 <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy cover"></span>
-                    <p class="inline-block-display">Tree Canopy Cover for </p>
+                    <p class="inline-block-display">Tree Canopy Cover (TCC) for </p>
                     <div class="form-group inline-block-display">
                         <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
                         </select>
@@ -110,6 +110,56 @@
                         <span class="input-group-btn">
                             <button type="button"
                                     ng-click="saveToDrive('treeCanopy', treeCanopyYear)"
+                                    class="btn btn-primary"
+                                    style="height: 34px;margin-bottom: 14px;">
+                                Start Download
+                            </button>
+                        </span>
+                    </div>
+                </li>
+                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy cover uncertainty"></span>
+                    <p class="inline-block-display">TCC Uncertainty for </p>
+                    <div class="form-group inline-block-display">
+                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="treeCanopyUncertaintyYear" ng-change="treeCanopyUncertaintyYearChange(treeCanopyUncertaintyYear)">
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="showTreeCanopyUncertaintyOpacitySlider">
+                        <label for="tree-canopy-uncertainty-opacity-slider" style="margin-right: 10px;">Transparency </label>
+                        <input name="tree-canopy-uncertainty-opacity-slider" id="tree-canopy-uncertainty-opacity-slider" data-slider-id="tree-canopy-uncertainty-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                    </div>
+                    <div class="form-group text-center" ng-show="showTreeCanopyUncertaintyDownloadButtons">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
+                            <button type="button" class="btn btn-success" href="" data-toggle="modal" id="treeCanopyUncertaintyButton"
+                                    data-download-button="getURL" data-download-year=[[treeCanopyUncertaintyYear]]
+                                    ng-click="getDownloadURL('treeCanopyUncertainty', treeCanopyUncertaintyYear)">
+                                Get Download URL
+                            </button>
+                            <button type="button" class="btn btn-info" ng-switch-when="true" ng-click="showGDriveFileName('treeCanopyUncertainty', treeCanopyUncertaintyYear)">
+                                Download to GDrive
+                            </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default ng-click="showGDriveFileName('treeCanopyUncertainty', treeCanopyUncertaintyYear)">
+                                Download to GDrive
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group" ng-show="showTreeCanopyUncertaintyDownloadURL" style="margin: 10px;">
+                        <input type="text" class="form-control" value="[[treeCanopyUncertaintyDownloadURL]]">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default treeCanopyUncertaintyCpyBtn js-tooltip"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Copy to clipboard"
+                                    ng-click="copyToClipBoard('treeCanopyUncertainty')"
+                                    style="height: 34px;margin-bottom: 14px;">
+                                <!-- icon from google's material design library -->
+                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="input-group" ng-show="showTreeCanopyUncertaintyGDriveFileName" style="margin: 10px;">
+                        <input type="text" id="treeCanopyUncertaintyGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="button"
+                                    ng-click="saveToDrive('treeCanopyUncertainty', treeCanopyUncertaintyYear)"
                                     class="btn btn-primary"
                                     style="height: 34px;margin-bottom: 14px;">
                                 Start Download

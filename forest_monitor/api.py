@@ -13,6 +13,7 @@ import time
 
 PUBLIC_METHODS = [
     'tree-canopy',
+    'tree-canopy-uncertainty',
     'tree-height',
     'primary-forest',
     'forest-gain',
@@ -55,6 +56,8 @@ def api(request):
             data = core.tree_canopy(year = post('year', ''),
                                     tree_canopy_definition = tree_canopy_definition,
                                     )
+        elif action == 'tree-canopy-uncertainty':
+            data = core.tree_canopy_uncertainty(year = post('year', ''))
         elif action == 'tree-height':
             data = core.tree_height(year=post('year', ''),
                                     tree_height_definition = tree_height_definition,
