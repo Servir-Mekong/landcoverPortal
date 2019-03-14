@@ -16,6 +16,7 @@ class DownloadInfo(models.Model):
         ('forest_gain', 'Forest Gain'),
         ('forest_loss', 'Forest Loss'),
         ('forest_extend', 'Forest Extend'),
+        ('primary_forest', 'Primary Forest'),
     )
     type = models.CharField(max_length=50, choices=TYPE)
 

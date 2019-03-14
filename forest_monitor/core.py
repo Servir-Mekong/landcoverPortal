@@ -15,6 +15,7 @@ class ForestMonitor():
     # image collection
     TREE_HEIGHT_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
     TREE_CANOPY_IMG_COLLECTION = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
+    PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
     #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
@@ -163,6 +164,38 @@ class ForestMonitor():
             'max': '36', #'{}'.format(int(math.ceil(max.getInfo()[max.getInfo().keys()[0]]))),
             #'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
             'palette': '410f74,5e177f,7b2282,982c80,b63679,d3426e,eb5761,f8765c,fe9969,febb80,fedc9d,fcfdbf'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
+    def primary_forest(self, get_image=False, year=None):
+
+        if not year:
+            return {
+                'message': 'Please specify a year for which you want to perform the calculations!'
+            }
+
+        image = ee.Image(ForestMonitor.PRIMARY_FOREST.filterDate('%s-01-01' % year,
+                                                                 '%s-12-31' % year).mean())
+
+        # 0: non-forest
+        # 1: forest
+        image = image.select('b1').updateMask(image.eq(1)).clip(self.geometry)
+
+        if get_image:
+            return image
+
+        #image = image.updateMask(image).clip(self.geometry)
+
+        map_id = image.getMapId({
+            'min': '0',
+            'max': '1', #'{}'.format(int(math.ceil(max.getInfo()[max.getInfo().keys()[0]]))),
+            #'palette': 'f7fcf5,e8f6e3,d0edca,b2e0ab,8ed18c,66bd6f,3da75a,238c45,03702e,00441b'
+            'palette': '0b4523'
         })
 
         return {
@@ -423,6 +456,9 @@ class ForestMonitor():
                                      year = start_year,
                                      tree_height_definition = tree_height_definition,
                                      )
+        elif (type == 'primaryForest'):
+            image = self.primary_forest(get_image=True, year=start_year)
+            image = image.toByte()
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,
@@ -451,14 +487,18 @@ class ForestMonitor():
                                        tree_height_definition = tree_height_definition,
                                        )
 
-        try:
-            url = image.getDownloadURL({
-                'name': type,
-                'scale': 100
-            })
-            return {'downloadUrl': url}
-        except Exception as e:
-            return {'error': '{} Try using download to drive options for larger area!'.format(e.message)}
+        _scale = 100
+        while True:
+            try:
+                url = image.getDownloadURL({
+                    'name': type,
+                    'scale': _scale
+                })
+                return {'downloadUrl': url}
+            except Exception as e:
+                _scale += 25
+                continue
+            break
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
@@ -485,6 +525,8 @@ class ForestMonitor():
                                      year = start_year,
                                      tree_height_definition = tree_height_definition,
                                      )
+        elif (type == 'primaryForest'):
+            image = self.primary_forest(get_image=True, year=start_year)
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,
@@ -570,6 +612,9 @@ class ForestMonitor():
                                      year = year,
                                      tree_canopy_definition = tree_canopy_definition,
                                      )
+        elif (type == 'primaryForest'):
+            name = 'b1'
+            image = self.primary_forest(get_image=True, year=year)
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,

@@ -64,6 +64,7 @@
         $scope.showReportForestGain = false;
         $scope.showReportForestLoss = false;
         $scope.showReportForestExtend = false;
+        $scope.showReportPrimaryForest = false;
 
         /**
          * Alert
@@ -325,16 +326,17 @@
             delete data.purpose;
             data.usage = user.purpose.value;
             var dataTypeLookup = {
-                'treeCanopy'  : 'tree_canopy',
-                'treeHeight'  : 'tree_height',
-                'forestGain'  : 'forest_gain',
-                'forestLoss'  : 'forest_loss',
-                'forestExtend': 'forest_extend'
+                'treeCanopy'   : 'tree_canopy',
+                'treeHeight'   : 'tree_height',
+                'forestGain'   : 'forest_gain',
+                'forestLoss'   : 'forest_loss',
+                'forestExtend' : 'forest_extend',
+                'primaryForest': 'primary_forest'
 
             };
             data.type = dataTypeLookup[dataType];
             if (downloadType === 'getURL') {
-                if (['treeCanopy', 'treeHeight', 'forestExtend'].indexOf(dataType) > -1) {
+                if (['treeCanopy', 'treeHeight', 'forestExtend', 'primaryForest'].indexOf(dataType) > -1) {
                     $scope.getDownloadURL(dataType, targetData.downloadYear);
                 } else if (['forestGain', 'forestLoss'].indexOf(dataType) > -1) {
                     $scope.getDownloadURL(dataType, targetData.downloadYearStart, targetData.downloadYearEnd, true);
@@ -350,11 +352,12 @@
                     $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                     showInfoAlert('Preparing Download Link...');
                     var dataTypeLookup = {
-                        'treeCanopy'  : 'tree_canopy',
-                        'treeHeight'  : 'tree_height',
-                        'forestGain'  : 'forest_gain',
-                        'forestLoss'  : 'forest_loss',
-                        'forestExtend': 'forest_extend'
+                        'treeCanopy'   : 'tree_canopy',
+                        'treeHeight'   : 'tree_height',
+                        'forestGain'   : 'forest_gain',
+                        'forestLoss'   : 'forest_loss',
+                        'forestExtend' : 'forest_extend',
+                        'primaryForest': 'primary_forest'
         
                     };
                     var data = {
@@ -804,6 +807,77 @@
                 parameterChangeErrorCallback(error);
             });
         };
+
+        /*
+        * Primary Forest Calculations
+        */
+       $scope.showPrimaryForestOpacitySlider = false;
+       $scope.primaryForestOpacitySliderValue = null;
+       $scope.showPrimaryForestDownloadButtons = false;
+
+       /* slider init */
+       var primaryForestSlider = $('#primary-forest-opacity-slider').slider(sliderOptions)
+       .on('slideStart', function (event) {
+           $scope.primaryForestOpacitySliderValue = $(this).data('slider').getValue();
+       })
+       .on('slideStop', function (event) {
+           var value = $(this).data('slider').getValue();
+           if (value !== $scope.primaryForestOpacitySliderValue) {
+               $scope.primaryForestOpacitySliderValue = value;
+               $scope.overlays.primaryForest.setOpacity(value);
+           }
+       });
+
+       /* Layer switcher */
+       $('#primaryForestSwitch').change(function () {
+           if ($(this).is(':checked')) {
+               $scope.overlays.primaryForest.setOpacity($scope.primaryForestOpacitySliderValue);
+           } else {
+               $scope.overlays.primaryForest.setOpacity(0);
+           }
+       });
+
+       $scope.primaryForestYearChange = function (year) {
+           $scope.showLoader = true;
+           var name = 'primaryForest';
+           MapService.clearLayer(map, name);
+           $scope.closeAlert();
+           // Close and restart this after success
+           $scope.showprimaryForestOpacitySlider = false;
+
+           var parameters = {
+               year: year,
+               shape: $scope.shape,
+               areaSelectFrom: $scope.areaSelectFrom,
+               areaName: $scope.areaName,
+               type: name
+           };
+
+           ForestMonitorService.primaryForestChange(parameters)
+           .then(function (data) {
+               parameterChangeSuccessCallback(name, data, primaryForestSlider, 'Primary Forest for year ' + year + ' !');
+               $scope.showPrimaryForestOpacitySlider = true;
+               $scope.showPrimaryForestDownloadButtons = true;
+           }, function (error) {
+               parameterChangeErrorCallback(error);
+           });
+
+           ForestMonitorService.getStats(parameters)
+           .then(function (data) {
+               $scope.showReportNoPolygon = false;
+               if (data.area) {
+                   $scope.reportPrimaryForestTitle = 'Primary Forest for ' + year;
+                   $scope.reportPrimaryForestValue = data.area;
+                   $scope.showReportPrimaryForest = true;
+               } else if (data.reportError) {
+                   $scope.reportPrimaryForestTitle = 'Error calculating Primary Forest';
+                   $scope.reportPrimaryForestValue = data.reportError;
+                   $scope.showReportPrimaryForest = true;
+               }
+           }, function (error) {
+               parameterChangeErrorCallback(error);
+           });
+       };
 
         /*
         * Forest Gain Calculations

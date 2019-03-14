@@ -22,7 +22,7 @@
 }
 
 .forest-definition {
-    color: black;
+    color: white;
     background-color: #337ab7;
     /*margin-top: -10px;*/
     width: 100%;
@@ -64,32 +64,49 @@
 
 /* Sliders */
 
+#tree-canopy-opacity-slider .slider-track-high,
+#tree-height-opacity-slider .slider-track-high,
+#tree-extend-opacity-slider .slider-track-high,
+#forest-gain-opacity-slider .slider-track-high,
+#forest-loss-opacity-slider .slider-track-high,
+#forest-change-opacity-slider .slider-track-high,
+#primary-forest-opacity-slider .slider-track-high {
+    background: #BABABA;
+    /*background: rgb(198, 40, 40);*/
+}
+
 #tree-canopy-opacity-slider .slider-selection,
 #tree-height-opacity-slider .slider-selection,
+#tree-extend-opacity-slider .slider-selection,
 #forest-gain-opacity-slider .slider-selection,
 #forest-loss-opacity-slider .slider-selection,
-#forest-change-opacity-slider .slider-selection {
-    /*background: #BABABA;*/
-    background: rgb(198, 40, 40);
+#forest-change-opacity-slider .slider-selection,
+#primary-forest-opacity-slider .slider-selection {
+    background: #c62828;
 }
 
 #tree-canopy-opacity-slider .slider-handle,
 #tree-height-opacity-slider .slider-handle,
+#tree-extend-opacity-slider .slider-handle,
 #forest-gain-opacity-slider .slider-handle,
 #forest-loss-opacity-slider .slider-handle,
-#forest-change-opacity-slider .slider-handle {
+#forest-change-opacity-slider .slider-handle,
+#primary-forest-opacity-slider .slider-handle {
     /*background: #BABABA;*/
-    background: rgb(198, 40, 40);
-    width: 18px;
-    height: 18px;
+    background: #c62828;
+    width: 15px;
+    height: 15px;
 }
 
 #tree-canopy-opacity-slider .slider-track,
 #tree-height-opacity-slider .slider-track,
+#tree-extend-opacity-slider .slider-track,
 #forest-gain-opacity-slider .slider-track,
 #forest-loss-opacity-slider .slider-track,
-#forest-change-opacity-slider .slider-track {
-    height: 6px;
+#forest-change-opacity-slider .slider-track,
+#primary-forest-opacity-slider .slider-track {
+    height: 5px;
+    border-radius: 0;
 }
 
 /*
