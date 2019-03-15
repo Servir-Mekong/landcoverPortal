@@ -14,7 +14,7 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
     # image collection
     TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
-    TREE_CANOPY_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy_uncertainty')
+    #TREE_CANOPY_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy_uncertainty')
     TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
     TREE_HEIGHT_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height_uncertainty')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
@@ -129,7 +129,7 @@ class ForestMonitor():
         }
 
     # -------------------------------------------------------------------------
-    def tree_canopy_uncertainty(self, get_image=False, year=None):
+    '''def tree_canopy_uncertainty(self, get_image=False, year=None):
 
         if not year:
             return {
@@ -154,7 +154,7 @@ class ForestMonitor():
         return {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
-        }
+        }'''
 
     # -------------------------------------------------------------------------
     def tree_height(self,
@@ -477,9 +477,6 @@ class ForestMonitor():
                                      year = start_year,
                                      tree_canopy_definition = tree_canopy_definition,
                                      )
-        elif (type == 'treeCanopyUncertainty'):
-            image = self.tree_canopy_uncertainty(get_image=True, year=start_year)
-            image = image.toByte()
         elif (type == 'treeHeight'):
             image = self.tree_height(get_image = True,
                                      for_download = True,
@@ -553,9 +550,6 @@ class ForestMonitor():
                                      year = start_year,
                                      tree_canopy_definition = tree_canopy_definition,
                                      )
-        elif (type == 'treeCanopyUncertainty'):
-            image = self.tree_canopy_uncertainty(get_image=True, year=start_year)
-            image = image.toByte()
         elif (type == 'treeHeight'):
             image = self.tree_height(get_image = True,
                                      for_download = True,

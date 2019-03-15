@@ -65,7 +65,6 @@
 /* Sliders */
 
 #tree-canopy-opacity-slider .slider-track-high,
-#tree-canopy-uncertainty-opacity-slider .slider-track-high,
 #tree-height-opacity-slider .slider-track-high,
 #tree-extend-opacity-slider .slider-track-high,
 #forest-gain-opacity-slider .slider-track-high,
@@ -77,7 +76,6 @@
 }
 
 #tree-canopy-opacity-slider .slider-selection,
-#tree-canopy-uncertainty-opacity-slider .slider-selection,
 #tree-height-opacity-slider .slider-selection,
 #tree-extend-opacity-slider .slider-selection,
 #forest-gain-opacity-slider .slider-selection,
@@ -88,7 +86,6 @@
 }
 
 #tree-canopy-opacity-slider .slider-handle,
-#tree-canopy-uncertainty-opacity-slider .slider-handle,
 #tree-height-opacity-slider .slider-handle,
 #tree-extend-opacity-slider .slider-handle,
 #forest-gain-opacity-slider .slider-handle,
@@ -102,7 +99,6 @@
 }
 
 #tree-canopy-opacity-slider .slider-track,
-#tree-canopy-uncertainty-opacity-slider .slider-track,
 #tree-height-opacity-slider .slider-track,
 #tree-extend-opacity-slider .slider-track,
 #forest-gain-opacity-slider .slider-track,

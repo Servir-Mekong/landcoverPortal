@@ -12,7 +12,6 @@ class DownloadInfo(models.Model):
 
     TYPE = (
         ('tree_canopy', 'Tree Canopy'),
-        ('tree_canopy_uncertainty', 'Tree Canopy Uncertainty'),
         ('tree_height', 'Tree Height'),
         ('primary_forest', 'Primary Forest'),
         ('forest_gain', 'Forest Gain'),

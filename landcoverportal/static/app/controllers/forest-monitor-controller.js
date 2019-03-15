@@ -296,8 +296,6 @@
         // Download URL
         $scope.showTreeCanopyDownloadURL = false;
         $scope.treeCanopyDownloadURL = '';
-        $scope.showTreeCanopyUncertaintyDownloadURL = false;
-        $scope.treeCanopyUnceratintyDownloadURL = '';
         $scope.showTreeHeightDownloadURL = false;
         $scope.treeHeightDownloadURL = '';
         $scope.showPrimaryForestDownloadURL = false;
@@ -331,7 +329,6 @@
             data.usage = user.purpose.value;
             var dataTypeLookup = {
                 'treeCanopy'           : 'tree_canopy',
-                'treeCanopyUncertainty': 'tree_canopy_uncertainty',
                 'treeHeight'           : 'tree_height',
                 'primaryForest'        : 'primary_forest',
                 'forestGain'           : 'forest_gain',
@@ -358,7 +355,6 @@
                     showInfoAlert('Preparing Download Link...');
                     var dataTypeLookup = {
                         'treeCanopy'           : 'tree_canopy',
-                        'treeCanopyUncertainty': 'tree_canopy_uncertainty',
                         'treeHeight'           : 'tree_height',
                         'primaryForest'        : 'primary_forest',
                         'forestGain'           : 'forest_gain',
@@ -412,7 +408,6 @@
 
         // Google Download
         $scope.showTreeCanopyGDriveFileName = false;
-        $scope.showTreeCanopyUncertaintyGDriveFileName = false;
         $scope.showTreeHeightGDriveFileName = false;
         $scope.showPrimaryForestGDriveFileName = false;
         $scope.showForestGainGDriveFileName = false;
@@ -760,62 +755,6 @@
                 parameterChangeErrorCallback(error);
             });
         };
-
-        /*
-        * Tree Canopy Uncertainty Calculations
-        */
-       $scope.showTreeCanopyUncertaintyOpacitySlider = false;
-       $scope.treeCanopyUncertaintyOpacitySliderValue = null;
-       $scope.showTreeCanopyUncertaintyDownloadButtons = false;
-
-       /* slider init */
-       var treeCanopyUncertaintySlider = $('#tree-canopy-uncertainty-opacity-slider').slider(sliderOptions)
-       .on('slideStart', function (event) {
-           $scope.treeCanopyUncertaintyOpacitySliderValue = $(this).data('slider').getValue();
-       })
-       .on('slideStop', function (event) {
-           var value = $(this).data('slider').getValue();
-           if (value !== $scope.treeCanopyUncertaintyOpacitySliderValue) {
-               $scope.treeCanopyUncertaintyOpacitySliderValue = value;
-               $scope.overlays.treeCanopyUncertainty.setOpacity(value);
-           }
-       });
-
-       /* Layer switcher */
-       $('#treeCanopyUncertaintySwitch').change(function () {
-           if ($(this).is(':checked')) {
-               $scope.overlays.treeCanopyUncertainty.setOpacity($scope.treeCanopyUncertaintyOpacitySliderValue);
-           } else {
-               $scope.overlays.treeCanopyUncertainty.setOpacity(0);
-           }
-       });
-
-       $scope.treeCanopyUncertaintyYearChange = function (year) {
-           $scope.showLoader = true;
-           var name = 'treeCanopyUncertainty';
-           MapService.clearLayer(map, name);
-           $scope.closeAlert();
-           // Close and restart this after success
-           $scope.showTreeCanopyUncertaintyOpacitySlider = false;
-
-           var parameters = {
-               year: year,
-               shape: $scope.shape,
-               areaSelectFrom: $scope.areaSelectFrom,
-               areaName: $scope.areaName,
-               type: name
-           };
-
-           ForestMonitorService.treeCanopyUncertaintyChange(parameters)
-           .then(function (data) {
-               parameterChangeSuccessCallback(name, data, treeCanopyUncertaintySlider, 'Tree Canopy Cover Uncertainty for year ' + year + ' !');
-               $scope.showTreeCanopyUncertaintyOpacitySlider = true;
-               $scope.showTreeCanopyUncertaintyDownloadButtons = true;
-           }, function (error) {
-               parameterChangeErrorCallback(error);
-           });
-       };
-
 
         /**
          * Tree Height Calculations
