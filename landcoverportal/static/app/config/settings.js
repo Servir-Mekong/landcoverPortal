@@ -182,7 +182,7 @@ var settings = {
             'color': '#b1f9ff'
         },
         {
-            'name': 'Mangrove',
+            'name': 'Mangroves',
             'value': '3',
             'color': '#111149'
         },
@@ -222,7 +222,7 @@ var settings = {
             'color': '#387242'
         },
         {
-            'name': 'Evergreen Mixed and Deciduous',
+            'name': 'Mixed Evergreen and Deciduous',
             'value': '11',
             'color': '#115420'
         },

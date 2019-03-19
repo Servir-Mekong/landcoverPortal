@@ -375,3 +375,7 @@ input:checked+.switch-slider:before {
     background-color: #4CAF50;
     color: white;
 }
+
+.fa-custom {
+    font-size: 1.5em;
+}

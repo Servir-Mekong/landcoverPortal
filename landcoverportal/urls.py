@@ -41,7 +41,6 @@ urlpatterns += i18n_patterns(
     url(r'^$', home),
     url(r'^home/', home),
     url(r'^service-applications/', service_applications),
-    url(r'^analysis/', TemplateView.as_view(template_name="analysis.html")),
     url(r'^method/', TemplateView.as_view(template_name="method.html")),
     url(r'^privacy-policy/', TemplateView.as_view(template_name="privacy-policy.html")),
     #url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),

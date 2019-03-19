@@ -5,10 +5,12 @@
     angular.module('landcoverportal')
     .service('CommonService', function (appSettings) {
 
-        this.mapClass = 'col-md-9 col-lg-9';
-        this.sideClass = 'col-md-3 col-lg-3';
+        var service = this;
 
-        this.getAreaVariableOptions = function (option, myanmar) {
+        service.mapClass = 'col-md-9 col-lg-9';
+        service.sideClass = 'col-md-3 col-lg-3';
+
+        service.getAreaVariableOptions = function (option, myanmar) {
             if (typeof(myanmar) === 'undefined') myanmar = false;
             if (option === 'country') {
                 if (myanmar) {
@@ -23,13 +25,13 @@
             }
         };
 
-        this.capitalizeString = function (string) {
+        service.capitalizeString = function (string) {
             return string.replace(/(^|\s)([a-z])/g, function (m, p1, p2) {
                 return p1 + p2.toUpperCase();
             });
         };
 
-        this.AnalysisToolControl = function (controlDiv) {
+        service.AnalysisToolControl = function (controlDiv) {
             // Set CSS for the control border.
             var controlUI = document.createElement('div');
             controlUI.setAttribute('class', 'tool-control text-center');
@@ -40,7 +42,7 @@
             return controlUI;
         };
 
-        this.range = function (start, end) {
+        service.range = function (start, end) {
             var foo = [];
             for (var i = start; i <= end; i++) {
                 foo.push(i);
@@ -48,11 +50,31 @@
             return foo;
         };
 
-        this.getPercent = function (part, sum) {
+        service.getPercent = function (part, sum) {
             return (part / sum * 100).toFixed(2);
         };
 
-        this.buildChart = function (data, div, title) {
+        service.pad2 = function (n) {
+            return n < 10 ? '0' + n : n;
+        };
+
+        service.timeFormat = function (date) {
+            return date.getFullYear().toString() + service.pad2(date.getMonth() + 1) + service.pad2(date.getDate()) + service.pad2(date.getHours()) + service.pad2(date.getMinutes()) + service.pad2(date.getSeconds());
+        };
+
+        service.isEmptyObject = function (obj) {
+            for(var prop in obj) {
+                if(obj.hasOwnProperty(prop))
+                    return false;
+            }
+            return true;
+        };
+
+        service.objectHasKey = function (obj, key) {
+            return obj.hasOwnProperty(key);
+        };
+
+        service.buildChart = function (data, div, title) {
             // build the chart
             Highcharts.chart(div, {
                 chart: {
@@ -109,7 +131,7 @@
             });
         };
 
-        this.buildPieChart = function (options) {
+        service.buildPieChart = function (options) {
 
             var data = options.data;
             var div = options.div;
@@ -190,7 +212,7 @@
             Highcharts.chart(div, pieChartOptions);
         };
 
-        this.buildColumnChart = function (options) {
+        service.buildColumnChart = function (options) {
 
             var categories = options.categories;
             var title = options.title;
