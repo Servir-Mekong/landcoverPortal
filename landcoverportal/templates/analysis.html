@@ -21,20 +21,51 @@
             <div class="row">
                 <!-- Map Start -->
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                    <!-- Loader Container -->
-                    <div class="loader" ng-show="showMapLoader">
-                        <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
-                    </div>
-                    <!-- Card Start -->
-                    <div class="change-detection-inner card mg-tb-30">
-                        <div class="card-title home-title">
-                            <h3>Change Detection</h3>
+                    <div class="row">
+
+                        <!-- Change Detection start -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <!-- Loader Container -->
+                            <div class="loader" ng-show="showMapLoader">
+                                <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+                            </div>
+                            <!-- Card Start -->
+                            <div class="change-detection-inner card mg-tb-30">
+                                <div class="card-title home-title">
+                                    <h3>Change Detection</h3>
+                                </div>
+                                <div class="card-content" style="height: 70vh;">
+                                    {% if version1 %}
+                                        <div id="change-detection-map" ng-init="initMap(2000, 'left', 'v1', true); initMap(2016, 'right', 'v1', true);"></div>
+                                    {% elif version2 %}
+                                        <div id="change-detection-map" ng-init="initMap(2000, 'left', 'v2', true); initMap(2017, 'right', 'v2', true);"></div>
+                                    {% else %}
+                                        <div id="change-detection-map" ng-init="initMap(1987, 'left', 'v3', true); initMap(2017, 'right', 'v3', true);"></div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Card Finish -->
                         </div>
-                        <div class="card-content" style="height: 70vh;">
-                            <div id="change-detection-map" ng-init="initMap(leftLayerYear, 'left'); initMap(rightLayerYear, 'right');"></div>
-                        </div>
+                        <!-- Change detection end -->
+
+                        <!-- Time slider animation start -->
+                        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="loader" ng-show="showMapAnimationLoader">
+                                <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+                            </div>
+                            <div class="change-detection-inner card mg-tb-30">
+                                <div class="card-title home-title">
+                                    <h3>Map Animation</h3>
+                                </div>
+                                <div class="card-content" style="height: 70vh;">
+                                    <div id="animation-map"></div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!-- Time slider animation end -->
+
                     </div>
-                    <!-- Card Finish -->
+
                 </div>
                 <!-- Map End -->
 
@@ -86,9 +117,20 @@
                             <div class="change-detection-inner card mg-tb-30">
                                 <div class="card-title home-title">
                                     <h3 class="inline-block-display">Land Cover Statistics</h3>
-                                    <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
-                                            ng-model="tableYear" ng-change="changeTableYear(tableYear)" ng-init="getTableStats()">
-                                    </select>
+                                    {% if version1 %}
+                                        <!--<div id="change-detection-map" ng-init="initMap(leftLayerYear, 'left', 'v1', true); initMap(rightLayerYear, 'right', 'v1', true);"></div>-->
+                                        <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                                ng-model="tableYear" ng-change="changeTableYear(tableYear,  'v1')" ng-init="getTableStats('v1')">
+                                        </select>
+                                    {% elif version2 %}
+                                        <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                                ng-model="tableYear" ng-change="changeTableYear(tableYear, 'v2')" ng-init="getTableStats('v2')">
+                                        </select>
+                                    {% else %}
+                                        <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                                ng-model="tableYear" ng-change="changeTableYear(tableYear, 'v3')" ng-init="getTableStats('v3')">
+                                        </select>
+                                    {% endif %}
                                 </div>
                                 <div class="card-content landcover-table" ng-show="!showtableLoader">
                                     <table class="table table-striped">
@@ -121,9 +163,19 @@
                             <div class="change-detection-inner card">
                                 <div class="card-title home-title">
                                     <h3 class="inline-block-display">Land Cover Statistics</h3>
-                                    <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
-                                            ng-model="pieYear" ng-change="changePieYear(pieYear)" ng-init="getPieStats()">
-                                    </select>
+                                    {% if version1 %}
+                                        <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                                ng-model="pieYear" ng-change="changePieYear(pieYear, 'v1')" ng-init="getPieStats('v1')">
+                                        </select>
+                                    {% elif version2 %}
+                                        <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                                ng-model="pieYear" ng-change="changePieYear(pieYear, 'v2')" ng-init="getPieStats('v2')">
+                                        </select>
+                                    {% else %}
+                                        <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                                ng-model="pieYear" ng-change="changePieYear(pieYear, 'v3')" ng-init="getPieStats('v3')">
+                                        </select>
+                                    {% endif %}
                                 </div>
                                 <div class="card-content" id="landcover-piechart" ng-show="!showPieLoader"></div>
                             </div>
@@ -150,10 +202,23 @@
                     <div class="change-detection-inner card mg-tb-30">
                         <div class="card-title home-title">
                             <h3 class="inline-block-display">Land Cover Statistics</h3>
-                            <button type="button" class="btn btn-success" ng-click="loadColumnStats()" ng-init=loadColumnStats()>GO</button>
-                            <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnEndYear"></select>
-                            <p>TO</p>
-                            <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnStartYear"></select>
+
+                            {% if version1 %}
+                                <button type="button" class="btn btn-success" ng-click="loadColumnStats('v1')" ng-init=loadColumnStats('v1')>GO</button>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnEndYear"></select>
+                                <p>TO</p>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnStartYear"></select>
+                            {% elif version2 %}
+                                <button type="button" class="btn btn-success" ng-click="loadColumnStats('v2')" ng-init=loadColumnStats('v2')>GO</button>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnEndYear"></select>
+                                <p>TO</p>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnStartYear"></select>
+                            {% else %}
+                                <button type="button" class="btn btn-success" ng-click="loadColumnStats('v3')" ng-init=loadColumnStats('v3')>GO</button>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnEndYear"></select>
+                                <p>TO</p>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnStartYear"></select>
+                            {% endif %}
                         </div>
                         <div class="card-content" id="landcover-column" ng-show="!showColumnLoader"></div>
                     </div>

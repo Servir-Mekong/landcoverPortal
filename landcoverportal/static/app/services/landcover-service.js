@@ -7,8 +7,7 @@
 
         var service = this;
 
-        //service.getLandCoverMap = function (primitives, year, shape, areaSelectFrom, areaName, v1, type) {
-            service.getLandCoverMap = function (options) {
+        service.getLandCoverMap = function (options) {
 
             var primitives = options.primitives;
             var year = options.year;
@@ -60,13 +59,13 @@
             }
 
             var promise = $http(req)
-                .then(function (response) {
-                    return response.data;
-                })
-                .catch(function (e) {
-                    console.log('Error: ', e);
-                    throw e.data;
-                });
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e.data;
+            });
             return promise;
         };
 

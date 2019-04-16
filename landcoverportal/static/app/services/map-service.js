@@ -14,6 +14,43 @@
         };
         service.CENTER = [16.4, 102.93];
 
+        service.getMapBoxLeafletLayer = function () {
+            return L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+                {
+                    attribution: "Map data &copy; <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors, " +
+                    "<a href='http://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, " +
+                    "Imagery � <a href='http://mapbox.com'>Mapbox</a>", // jshint ignore:line
+                    id: 'mapbox.light'
+                }
+            );
+        };
+
+        service.getEsriWorldTopoLeafletLayer = function () {
+            return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', 
+                {
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
+                    'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+                }
+            );
+        };
+
+        service.getEsriWorldImageryLeafletLayer = function () {
+            return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                {
+                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                }
+            );
+        };
+
+        service.initLeafletMap = function (div, options) {
+            var _default = {
+                center: service.CENTER,
+                zoom: service.DEFAULT_ZOOM,
+                layers: [service.getMapBoxLeafletLayer()]
+            };
+            return L.map(div, $.extend(_default, options));
+        };
+
 
         service.init = function (lng, lat, zoom) {
 

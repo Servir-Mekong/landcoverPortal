@@ -7,7 +7,7 @@
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
     <div class="menu-list">
-        <div class="forest-definition inline-block-display" style="background-color: white;">
+        <div class="forest-definition inline-block-display" style="background-color: white; color:black;">
             <h4 class="text-center">Data courtesy of:</h4>
             <div class="row sidebar-image-container">
                 <a href="https://glad.umd.edu/" target="_blank">
@@ -58,8 +58,8 @@
 
             <li data-toggle="collapse" data-target="#treeCanopy" class="collapsed">
                 <a href="#">
-                    <span class="glyphicon glyphicon-grain" aria-hidden="true"></span>
-                    Annual Tree Canopy and Height
+                    <span class="fas fa-tree fa-2x" aria-hidden="true"></span>
+                    Forest Extend
                     <span class="sidebar-arrow"></span>
                 </a>
             </li>
@@ -71,7 +71,7 @@
                         </select>
                     </div>
                     <div class="form-group" ng-show="showTreeCanopyOpacitySlider">
-                        <label for="tree-canopy-opacity-slider" style="margin-right: 10px;">Opacity </label>
+                        <label for="tree-canopy-opacity-slider" style="margin-right: 10px;">Transparency </label>
                         <input name="tree-canopy-opacity-slider" id="tree-canopy-opacity-slider" data-slider-id="tree-canopy-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showTreeCanopyDownloadButtons">
@@ -124,7 +124,7 @@
                         </select>
                     </div>
                     <div class="form-group" ng-show="showTreeHeightOpacitySlider">
-                        <label for="tree-height-opacity-slider" style="margin-right: 10px;">Opacity </label>
+                        <label for="tree-height-opacity-slider" style="margin-right: 10px;">Transparency </label>
                         <input name="tree-height-opacity-slider" id="tree-height-opacity-slider" style="width: 70%;" data-slider-id="tree-height-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showTreeHeightDownloadButtons">
@@ -167,16 +167,6 @@
                         </span>
                     </div>
                 </li>
-            </ul>
-
-            <li data-toggle="collapse" data-target="#forestExtend" class="collapsed">
-                <a href="#">
-                    <span class="glyphicon glyphicon-grain" aria-hidden="true"></span>
-                    Annual Forest Extend
-                    <span class="sidebar-arrow"></span>
-                </a>
-            </li>
-            <ul class="sub-menu collapse" id="forestExtend">
                 <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="annual forest extend"></span>
                     <p class="inline-block-display">Annual Forest Extend for </p>
                     <div class="form-group inline-block-display">
@@ -184,7 +174,7 @@
                         </select>
                     </div>
                     <div class="form-group" ng-show="showForestExtendOpacitySlider">
-                        <label for="forest-extend-opacity-slider" style="margin-right: 10px;">Opacity </label>
+                        <label for="forest-extend-opacity-slider" style="margin-right: 10px;">Transparency </label>
                         <input name="forest-extend-opacity-slider" id="forest-extend-opacity-slider" data-slider-id="tree-extend-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showForestExtendDownloadButtons">
@@ -229,9 +219,69 @@
                 </li>
             </ul>
 
+            <li data-toggle="collapse" data-target="#forestExtend" class="collapsed">
+                <a href="#">
+                    <span class="fas fa-tree fa-2x" aria-hidden="true"></span>
+                    Primary Forest
+                    <span class="sidebar-arrow"></span>
+                </a>
+            </li>
+            <ul class="sub-menu collapse" id="forestExtend">
+                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy height"></span>
+                    <p class="inline-block-display">Primary Forest </p>
+                    <div class="form-group inline-block-display">
+                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="primaryForestYear" ng-change="primaryForestYearChange(primaryForestYear)">
+                        </select>
+                    </div>
+                    <div class="form-group" ng-show="showPrimaryForestOpacitySlider">
+                        <label for="primary-forest-opacity-slider" style="margin-right: 10px;">Transparency </label>
+                        <input name="primary-forest-opacity-slider" id="primary-forest-opacity-slider" style="width: 70%;" data-slider-id="primary-forest-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                    </div>
+                    <div class="form-group text-center" ng-show="showPrimaryForestDownloadButtons">
+                        <div ng-switch="showEmailID" class="btn-group" role="group">
+                            <button type="button" class="btn btn-success" id="primaryForestButton" href="" data-toggle="modal"
+                                    data-download-button="getURL" data-download-year=[[primaryForestYear]]
+                                    ng-click="getDownloadURL('primaryForest', primaryForestYear)">
+                                Get Download URL
+                            </button>
+                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('primaryForest', primaryForestYear)">
+                                Download to GDrive
+                            </button>
+                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('primaryForest', primaryForestYear)">
+                                Download to GDrive
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group" ng-show="showPrimaryForestDownloadURL" style="margin: 10px;">
+                        <input type="text" class="form-control" value="[[primaryForestDownloadURL]]">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default primaryForestCpyBtn js-tooltip"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Copy to clipboard"
+                                    ng-click="copyToClipBoard('primaryForest')"
+                                    style="height: 34px;margin-bottom: 14px;">
+                                <!-- icon from google's material design library -->
+                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="input-group" ng-show="showPrimaryForestGDriveFileName" style="margin: 10px;">
+                        <input type="text" id="primaryForestGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="button"
+                                    ng-click="saveToDrive('primaryForest', primaryForestYear)"
+                                    class="btn btn-primary"
+                                    style="height: 34px;margin-bottom: 14px;">
+                                Start Download
+                            </button>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+
             <li data-toggle="collapse" data-target="#forestDynamics" class="collapsed">
                 <a href="#">
-                    <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Forest Dynamics <span class="sidebar-arrow"></span>
+                    <span class="fas fa-tree fa-2x" aria-hidden="true"></span> Forest Dynamics <span class="sidebar-arrow"></span>
                 </a>
             </li>
             <ul class="sub-menu collapse" id="forestDynamics">
@@ -280,7 +330,7 @@
                         </button>
                     </div>
                     <div class="form-group" ng-show="showForestGainOpacitySlider">
-                        <label for="forest-gain-opacity-slider" style="margin-right: 10px;">Opacity </label>
+                        <label for="forest-gain-opacity-slider" style="margin-right: 10px;">Transparency </label>
                         <input name="forest-gain-opacity-slider" id="forest-gain-opacity-slider" style="width: 70%;" data-slider-id="forest-gain-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showForestGainDownloadButtons">
@@ -346,7 +396,7 @@
                         </button>
                     </div>
                     <div class="form-group" ng-show="showForestLossOpacitySlider">
-                        <label for="forest-loss-opacity-slider" style="margin-right: 10px;">Opacity </label>
+                        <label for="forest-loss-opacity-slider" style="margin-right: 10px;">Transparency </label>
                         <input name="forest-loss-opacity-slider" id="forest-loss-opacity-slider" style="width: 70%;" data-slider-id="forest-loss-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                     </div>
                     <div class="form-group text-center" ng-show="showForestLossDownloadButtons">

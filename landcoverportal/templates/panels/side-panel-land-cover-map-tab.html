@@ -34,20 +34,20 @@
 
     {% if version1 %}
     <fieldset class="row lcp-class-container">
-        <a class="btn btn-primary btn-sm btn-block" href="/side-by-side-map/v1/" role="button" target="_blank" style="margin-bottom: 10px;">
-            Compare Landcover of different years
+        <a class="btn btn-primary btn-sm btn-block" href="/landcover/v1/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
+            <i class="fas fa-chart-line fa-custom"></i> Stats and Analysis
         </a>
     </fieldset>
     {% elif version2 %}
     <fieldset class="row lcp-class-container">
-            <a class="btn btn-primary btn-sm btn-block" href="/side-by-side-map/v2/" role="button" target="_blank" style="margin-bottom: 10px;">
-                Compare Landcover of different years
+            <a class="btn btn-primary btn-sm btn-block" href="/landcover/v2/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
+                <i class="fas fa-chart-line fa-custom"></i> Stats and Analysis
             </a>
         </fieldset>
     {% else %}
     <fieldset class="row lcp-class-container">
-        <a class="btn btn-primary btn-sm btn-block" href="/side-by-side-map/" role="button" target="_blank" style="margin-bottom: 10px;">
-            Compare Landcover of different years
+        <a class="btn btn-primary btn-sm btn-block" href="/landcover/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
+            <i class="fas fa-chart-line fa-custom"></i> Stats and Analysis
         </a>
     </fieldset>
     {% endif %}
@@ -68,8 +68,8 @@
     <fieldset class="row lcp-class-container">
         <!-- Download button -->
         <div class="btn-group btn-block">
-            <button type="button" class="btn col-md-11 btn-sm btn-primary">Download Data/Typology</button>
-            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn col-md-11 btn-sm btn-primary"><i class="fas fa-download fa-custom"></i> Download Data/Typology</button>
+            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle" style="font-size: 0.95em;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>

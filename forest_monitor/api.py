@@ -14,6 +14,7 @@ import time
 PUBLIC_METHODS = [
     'tree-canopy',
     'tree-height',
+    'primary-forest',
     'forest-gain',
     'forest-loss',
     'forest-change',
@@ -58,6 +59,8 @@ def api(request):
             data = core.tree_height(year=post('year', ''),
                                     tree_height_definition = tree_height_definition,
                                     )
+        elif action == 'primary-forest':
+            data = core.primary_forest(year=post('year', ''))
         elif action == 'forest-gain':
             data = core.forest_gain(start_year = start_year,
                                     end_year = end_year,
