@@ -174,7 +174,7 @@ class ForestMonitor():
     @staticmethod
     def _get_combined_img_coll():
 
-        years = ee.List.sequence(2000, 2017)
+        years = ee.List.sequence(2000, 2018)
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
