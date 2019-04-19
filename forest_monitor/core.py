@@ -14,9 +14,7 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
     # image collection
     TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
-    #TREE_CANOPY_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy_uncertainty')
     TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
-    TREE_HEIGHT_UNCERTAINTY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height_uncertainty')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
@@ -127,34 +125,6 @@ class ForestMonitor():
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
         }
-
-    # -------------------------------------------------------------------------
-    '''def tree_canopy_uncertainty(self, get_image=False, year=None):
-
-        if not year:
-            return {
-                'message': 'Please specify a year for which you want to perform the calculations!'
-            }
-
-        image = ee.Image(ForestMonitor.TREE_CANOPY_UNCERTAINTY.filterDate(\
-                                                    '%s-01-01' % year,
-                                                    '%s-12-31' % year).first())
-
-        image = image.select('b1').updateMask(image.neq(0)).clip(self.geometry)
-
-        if get_image:
-            return image
-
-        map_id = image.getMapId({
-            'min': '0',
-            'max': '10',
-            'palette': 'f7fcf5,e4f4e0,c6e8c1,a1d79d,76c17a,47a862,2c894b,126c34,0f592c,0b4523'
-        })
-
-        return {
-            'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
-        }'''
 
     # -------------------------------------------------------------------------
     def tree_height(self,
