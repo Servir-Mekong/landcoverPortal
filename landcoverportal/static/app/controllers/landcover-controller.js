@@ -603,7 +603,7 @@
                 max: $scope.sliderEndYear,
                 from: $scope.sliderEndYear,
                 force_edges: true,
-                grid_num: $scope.sliderEndYear - 2000,
+                grid_num: $scope.sliderEndYear - 1987,
                 prettify_enabled: false,
                 onFinish: function (data) {
                     if ($scope.sliderYear !== data.from) {
