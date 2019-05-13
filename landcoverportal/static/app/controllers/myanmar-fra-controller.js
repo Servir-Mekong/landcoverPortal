@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('myanmarFRAController', function ($http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('myanmarFRAController', function ($rootScope, $http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
         var map = MapService.init(100.7666, 21.6166, 6);
@@ -35,10 +35,34 @@
         $scope.showTabContainer = true;
         $scope.showLoader = false;
         $scope.sliderYear = 2017;
-        $scope.assemblageLayers = [];
-        for (var j = 0; j <= 10; j++) { // number of classes
-            $scope.assemblageLayers.push(j.toString());
+
+        var REMAP = {
+            0: [1],
+            1: [3, 7, 8],
+            2: [6, 10],
+            3: [0, 2, 4, 5, 9, 11]
+        };
+        var arrays = [];
+        for (var index in REMAP) {
+            arrays.push(REMAP[index]);
         }
+        $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+
+        $scope.mapClass = CommonService.mapClass;
+        $scope.sideClass = CommonService.sideClass;
+        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
+        $rootScope.$on('toggleFullScreen', function (event, data) {
+            // do what you want with the data from the event
+            $scope.mapClass = data.mapClass;
+            $scope.sideClass = data.sideClass;
+            if (data.mapClass === 'col-md-12 col-lg-12') {
+                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
+                $('.slider-year-container').css({'width': '85%'});
+            } else {
+                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
+                $('.slider-year-container').css({'width': '60%'});
+            }
+        });
 
         /**
          * Alert
@@ -524,12 +548,23 @@
         // Update Assemblage Map
         $scope.updateAssemblageProduct = function () {
             $scope.closeAlert();
-            $scope.assemblageLayers = [];
+            //$scope.assemblageLayers = [];
+            var primitiveList = [];
             $('input[name="assemblage-checkbox"]').each(function () {
                 if ($(this).prop('checked')) {
-                    $scope.assemblageLayers.push($(this).val());
+                    //$scope.assemblageLayers.push($(this).val());
+                    primitiveList.push($(this).val());
                 }
             });
+            var primitiveLength = primitiveList.length;
+            if (primitiveLength < 5) {
+                // Need to remap
+                var arrays = [];
+                for (var i = 0; i < primitiveLength; i++) {
+                    arrays.push(REMAP[primitiveList[i]]);
+                }
+                $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+            }
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap');

@@ -212,7 +212,7 @@ class MyanmarFRA():
 
         palette = ','.join(palette)
 
-        image = image.updateMask(masked_image).unmask(0)
+        image = image.updateMask(masked_image)
         image = image.remap(MyanmarFRA.ORIGINAL, MyanmarFRA.REMAPPED).clip(self.geometry)
 
         if download:

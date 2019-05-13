@@ -74,6 +74,10 @@
             return obj.hasOwnProperty(key);
         };
 
+        service.flattenArrays = function (arrays) {
+            return [].concat.apply([], arrays);
+        };
+
         service.buildChart = function (data, div, title) {
             // build the chart
             Highcharts.chart(div, {

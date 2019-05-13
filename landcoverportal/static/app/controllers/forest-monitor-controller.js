@@ -14,8 +14,6 @@
     })
     .controller('forestMonitorController', function ($rootScope, $scope, $sanitize, $http, appSettings, CommonService, MapService, ForestMonitorService) {
 
-        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
-
         // Global Variables
         var drawningManagerArea = null;
         var map = MapService.init();
@@ -26,23 +24,6 @@
 
         // User Info
         $scope.fmsUserDownloadInfo = ForestMonitorService.getUserDownloadInfo();
-
-        $scope.mapClass = CommonService.mapClass;
-        $scope.sideClass = CommonService.sideClass;
-
-        $rootScope.$on('toggleFullScreen', function (event, data) {
-            // do what you want with the data from the event
-            $scope.mapClass = data.mapClass;
-            $scope.sideClass = data.sideClass;
-            if (data.mapClass === 'col-md-12 col-lg-12') {
-                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
-                $('.slider-year-container').css({'width': '85%'});
-            } else {
-                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
-                $('.slider-year-container').css({'width': '60%'});
-            }
-
-        });
 
         // $scope variables
         $scope.overlays = {};
@@ -65,6 +46,23 @@
         $scope.showReportForestLoss = false;
         $scope.showReportForestExtend = false;
         $scope.showReportPrimaryForest = false;
+
+        $scope.mapClass = CommonService.mapClass;
+        $scope.sideClass = CommonService.sideClass;
+        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
+        $rootScope.$on('toggleFullScreen', function (event, data) {
+            // do what you want with the data from the event
+            $scope.mapClass = data.mapClass;
+            $scope.sideClass = data.sideClass;
+            if (data.mapClass === 'col-md-12 col-lg-12') {
+                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
+                $('.slider-year-container').css({'width': '85%'});
+            } else {
+                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
+                $('.slider-year-container').css({'width': '60%'});
+            }
+
+        });
 
         /**
          * Alert

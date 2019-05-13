@@ -16,12 +16,12 @@ class LandCoverViewer():
     PROBABILITY_MAP = ee.ImageCollection('users/servirmekong/LandCover')
 
     # geometries
-    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
-    #                                           settings.COUNTRIES_NAME)).geometry()
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/mekong-admin-0')
-    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Name',
-                                                                       settings.COUNTRIES_NAME)).geometry()
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
+    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
+                                               settings.COUNTRIES_NAME)).geometry()
+    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/mekong-admin-0')
+    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Name',
+    #                                                                   settings.COUNTRIES_NAME)).geometry()
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center, version):
@@ -56,7 +56,7 @@ class LandCoverViewer():
                         feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
             else:
-                self.geometry = LandCoverViewer.COUNTRIES_GEOM
+                self.geometry = LandCoverViewer.COUNTRIES_GEOM.buffer(15000)
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -482,7 +482,7 @@ class LandCoverViewer():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return LandCoverViewer.COUNTRIES_GEOM
+        return LandCoverViewer.COUNTRIES_GEOM.buffer(15000)
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 21), year=2016, download=False):

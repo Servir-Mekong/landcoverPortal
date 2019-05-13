@@ -7,9 +7,6 @@
         // Global Variables
         var map = MapService.init();
 
-        $scope.mapClass = CommonService.mapClass;
-        $scope.sideClass = CommonService.sideClass;
-
         // Setting variables
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
         $scope.landCoverClasses = [];
@@ -19,8 +16,9 @@
         //    $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
         //}
 
+        $scope.mapClass = CommonService.mapClass;
+        $scope.sideClass = CommonService.sideClass;
         $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
-
         $rootScope.$on('toggleFullScreen', function (event, data) {
             // do what you want with the data from the event
             $scope.mapClass = data.mapClass;
@@ -32,7 +30,6 @@
                 $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
                 $('.slider-year-container').css({'width': '60%'});
             }
-
         });
 
         // $scope variables
