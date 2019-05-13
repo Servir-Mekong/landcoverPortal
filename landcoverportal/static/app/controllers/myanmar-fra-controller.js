@@ -247,6 +247,7 @@
                 }, 3500);
                 //$scope.showLegend = true;
             }, function (error) {
+                $scope.showLoader = false;
                 showErrorAlert(error.error);
                 console.log(error);
             });
@@ -682,6 +683,7 @@
                 $scope.showPrimitiveOpacitySlider = true;
                 $scope.primitiveIndex = index;
             }, function (error) {
+                $scope.showLoader = false;
                 showErrorAlert(error.error);
                 console.log(error);
             });

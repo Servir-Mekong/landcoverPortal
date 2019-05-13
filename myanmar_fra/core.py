@@ -12,27 +12,26 @@ class MyanmarFRA():
     '''
 
     ee.Initialize(settings.EE_CREDENTIALS)
-   
+
     # land-use map
-    #LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/MyanmarFRA/assemblage')
-    LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/FinalMyanmarLandCover')
+    #LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/FinalMyanmarLandCover')
+    LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/LandCoverMyanmar')
 
     # primitives
-    PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives/closedForest')
-    PRIMTIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives/cropland')
-    PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives/grass')
-    PRIMITIVE_MANGROVES = ee.ImageCollection('projects/servir-mekong/yearly_primitives/mangrove')
-    PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives/openForest')
-    PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives/snow')
-    PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives/urban')
-    PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives/water')
-    PRIMITIVE_WETLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives/wetlands')
-    PRIMTTIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives/woody')
-
+    PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
+    PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/cropland')
+    PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/grass')
+    PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mangrove')
+    PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/openForest')
+    PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/snow')
+    PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/urban')
+    PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/water')
+    PRIMITIVE_WETLANDS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/wetlands')
+    PRIMITIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/woody')
     PRIMITIVES = [
-        PRIMITIVE_WATER, PRIMITIVE_SNOW, PRIMITIVE_MANGROVES, PRIMTIVE_CROPLAND,
-        PRIMITIVE_URBAN, PRIMITIVE_GRASS, PRIMITIVE_CLOSED_FOREST,
-        PRIMITIVE_OPEN_FOREST, PRIMITIVE_WETLAND, PRIMTTIVE_WOODY
+        PRIMITIVE_CLOSED_FOREST, PRIMITIVE_CROPLAND, PRIMITIVE_GRASS,
+        PRIMITIVE_MANGROVE, PRIMITIVE_OPEN_FOREST, PRIMITIVE_SNOW, PRIMITIVE_URBAN,
+        PRIMITIVE_WATER, PRIMITIVE_WETLANDS, PRIMITIVE_WOODY
     ]
 
     # geometries
@@ -62,17 +61,17 @@ class MyanmarFRA():
             'color': '556b2f'
         },
         {
-            'name': 'Crop Land',
+            'name': 'Cropland',
             'value': '4',
-            'color': '8dc33b'
+            'color': '7cfc00'
         },
         {
             'name': 'Urban and Built up',
             'value': '5',
-            'color': 'ff0000'#'8b0000'
+            'color': '8b0000'
         },
         {
-            'name': 'Grass Land',
+            'name': 'Grassland',
             'value': '6',
             'color': '20b2aa'
         },
@@ -84,10 +83,10 @@ class MyanmarFRA():
         {
             'name': 'Open Forest',
             'value': '8',
-            'color': '7db087'
+            'color': '90ee90'
         },
         {
-            'name': 'Wet Land',
+            'name': 'Wetland',
             'value': '9',
             'color': '42f4c2'
         },
@@ -95,12 +94,43 @@ class MyanmarFRA():
             'name': 'Woody',
             'value': '10',
             'color': '8b4513'
+        },
+        {
+            'name': 'Other land',
+            'value': '11',
+            'color': '6f6f6f'
+        }
+    ]
+
+    REMAPPED_CLASSES = [
+        {
+            'name': 'Water Bodies',
+            'value': '0',
+            'color': '0000ff'
+        },
+        {
+            'name': 'Forest',
+            'value': '1',
+            'color': '006400'
+        },
+        {
+            'name': 'Wooden Land',
+            'value': '2',
+            'color': '8b4513'
+        },
+        {
+            'name': 'Other land',
+            'value': '3',
+            'color': '6f6f6f'
         }
     ]
 
     INDEX_CLASS = {}
-    for _class in LANDCOVERCLASSES:
+    for _class in REMAPPED_CLASSES:
         INDEX_CLASS[int(_class['value'])] = _class['name']
+
+    ORIGINAL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    REMAPPED = [3, 0, 3, 1, 3, 3, 2, 1, 1, 3,  2,  3]
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
@@ -165,7 +195,7 @@ class MyanmarFRA():
 
         image = ee.Image(MyanmarFRA.LANDCOVERMAP.filterDate('%s-01-01' % year,
                                                             '%s-12-31' % year).mean())
-        image = image.select('lc')
+        image = image.select('classification')
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -177,19 +207,20 @@ class MyanmarFRA():
 
         #palette = '6f6f6f,1B58E8,b1f9ff,111149,8dc33b,8dc33b,cc0013,f4a460,26802C,25E733,3bc3b2,654321'
         palette = []
-        for _class in MyanmarFRA.LANDCOVERCLASSES:
+        for _class in MyanmarFRA.REMAPPED_CLASSES:
             palette.append(_class['color'])
 
         palette = ','.join(palette)
 
-        image = image.updateMask(masked_image).unmask(0).clip(self.geometry)
+        image = image.updateMask(masked_image).unmask(0)
+        image = image.remap(MyanmarFRA.ORIGINAL, MyanmarFRA.REMAPPED).clip(self.geometry)
 
         if download:
             return image
 
         map_id = image.getMapId({
             'min': '0',
-            'max': str(len(MyanmarFRA.LANDCOVERCLASSES) - 1),
+            'max': str(len(MyanmarFRA.REMAPPED_CLASSES) - 1),
             'palette': palette
         })
 
@@ -203,8 +234,14 @@ class MyanmarFRA():
 
         primitive_img_coll = MyanmarFRA.PRIMITIVES[index]
 
-        image = ee.Image(primitive_img_coll.filterDate('%s-01-01' % year,
-                                                       '%s-12-31' % year).mean())
+        image_collection = primitive_img_coll.filterDate('%s-01-01' % year, 
+                                                         '%s-12-31' % year)
+        if image_collection.size().getInfo() > 0:
+            image = ee.Image(image_collection.mean())
+        else:
+            return {
+                'error': 'No data available for year {}'.format(year)
+            }
 
         # mask
         masked_image = image.gt(0.1)
@@ -244,14 +281,27 @@ class MyanmarFRA():
                                        download = True,
                                        )
 
-        try:
-            url = image.getDownloadURL({
-                'name': type,
-                'scale': 30
-            })
-            return {'downloadUrl': url}
-        except Exception as e:
-            return {'error': e.message}
+        _scale = 30
+        while True:
+            try:
+                url = image.getDownloadURL({
+                    'name': type,
+                    'scale': _scale
+                })
+                return {'downloadUrl': url}
+            except Exception as e:
+                _scale += 10
+                continue
+            break
+
+        #try:
+        #    url = image.getDownloadURL({
+        #        'name': type,
+        #        'scale': 30
+        #    })
+        #    return {'downloadUrl': url}
+        #except Exception as e:
+        #    return {'error': e.message}
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
@@ -292,7 +342,7 @@ class MyanmarFRA():
                 description = 'Export from SERVIR Mekong Team',
                 fileNamePrefix = temp_file_name,
                 scale = 30,
-                region = self.geometry.getInfo()['coordinates'],
+                region = self.geometry.bounds().getInfo()['coordinates'],
                 skipEmptyTiles = True,
                 maxPixels = 1E13
             )
@@ -321,8 +371,8 @@ class MyanmarFRA():
                 print (str(e))
                 return {'error': str(e)}
         else:
-            print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
-            return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}
+            print ('Task failed (id: %s) because %s' % (task.id, task.status()['error_message']))
+            return {'error': 'Task failed (id: %s) because %s' % (task.id, task.status()['error_message'])}
 
     # -------------------------------------------------------------------------
     def get_stats(self, year=2017, primitives=range(0, 12)):
@@ -338,8 +388,7 @@ class MyanmarFRA():
                                    scale = 100,
                                    maxPixels = 1E13
                                    )
-
-        data = stats.getInfo()['lc']
+        data = stats.getInfo()['remapped']
         # converting to meter square by multiplying with scale value i.e. 100*100
         # and then converting to hectare multiplying with 0.0001
         # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare

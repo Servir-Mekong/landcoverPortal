@@ -37,8 +37,34 @@
     font-size: 15px;
 }
 
-#landcover-opacity-slider .slider-selection, #primitive-opacity-slider .slider-selection, #probability-opacity-slider .slider-selection {
+/* Sliders */
+
+#landcover-opacity-slider .slider-track-high,
+#primitive-opacity-slider .slider-track-high,
+#probability-opacity-slider .slider-track-high {
     background: #BABABA;
+}
+
+#landcover-opacity-slider .slider-selection,
+#primitive-opacity-slider .slider-selection,
+#probability-opacity-slider .slider-selection {
+    background: #c62828;
+}
+
+#landcover-opacity-slider .slider-handle,
+#primitive-opacity-slider .slider-handle,
+#probability-opacity-slider .slider-handle {
+    /*background: #BABABA;*/
+    background: #c62828;
+    width: 15px;
+    height: 15px;
+}
+
+#landcover-opacity-slider .slider-track,
+#primitive-opacity-slider .slider-track,
+#probability-opacity-slider .slider-track {
+    height: 5px;
+    border-radius: 0;
 }
 
 .container-primitive {

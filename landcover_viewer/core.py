@@ -528,8 +528,14 @@ class LandCoverViewer():
 
         primitive_img_coll = self.PRIMITIVES[index]
 
-        image = ee.Image(primitive_img_coll.filterDate('%s-01-01' % year,
-                                                       '%s-12-31' % year).mean())
+        image_collection = primitive_img_coll.filterDate('%s-01-01' % year, 
+                                                         '%s-12-31' % year)
+        if image_collection.size().getInfo() > 0:
+            image = ee.Image(image_collection.mean())
+        else:
+            return {
+                'error': 'No data available for year {}'.format(year)
+            }
 
         # mask
         masked_image = image.gt(0.1)
