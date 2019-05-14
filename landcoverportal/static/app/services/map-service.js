@@ -54,10 +54,19 @@
 
         service.init = function (lng, lat, zoom) {
 
+            var center;
+            if (lat && lng) {
+                center = {
+                    lng: lng, lat: lat
+                };
+            } else {
+                center = service.DEFAULT_CENTER;
+            }
+
             // Global Variables
             var mapOptions = {
-                    center: service.DEFAULT_CENTER,
-                    zoom: service.DEFAULT_ZOOM,
+                    center: center,
+                    zoom: zoom || service.DEFAULT_ZOOM,
                     maxZoom: service.MAX_ZOOM,
                     mapTypeControlOptions: {
                         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,

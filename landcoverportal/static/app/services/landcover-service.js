@@ -82,8 +82,8 @@
             var url = '/api/landcover/';
             if (type === 'myanmar-fra') {
                 url = '/api/myanmar-fra/';
-            } else if (type === 'myanmar-fra') {
-                url = '/api/myanmar-ipcc';
+            } else if (type === 'myanmar-ipcc') {
+                url = '/api/myanmar-ipcc/';
             }
 
             var req = {
@@ -191,8 +191,8 @@
             var url = '/api/landcover/';
             if (type === 'myanmar-fra') {
                 url = '/api/myanmar-fra/';
-            } else if (type === 'myanmar-fra') {
-                url = '/api/myanmar-ipcc';
+            } else if (type === 'myanmar-ipcc') {
+                url = '/api/myanmar-ipcc/';
             }
 
             var req = {
@@ -254,8 +254,8 @@
             var url = '/api/landcover/';
             if (serviceType === 'myanmar-fra') {
                 url = '/api/myanmar-fra/';
-            } else if (serviceType === 'myanmar-fra') {
-                url = '/api/myanmar-ipcc';
+            } else if (serviceType === 'myanmar-ipcc') {
+                url = '/api/myanmar-ipcc/';
             }
 
             var req = {
@@ -320,8 +320,8 @@
             var url = '/api/landcover/';
             if (serviceType === 'myanmar-fra') {
                 url = '/api/myanmar-fra/';
-            } else if (serviceType === 'myanmar-fra') {
-                url = '/api/myanmar-ipcc';
+            } else if (serviceType === 'myanmar-ipcc') {
+                url = '/api/myanmar-ipcc/';
             }
 
             var req = {

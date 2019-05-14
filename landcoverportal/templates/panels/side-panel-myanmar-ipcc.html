@@ -1,4 +1,18 @@
 <div class="nav-side-menu">
+
+    <button ng-hide="showEmailID" type="button" class="btn btn-default btn-block" style="margin: 10px 0 10px 0;" ng-click="googleSignIn()">
+        <i class="fab fa-google fa-2x pull-left" style="margin-top: 15px;"></i>
+        <h4>Sign in with Google</h4><h5>(to download data to your Google drive)</h5>
+    </button>
+                
+    <div ng-show="showEmailID">
+        <h4 style="color: black; text-align: center;">[[emailID]]</h4>
+        <button type="button" class="btn btn-default btn-block" id="signinButton" style="margin: 10px 0 10px 0;" ng-click="googleSignOut()">
+            <i class="fab fa-google fa-2x pull-left" style="margin-top: 5px;"></i>
+            <h4>Sign out</h4>
+        </button>
+    </div>
+
     <!-- Tab Container -->
     <div id="sidebar-tab">
         <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
@@ -142,7 +156,7 @@
                         </div>
                     </fieldset>
 
-                    <div ng-repeat="class in myanmarIPCCLandCoverClasses" class="row lcp-class-container">
+                    <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
                         <label class="container-primitive">
                             <h5><b>[[ class.name ]]</b></h5>
                             <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex)" ng-model="primitiveIndex">

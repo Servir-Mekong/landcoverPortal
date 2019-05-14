@@ -5,7 +5,7 @@
     .controller('myanmarFRAController', function ($rootScope, $http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
-        var map = MapService.init(100.7666, 21.6166, 6);
+        var map = MapService.init(97.5814, 18.8936, 5.5);
 
         // Typology CSV
         $scope.typologyCSV = '/static/data/myanmar_fra_typology_value.csv';
@@ -13,9 +13,9 @@
         // Setting variables
         $scope.myanmarFRALandCoverClasses = appSettings.myanmarFRALandCoverClasses;
         $scope.primitiveClasses = appSettings.myanmarPrimitiveClasses;
-
         // Area filter
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
+
         //$scope.provinceVariableOptions = appSettings.myanmarProvinces;
         $scope.landCoverClassesColor = {};
         for (var i = 0; i < $scope.myanmarFRALandCoverClasses.length; i++) {
@@ -34,6 +34,8 @@
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
         $scope.showLoader = false;
+        $scope.startYear = 2000;
+        $scope.endYear = 2017;
         $scope.sliderYear = 2017;
 
         var REMAP = {
@@ -557,7 +559,7 @@
                 }
             });
             var primitiveLength = primitiveList.length;
-            if (primitiveLength < 5) {
+            if (primitiveLength < $scope.myanmarFRALandCoverClasses.length + 1) {
                 // Need to remap
                 var arrays = [];
                 for (var i = 0; i < primitiveLength; i++) {
@@ -576,11 +578,11 @@
         $("#slider-year-selector").ionRangeSlider({
             skin: 'round',
             grid: true,
-            min: 2000,
-            max: 2017,
-            from: 2017,
+            min: $scope.startYear,
+            max: $scope.endYear,
+            from: $scope.endYear,
             force_edges: true,
-            grid_num: 16,
+            grid_num: $scope.endYear - $scope.startYear,
             prettify_enabled: false,
             onFinish: function (data) {
                 if ($scope.sliderYear !== data.from) {

@@ -2,19 +2,24 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('myanmarIPCCController', function ($scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('myanmarIPCCController', function ($http, $rootScope, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
-        var map = MapService.init(100.7666, 21.6166, 6);
+        var map = MapService.init(97.5814, 18.8936, 5.5);
 
         // Typology CSV
         $scope.typologyCSV = '/static/data/myanmar_ipcc_typology_value.csv';
 
         // Setting variables
         $scope.myanmarIPCCLandCoverClasses = appSettings.myanmarIPCCLandCoverClasses;
-        $scope.primitiveClasses = appSettings.primitiveClasses;
+        $scope.primitiveClasses = appSettings.myanmarPrimitiveClasses;
         // Area filter
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
+
+        $scope.landCoverClassesColor = {};
+        for (var i = 0; i < $scope.myanmarIPCCLandCoverClasses.length; i++) {
+            $scope.landCoverClassesColor[$scope.myanmarIPCCLandCoverClasses[i].name] = $scope.myanmarIPCCLandCoverClasses[i].color;
+        }
 
         // $scope variables
         $scope.overlays = {};
@@ -28,11 +33,111 @@
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
         $scope.showLoader = false;
-        $scope.sliderYear = 2016;
-        $scope.assemblageLayers = [];
-        for (var i = 0; i <= 20; i++) {
-            $scope.assemblageLayers.push(i.toString());
+        $scope.startYear = 2000;
+        $scope.endYear = 2017;
+        $scope.sliderYear = 2017;
+
+        var REMAP = {
+            0: [3, 7, 8, 10],
+            1: [6],
+            2: [4],
+            3: [5],
+            4: [1, 9],
+            5: [0, 2, 11]
+        };
+        var arrays = [];
+        for (var index in REMAP) {
+            arrays.push(REMAP[index]);
         }
+        $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+
+        $scope.mapClass = CommonService.mapClass;
+        $scope.sideClass = CommonService.sideClass;
+        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
+        $rootScope.$on('toggleFullScreen', function (event, data) {
+            // do what you want with the data from the event
+            $scope.mapClass = data.mapClass;
+            $scope.sideClass = data.sideClass;
+            if (data.mapClass === 'col-md-12 col-lg-12') {
+                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
+                $('.slider-year-container').css({'width': '85%'});
+            } else {
+                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
+                $('.slider-year-container').css({'width': '60%'});
+            }
+        });
+
+        /**
+         * Alert
+         */
+        $scope.closeAlert = function () {
+            $('.custom-alert').addClass('display-none');
+            $scope.alertContent = '';
+        };
+
+        var showErrorAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
+        };
+
+        var showSuccessAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
+        };
+
+        var showInfoAlert = function (alertContent) {
+            $scope.alertContent = alertContent;
+            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
+        };
+
+        // Google sign in
+        $scope.showEmailID = false;
+        $scope.emailID = '';
+        $scope.googleSignIn = function () {
+            auth2.grantOfflineAccess().then(function (authResult) {
+                if (authResult.code) {
+
+                    var req = {
+                        method: 'POST',
+                        url: '/storeauthcode/',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Content-Type': 'application/octet-stream; charset=utf-8',
+                        },
+                        data: {
+                            authcode: authResult.code
+                        }
+                    };
+
+                    $http(req)
+                    .then(function (response) {
+                        var data = response.data;
+                        if (data.success) {
+                            $scope.showEmailID = true;
+                            $scope.emailID = data.email;
+                        } else {
+                            showErrorAlert('there was an error while authenticating using google sign-in');
+                        }
+                    })
+                    .catch(function (e) {
+                        console.log('Error: ', e);
+                        throw e.data;
+                    });
+                } else {
+                    showErrorAlert('there was an error while authenticating using google sign-in');
+                }
+            });
+        };
+
+        $scope.googleSignOut = function () {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                $scope.emailID = '';
+                $scope.showEmailID = false;
+                $scope.$apply();
+            });
+        };
 
         /**
          * Start with UI
@@ -80,29 +185,6 @@
 
         // get tooltip activated
         $('.js-tooltip').tooltip();
-
-        /**
-         * Alert
-         */
-        $scope.closeAlert = function () {
-            $('.custom-alert').addClass('display-none');
-            $scope.alertContent = '';
-        };
-
-        var showErrorAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-success').addClass('alert-danger');
-        };
-
-        var showSuccessAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-info').removeClass('alert-danger').addClass('alert-success');
-        };
-
-        var showInfoAlert = function (alertContent) {
-            $scope.alertContent = alertContent;
-            $('.custom-alert').removeClass('display-none').removeClass('alert-success').removeClass('alert-danger').addClass('alert-info');
-        };
 
         // Landcover opacity slider
         $scope.landcoverOpacity = 1;
@@ -173,7 +255,17 @@
          */
         $scope.initMap = function (year, type) {
             $scope.showLoader = true;
-            LandCoverService.getLandCoverMap($scope.assemblageLayers, year, $scope.shape, $scope.areaSelectFrom, $scope.areaName, 'myanmar-ipcc')
+
+            var parameters = {
+                primitives: $scope.assemblageLayers,
+                year: year,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                type: 'myanmar-ipcc'
+            };
+
+            LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
@@ -182,7 +274,34 @@
                 }, 3500);
                 //$scope.showLegend = true;
             }, function (error) {
+                $scope.showLoader = false;
                 showErrorAlert(error.error);
+                console.log(error);
+            });
+        };
+
+        /**
+         *  Graphs and Charts
+         */
+        // Get stats for the graph
+        $scope.getStats = function () {
+            $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
+            var parameters = {
+                primitives:$scope.assemblageLayers,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                type: 'myanmar-ipcc'
+            };
+            LandCoverService.getStats(parameters)
+            .then(function (data) {
+                var graphData = [];
+                for (var key in data) {
+                    graphData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
+                }
+                CommonService.buildChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear);
+            }, function (error) {
                 console.log(error);
             });
         };
@@ -432,15 +551,26 @@
         // Update Assemblage Map
         $scope.updateAssemblageProduct = function () {
             $scope.closeAlert();
-            $scope.assemblageLayers = [];
+            var primitiveList = [];
             $('input[name="assemblage-checkbox"]').each(function () {
                 if ($(this).prop('checked')) {
-                    $scope.assemblageLayers.push($(this).val());
+                    //$scope.assemblageLayers.push($(this).val());
+                    primitiveList.push($(this).val());
                 }
             });
+            var primitiveLength = primitiveList.length;
+            if (primitiveLength < $scope.myanmarIPCCLandCoverClasses.length + 1) {
+                // Need to remap
+                var arrays = [];
+                for (var i = 0; i < primitiveLength; i++) {
+                    arrays.push(REMAP[primitiveList[i]]);
+                }
+                $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+            }
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap');
+            $scope.getStats();
             MapService.removeGeoJson(map);
         };
 
@@ -448,11 +578,11 @@
         $("#slider-year-selector").ionRangeSlider({
             skin: 'round',
             grid: true,
-            min: 2000,
-            max: 2016,
-            from: 2016,
+            min: $scope.startYear,
+            max: $scope.endYear,
+            from: $scope.endYear,
             force_edges: true,
-            grid_num: 16,
+            grid_num: $scope.endYear - $scope.startYear,
             prettify_enabled: false,
             onFinish: function (data) {
                 if ($scope.sliderYear !== data.from) {
@@ -477,16 +607,18 @@
             if (verifyBeforeDownload(type)) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
-                LandCoverService.getDownloadURL(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.sliderYear,
-                    $scope.assemblageLayers,
-                    $scope.primitiveIndex,
-                    'myanmar-ipcc'
-                )
+
+                var parameters = {
+                    primitives: $scope.assemblageLayers,
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    type: type,
+                    index: $scope.primitiveIndex,
+                    serviceType: 'myanmar-ipcc'
+                };
+                LandCoverService.getDownloadURL(parameters)
                 .then(function (data) {
                     showSuccessAlert('Your Download Link is ready!');
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
@@ -518,17 +650,20 @@
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                LandCoverService.saveToDrive(
-                    type,
-                    $scope.shape,
-                    $scope.areaSelectFrom,
-                    $scope.areaName,
-                    $scope.sliderYear,
-                    $scope.assemblageLayers,
-                    fileName,
-                    $scope.primitiveIndex,
-                    'myanmar-ipcc'
-                )
+
+                var parameters = {
+                    primitives: $scope.assemblageLayers,
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    type: type,
+                    index: $scope.primitiveIndex,
+                    fileName: fileName,
+                    serviceType: 'myanmar-ipcc'
+                };
+
+                LandCoverService.saveToDrive(parameters)
                 .then(function (data) {
                     if (data.error) {
                         showErrorAlert(data.error);
@@ -563,7 +698,17 @@
         $scope.updatePrimitive = function (index) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
-            LandCoverService.getPrimitiveMap(index, $scope.sliderYear, $scope.shape, $scope.areaSelectFrom, $scope.areaName, 'myanmar-ipcc')
+
+            var parameters = {
+                index: index,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                type: 'myanmar-ipcc'
+            };
+
+            LandCoverService.getPrimitiveMap(parameters)
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');
@@ -576,6 +721,7 @@
                 $scope.showPrimitiveOpacitySlider = true;
                 $scope.primitiveIndex = index;
             }, function (error) {
+                $scope.showLoader = false;
                 showErrorAlert(error.error);
                 console.log(error);
             });

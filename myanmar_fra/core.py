@@ -191,7 +191,7 @@ class MyanmarFRA():
         return MyanmarFRA.DEFAULT_GEOM.buffer(10000)
 
     # -------------------------------------------------------------------------
-    def get_landcover(self, primitives=range(0, 12), year=2017, download=False):
+    def get_landcover(self, primitives=range(0, 11), year=2017, download=False):
 
         image = ee.Image(MyanmarFRA.LANDCOVERMAP.filterDate('%s-01-01' % year,
                                                             '%s-12-31' % year).mean())
@@ -205,7 +205,6 @@ class MyanmarFRA():
             _mask = image.eq(ee.Number(int(primitive)))
             masked_image = masked_image.add(_mask)
 
-        #palette = '6f6f6f,1B58E8,b1f9ff,111149,8dc33b,8dc33b,cc0013,f4a460,26802C,25E733,3bc3b2,654321'
         palette = []
         for _class in MyanmarFRA.REMAPPED_CLASSES:
             palette.append(_class['color'])

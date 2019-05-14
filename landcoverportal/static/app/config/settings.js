@@ -634,109 +634,34 @@ var settings = {
     ],
     myanmarIPCCLandCoverClasses: [
         {
-            'name': 'Unknown',
+            'name': 'Forest',
             'value': '0',
-            'color': '#6f6f6f'
-        },
-        {
-            'name': 'Surface Water',
-            'value': '1',
-            'color': '#aec3d4'
-        },
-        {
-            'name': 'Snow and Ice',
-            'value': '2',
-            'color': '#b1f9ff'
-        },
-        {
-            'name': 'Mangrove',
-            'value': '3',
-            'color': '#111149'
-        },
-        {
-            'name': 'Flooded Forest',
-            'value': '4',
-            'color': '#287463'
-        },
-        {
-            'name': 'Deciduous Forest',
-            'value': '5',
-            'color': '#152106'
-        },
-        {
-            'name': 'Orchard or Plantation forest',
-            'value': '6',
-            'color': '#c3aa69'
-        },
-        {
-            'name': 'Evergreen Broadleaf Alpine',
-            'value': '7',
-            'color': '#9ad2a5'
-        },
-        {
-            'name': 'Evergreen Broadleaf',
-            'value': '8',
-            'color': '#7db087'
-        },
-        {
-            'name': 'Evergreen Needleleaf',
-            'value': '9',
-            'color': '#486f50'
-        },
-        {
-            'name': 'Evergreen Mixed Forest',
-            'value': '10',
-            'color': '#387242'
-        },
-        {
-            'name': 'Evergreen Mixed and Deciduous',
-            'value': '11',
-            'color': '#115420'
-        },
-        {
-            'name': 'Urban and Built Up',
-            'value': '12',
-            'color': '#cc0013'
-        },
-        {
-            'name': 'Cropland',
-            'value': '13',
-            'color': '#8dc33b'
-        },
-        {
-            'name': 'Rice Paddy',
-            'value': '14',
-            'color': '#ffff00'
-        },
-        {
-            'name': 'Mudflat and Intertidal',
-            'value': '15',
-            'color': '#a1843b'
-        },
-        {
-            'name': 'Mining',
-            'value': '16',
-            'color': '#cec2a5'
-        },
-        {
-            'name': 'Barren',
-            'value': '17',
-            'color': '#674c06'
-        },
-        {
-            'name': 'Wetlands',
-            'value': '18',
-            'color': '#3bc3b2'
+            'color': '#006400'
         },
         {
             'name': 'Grassland',
-            'value': '19',
-            'color': '#f4a460'
+            'value': '1',
+            'color': '#20b2aa'
         },
         {
-            'name': 'Shrubland',
-            'value': '20',
-            'color': '#800080'
+            'name': 'Cropland',
+            'value': '2',
+            'color': '#7cfc00'
+        },
+        {
+            'name': 'Settlements',
+            'value': '3',
+            'color': '#8b0000'
+        },
+        {
+            'name': 'Wetlands',
+            'value': '4',
+            'color': '#0000ff'
+        },
+        {
+            'name': 'Other Lands',
+            'value': '5',
+            'color': '#6f6f6f'
         }
     ],
     myanmarFRALandCoverClasses: [

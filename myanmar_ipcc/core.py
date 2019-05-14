@@ -10,39 +10,136 @@ class MyanmarIPCC():
     '''
         Google Earth Engine API
     '''
-
     ee.Initialize(settings.EE_CREDENTIALS)
-    # @ToDo: use the product from new run    
+
     # land-use map
-    LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/Assemblage/RegionalLC')
+    #LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/FinalMyanmarLandCover')
+    LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/LandCoverMyanmar')
 
     # primitives
-    PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/Primitives/P_barren')
-    PRIMITIVE_BIULTUP = ee.ImageCollection('projects/servir-mekong/Primitives/P_builtup')
-    PRIMITIVE_CANOPY = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
-    PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/Primitives/P_cropland')
-    PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/Primitives/P_deciduous')
-    PRIMITIVE_EPHEMERAL_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_ephemeral_water')
-    PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen')
-    PRIMITIVE_FOREST_COVER = ee.ImageCollection('projects/servir-mekong/Primitives/P_forest_cover')
-    PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/Primitives/P_grass')
-    PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/Primitives/P_mangrove')
-    PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/Primitives/P_mixed_forest')
-    PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_rice')
-    PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/Primitives/P_shrub')
-    PRIMITIVE_SNOW_ICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_snow_ice').select('max_snow')
-    PRIMITIVE_SURFACE_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_surface_water')
-    PRIMITIVE_TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
+    PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
+    PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/cropland')
+    PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/grass')
+    PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mangrove')
+    PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/openForest')
+    PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/snow')
+    PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/urban')
+    PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/water')
+    PRIMITIVE_WETLANDS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/wetlands')
+    PRIMITIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/woody')
     PRIMITIVES = [
-        PRIMITIVE_BARREN, PRIMITIVE_BIULTUP, PRIMITIVE_CANOPY, PRIMITIVE_CROPLAND,
-        PRIMITIVE_DECIDUOUS, PRIMITIVE_EPHEMERAL_WATER, PRIMITIVE_EVERGREEN,
-        PRIMITIVE_FOREST_COVER, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, PRIMITIVE_MIXED_FOREST,
-        PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
+        PRIMITIVE_CLOSED_FOREST, PRIMITIVE_CROPLAND, PRIMITIVE_GRASS,
+        PRIMITIVE_MANGROVE, PRIMITIVE_OPEN_FOREST, PRIMITIVE_SNOW, PRIMITIVE_URBAN,
+        PRIMITIVE_WATER, PRIMITIVE_WETLANDS, PRIMITIVE_WOODY
     ]
 
     # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
+
+    # Class and Index
+    LANDCOVERCLASSES = [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '6f6f6f'
+        },
+        {
+            'name': 'Surface Water',
+            'value': '1',
+            'color': '0000ff'
+        },
+        {
+            'name': 'Snow and Ice',
+            'value': '2',
+            'color': '808080'
+        },
+        {
+            'name': 'Mangroves',
+            'value': '3',
+            'color': '556b2f'
+        },
+        {
+            'name': 'Cropland',
+            'value': '4',
+            'color': '7cfc00'
+        },
+        {
+            'name': 'Urban and Built up',
+            'value': '5',
+            'color': '8b0000'
+        },
+        {
+            'name': 'Grassland',
+            'value': '6',
+            'color': '20b2aa'
+        },
+        {
+            'name': 'Closed Forest',
+            'value': '7',
+            'color': '006400'
+        },
+        {
+            'name': 'Open Forest',
+            'value': '8',
+            'color': '90ee90'
+        },
+        {
+            'name': 'Wetland',
+            'value': '9',
+            'color': '42f4c2'
+        },
+        {
+            'name': 'Woody',
+            'value': '10',
+            'color': '8b4513'
+        },
+        {
+            'name': 'Other land',
+            'value': '11',
+            'color': '6f6f6f'
+        }
+    ]
+
+    REMAPPED_CLASSES = [
+        {
+            'name': 'Forest',
+            'value': '0',
+            'color': '006400'
+        },
+        {
+            'name': 'Grassland',
+            'value': '1',
+            'color': '20b2aa'
+        },
+        {
+            'name': 'Cropland',
+            'value': '2',
+            'color': '7cfc00'
+        },
+        {
+            'name': 'Settlements',
+            'value': '3',
+            'color': '8b0000'
+        },
+        {
+            'name': 'Wetlands',
+            'value': '4',
+            'color': '0000ff'
+        },
+        {
+            'name': 'Other Lands',
+            'value': '5',
+            'color': '6f6f6f'
+        }
+    ]
+
+    INDEX_CLASS = {}
+    for _class in REMAPPED_CLASSES:
+        INDEX_CLASS[int(_class['value'])] = _class['name']
+
+    ORIGINAL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    REMAPPED = [5, 4, 5, 0, 2, 3, 1, 0, 0, 4,  0,  5]
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
@@ -103,10 +200,11 @@ class MyanmarIPCC():
         return MyanmarIPCC.DEFAULT_GEOM.buffer(10000)
 
     # -------------------------------------------------------------------------
-    def get_landcover(self, primitives=range(0, 21), year=2016, download=False):
+    def get_landcover(self, primitives=range(0, 11), year=2017, download=False):
 
         image = ee.Image(MyanmarIPCC.LANDCOVERMAP.filterDate('%s-01-01' % year,
                                                              '%s-12-31' % year).mean())
+        image = image.select('classification')
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -116,16 +214,21 @@ class MyanmarIPCC():
             _mask = image.eq(ee.Number(int(primitive)))
             masked_image = masked_image.add(_mask)
 
-        palette = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+        palette = []
+        for _class in MyanmarIPCC.REMAPPED_CLASSES:
+            palette.append(_class['color'])
 
-        image = image.updateMask(masked_image).clip(self.geometry)
+        palette = ','.join(palette)
+
+        image = image.updateMask(masked_image)
+        image = image.remap(MyanmarIPCC.ORIGINAL, MyanmarIPCC.REMAPPED).clip(self.geometry)
 
         if download:
             return image
 
         map_id = image.getMapId({
             'min': '0',
-            'max': '20',
+            'max': str(len(MyanmarIPCC.REMAPPED_CLASSES) - 1),
             'palette': palette
         })
 
@@ -135,12 +238,18 @@ class MyanmarIPCC():
         }
 
     # -------------------------------------------------------------------------
-    def get_primitive(self, index=0, year=2016, download=False):
+    def get_primitive(self, index=0, year=2017, download=False):
 
         primitive_img_coll = MyanmarIPCC.PRIMITIVES[index]
 
-        image = ee.Image(primitive_img_coll.filterDate('%s-01-01' % year,
-                                                       '%s-12-31' % year).mean())
+        image_collection = primitive_img_coll.filterDate('%s-01-01' % year, 
+                                                         '%s-12-31' % year)
+        if image_collection.size().getInfo() > 0:
+            image = ee.Image(image_collection.mean())
+        else:
+            return {
+                'error': 'No data available for year {}'.format(year)
+            }
 
         # mask
         masked_image = image.gt(0.1)
@@ -153,7 +262,7 @@ class MyanmarIPCC():
         map_id = image.getMapId({
             'min': '0',
             'max': '100',
-            'palette': 'FFFFFF, 000000'
+            'palette': 'FFFFFF, 999999, 666666, 333333, 000000'
         })
 
         return {
@@ -164,8 +273,8 @@ class MyanmarIPCC():
     # -------------------------------------------------------------------------
     def get_download_url(self,
                          type = 'landcover',
-                         year = 2016,
-                         primitives = range(0, 21),
+                         year = 2017,
+                         primitives = range(0, 12),
                          index = 0,
                          ):
 
@@ -180,14 +289,18 @@ class MyanmarIPCC():
                                        download = True,
                                        )
 
-        try:
-            url = image.getDownloadURL({
-                'name': type,
-                'scale': 30
-            })
-            return {'downloadUrl': url}
-        except Exception as e:
-            return {'error': e.message}
+        _scale = 30
+        while True:
+            try:
+                url = image.getDownloadURL({
+                    'name': type,
+                    'scale': _scale
+                })
+                return {'downloadUrl': url}
+            except Exception as e:
+                _scale += 10
+                continue
+            break
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
@@ -228,7 +341,7 @@ class MyanmarIPCC():
                 description = 'Export from SERVIR Mekong Team',
                 fileNamePrefix = temp_file_name,
                 scale = 30,
-                region = self.geometry.getInfo()['coordinates'],
+                region = self.geometry.bounds().getInfo()['coordinates'],
                 skipEmptyTiles = True,
                 maxPixels = 1E13
             )
@@ -259,3 +372,32 @@ class MyanmarIPCC():
         else:
             print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
             return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}
+
+    # -------------------------------------------------------------------------
+    def get_stats(self, year=2017, primitives=range(0, 12)):
+
+        image = self.get_landcover(primitives = primitives,
+                                   year = year,
+                                   download = True,
+                                   )
+
+        _scale = 100
+        while True:
+            try:
+                stats = image.reduceRegion(
+                    reducer = ee.Reducer.frequencyHistogram(),
+                    geometry = self.geometry,
+                    crs = 'EPSG:32647', # WGS Zone N 47
+                    scale = _scale,
+                    maxPixels = 1E13
+                )
+                data = stats.getInfo()['remapped']
+                # converting to meter square by multiplying with scale value i.e. 100*100
+                # and then converting to hectare multiplying with 0.0001
+                # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
+                # meaning we can use the value directly as the hectare
+                return {MyanmarIPCC.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
+            except Exception as e:
+                _scale += 10
+                continue
+            break
