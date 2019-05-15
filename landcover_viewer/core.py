@@ -31,10 +31,10 @@ class LandCoverViewer():
         self.center = center
         if (area_path and area_name):
             if (area_path == 'country'):
-                #if (area_name == 'Myanmar'):
-                #    area_name = 'Myanmar (Burma)'
+                if (area_name == 'Myanmar'):
+                    area_name = 'Myanmar (Burma)'
                 self.geometry = LandCoverViewer.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Name', [area_name])).geometry()
+                                    ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
