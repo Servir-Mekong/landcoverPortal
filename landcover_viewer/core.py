@@ -648,6 +648,7 @@ class LandCoverViewer():
         try:
             task = ee.batch.Export.image.toDrive(
                 image = image,
+                folder = 'GEEServiceAccountExport',
                 description = 'Export from SERVIR Mekong Team',
                 fileNamePrefix = temp_file_name,
                 scale = 30,
@@ -680,8 +681,8 @@ class LandCoverViewer():
                 print (str(e))
                 return {'error': str(e)}
         else:
-            print ('Task failed (id: %s) because %s.' % (task.id, task.status()['error_message']))
-            return {'error': 'Task failed (id: %s) because %s.' % (task.id, task.status()['error_message'])}
+            print ('Task failed (id: %s) because %s' % (task.id, task.status()['error_message']))
+            return {'error': 'Task failed (id: %s) because %s' % (task.id, task.status()['error_message'])}
 
     # -------------------------------------------------------------------------
     def get_stats(self, year=2016, primitives=range(0, 21)):

@@ -23,6 +23,8 @@
                 url = '/api/myanmar-fra/';
             } else if (type === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
+            } else if (type === 'myanmar-national') {
+                url = '/api/myanmar-national/';
             }
 
             var req = {
@@ -84,6 +86,8 @@
                 url = '/api/myanmar-fra/';
             } else if (type === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
+            } else if (type === 'myanmar-national') {
+                url = '/api/myanmar-national/';
             }
 
             var req = {
@@ -193,6 +197,8 @@
                 url = '/api/myanmar-fra/';
             } else if (type === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
+            } else if (type === 'myanmar-national') {
+                url = '/api/myanmar-national/';
             }
 
             var req = {
@@ -256,6 +262,8 @@
                 url = '/api/myanmar-fra/';
             } else if (serviceType === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
+            } else if (type === 'myanmar-national') {
+                url = '/api/myanmar-national/';
             }
 
             var req = {
@@ -322,6 +330,8 @@
                 url = '/api/myanmar-fra/';
             } else if (serviceType === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
+            } else if (type === 'myanmar-national') {
+                url = '/api/myanmar-national/';
             }
 
             var req = {

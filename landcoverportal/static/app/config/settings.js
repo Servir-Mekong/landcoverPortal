@@ -632,6 +632,68 @@ var settings = {
             'value': '19'
         }
     ],
+    myanmarNationalClasses: [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '#6f6f6f'
+        },
+        {
+            'name': 'Surface Water',
+            'value': '1',
+            'color': '#0000ff'
+        },
+        {
+            'name': 'Snow and Ice',
+            'value': '2',
+            'color': '#808080'
+        },
+        {
+            'name': 'Mangroves',
+            'value': '3',
+            'color': '#556b2f'
+        },
+        {
+            'name': 'Cropland',
+            'value': '4',
+            'color': '#7cfc00'
+        },
+        {
+            'name': 'Urban and Built up',
+            'value': '5',
+            'color': '#8b0000'
+        },
+        {
+            'name': 'Grassland',
+            'value': '6',
+            'color': '#20b2aa'
+        },
+        {
+            'name': 'Closed Forest',
+            'value': '7',
+            'color': '#006400'
+        },
+        {
+            'name': 'Open Forest',
+            'value': '8',
+            'color': '#90ee90'
+        },
+        {
+            'name': 'Wetland',
+            'value': '9',
+            'color': '#42f4c2'
+        },
+        {
+            'name': 'Woody',
+            'value': '10',
+            'color': '#8b4513'
+        },
+        {
+            'name': 'Other land',
+            'value': '11',
+            'color': '#6f6f6f'
+        }
+    ],
     myanmarIPCCLandCoverClasses: [
         {
             'name': 'Forest',
@@ -783,6 +845,18 @@ var settings = {
                 'from 2006 and 2015 are products of this application.',
             'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
             'imageURL': 'images/solr.png'
+        },
+        {
+            'name': 'Myanmar National Classification (Under Development)',
+            'description': 'SERVIR-Mekong and partners are collaborating and supporting ' + 
+                'the Forest Department of Myanmar to improve the land cover monitoring system ' +
+                'of Myanmar, which contributes for sustainable land use management. <br/>' + 
+                'The national land cover product comprises of 11 classes (namely, ' + 
+                'Closed Forest, Opened Forest, Other Wooded Land, Mangroves, Wetlands, ' +
+                'Snow and Ice, Cropland, Built up, Grassland, Surface Water and Others) ' +
+                'and is produced annually. These national land cover products are the ' +
+                'primary datasets required for reporting at national level and to FRA and UNFCCC.',
+            'imageURL': 'images/myanmar-national.png'
         },
         {
             'name': 'Myanmar IPCC (Under Development)',

@@ -1,0 +1,13 @@
+Land Cover Typology,Pixel Value,Color Code
+Unknown,0,6f6f6f
+Surface Water,1,0000ff
+Snow and Ice,2,808080
+Mangroves,3,556b2f
+Cropland,4,7cfc00
+Urban and Built up,5,8b0000
+Grassland,6,20b2aa
+Closed Forest,7,006400'
+Open Forest,8,90ee90
+Wetland,9,42f4c2
+Woody,10,8b4513
+Other land,11,6f6f6f
