@@ -11,7 +11,10 @@ var settings = {
             'show': true
         }
     ],
-    applicationName: 'Land Cover Portal',
+    application: {
+        name: 'Land Cover Portal',
+        url: '/home/'
+    },
     footerLinks: [{
             'name': 'About',
             'url': 'https://servir.adpc.net/about/about-servir-mekong',
@@ -828,26 +831,21 @@ var settings = {
             'imageURL': 'images/fms.png'
         },
         {
-            'name': 'State of Land Report (Under Development)',
-            'description': 'The Mekong region State of Land report is the application ' +
-                'of customizing RLCMS, and a response to request from The Mekong Region ' +
-                'Land Governance Project (MRLG), funded by the Swiss Agency for Development ' +
-                'and Cooperation (SDC) and other partners. The 2018 State of Land will serve ' +
-                'as a benchmark of current conditions, and set a baseline for future ' +
-                'measurement and reporting of progress in land governance in the ' +
-                'Mekong region.<br />The MRLG project needs a comprehensive overview ' +
-                'of land resources in Mekong region including Cambodia, Laos, Myanmar, ' +
-                'Thailand and Viet Nam, and the IPCC typologies (6 classes including) are ' +
-                'used as representations for these products. The customization of the ' +
-                'RLCMS for 6 IPCC classes has been applied to selected primitive layers ' +
-                'and data assemblage processes based on the IPCC typology definition ' +
-                '(IPCC guidelines in 2006). Regional land cover maps in two dates ' +
-                'from 2006 and 2015 are products of this application.',
-            'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
-            'imageURL': 'images/solr.png'
+            'name': 'Myanmar National Land Cover Portal',
+            'description': 'SERVIR-Mekong and partners are collaborating and supporting ' +
+                'the Forest Department of Myanmar to improve the forest monitoring ' +
+                'system of Myanmar, which contributes for Myanmar National Forest ' +
+                'Resources Assessment (FRA) to FAO. <br />' +
+                'The RLCMS is customized to meet the forest types definition in ' +
+                'Myanmar. The product of this application are forest maps with ' +
+                'forest categories and sub categories. Forest map products are from ' +
+                '2000 to 2016. The uncertainty and accuracy data assessment is ' +
+                'integrated in the assemblage and map results.',
+            'url': '/myanmar-national-portal/',
+            'imageURL': 'images/myanmar-national-portal.png'
         },
         {
-            'name': 'Myanmar National Classification (Under Development)',
+            'name': 'Myanmar National Classification',
             'description': 'SERVIR-Mekong and partners are collaborating and supporting ' + 
                 'the Forest Department of Myanmar to improve the land cover monitoring system ' +
                 'of Myanmar, which contributes for sustainable land use management. <br/>' + 
@@ -860,7 +858,7 @@ var settings = {
             'imageURL': 'images/myanmar-national.png'
         },
         {
-            'name': 'Myanmar IPCC (Under Development)',
+            'name': 'Myanmar National IPCC',
             'description': 'SERVIR-Mekong and partners are collaborating and ' +
                 'supporting the Forest Department of Myanmar to improve the land ' +
                 'cover monitoring system which contributes for greenhouse gas ' +
@@ -880,7 +878,7 @@ var settings = {
             'imageURL': 'images/myanmar-ipcc.png'
         },
         {
-            'name': 'Myanmar FRA (Under Development)',
+            'name': 'Myanmar National FRA',
             'description': 'SERVIR-Mekong and partners are collaborating and supporting ' +
                 'the Forest Department of Myanmar to improve the forest monitoring ' +
                 'system of Myanmar, which contributes for Myanmar National Forest ' +
@@ -892,6 +890,25 @@ var settings = {
                 'integrated in the assemblage and map results.',
             'url': '/myanmar-fra/',
             'imageURL': 'images/myanmar-fra.png'
+        },
+        {
+            'name': 'State of Land Report (Under Development)',
+            'description': 'The Mekong region State of Land report is the application ' +
+                'of customizing RLCMS, and a response to request from The Mekong Region ' +
+                'Land Governance Project (MRLG), funded by the Swiss Agency for Development ' +
+                'and Cooperation (SDC) and other partners. The 2018 State of Land will serve ' +
+                'as a benchmark of current conditions, and set a baseline for future ' +
+                'measurement and reporting of progress in land governance in the ' +
+                'Mekong region.<br />The MRLG project needs a comprehensive overview ' +
+                'of land resources in Mekong region including Cambodia, Laos, Myanmar, ' +
+                'Thailand and Viet Nam, and the IPCC typologies (6 classes including) are ' +
+                'used as representations for these products. The customization of the ' +
+                'RLCMS for 6 IPCC classes has been applied to selected primitive layers ' +
+                'and data assemblage processes based on the IPCC typology definition ' +
+                '(IPCC guidelines in 2006). Regional land cover maps in two dates ' +
+                'from 2006 and 2015 are products of this application.',
+            'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
+            'imageURL': 'images/solr.png'
         }
     ]
 };

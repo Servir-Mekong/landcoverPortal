@@ -5,7 +5,7 @@
         .controller('utilsController', function ($rootScope, $scope, appSettings) {
 
             $scope.menus = appSettings.menus;
-            $scope.applicationName = appSettings.applicationName;
+            $scope.application = appSettings.application;
             $scope.footerLinks = appSettings.footerLinks;
             $scope.partnersHeader = appSettings.partnersHeader;
             $scope.partnersFooter = appSettings.partnersFooter;
@@ -14,7 +14,7 @@
             $scope.descriptionModalTitle = '';
             $scope.toggleHandleClass = 'fa-chevron-up';
 
-            $scope.trimDescription = function(description) {
+            $scope.trimDescription = function (description) {
                 return String(description).substring(0, 200);
             };
 
@@ -54,27 +54,78 @@
                 }
             };
 
+            $scope.showLogoBar = function () {
+                $('.banner-container').removeClass('display-none');
+                $scope.toggleHandleClass = 'fa-chevron-up';
+                $('body').css({'margin-top': '110px'});
+                $('.nav-side-menu').css({'height': 'calc(100vh - 110px)'});
+                $('.map').css({'height': 'calc(100vh - 110px)'});
+            };
+
+            $scope.hideLogoBar = function () {
+                $('.banner-container').addClass('display-none');
+                $scope.toggleHandleClass = 'fa-chevron-down';
+                $('body').css({'margin-top': '55px'});
+                $('.nav-side-menu').css({'height': 'calc(100vh - 55px)'});
+                $('.map').css({'height': 'calc(100vh - 55px)'});
+            };
+
             $scope.toggleLogoBar = function () {
                 if ($('.banner-container').hasClass('display-none')) {
-                    $('.banner-container').removeClass('display-none');
-                    $scope.toggleHandleClass = 'fa-chevron-up';
-                    $('body').css({'margin-top': '110px'});
-                    $('.nav-side-menu').css({'height': 'calc(100vh - 110px)'});
-                    $('.map').css({'height': 'calc(100vh - 110px)'});
+                    $scope.showLogoBar();
                 } else {
-                    $('.banner-container').addClass('display-none');
-                    $scope.toggleHandleClass = 'fa-chevron-down';
-                    $('body').css({'margin-top': '55px'});
-                    $('.nav-side-menu').css({'height': 'calc(100vh - 55px)'});
-                    $('.map').css({'height': 'calc(100vh - 55px)'});
+                    $scope.hideLogoBar();
                 }
             };
+
+            $rootScope.$on('toggleLogoBar', function (event, data) {
+                if(data && data.show) {
+                    $scope.showLogoBar();
+                } else {
+                    $scope.hideLogoBar();
+                }
+            });
 
             $rootScope.$on('showToggleFullScreenIcon', function (event, data) {
                 if (data && data.show) {
                     $scope.showToggleFullScreenIcon = true;
                 } else {
                     $scope.showToggleFullScreenIcon = false;
+                }
+            });
+
+            $scope.showLogoToggleIcon = true;
+            $rootScope.$on('showLogoToggleIcon', function (event, data) {
+                if (data && data.show) {
+                    $scope.showLogoToggleIcon = true;
+                } else {
+                    $scope.showLogoToggleIcon = false;
+                    $scope.hideLogoBar();
+                }
+            });
+
+            $rootScope.$on('changeMenu', function (event, data) {
+                if (data && data.menus) {
+                    $scope.menus = data.menus;
+                } else {
+                    console.log('no menu to change!');
+                }
+            });
+
+            $rootScope.$on('changeApplicationName', function (event, data) {
+                if (data && data.application) {
+                    $scope.application = data.application;
+                } else {
+                    console.log('no name to change!');
+                }
+            });
+
+            $scope.extraBrands = [];
+            $rootScope.$on('changeExtraBrands', function (event, data) {
+                if (data && data.extraBrands) {
+                    $scope.extraBrands = data.extraBrands;
+                } else {
+                    console.log('no name to change!');
                 }
             });
 

@@ -145,3 +145,15 @@
 a.navbar-brand:hover, a.navbar-brand:focus, .nav > li > a:hover, .nav > li > a:focus {
     background-color: black !important;
 }
+
+.navbar-brand {
+	padding: 0;
+}
+
+.navbar-brand>img {
+    height: 90%;
+    /* padding: 15px; */
+    width: auto;
+    margin-top: 2px;
+    /* top: 0; */
+}

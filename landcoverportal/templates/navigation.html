@@ -25,10 +25,23 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 			</button>
-			<a class="float-left" ng-show="showToggleFullScreenIcon" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#" ng-click="toggleFullScreen()">
+
+			<!--<a class="navbar-brand" href="http://disputebills.com" ng-show="extraBrand">
+				<img src="{% static '/images/monrec.png' %}">
+			</a>-->
+
+			<a class="float-left" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#"
+			   ng-show="showToggleFullScreenIcon" ng-click="toggleFullScreen()">
 				<i class="fas fa-bars fa-2x"></i>
 			</a>
-		    <a class="navbar-brand navmenu" href="/home/">[[applicationName]]</a>
+
+			<span ng-repeat="brand in extraBrands">
+				<a class="navbar-brand" ng-show="brand.show" href="brand.href" target="_blank">
+					<img src="{% static '' %}[[brand.src]]" >
+				</a>
+			</span>
+
+		    <a class="navbar-brand navmenu" style="padding: 15px 15px;" href="[[ application.url ]]">[[ application.name ]]</a>
 		</div>
 
 		<div class="container-fluid menu-container collapse navbar-collapse main-padding" id="navbar-collapse">
@@ -36,7 +49,8 @@
 	            <li ng-repeat="menu in menus">
 	                <a ng-show="menu.show" class="navmenu" href="[[menu.url]]">[[menu.name]]</a>
 				</li>
-				<a class="float-right" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#" ng-click="toggleLogoBar()">
+				<a class="float-right" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#"
+				   ng-click="toggleLogoBar()" ng-show="showLogoToggleIcon">
 					<i class="fas [[ toggleHandleClass ]] fa-2x"></i>
 				</a>
 	        </ul>
