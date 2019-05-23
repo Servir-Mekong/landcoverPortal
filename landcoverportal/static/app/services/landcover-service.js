@@ -262,7 +262,7 @@
                 url = '/api/myanmar-fra/';
             } else if (serviceType === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
-            } else if (type === 'myanmar-national') {
+            } else if (serviceType === 'myanmar-national') {
                 url = '/api/myanmar-national/';
             }
 
@@ -330,7 +330,7 @@
                 url = '/api/myanmar-fra/';
             } else if (serviceType === 'myanmar-ipcc') {
                 url = '/api/myanmar-ipcc/';
-            } else if (type === 'myanmar-national') {
+            } else if (serviceType === 'myanmar-national') {
                 url = '/api/myanmar-national/';
             }
 
