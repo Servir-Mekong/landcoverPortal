@@ -856,6 +856,7 @@ var settings = {
                 'Snow and Ice, Cropland, Built up, Grassland, Surface Water and Others) ' +
                 'and is produced annually. These national land cover products are the ' +
                 'primary datasets required for reporting at national level and to FRA and UNFCCC.',
+            'url': '/myanmar-national/',
             'imageURL': 'images/myanmar-national.png'
         },
         {
