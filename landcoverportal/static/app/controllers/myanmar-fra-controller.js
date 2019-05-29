@@ -142,17 +142,17 @@
          * Start with UI
          */
 
-        // Analysis Tool Control
-        $scope.toggleToolControl = function () {
-            if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
-                $scope.showTabContainer = false;
-            } else {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
-                $scope.showTabContainer = true;
-            }
-            $scope.$apply();
-        };
+         // Analysis Tool Control
+         $scope.toggleToolControl = function () {
+             if ($('#analysis-tool-control i').hasClass('fas fa-chart-pie control-gray-color')) {
+                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie control-gray-color').addClass('fas fa-chart-pie');
+                 $scope.showTabContainer = true;
+             } else {
+                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-chart-pie control-gray-color');
+                 $scope.showTabContainer = false;
+             }
+             $scope.$apply();
+         };
 
         var analysisToolControlDiv = document.getElementById('tool-control-container');
         var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);

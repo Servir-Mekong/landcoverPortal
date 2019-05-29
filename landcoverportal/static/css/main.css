@@ -132,6 +132,7 @@
 .map {
     display: block;
     height: calc(100vh - 110px);
+
 }
 
 .-center {
@@ -209,13 +210,13 @@
     /*width: 120px;
     height: 120px;*/
     margin-left: 50%;
-    margin-top: 10%;
+    margin-top: 50%;
 }
 
 .loader {
     z-index: 1005;
     /* background: rgb(233, 233, 233); */
-    color: #0db253;
+    color: #25274D;
     position: absolute;
     top: 0;
     right: 0;
@@ -327,7 +328,7 @@ input:checked+.switch-slider:before {
 .tab-tool {
     position: absolute;
     width: 300px;
-    background-color: white;
+    background-color: #333;
     top: 160px;
     left: auto;
     right: 12px;
@@ -378,4 +379,16 @@ input:checked+.switch-slider:before {
 
 .fa-custom {
     font-size: 1.5em;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #25274D;
+    border-color: #333;
+}
+
+.btn-green {
+    color: #fff;
+    background-color: #379683;
+    border-color: #ddd;
 }

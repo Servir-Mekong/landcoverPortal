@@ -6,7 +6,6 @@
     .service('MapService', function () {
 
         var service = this;
-
         service.DEFAULT_ZOOM = 5;
         service.MAX_ZOOM = 25;
         service.DEFAULT_CENTER = {
@@ -26,7 +25,7 @@
         };
 
         service.getEsriWorldTopoLeafletLayer = function () {
-            return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', 
+            return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
                 {
                     attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, ' +
                     'Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
@@ -75,15 +74,15 @@
                     mapTypeId: 'terrain',
                     fullscreenControl: true,
                     fullscreenControlOptions: {
-                        position: google.maps.ControlPosition.TOP_LEFT
+                        position: google.maps.ControlPosition.LEFT_TOP
                     },
                     zoomControlOptions: {
-                        position: google.maps.ControlPosition.RIGHT_BOTTOM
+                        position: google.maps.ControlPosition.LEFT_TOP
                     },
                     scaleControl: true,
-                    streetViewControl: true,
+                    streetViewControl: false,
                     streetViewControlOptions: {
-                        position: google.maps.ControlPosition.TOP_CENTER
+                        position: google.maps.ControlPosition.LEFT_TOP
                     }
                 };
 
@@ -101,7 +100,7 @@
                 map.data.loadGeoJson(
                     '/static/data/' + dir + '/' + name + '.json'
                 );
-    
+
                 map.data.setStyle({
                     //fillColor: 'red',
                     //strokeWeight: 2,
@@ -166,7 +165,7 @@
                 overlay.setMap(null);
             }
         };
-    
+
         service.getMapType = function (mapId, mapToken, type) {
             var eeMapOptions = {
                 getTileUrl: function (tile, zoom) {

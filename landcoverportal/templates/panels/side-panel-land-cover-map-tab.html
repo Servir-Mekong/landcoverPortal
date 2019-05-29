@@ -1,7 +1,6 @@
 <!-- Land Cover Assemblage Tab -->
 <div class="tab-pane fade active in" id="land-cover-classes-tab">
     <div class="row">
-
         {% if version1 %}
         <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -22,11 +21,11 @@
     {% if not version1 and not version2 %}
     <fieldset class="row lcp-class-container">
         <div class="btn-group btn-group-justified" role="group" aria-label="...">
-            <a class="btn btn-primary btn-sm" href="/landcover/v1/" role="button" target="_blank" style="margin-bottom: 10px;">
-                View Version 1 Products
+            <a class="btn btn-primary btn-sm" style="font-size:14px;" href="/landcover/v1/" role="button" target="_blank" style="margin-bottom: 10px;">
+                View Version 1
             </a>
-            <a class="btn btn-primary btn-sm" href="/landcover/v2/" role="button" target="_blank" style="margin-bottom: 10px;">
-                View Version 2 Products
+            <a class="btn btn-primary btn-sm" style="font-size:14px;" href="/landcover/v2/" role="button" target="_blank" style="margin-bottom: 10px;">
+                View Version 2
             </a>
         </div>
     </fieldset>
@@ -34,19 +33,19 @@
 
     {% if version1 %}
     <fieldset class="row lcp-class-container">
-        <a class="btn btn-primary btn-sm btn-block" href="/landcover/v1/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
+        <a class="btn btn-sm btn-block" style="font-size: 16px;" href="/landcover/v1/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
             <i class="fas fa-chart-line fa-custom"></i> Stats and Analysis
         </a>
     </fieldset>
     {% elif version2 %}
     <fieldset class="row lcp-class-container">
-            <a class="btn btn-primary btn-sm btn-block" href="/landcover/v2/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
+            <a class="btn btn-green btn-sm btn-block" style="font-size: 16px;" href="/landcover/v2/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
                 <i class="fas fa-chart-line fa-custom"></i> Stats and Analysis
             </a>
         </fieldset>
     {% else %}
     <fieldset class="row lcp-class-container">
-        <a class="btn btn-primary btn-sm btn-block" href="/landcover/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
+        <a class="btn btn-green btn-sm btn-block"  style="font-size: 16px;" href="/landcover/analysis/" role="button" target="_blank" style="margin-bottom: 10px;">
             <i class="fas fa-chart-line fa-custom"></i> Stats and Analysis
         </a>
     </fieldset>
@@ -54,13 +53,22 @@
 
     {% if not version1 %}
     <fieldset class="row lcp-class-container" id="probability-map-container">
-        <label class="custom-checkbox-container">Show Probability Map
-            <input type="checkbox" id="probability-map-checkbox" ng-click="toggleProbabilityMap()">
-            <span class="custom-checkbox-checkmark"></span>
-        </label>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="custom-checkbox-container">
+              <input type="checkbox" id="probability-map-checkbox" ng-click="toggleProbabilityMap()">
+              <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
+          </label>
+        </div>
+        <div class="col-md-10">
+            <h5><b>Show Probability Map</b></h5>
+        </div>
+        <div class="col-md-12">
         <div class="form-group col-md-12" ng-show="showProbabilityOpacityController">
-            <label for="probability-opacity-slider">Proability Map Opacity</label>
+            <label for="probability-opacity-slider"><h5>Proability Map Opacity: </h5></label>
             <input name="probability-opacity-slider" id="probability-opacity-slider" data-slider-id="probability-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+        </div>
+        </div>
         </div>
     </fieldset>
     {% endif %}
@@ -68,8 +76,8 @@
     <fieldset class="row lcp-class-container">
         <!-- Download button -->
         <div class="btn-group btn-block">
-            <button type="button" class="btn col-md-11 btn-sm btn-primary"><i class="fas fa-download fa-custom"></i> Download Data/Typology</button>
-            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle" style="font-size: 0.95em;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn col-md-11 btn-sm btn-green" style="font-size: 16px;"><i class="fas fa-download fa-custom"></i> Download Data/Typology</button>
+            <button type="button" class="btn col-md-1 btn-sm btn-green dropdown-toggle" style="font-size: 19px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
@@ -135,27 +143,26 @@
 
     </fieldset>
 
-    <fieldset class="row lcp-class-container" ng-show="showLandcoverOpacitySlider">
-        <div class="form-group col-md-12">
-            <label for="landcover-opacity-slider">Landcover Map Opacity</label>
-            <input name="landcover-opacity-slider" id="landcover-opacity-slider" data-slider-id="landcover-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-        </div>
-    </fieldset>
 
     <fieldset class="row lcp-class-container">
-        <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
+      <h4 style="font-weight:700; text-align: center;">Landcover Map</h4>
+      <div ng-show="showLandcoverOpacitySlider">
+          <label for="landcover-opacity-slider"><h5>Landcover Map Opacity: </h5></label>
+          <input name="landcover-opacity-slider" id="landcover-opacity-slider" data-slider-id="landcover-opacity-slider" type="text" style="width: 90%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+      </div>
+        <p style="color: #333;">Change the assemblage by turning on/off the layers and updating the map!</p>
 
         {% if version1 %}
-        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct('v1')" style="margin-bottom: 10px;">
-            Update Map
+        <button type="button" class="btn btn-primary btn-sm btn-block" style="font-size: 16px;" ng-click="updateAssemblageProduct('v1')" style="margin-bottom: 10px;">
+            <i class="fas fa-sync-alt"></i> Update Map
         </button>
         {% elif version2 %}
-        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct('v2')" style="margin-bottom: 10px;">
-            Update Map
+        <button type="button" class="btn btn-primary btn-sm btn-block" style="font-size: 16px;" ng-click="updateAssemblageProduct('v2')" style="margin-bottom: 10px;">
+            <i class="fas fa-sync-alt"></i> Update Map
         </button>
         {% else %}
-        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct('v3')" style="margin-bottom: 10px;">
-            Update Map
+        <button type="button" class="btn btn-primary btn-sm btn-block" style="font-size: 16px;" ng-click="updateAssemblageProduct('v3')" style="margin-bottom: 10px;">
+            <i class="fas fa-sync-alt"></i> Update Map
         </button>
         {% endif %}
 
@@ -164,38 +171,47 @@
     <div ng-repeat="class in landCoverClasses">
         <div ng-if="class.caret">
             <div class="caret-container">
-                <div class="row lcp-class-container">
-                    <span class="tree-caret pull-left" style="margin-top: 0.5em; margin-left: 5px;" ng-click="treeCaretClick()"></span>
-                    <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
-                    <div class="col-md-5">
-                        <h5><b>[[ class.name ]]</b></h5>
+                <div class="row lc-color-container">
+                    <span class="col-md-1 tree-caret pull-left" style="margin-top: 0.5em; margin-left: 5px;" ng-click="treeCaretClick()"></span>
+                    <div class="col-md-2">
+                      <div class="lcp-class-color" style="background: [[ class.color ]]"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <p>[[ class.name ]]</p>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 10px; margin-bottom: 10px;">
+                      <label class="custom-checkbox-container nested-checkbox">
+                          <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                          <span class="custom-checkbox-checkmark"></span>
+                      </label>
                     </div>
                     <!--<label class="switch">
                         <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
                         <span class="switch-slider round"></span>
                     </label>-->
-                    <label class="custom-checkbox-container nested-checkbox pull-right" style="margin-right: 5em; margin-top: 0.5em;">
-                        <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
-                        <span class="custom-checkbox-checkmark"></span>
-                    </label>
+
                 </div>
 
                 <div ng-repeat="_class in landCoverClasses">
-                    <div class="nested" style="margin-left: 2.5em;">
+                    <div class="nested" style="margin-left: 2.0em;">
                         <div ng-if="_class.nestedUnder == class.value">
-                            <div class="row lcp-class-container">
-                                <div class="col-md-5 lcp-class-color" style="background: [[ _class.color ]]"></div>
+                            <div class="row lc-color-container">
+                              <div class="col-md-2">
+                                <div class="lcp-class-color" style="background: [[ _class.color ]]"></div>
+                              </div>
                                 <div class="col-md-5">
-                                    <h5><b>[[ _class.name ]]</b></h5>
+                                    <p>[[ _class.name ]]</p>
+                                </div>
+                                <div class="col-md-2" style="margin-top: 10px; margin-bottom: 10px;">
+                                  <label class="custom-checkbox-container">
+                                      <input type="checkbox" value="[[ _class.value ]]" name="assemblage-checkbox" checked>
+                                      <span class="custom-checkbox-checkmark"></span>
+                                  </label>
                                 </div>
                                 <!--<label class="switch">
                                     <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
                                     <span class="switch-slider round"></span>
                                 </label>-->
-                                <label class="custom-checkbox-container pull-right" style="margin-right: 5em; margin-top: 0.5em;">
-                                    <input type="checkbox" value="[[ _class.value ]]" name="assemblage-checkbox" checked>
-                                    <span class="custom-checkbox-checkmark"></span>
-                                </label>
                             </div>
                         </div>
                     </div>
@@ -204,23 +220,28 @@
         </div>
 
         <div ng-if="!class.caret && !class.nestedUnder">
-            <div class="row lcp-class-container">
-                <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+            <div class="row lc-color-container">
+              <div class="col-md-2">
+                <div class="lcp-class-color" style="background: [[ class.color ]]"></div>
+              </div>
                 <div class="col-md-5">
-                    <h5><b>[[ class.name ]]</b></h5>
+                    <p>[[ class.name ]]</p>
+                </div>
+                <div class="col-md-2" style="margin-top: 10px; margin-bottom: 10px;">
+                  <label class="custom-checkbox-container nested-checkbox">
+                      <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                      <span class="custom-checkbox-checkmark"></span>
+                  </label>
                 </div>
                 <!--<label class="switch">
                     <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
                     <span class="switch-slider round"></span>
                 </label>-->
-                <label class="custom-checkbox-container pull-right" style="margin-right: 5em; margin-top: 0.5em;">
-                    <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
-                    <span class="custom-checkbox-checkmark"></span>
-                </label>
             </div>
         </div>
-        
+
     </div>
+
 
 </div>
 <!-- End of Land Cover Assemblage Tab -->

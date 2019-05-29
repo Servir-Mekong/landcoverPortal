@@ -60,6 +60,7 @@
                 $('body').css({'margin-top': '110px'});
                 $('.nav-side-menu').css({'height': 'calc(100vh - 110px)'});
                 $('.map').css({'height': 'calc(100vh - 110px)'});
+                $('.tab-tool').css({'top': '160px'});
             };
 
             $scope.hideLogoBar = function () {
@@ -68,6 +69,7 @@
                 $('body').css({'margin-top': '55px'});
                 $('.nav-side-menu').css({'height': 'calc(100vh - 55px)'});
                 $('.map').css({'height': 'calc(100vh - 55px)'});
+                $('.tab-tool').css({'top': '105px'});
             };
 
             $scope.toggleLogoBar = function () {
