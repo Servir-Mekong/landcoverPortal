@@ -24,7 +24,7 @@
             $scope.mapClass = data.mapClass;
             $scope.sideClass = data.sideClass;
             if (data.mapClass === 'col-md-12 col-lg-12') {
-                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
+                $('.custom-alert').css({ 'margin-left': '10%', 'width': 'calc(100vw - 20%)'});
                 $('.slider-year-container').css({'width': '85%'});
             } else {
                 $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
@@ -43,6 +43,7 @@
         $scope.alertContent = '';
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
+        $scope.showReportChart = false;
         $scope.showLoader = false;
 
         $scope.sliderYear = null;
@@ -129,15 +130,16 @@
 
         // Analysis Tool Control
         $scope.toggleToolControl = function () {
-            if ($('#analysis-tool-control span').hasClass('glyphicon-eye-open')) {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-open large-icon').addClass('glyphicon glyphicon-eye-close large-icon');
-                $scope.showTabContainer = false;
-            } else {
-                $('#analysis-tool-control span').removeClass('glyphicon glyphicon-eye-close large-icon').addClass('glyphicon glyphicon-eye-open large-icon');
+            if ($('#analysis-tool-control i').hasClass('fas fa-chart-pie control-gray-color')) {
+                $('#analysis-tool-control i').removeClass('fas fa-chart-pie control-gray-color').addClass('fas fa-chart-pie');
                 $scope.showTabContainer = true;
+            } else {
+                $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-chart-pie control-gray-color');
+                $scope.showTabContainer = false;
             }
             $scope.$apply();
         };
+
 
         var analysisToolControlDiv = document.getElementById('tool-control-container');
         var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
@@ -170,7 +172,7 @@
         // get tooltip activated
         $('.js-tooltip').tooltip();
 
-        $timeout(function () { 
+        $timeout(function () {
             var toggler = document.getElementsByClassName('tree-caret');
 
             var togglerClick = function () {
@@ -720,7 +722,7 @@
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
-                
+
                 var parameters = {
                     primitives: $scope.assemblageLayers,
                     year: $scope.sliderYear,
@@ -841,7 +843,7 @@
                         areaSelectFrom: $scope.areaSelectFrom,
                         areaName: $scope.areaName
                     };
-        
+
                     LandCoverService.getProbabilityMap(parameters)
                     .then(function (data) {
                         MapService.removeGeoJson(map);
