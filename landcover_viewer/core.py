@@ -600,14 +600,18 @@ class LandCoverViewer():
         elif type == 'probability':
             image = self.get_probability(year=year, download=True)
 
-        try:
-            url = image.getDownloadURL({
-                'name': type,
-                'scale': 30
-            })
-            return {'downloadUrl': url}
-        except Exception as e:
-            return {'error': '{} Try using download to drive options for larger area!'.format(e.message)}
+        _scale = 30
+        while True:
+            try:
+                url = image.getDownloadURL({
+                    'name': type,
+                    'scale': _scale
+                })
+                return {'downloadUrl': url}
+            except Exception as e:
+                _scale += 10
+                continue
+            break
 
     # -------------------------------------------------------------------------
     def download_to_drive(self,
