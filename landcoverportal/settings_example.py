@@ -235,6 +235,10 @@ EE_CREDENTIALS = ee.ServiceAccountCredentials(EE_ACCOUNT,
                                               EE_PRIVATE_KEY_FILE,
                                               GOOGLE_EARTH_SCOPES)
 
+GOOGLE_MAPS_API_KEY = '<your-maps-api-key>'
+
+GOOGLE_ANALYTICS_ID = '<your-analytics-id>'
+
 # Frequency to poll for export EE task completion (seconds)
 EE_TASK_POLL_FREQUENCY = 10
 
@@ -244,12 +248,6 @@ GOOGLE_OAUTH2_CREDENTIALS = oauth2client.service_account.ServiceAccountCredentia
                             from_json_keyfile_name(EE_PRIVATE_KEY_FILE,
                                                    ['https://www.googleapis.com/auth/drive',
                                                     ])
-
-# Filter Image Collection
-EE_FMS_TREE_HEIGHT_ID = 'projects/servir-mekong/Primitives/P_tree_height'
-EE_FMS_TREE_CANOPY_ID = 'projects/servir-mekong/Primitives/P_canopy'
-
-EE_MEKONG_FEATURE_COLLECTION_ID = 'ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw'
 
 # Other Settings
 COUNTRIES_NAME = ['Myanmar (Burma)', 'Thailand', 'Laos', 'Vietnam', 'Cambodia']
