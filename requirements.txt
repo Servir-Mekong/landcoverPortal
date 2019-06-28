@@ -31,11 +31,12 @@ djangocms-style==2.0.2
 djangocms-text-ckeditor==3.5.0
 djangocms-video==2.0.3
 djangorestframework==3.6.4
-earthengine-api==0.1.119
+earthengine-api==0.1.182
 easy-thumbnails==2.4.1
 enum34==1.1.6
 fasteners==0.14.1
 google-api-python-client==1.6.3
+google-auth==1.6.3
 gunicorn==19.7.1
 html5lib==0.9999999
 httplib2==0.10.3
@@ -48,8 +49,8 @@ oauth2client==4.1.2
 olefile==0.44
 Pillow==4.2.1
 psycopg2==2.7.3.1
-pyasn1==0.3.4
-pyasn1-modules==0.1.4
+pyasn1==0.4.5
+pyasn1-modules==0.2.5
 pycparser==2.18
 pyOpenSSL==17.2.0
 pytz==2017.2

@@ -5,7 +5,7 @@ from utils.utils import get_unique_string, transfer_files_to_user_drive
 
 import ee, json, os, time
 
-# -----------------------------------------------------------------------------
+# =============================================================================
 class LandCoverViewer():
     '''
         Google Earth Engine API
@@ -652,8 +652,7 @@ class LandCoverViewer():
         try:
             task = ee.batch.Export.image.toDrive(
                 image = image,
-                folder = 'GEEServiceAccountExport',
-                description = 'Export from SERVIR Mekong Team',
+                description = 'Land Cover Export from SERVIR Mekong',
                 fileNamePrefix = temp_file_name,
                 scale = 30,
                 region = self.geometry.bounds().getInfo()['coordinates'],#self.geometry.getInfo()['coordinates'],
@@ -711,3 +710,5 @@ class LandCoverViewer():
         # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
         # meaning we can use the value directly as the hectare
         return {self.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
+
+# =============================================================================
