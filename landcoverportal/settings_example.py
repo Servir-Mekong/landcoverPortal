@@ -5,7 +5,8 @@ Django settings for landcoverportal project.
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import ee, oauth2client, os
+import ee, os
+from google.oauth2 import service_account
 
 gettext = lambda s: s
 
@@ -244,10 +245,17 @@ EE_TASK_POLL_FREQUENCY = 10
 
 GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'credentials/client_secret.json')
 
-GOOGLE_OAUTH2_CREDENTIALS = oauth2client.service_account.ServiceAccountCredentials.\
-                            from_json_keyfile_name(EE_PRIVATE_KEY_FILE,
-                                                   ['https://www.googleapis.com/auth/drive',
-                                                    ])
+GOOGLE_OAUTH2_WEB_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'credentials/web_client.json')
+with open(GOOGLE_OAUTH2_WEB_CLIENT_SECRETS_JSON) as f:
+    google_oauth = json.load(f)
+
+GOOGLE_OAUTH2_CLIENT_ID = google_oauth['web']['client_id']
+GOOGLE_OAUTH2_CLIENT_SECRET = google_oauth['web']['client_secret']
+
+GOOGLE_OAUTH2_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    EE_PRIVATE_KEY_FILE,
+    scopes = ['https://www.googleapis.com/auth/drive']
+)
 
 # Other Settings
 COUNTRIES_NAME = ['Myanmar (Burma)', 'Thailand', 'Laos', 'Vietnam', 'Cambodia']
