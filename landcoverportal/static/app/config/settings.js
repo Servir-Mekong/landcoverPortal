@@ -793,6 +793,48 @@ var settings = {
             'value': '9'
         }
     ],
+    myanmarPlantationClasses: [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '#6f6f6f'
+        },
+        {
+            'name': 'Surface water',
+            'value': '1',
+            'color': '#aec3d4'
+        },
+        {
+            'name': 'Forest',
+            'value': '2',
+            'color': '#152106'
+        },
+        {
+            'name': 'Urban and built up',
+            'value': '3',
+            'color': '#cc0013'
+        },
+        {
+            'name': 'Cropland',
+            'value': '4',
+            'color': '#8dc33b'
+        },
+        {
+            'name': 'Rubber',
+            'value': '5',
+            'color': '#3bc3b2'
+        },
+        {
+            'name': 'Palmoil',
+            'value': '6',
+            'color': '#800080'
+        },
+        {
+            'name': 'Mangrove',
+            'value': '7',
+            'color': '#111149'
+        }
+    ],
     serviceApplicationsCards: [{
             'name': 'Regional Land Cover Monitoring System',
             'description': 'The regional land cover monitoring system provides ' +
@@ -846,10 +888,10 @@ var settings = {
         },
         {
             'name': 'Myanmar National Classification',
-            'description': 'SERVIR-Mekong and partners are collaborating and supporting ' + 
+            'description': 'SERVIR-Mekong and partners are collaborating and supporting ' +
                 'the Forest Department of Myanmar to improve the land cover monitoring system ' +
-                'of Myanmar, which contributes for sustainable land use management. <br/>' + 
-                'The national land cover product comprises of 11 classes (namely, ' + 
+                'of Myanmar, which contributes for sustainable land use management. <br/>' +
+                'The national land cover product comprises of 11 classes (namely, ' +
                 'Closed Forest, Opened Forest, Other Wooded Land, Mangroves, Wetlands, ' +
                 'Snow and Ice, Cropland, Built up, Grassland, Surface Water and Others) ' +
                 'and is produced annually. These national land cover products are the ' +
@@ -909,13 +951,27 @@ var settings = {
                 'from 2006 and 2015 are products of this application.',
             'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
             'imageURL': 'images/solr.png'
+        },
+        {
+            'name': 'Mapping Plantations',
+            'description': 'The Dawna Tenasserim Landscape covers Kayin and Mon States, and ' +
+                  'Tanintharyi Region in Myanmar. The area harbours one of the last large intact ' +
+                  'forest landscapes in the region, which hosts a large number of ethnic groups, and ' +
+                  'a wide variety of endangered wildlife such as elephants and tigers. The region is experiencing ' +
+                  'numerous threats including rapid increase in agricultural land use and associated deforestation, ' +
+                  'notably for rubber and palm oil, road and infrastructure development, and logging resulting in habitat ' +
+                  'degradation and fragmentation. The Dawna Tenasserim plantation portal shows areas with cropland, rubber, ' +
+                  'palmoil for 2017 and 2018. '+
+                  '<br><i> Remote Sens. 2019, 11(7), 831; <a href="https://doi.org/10.3390/rs11070831">https://doi.org/10.3390/rs11070831</a> </i>',
+            'url': '/plantation/',
+            'imageURL': 'images/plantation-mapping.jpg'
         }
     ]
 };
 
 /*var myanmarPrimitiveClasses = JSON.parse(JSON.stringify(settings.myanmarFRALandCoverClasses));
-for (var i = 0; i <= myanmarPrimitiveClasses.length - 1; i++) { 
-    delete myanmarPrimitiveClasses[i].color; 
+for (var i = 0; i <= myanmarPrimitiveClasses.length - 1; i++) {
+    delete myanmarPrimitiveClasses[i].color;
 }
 
 settings.myanmarPrimitiveClasses = myanmarPrimitiveClasses;

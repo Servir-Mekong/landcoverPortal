@@ -72,6 +72,25 @@
         </div>
     </fieldset>
     {% endif %}
+    <fieldset class="row lcp-class-container" id="composite-map-container">
+      <div class="row">
+        <div class="col-md-2">
+          <label class="custom-checkbox-container">
+              <input type="checkbox" id="composite-map-checkbox" ng-click="toggleCompositeMap()">
+              <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
+          </label>
+        </div>
+        <div class="col-md-10">
+            <h5><b>Yearly Composite Map</b></h5>
+        </div>
+        <div class="col-md-12">
+        <div class="form-group col-md-12" ng-show="showCompositeOpacityController">
+            <label for="composite-opacity-slider"><h5>Composite Map Opacity: </h5></label>
+            <input name="composite-opacity-slider" id="composite-opacity-slider" data-slider-id="composite-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+        </div>
+        </div>
+        </div>
+    </fieldset>
 
     <fieldset class="row lcp-class-container">
         <!-- Download button -->

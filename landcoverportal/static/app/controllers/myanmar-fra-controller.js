@@ -49,7 +49,6 @@
             arrays.push(REMAP[index]);
         }
         $scope.assemblageLayers = CommonService.flattenArrays(arrays);
-
         $scope.mapClass = CommonService.mapClass;
         $scope.sideClass = CommonService.sideClass;
         $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
