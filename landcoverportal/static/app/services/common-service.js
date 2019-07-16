@@ -37,7 +37,7 @@
             controlUI.setAttribute('class', 'tool-control text-center');
             controlUI.setAttribute('id', 'analysis-tool-control');
             controlUI.title = 'Toogle Tools Visibility';
-            controlUI.innerHTML = "<i class='fas fa-chart-pie'></i>";
+            controlUI.innerHTML = "<i class='fas fa-times'></i>";
             controlDiv.appendChild(controlUI);
             return controlUI;
         };

@@ -172,12 +172,12 @@
 
          // Analysis Tool Control
          $scope.toggleToolControl = function () {
-             if ($('#analysis-tool-control i').hasClass('fas fa-chart-pie control-gray-color')) {
-                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie control-gray-color').addClass('fas fa-chart-pie');
-                 $scope.showTabContainer = true;
-             } else {
-                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-chart-pie control-gray-color');
+             if ($('#analysis-tool-control i').hasClass('fas fa-times')) {
+                 $('#analysis-tool-control i').removeClass('fas fa-times').addClass('fas fa-chart-pie');
                  $scope.showTabContainer = false;
+             } else {
+                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-times');
+                 $scope.showTabContainer = true;
              }
              $scope.$apply();
          };

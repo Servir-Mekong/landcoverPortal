@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from core import LandCoverViewer
+from core import MyanmarPlantation
 from django.conf import settings
 from django.http import JsonResponse
 from datetime import datetime
@@ -28,7 +28,6 @@ def api(request):
     post = json.loads(request.body).get
     get = request.GET.get
     action = get('action', '')
-    version = get('version', '')
 
     if action and action in PUBLIC_METHODS:
         year = post('year', 2016)
@@ -40,7 +39,7 @@ def api(request):
         area_name = post('areaName', '')
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
-        primitives = post('primitives', range(0, 21))
+        primitives = post('primitives', range(0, 8))
         index = int(post('index', 0))
         if isinstance(primitives, (unicode, str)):
             try:
@@ -57,29 +56,30 @@ def api(request):
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
 
-        core = LandCoverViewer(area_path, area_name, shape, geom, radius, center, version)
+        core = MyanmarPlantation(area_path, area_name, shape, geom, radius, center)
         if action == 'landcovermap':
-            data = core.get_landcover(primitives=primitives, year=year)
-
+            data = core.get_landcover(primitives = primitives,
+                                      year = year,
+                                      )
         elif action == 'primitive':
-            data = core.get_primitive(index=index, year=year)
-
+            data = core.get_primitive(index = index,
+                                      year = year,
+                                      )
         elif action == 'probability':
             data = core.get_probability(year=year)
-
+                                    
         elif action == 'get-download-url':
             data = core.get_download_url(type = type,
                                          year = year,
                                          primitives = primitives,
                                          index = index
                                          )
-
         elif action == 'get-stats':
             data = core.get_stats(year=year, primitives=primitives)
 
         elif action == 'get-composite':
             data = core.get_composite(year=year)
-            
+
         elif action == 'download-to-drive':
             session_get = request.session.get
             if session_get('email') and session_get('sub') and session_get('credentials'):
@@ -102,8 +102,7 @@ def api(request):
 
                 if settings.USE_CELERY:
                     export_to_drive_task.delay(year = year,
-                                               area_path = area_path,
-                                               area_name = area_name,
+                                               province = province,
                                                shape = shape,
                                                geom = geom,
                                                radius = radius,
@@ -112,7 +111,6 @@ def api(request):
                                                file_name = file_name,
                                                primitives = primitives,
                                                index = index,
-                                               version = version,
                                                access_token = access_token,
                                                client_id = client_id,
                                                client_secret = client_secret,

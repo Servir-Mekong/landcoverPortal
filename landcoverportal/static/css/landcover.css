@@ -69,18 +69,21 @@
 /* Sliders */
 
 #landcover-opacity-slider .slider-track-high,
+#composite-opacity-slider .slider-track-high,
 #primitive-opacity-slider .slider-track-high,
 #probability-opacity-slider .slider-track-high {
     background: #BABABA;
 }
 
 #landcover-opacity-slider .slider-selection,
+#composite-opacity-slider .slider-selection,
 #primitive-opacity-slider .slider-selection,
 #probability-opacity-slider .slider-selection {
     background: #BABABA;
 }
 
 #landcover-opacity-slider .slider-handle,
+#composite-opacity-slider .slider-handle,
 #primitive-opacity-slider .slider-handle,
 #probability-opacity-slider .slider-handle {
     /*background: #BABABA;*/
@@ -90,6 +93,7 @@
 }
 
 #landcover-opacity-slider .slider-track,
+#composite-opacity-slider .slider-track,
 #primitive-opacity-slider .slider-track,
 #probability-opacity-slider .slider-track {
     height: 10px;

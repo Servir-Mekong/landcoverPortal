@@ -25,6 +25,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (type === 'myanmar-national') {
                 url = '/api/myanmar-national/';
+            } else if (type === 'plantation') {
+                url = '/api/plantation/';
             }
 
             var req = {
@@ -88,6 +90,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (type === 'myanmar-national') {
                 url = '/api/myanmar-national/';
+            } else if (type === 'plantation') {
+                url = '/api/plantation/';
             }
 
             var req = {
@@ -141,9 +145,14 @@
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
             //var v1 = options.v1;
-            //var type = options.type;
+            var type = options.type;
 
             var url = '/api/landcover/';
+            if (type === 'landcover') {
+                url = '/api/landcover/';
+            } else if (type === 'plantation') {
+                url = '/api/plantation/';
+            }
 
             var req = {
                 method: 'POST',
@@ -153,6 +162,58 @@
                 },
                 params: {
                     action: 'probability'
+                }
+            };
+
+            if (areaSelectFrom && areaName) {
+                req.data.areaSelectFrom = areaSelectFrom;
+                req.data.areaName = areaName;
+            } else if (shape) {
+                var shapeType = shape.type;
+                if (shapeType === 'rectangle' || shapeType === 'polygon') {
+                    req.data.shape = shapeType;
+                    req.data.geom = shape.geom.toString();
+                } else if (shapeType === 'circle') {
+                    req.data.shape = shapeType;
+                    req.data.radius = shape.radius;
+                    req.data.center = shape.center.toString();
+                }
+            }
+
+            var promise = $http(req)
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function (e) {
+                    console.log('Error: ', e);
+                    throw e.data;
+                });
+            return promise;
+        };
+
+        service.getCompositeMap = function (options) {
+
+            var year = options.year;
+            var shape = options.shape;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            //var v1 = options.v1;
+            var type = options.type;
+            var url = '/api/landcover/';
+            if (type === 'landcover') {
+                url = '/api/landcover/';
+            } else if (type === 'plantation') {
+                url = '/api/plantation/';
+            }
+
+            var req = {
+                method: 'POST',
+                url: url,
+                data: {
+                    year: year
+                },
+                params: {
+                    action: 'get-composite'
                 }
             };
 
@@ -199,6 +260,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (type === 'myanmar-national') {
                 url = '/api/myanmar-national/';
+            } else if (type === 'plantation') {
+                url = '/api/plantation/';
             }
 
             var req = {
@@ -264,6 +327,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (serviceType === 'myanmar-national') {
                 url = '/api/myanmar-national/';
+            } else if (serviceType === 'plantation') {
+                url = '/api/plantation/';
             }
 
             var req = {
@@ -332,6 +397,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (serviceType === 'myanmar-national') {
                 url = '/api/myanmar-national/';
+            } else if (serviceType === 'plantation') {
+                url = '/api/plantation/';
             }
 
             var req = {

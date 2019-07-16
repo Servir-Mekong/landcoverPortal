@@ -2,35 +2,22 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('landCoverController', function ($http, $rootScope, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
+    .controller('myanmarPlantationController', function ($rootScope, $http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
-        var map = MapService.init();
+        var map = MapService.init(97.5814, 18.8936, 5.5);
 
         // Setting variables
+        $scope.myanmarPlantationClasses = appSettings.myanmarPlantationClasses;
+        $scope.primitiveClasses = appSettings.myanmarPrimitiveClasses;
+        // Area filter
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
-        $scope.landCoverClasses = [];
-        $scope.primitiveClasses = [];
-        $scope.landCoverClassesColor = {};
-        //for (var i = 0; i < $scope.landCoverClasses.length; i++) {
-        //    $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
-        //}
 
-        $scope.mapClass = CommonService.mapClass;
-        $scope.sideClass = CommonService.sideClass;
-        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
-        $rootScope.$on('toggleFullScreen', function (event, data) {
-            // do what you want with the data from the event
-            $scope.mapClass = data.mapClass;
-            $scope.sideClass = data.sideClass;
-            if (data.mapClass === 'col-md-12 col-lg-12') {
-                $('.custom-alert').css({ 'margin-left': '10%', 'width': 'calc(100vw - 20%)'});
-                $('.slider-year-container').css({'width': '85%'});
-            } else {
-                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
-                $('.slider-year-container').css({'width': '60%'});
-            }
-        });
+        //$scope.provinceVariableOptions = appSettings.myanmarProvinces;
+        $scope.landCoverClassesColor = {};
+        for (var i = 0; i < $scope.myanmarPlantationClasses.length; i++) {
+            $scope.landCoverClassesColor[$scope.myanmarPlantationClasses[i].name] = $scope.myanmarPlantationClasses[i].color;
+        }
 
         // $scope variables
         $scope.overlays = {};
@@ -43,14 +30,43 @@
         $scope.alertContent = '';
         $scope.toolControlClass = 'glyphicon glyphicon-eye-open';
         $scope.showTabContainer = true;
-        $scope.showReportChart = false;
         $scope.showLoader = false;
+        $scope.startYear = 2015;
+        $scope.endYear = 2019;
+        $scope.from_min = 2017;
+        $scope.from_max = 2018;
+        $scope.sliderYear = 2018;
 
-        $scope.sliderYear = null;
-        $scope.sliderEndYear = null;
-
-        // Typology CSV
-        $scope.typologyCSV = null;
+        var REMAP = {
+            0: [0],
+            1: [1],
+            2: [2],
+            3: [3],
+            4: [4],
+            5: [5],
+            6: [6],
+            7: [7]
+        };
+        var arrays = [];
+        for (var index in REMAP) {
+            arrays.push(REMAP[index]);
+        }
+        $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+        $scope.mapClass = CommonService.mapClass;
+        $scope.sideClass = CommonService.sideClass;
+        $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
+        $rootScope.$on('toggleFullScreen', function (event, data) {
+            // do what you want with the data from the event
+            $scope.mapClass = data.mapClass;
+            $scope.sideClass = data.sideClass;
+            if (data.mapClass === 'col-md-12 col-lg-12') {
+                $('.custom-alert').css({ 'margin-left': '5%', 'width': 'calc(100vw - 20%)'});
+                $('.slider-year-container').css({'width': '85%'});
+            } else {
+                $('.custom-alert').css({ 'margin-left': '25.5%', 'width': 'calc(100vw - 26%)'});
+                $('.slider-year-container').css({'width': '60%'});
+            }
+        });
 
         /**
          * Alert
@@ -140,7 +156,6 @@
              $scope.$apply();
          };
 
-
         var analysisToolControlDiv = document.getElementById('tool-control-container');
         var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
         // Setup the click event listener
@@ -172,51 +187,6 @@
         // get tooltip activated
         $('.js-tooltip').tooltip();
 
-        $timeout(function () {
-            var toggler = document.getElementsByClassName('tree-caret');
-
-            var togglerClick = function () {
-                //this.parentElement.parentElement.querySelector('.nested').classList.toggle('tree-caret-active');
-                $(this.parentElement.parentElement).find('.nested').toggle('tree-caret-active');
-                this.classList.toggle('tree-caret-down');
-            };
-
-            for (var i = 0; i < toggler.length; i++) {
-                toggler[i].addEventListener('click', togglerClick);
-            }
-
-            $('.nested-checkbox').change(function () {
-                var checked = $('.nested-checkbox input').is(':checked');
-                var nested = $(this.parentElement.parentElement).find('.nested');
-                for (var j = 0; j < nested.length; j++) {
-                    $(nested[j]).find('.custom-checkbox-container input').prop('checked', checked);
-                }
-            });
-        }, 0);
-
-        /**
-         * Slider
-         */
-        // Landcover opacity slider
-        $scope.landcoverOpacity = 1;
-        $scope.showLandcoverOpacitySlider = true;
-        /* slider init */
-        var landcoverSlider = $('#landcover-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.landcoverOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.landcoverOpacity) {
-                $scope.overlays.landcovermap.setOpacity(value);
-            }
-        });
-
         // Primitive opacity slider
         $scope.primitiveOpacity = 1;
         $scope.showPrimitiveOpacitySlider = false;
@@ -225,7 +195,7 @@
                 formatter: function (value) {
                     return 'Opacity: ' + value;
                 },
-                tooltip: 'always'
+                tooltip: 'none'
             })
         .on('slideStart', function (event) {
             $scope.primitiveOpacity = $(this).data('slider').getValue();
@@ -240,14 +210,14 @@
         /*
         * Select Options for Variables
         **/
-        $scope.populateAreaVariableOptions = function (option) {
+       $scope.populateAreaVariableOptions = function (option) {
             $scope.showAreaVariableSelector = true;
             $scope.areaSelectFrom = option.value;
-            $scope.areaVariableOptions = CommonService.getAreaVariableOptions(option.value);
+            $scope.areaVariableOptions = CommonService.getAreaVariableOptions(option.value, true);
         };
 
-        // Default the administrative area selection
-        var clearSelectedArea = function () {
+       // Default the administrative area selection
+       var clearSelectedArea = function () {
             $scope.areaSelectFrom = '';
             $scope.areaIndexSelector = '';
             $scope.areaName = '';
@@ -264,46 +234,18 @@
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
-        $scope.initMap = function (year, type, version, firstLoad) {
+        $scope.initMap = function (year, type) {
             $scope.showLoader = true;
-
-            $scope.sliderYear = year;
-            $scope.sliderEndYear = year;
-            if (version === 'v1') {
-                $scope.typologyCSV = '/static/data/typology_value_v1.csv';
-                $scope.landCoverClasses = appSettings.landCoverClassesV1;
-                $scope.primitiveClasses = appSettings.primitiveClassesV1;
-            } else if (version === 'v2') {
-                $scope.typologyCSV = '/static/data/typology_value_v2.csv';
-                $scope.landCoverClasses = appSettings.landCoverClassesV2;
-                $scope.primitiveClasses = appSettings.primitiveClasses;
-            } else {
-                $scope.typologyCSV = '/static/data/typology_value.csv';
-                $scope.landCoverClasses = appSettings.landCoverClasses;
-                $scope.primitiveClasses = appSettings.primitiveClasses;
-            }
-
-            if (typeof(firstLoad) === 'undefined') firstLoad = false;
-            if (firstLoad) {
-                $scope.assemblageLayers = [];
-                for (var j = 0; j <= $scope.landCoverClasses.length - 1; j++) {
-                    $scope.assemblageLayers.push(j.toString());
-                }
-            }
-
-            $scope.landCoverClassesColor = {};
-            for (var i = 0; i < $scope.landCoverClasses.length; i++) {
-                $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
-            }
-
+            $timeout(function () {
             var parameters = {
                 primitives: $scope.assemblageLayers,
                 year: year,
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                version: version
+                type: 'plantation'
             };
+
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
@@ -317,13 +259,14 @@
                 showErrorAlert(error.error);
                 console.log(error);
             });
+          },2000);
         };
 
         /**
          *  Graphs and Charts
          */
         // Get stats for the graph
-        $scope.getStats = function (version) {
+        $scope.getStats = function () {
             $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
             var parameters = {
                 primitives:$scope.assemblageLayers,
@@ -331,7 +274,7 @@
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                version: version
+                type: 'plantation'
             };
             LandCoverService.getStats(parameters)
             .then(function (data) {
@@ -349,6 +292,10 @@
             if (typeof(type) === 'undefined') type = 'landcover';
             var polygonCheck = true,
                 primitiveCheck = true;
+
+            //var turf_polygon = turf.bboxPolygon(MapService.getRectangleBoundArray(overlay.getBounds()));
+            //var turf_myanmar = turf.polygon(myanmar_geometry);
+            //console.log(turf.booleanContains(turf_myanmar, turf_polygon));
 
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
             if (!hasPolygon && !$scope.areaSelectFrom && !$scope.areaName) {
@@ -415,7 +362,9 @@
 
         $scope.drawShape = function (type) {
             drawingManager.setOptions(MapService.getDrawingManagerOptions(type));
+            // Loading the drawing Tool in the Map.
             drawingManager.setMap(map);
+
         };
 
         // Drawing Tool Manager Event Listeners
@@ -433,6 +382,7 @@
             $scope.shape.type = drawingType;
             if (drawingType === 'rectangle') {
                 $scope.shape.geom = MapService.getRectangleBoundArray(overlay.getBounds());
+                //drawnArea = MapService.computeRectangleArea(overlay.getBounds());
                 // Change event
                 google.maps.event.addListener(overlay, 'bounds_changed', function () {
                     $scope.shape.geom = MapService.getRectangleBoundArray(event.overlay.getBounds());
@@ -440,6 +390,7 @@
             } else if (drawingType === 'circle') {
                 $scope.shape.center = MapService.getCircleCenter(overlay);
                 $scope.shape.radius = MapService.getCircleRadius(overlay);
+                //drawnArea = MapService.computeCircleArea(overlay);
                 // Change event
                 google.maps.event.addListener(overlay, 'radius_changed', function () {
                     $scope.shape.radius = MapService.getCircleRadius(event.overlay);
@@ -450,6 +401,7 @@
             } else if (drawingType === 'polygon') {
                 var path = overlay.getPath();
                 $scope.shape.geom = MapService.getPolygonBoundArray(path.getArray());
+                //drawnArea = MapService.computePolygonArea(path);
                 // Change event
                 google.maps.event.addListener(path, 'insert_at', function () {
                     var insert_path = event.overlay.getPath();
@@ -579,92 +531,59 @@
         };
 
         // Update Assemblage Map
-        $scope.updateAssemblageProduct = function (version) {
-            $scope.showLoader = true;
+        $scope.updateAssemblageProduct = function () {
             $scope.closeAlert();
-            $scope.assemblageLayers = [];
+            //$scope.assemblageLayers = [];
+            var primitiveList = [];
             $('input[name="assemblage-checkbox"]').each(function () {
                 if ($(this).prop('checked')) {
-                    $scope.assemblageLayers.push($(this).val());
+                    //$scope.assemblageLayers.push($(this).val());
+                    primitiveList.push($(this).val());
                 }
             });
+            var primitiveLength = primitiveList.length;
+            $scope.assemblageLayers = CommonService.flattenArrays(primitiveList);
+            // if (primitiveLength < $scope.myanmarPlantationClasses.length + 1) {
+            //     // Need to remap
+            //     var arrays = [];
+            //     for (var i = 0; i < primitiveLength; i++) {
+            //         arrays.push(REMAP[primitiveList[i]]);
+            //     }
+            //     $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+            // }
+            $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
-            $scope.initMap($scope.sliderYear, 'landcovermap', version);
-            $scope.getStats(version);
+            MapService.clearLayer(map, 'probabilitymap');
+            MapService.clearLayer(map, 'compositemap');
+            $scope.initMap($scope.sliderYear, 'landcovermap');
+            $scope.getStats();
+            $scope.showCompositeMap();
+            $scope.showProbabilityMap();
             MapService.removeGeoJson(map);
         };
 
         // Time Slider
-        $timeout(function () {
-            $('#slider-year-selector').ionRangeSlider({
-                skin: 'round',
-                grid: true,
-                min: 1987,
-                max: $scope.sliderEndYear,
-                from: $scope.sliderEndYear,
-                force_edges: true,
-                grid_num: $scope.sliderEndYear - 1987,
-                prettify_enabled: false,
-                onFinish: function (data) {
-                    if ($scope.sliderYear !== data.from) {
-                        $scope.sliderYear = data.from;
-                        if ($('#land-cover-classes-tab').hasClass('active')) {
-                            $scope.updateAssemblageProduct('v3');
-                            $scope.showProbabilityMap();
-                        } else if ($('#primitive-tab').hasClass('active')) {
-                            $scope.updatePrimitive($scope.primitiveIndex, 'v3');
-                        }
+        $("#slider-year-selector").ionRangeSlider({
+            skin: 'round',
+            grid: true,
+            min: $scope.startYear,
+            max: $scope.endYear,
+            from: $scope.from_max,
+            from_min: $scope.from_min,      // set min position for FROM handle (replace FROM to TO to change handle)
+            from_max: $scope.from_max,
+            from_shadow: true,
+            force_edges: true,
+            grid_num: $scope.endYear - $scope.startYear,
+            prettify_enabled: false,
+            onFinish: function (data) {
+                if ($scope.sliderYear !== data.from) {
+                    $scope.sliderYear = data.from;
+                    if ($('#land-cover-classes-tab').hasClass('active')) {
+                        $scope.updateAssemblageProduct();
                     }
                 }
-            });
-        }, 2000);
-
-        $timeout(function () {
-            $('#slider-year-selector-version1').ionRangeSlider({
-                skin: 'round',
-                grid: true,
-                min: 2000,
-                max: $scope.sliderEndYear,
-                from: $scope.sliderEndYear,
-                force_edges: true,
-                grid_num: $scope.sliderEndYear - 2000,
-                prettify_enabled: false,
-                onFinish: function (data) {
-                    if ($scope.sliderYear !== data.from) {
-                        $scope.sliderYear = data.from;
-                        if ($('#land-cover-classes-tab').hasClass('active')) {
-                            $scope.updateAssemblageProduct('v1');
-                        } else if ($('#primitive-tab').hasClass('active')) {
-                            $scope.updatePrimitive($scope.primitiveIndex, 'v1');
-                        }
-                    }
-                }
-            });
-        }, 2000);
-
-        $timeout(function () {
-            $('#slider-year-selector-version2').ionRangeSlider({
-                skin: 'round',
-                grid: true,
-                min: 2000,
-                max: $scope.sliderEndYear,
-                from: $scope.sliderEndYear,
-                force_edges: true,
-                grid_num: $scope.sliderEndYear - 2000,
-                prettify_enabled: false,
-                onFinish: function (data) {
-                    if ($scope.sliderYear !== data.from) {
-                        $scope.sliderYear = data.from;
-                        if ($('#land-cover-classes-tab').hasClass('active')) {
-                            $scope.updateAssemblageProduct('v2');
-                            $scope.showProbabilityMap();
-                        } else if ($('#primitive-tab').hasClass('active')) {
-                            $scope.updatePrimitive($scope.primitiveIndex, 'v2');
-                        }
-                    }
-                }
-            });
-        }, 2000);
+            }
+        });
 
         // Download URL
         $scope.landcoverDownloadURL = '';
@@ -672,22 +591,20 @@
         $scope.showPrimitiveDownloadURL = false;
         $scope.primitiveDownloadURL = '';
 
-        $scope.getDownloadURL = function (options) {
-            var type = options.type || 'landcover';
-            var version = options.version;
+        $scope.getDownloadURL = function (type) {
+            if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
-
                 var parameters = {
                     primitives: $scope.assemblageLayers,
                     year: $scope.sliderYear,
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
                     areaName: $scope.areaName,
-                    version: version,
                     type: type,
-                    index: $scope.primitiveIndex
+                    index: $scope.primitiveIndex,
+                    serviceType: 'plantation'
                 };
                 LandCoverService.getDownloadURL(parameters)
                 .then(function (data) {
@@ -715,9 +632,8 @@
             $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = false;
         };
 
-        $scope.saveToDrive = function (options) {
-            var type = options.type || 'landcover';
-            var version = options.version;
+        $scope.saveToDrive = function (type) {
+            if (typeof(type) === 'undefined') type = 'landcover';
             if (verifyBeforeDownload(type)) {
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
@@ -729,10 +645,10 @@
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
                     areaName: $scope.areaName,
-                    version: version,
                     type: type,
                     index: $scope.primitiveIndex,
-                    fileName: fileName
+                    fileName: fileName,
+                    serviceType: 'plantation'
                 };
 
                 LandCoverService.saveToDrive(parameters)
@@ -767,7 +683,7 @@
             return '';
         };
 
-        $scope.updatePrimitive = function (index, version) {
+        $scope.updatePrimitive = function (index) {
             $scope.showLoader = true;
             $scope.showPrimitiveOpacitySlider = false;
 
@@ -777,7 +693,7 @@
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                version: version
+                type: 'plantation'
             };
 
             LandCoverService.getPrimitiveMap(parameters)
@@ -799,8 +715,52 @@
             });
         };
 
-        // check to see if probability map exists
-        // does not exists for v1 products
+        if ($('#landcover-map-container').length > 0) {
+
+            // Landcover Map
+            // Landcover opacity slider
+            $scope.landcoverOpacity = 1;
+            $scope.showLandcoverOpacityController = true;
+            /* slider init */
+            var landcoverSlider = $('#landcover-opacity-slider').slider({
+                    formatter: function (value) {
+                        return 'Opacity: ' + value;
+                    },
+                    tooltip: 'none'
+                })
+            .on('slideStart', function (event) {
+                $scope.landcoverOpacity = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.landcoverOpacity) {
+                    $scope.overlays.landcovermap.setOpacity(value);
+                }
+            });
+
+            var toggleLandcoverOpacityController = function () {
+                var checked = $('#landcover-map-checkbox').prop('checked');
+                if (checked) {
+                    $scope.showLandcoverOpacityController = true;
+                } else {
+                    $scope.showLandcoverOpacityController = false;
+                }
+            };
+
+            $scope.toggleLandcoverMap = function () {
+                var checked = $('#landcover-map-checkbox').prop('checked');
+                if (checked) {
+                    $scope.showLandcoverOpacityController = true;
+                    $scope.overlays.landcovermap.setOpacity($scope.landcoverOpacity);
+                } else {
+                    $scope.showLandcoverOpacityController = false;
+                    $scope.overlays.landcovermap.setOpacity(0);
+                }
+
+            };
+        }
+
+
         if ($('#probability-map-container').length > 0) {
 
             // Probability Map
@@ -812,7 +772,7 @@
                     formatter: function (value) {
                         return 'Opacity: ' + value;
                     },
-                    tooltip: 'always'
+                    tooltip: 'none'
                 })
             .on('slideStart', function (event) {
                 $scope.probabilityOpacity = $(this).data('slider').getValue();
@@ -842,7 +802,7 @@
                         shape: $scope.shape,
                         areaSelectFrom: $scope.areaSelectFrom,
                         areaName: $scope.areaName,
-                        type: 'landcover'
+                        type: 'plantation'
                     };
 
                     LandCoverService.getProbabilityMap(parameters)
@@ -864,7 +824,7 @@
                         showErrorAlert(error.error);
                         console.log(error);
                     });
-                }, 1000);
+                }, 500);
             };
 
             $scope.toggleProbabilityMap = function () {
@@ -880,8 +840,8 @@
             };
         }
 
-        // Probability Map
-        // Probability opacity slider
+        // Composites Map
+        // Composites opacity slider
         if ($('#composite-map-container').length > 0) {
             $scope.compositeOpacity = 1;
             $scope.showCompositeOpacityController = true;
@@ -942,7 +902,7 @@
                         showErrorAlert(error.error);
                         console.log(error);
                     });
-                }, 15000);
+                }, 100);
             };
 
             $scope.toggleCompositeMap = function () {

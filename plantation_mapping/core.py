@@ -6,7 +6,7 @@ from utils.utils import get_unique_string, transfer_files_to_user_drive
 import ee, json, os, time
 
 # -----------------------------------------------------------------------------
-class MyanmarFRA():
+class MyanmarPlantation():
     '''
         Google Earth Engine API
     '''
@@ -16,6 +16,10 @@ class MyanmarFRA():
     # land-use map
     #LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/FinalMyanmarLandCover')
     LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/LandCoverMyanmar')
+
+    LANDCOVER_ASSEMBLAGE = ee.ImageCollection("users/servirmekong/rubber/assemblage_landcover")
+    PROBABILITY = ee.ImageCollection("users/servirmekong/rubber/probability")
+    YEARLY_COMPOSITES = ee.ImageCollection("projects/servir-mekong/yearlyComposites")
 
     # primitives
     PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
@@ -124,13 +128,55 @@ class MyanmarFRA():
             'color': '6f6f6f'
         }
     ]
+    MAP_CLASSES = [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '6f6f6f'
+        },
+        {
+            'name': 'Surface water',
+            'value': '1',
+            'color': 'aec3d4'
+        },
+        {
+            'name': 'Forest',
+            'value': '2',
+            'color': '152106'
+        },
+        {
+            'name': 'Urban and built up',
+            'value': '3',
+            'color': 'cc0013'
+        },
+        {
+            'name': 'Cropland',
+            'value': '4',
+            'color': '8dc33b'
+        },
+        {
+            'name': 'Rubber',
+            'value': '5',
+            'color': '3bc3b2'
+        },
+        {
+            'name': 'Palmoil',
+            'value': '6',
+            'color': '800080'
+        },
+        {
+            'name': 'Mangrove',
+            'value': '7',
+            'color': '111149'
+        }
+    ]
 
     INDEX_CLASS = {}
-    for _class in REMAPPED_CLASSES:
+    for _class in MAP_CLASSES:
         INDEX_CLASS[int(_class['value'])] = _class['name']
 
-    ORIGINAL = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    REMAPPED = [3, 0, 3, 1, 3, 3, 2, 1, 1, 3,  2,  3]
+    ORIGINAL = [0, 1, 2, 3, 4, 5, 6, 7]
+    REMAPPED = [0, 1, 2, 3, 4, 5, 6, 7]
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
@@ -142,7 +188,7 @@ class MyanmarFRA():
             if (area_path == 'country'):
                 if (area_name == 'Myanmar'):
                     area_name = 'Myanmar (Burma)'
-                self.geometry = MyanmarFRA.MEKONG_FEATURE_COLLECTION.filter(\
+                self.geometry = MyanmarPlantation.MEKONG_FEATURE_COLLECTION.filter(\
                                     ee.Filter.inList('Country', [area_name])).geometry()
             elif (area_path == 'province'):
                 if settings.DEBUG:
@@ -165,7 +211,7 @@ class MyanmarFRA():
                         feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
             else:
-                self.geometry = MyanmarFRA.DEFAULT_GEOM.buffer(10000)
+                self.geometry = MyanmarPlantation.DEFAULT_GEOM.buffer(10000)
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -188,14 +234,22 @@ class MyanmarFRA():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return MyanmarFRA.DEFAULT_GEOM.buffer(10000)
+        return MyanmarPlantation.DEFAULT_GEOM.buffer(10000)
 
     # -------------------------------------------------------------------------
-    def get_landcover(self, primitives=range(0, 11), year=2017, download=False):
+    def get_landcover(self, primitives=range(0, 11), year=2018, download=False):
 
-        image = ee.Image(MyanmarFRA.LANDCOVERMAP.filterDate('%s-01-01' % year,
-                                                            '%s-12-31' % year).mean())
-        image = image.select('classification')
+        image_collection = MyanmarPlantation.LANDCOVER_ASSEMBLAGE.filterDate('%s-01-01' % year,
+                                                            '%s-12-31' % year)
+
+        if image_collection.size().getInfo() > 0:
+            image = ee.Image(image_collection.first())
+            image = image.select('classification')
+        else:
+            return {
+                'error': 'No data available for year {}'.format(year)
+            }
+
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -206,20 +260,20 @@ class MyanmarFRA():
             masked_image = masked_image.add(_mask)
 
         palette = []
-        for _class in MyanmarFRA.REMAPPED_CLASSES:
+        for _class in MyanmarPlantation.MAP_CLASSES:
             palette.append(_class['color'])
 
         palette = ','.join(palette)
 
-        image = image.updateMask(masked_image)
-        image = image.remap(MyanmarFRA.ORIGINAL, MyanmarFRA.REMAPPED).clip(self.geometry)
+        image = image.updateMask(masked_image).clip(self.geometry)
+        #image = image.remap(MyanmarPlantation.ORIGINAL, MyanmarPlantation.REMAPPED).clip(self.geometry)
 
         if download:
             return image
 
         map_id = image.getMapId({
             'min': '0',
-            'max': str(len(MyanmarFRA.REMAPPED_CLASSES) - 1),
+            'max': str(len(MyanmarPlantation.MAP_CLASSES) - 1),
             'palette': palette
         })
 
@@ -229,9 +283,9 @@ class MyanmarFRA():
         }
 
     # -------------------------------------------------------------------------
-    def get_primitive(self, index=0, year=2017, download=False):
+    def get_primitive(self, index=0, year=2018, download=False):
 
-        primitive_img_coll = MyanmarFRA.PRIMITIVES[index]
+        primitive_img_coll = MyanmarPlantation.PRIMITIVES[index]
 
         image_collection = primitive_img_coll.filterDate('%s-01-01' % year,
                                                          '%s-12-31' % year)
@@ -264,7 +318,7 @@ class MyanmarFRA():
     # -------------------------------------------------------------------------
     def get_download_url(self,
                          type = 'landcover',
-                         year = 2017,
+                         year = 2018,
                          primitives = range(0, 12),
                          index = 0,
                          ):
@@ -374,7 +428,7 @@ class MyanmarFRA():
             return {'error': 'Task failed (id: %s) because %s' % (task.id, task.status()['error_message'])}
 
     # -------------------------------------------------------------------------
-    def get_stats(self, year=2017, primitives=range(0, 12)):
+    def get_stats(self, year=2018, primitives=range(0, 12)):
 
         image = self.get_landcover(primitives = primitives,
                                    year = year,
@@ -387,9 +441,61 @@ class MyanmarFRA():
                                    scale = 100,
                                    maxPixels = 1E13
                                    )
-        data = stats.getInfo()['remapped']
+        data = stats.getInfo()['classification']
         # converting to meter square by multiplying with scale value i.e. 100*100
         # and then converting to hectare multiplying with 0.0001
         # area = reducer.getInfo()['tcc'] * 100 * 100 * 0.0001 # in hectare
         # meaning we can use the value directly as the hectare
-        return {MyanmarFRA.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
+        # return {MyanmarPlantation.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
+        return {MyanmarPlantation.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
+
+    # -------------------------------------------------------------------------
+    def get_probability(self, year=2018, download=False):
+
+        image_collection = MyanmarPlantation.PROBABILITY.filterDate('%s-01-01' % year,
+                                                            '%s-12-31' % year)
+
+        if image_collection.size().getInfo() > 0:
+            image = ee.Image(image_collection.first())
+            image = image.select('classification').clip(self.geometry)
+        else:
+            return {
+                'error': 'No probability data available for year {}'.format(year)
+            }
+
+        if download:
+            return image
+
+        map_id = image.getMapId({
+            'min': '50',
+            'max': '100',
+            'palette': 'red,yellow,darkgreen'
+        })
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
+
+    # -------------------------------------------------------------------------
+    def get_composite(self, year=2018):
+
+        image_collection = MyanmarPlantation.YEARLY_COMPOSITES.filterDate('%s-01-01' % year, '%s-12-31' % year)
+
+        if image_collection.size().getInfo() > 0:
+            image = ee.Image(image_collection.first())
+        else:
+            return {
+                'error': 'No composite data available for year {}'.format(year)
+            }
+
+        map_id = image.getMapId({
+            'min': 0,
+            'max': 6000,
+            'bands': "swir1,nir,red"
+        })
+        print(str(map_id['mapid']))
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
