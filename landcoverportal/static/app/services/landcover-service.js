@@ -148,9 +148,7 @@
             var type = options.type;
 
             var url = '/api/landcover/';
-            if (type === 'landcover') {
-                url = '/api/landcover/';
-            } else if (type === 'plantation') {
+            if (type === 'plantation') {
                 url = '/api/plantation/';
             }
 
@@ -200,9 +198,7 @@
             //var v1 = options.v1;
             var type = options.type;
             var url = '/api/landcover/';
-            if (type === 'landcover') {
-                url = '/api/landcover/';
-            } else if (type === 'plantation') {
+            if (type === 'plantation') {
                 url = '/api/plantation/';
             }
 

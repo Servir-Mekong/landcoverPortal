@@ -720,7 +720,7 @@ class LandCoverViewer():
         map_id = image.getMapId({
             'min': 0,
             'max': 6000,
-            'bands': "swir1,nir,red"
+            'bands': 'swir1,nir,red'
         })
 
         return {

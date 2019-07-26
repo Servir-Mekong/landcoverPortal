@@ -799,9 +799,6 @@
             });
         };
 
-        // check to see if probability map exists
-        // does not exists for v1 products
-        if ($('#probability-map-container').length > 0) {
 
             // Probability Map
             // Probability opacity slider
@@ -878,11 +875,7 @@
                 }
 
             };
-        }
 
-        // Probability Map
-        // Probability opacity slider
-        if ($('#composite-map-container').length > 0) {
             $scope.compositeOpacity = 1;
             $scope.showCompositeOpacityController = true;
             /* slider init */
@@ -956,7 +949,6 @@
                 }
 
             };
-          }
 
     });
 

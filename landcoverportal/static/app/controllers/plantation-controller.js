@@ -37,21 +37,7 @@
         $scope.from_max = 2018;
         $scope.sliderYear = 2018;
 
-        var REMAP = {
-            0: [0],
-            1: [1],
-            2: [2],
-            3: [3],
-            4: [4],
-            5: [5],
-            6: [6],
-            7: [7]
-        };
-        var arrays = [];
-        for (var index in REMAP) {
-            arrays.push(REMAP[index]);
-        }
-        $scope.assemblageLayers = CommonService.flattenArrays(arrays);
+        $scope.assemblageLayers = [0,1,2,3,4,5,6,7];
         $scope.mapClass = CommonService.mapClass;
         $scope.sideClass = CommonService.sideClass;
         $rootScope.$broadcast('showToggleFullScreenIcon', { show: true });
@@ -543,14 +529,6 @@
             });
             var primitiveLength = primitiveList.length;
             $scope.assemblageLayers = CommonService.flattenArrays(primitiveList);
-            // if (primitiveLength < $scope.myanmarPlantationClasses.length + 1) {
-            //     // Need to remap
-            //     var arrays = [];
-            //     for (var i = 0; i < primitiveLength; i++) {
-            //         arrays.push(REMAP[primitiveList[i]]);
-            //     }
-            //     $scope.assemblageLayers = CommonService.flattenArrays(arrays);
-            // }
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             MapService.clearLayer(map, 'probabilitymap');
@@ -715,8 +693,6 @@
             });
         };
 
-        if ($('#landcover-map-container').length > 0) {
-
             // Landcover Map
             // Landcover opacity slider
             $scope.landcoverOpacity = 1;
@@ -758,10 +734,7 @@
                 }
 
             };
-        }
 
-
-        if ($('#probability-map-container').length > 0) {
 
             // Probability Map
             // Probability opacity slider
@@ -838,11 +811,8 @@
                 }
 
             };
-        }
 
-        // Composites Map
-        // Composites opacity slider
-        if ($('#composite-map-container').length > 0) {
+
             $scope.compositeOpacity = 1;
             $scope.showCompositeOpacityController = true;
             /* slider init */
@@ -916,7 +886,7 @@
                 }
 
             };
-          }
+
 
     });
 
