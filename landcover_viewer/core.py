@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from utils.utils import get_unique_string, transfer_files_to_user_drive
+from django.utils import timezone
+from main.models import Email, ExportDrive
+from utils.utils import get_unique_string, transfer_files_to_user_drive, send_email
 
 import ee, json, os, time
 
@@ -623,6 +625,8 @@ class LandCoverViewer():
                           user_email = None,
                           user_id = None,
                           oauth2object = None,
+                          export_id = None,
+                          user_name = None
                           ):
 
         if not (user_email and user_id and oauth2object):
@@ -679,6 +683,31 @@ class LandCoverViewer():
                                                     user_id,
                                                     file_name,
                                                     oauth2object)
+
+                if export_id:
+                    # dump in db now
+                    # start with email
+                    # @ToDo: use email template
+                    email_data = {
+                        'subject': 'SERVIR-Mekong: your export is ready',
+                        'body': 'Hi <strong>{}</strong>,<br/><br/>Your export is ready. Open <a href="https://drive.google.com" target="_blank">google drive</a> or alternatively click this <a href="{}" target="_blank">link</a><br/><br/><i>This is automatically generated email. Do not reply to this email.</i>'.format(user_name, link),
+                        'from_address': settings.EMAIL_HOST_USER,
+                        'to_address': [user_email]
+                    }
+    
+                    # send notification to user
+                    send_email(email_data, html=True)
+    
+                    # create email object
+                    email_data['to_address'] = user_email
+                    email = Email.objects.create(**email_data)
+    
+                    # update export drive
+                    ExportDrive.objects.filter(pk=export_id).update(
+                        email = email,
+                        url = link,
+                        completed_on = timezone.now()
+                    )
                 return {'driveLink': link}
             except Exception as e:
                 print (str(e))

@@ -74,6 +74,20 @@ USE_TZ = True
 
 SITE_ID = 1
 
+# Email Settings
+EMAIL_BACKEND = '<your-backend> >> see django.core.mail.backends'
+
+EMAIL_HOST = '<your-host>'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = '<your-email>'
+
+EMAIL_HOST_PASSWORD = '<your-email-password>'
+
+USE_EMAIL_MODULE = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -161,11 +175,13 @@ INSTALLED_APPS = (
     'djangocms_snippet',
     'djangocms_googlemap',
     'djangocms_video',
+    'rest_framework',
     'landcoverportal',
     'forest_monitor',
     'landcover_viewer',
     'myanmar_ipcc',
     'myanmar_fra',
+    'main',
     # Google Oauth
     'django.contrib.sessions.middleware',
     'oauth2client.contrib.django_util'

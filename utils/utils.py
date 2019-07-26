@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
+from django.core.mail import EmailMessage
+
 import drive
 import random
 import string
@@ -44,5 +46,27 @@ def transfer_files_to_user_drive(temp_file_name, user_email, user_id, file_name,
         app_drive.delete_file(f['id'])
 
     return 'https://drive.google.com/' + trailer
+
+# -----------------------------------------------------------------------------
+def get_client_ip(request):
+
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0]
+    else:
+        return request.META.get('REMOTE_ADDR')
+
+# -----------------------------------------------------------------------------
+def send_email(data, html=False):
+
+    msg = EmailMessage(
+        subject = data.get('subject'),
+        body = data.get('body'),
+        from_email = data.get('from_address'),
+        to = data.get('to_address')
+    )
+    if html:
+        msg.content_subtype = 'html'
+    msg.send()
 
 # -----------------------------------------------------------------------------

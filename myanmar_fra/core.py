@@ -293,15 +293,6 @@ class MyanmarFRA():
                 continue
             break
 
-        #try:
-        #    url = image.getDownloadURL({
-        #        'name': type,
-        #        'scale': 30
-        #    })
-        #    return {'downloadUrl': url}
-        #except Exception as e:
-        #    return {'error': e.message}
-
     # -------------------------------------------------------------------------
     def download_to_drive(self,
                           type = 'landcover',

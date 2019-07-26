@@ -6,7 +6,9 @@ from django.http import JsonResponse
 from datetime import datetime
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from main.models import ExportDownloadURL
 from .tasks import export_to_drive_task
+
 import bleach
 import json
 import time
@@ -71,6 +73,19 @@ def api(request):
                                          primitives = primitives,
                                          index = index
                                          )
+
+            # dump to db if success
+            if settings.USE_EMAIL_MODULE and isinstance(data, dict) and 'downloadUrl' in data:
+                try:
+                    ExportDownloadURL.objects.create(
+                        url = data.get('downloadUrl'),
+                        app = 'myanmar_fra',
+                        ip_address = utils.get_client_ip(request)
+                    )
+                except:
+                    # do nothing
+                    # @ToDo: logging
+                    pass
 
         elif action == 'get-stats':
             data = core.get_stats(year=year, primitives=primitives)

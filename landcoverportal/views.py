@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import httplib2
 import json
 
 from django.conf import settings
@@ -10,7 +11,6 @@ from django.views.decorators.http import require_POST
 
 from oauth2client.client import OAuth2WebServerFlow
 from apiclient import discovery
-import httplib2
 from oauth2client import client
 
 @csrf_exempt
@@ -49,6 +49,7 @@ def store_auth_code(request):
     email = credentials.id_token['email']
 
     request.session['email'] = str(credentials.id_token['email'])
+    request.session['name'] = str(credentials.id_token['name'])
     request.session['sub'] = str(credentials.id_token['sub'])
     request.session['credentials'] = json.loads(credentials.to_json())
     return JsonResponse({'success': True, 'email': email})

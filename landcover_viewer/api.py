@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from core import LandCoverViewer
+from datetime import datetime
 from django.conf import settings
 from django.http import JsonResponse
-from datetime import datetime
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from main.models import Email, ExportDrive, ExportDownloadURL
 from .tasks import export_to_drive_task
+from utils import utils
+
 import bleach
 import json
 import time
@@ -72,6 +75,18 @@ def api(request):
                                          primitives = primitives,
                                          index = index
                                          )
+            # dump to db if success
+            if settings.USE_EMAIL_MODULE and isinstance(data, dict) and 'downloadUrl' in data:
+                try:
+                    ExportDownloadURL.objects.create(
+                        url = data.get('downloadUrl'),
+                        app = 'landcover',
+                        ip_address = utils.get_client_ip(request)
+                    )
+                except:
+                    # do nothing
+                    # @ToDo: logging
+                    pass
 
         elif action == 'get-stats':
             data = core.get_stats(year=year, primitives=primitives)
@@ -94,7 +109,16 @@ def api(request):
                 token_info_uri = credentials['token_info_uri']
                 id_token_jwt = credentials['id_token_jwt']
                 user_email = session_get('email')
+                user_name = session_get('name') if session_get('name') else session_get('email')
                 user_id = session_get('sub')
+
+                export = None
+                if settings.USE_EMAIL_MODULE:
+                    export = ExportDrive.objects.create(
+                        name = user_name,
+                        app = 'landcover',
+                        started_on = datetime.now()
+                    )
 
                 if settings.USE_CELERY:
                     export_to_drive_task.delay(year = year,
@@ -148,6 +172,8 @@ def api(request):
                                                   user_id = user_id,
                                                   file_name = file_name,
                                                   oauth2object = oauth2object,
+                                                  export_id = export.id if export else None,
+                                                  user_name = user_name
                                                   )
                     data['info'] = 'The export is started! Larger area takes longer time!'
             else:
