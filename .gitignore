@@ -12,6 +12,7 @@ static/*
 # Exception to the rule
 !static/README.md
 landcoverportal/settings.py
+debug.log
 
 # Eclipse project files
 # ======================
