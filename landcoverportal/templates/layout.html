@@ -44,7 +44,9 @@
 	<meta name="description" content="regional land cover monitoring system">
 	<meta name="author" content="Biplov Bhandari, Servir-Mekong">
 
-	<title>Regional Land Cover Portal</title>
+	<title>
+		{% block title %}{% endblock %}
+	</title>
 
 	<link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
 
@@ -179,6 +181,7 @@
 		<script src="{% static 'app/controllers/myanmar-fra-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/side-by-side-map-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/analysis-controller.js' %}"></script>
+		<script src="{% static 'app/controllers/plantation-controller.js' %}"></script>
 
 		<!-- Directives -->
 		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->

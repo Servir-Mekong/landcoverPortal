@@ -181,6 +181,7 @@ INSTALLED_APPS = (
     'landcover_viewer',
     'myanmar_ipcc',
     'myanmar_fra',
+    'plantation_mapping',
     'main',
     # Google Oauth
     'django.contrib.sessions.middleware',
@@ -259,7 +260,7 @@ CMS_PERMISSION = True
 CMS_PLACEHOLDER_CONF = {}
 
 MIGRATION_MODULES = {
-    
+
 }
 
 THUMBNAIL_PROCESSORS = (

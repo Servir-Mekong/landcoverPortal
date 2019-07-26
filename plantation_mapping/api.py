@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from core import LandCoverViewer
-from datetime import datetime
+from core import MyanmarPlantation
 from django.conf import settings
 from django.http import JsonResponse
+from datetime import datetime
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from main.models import Email, ExportDrive, ExportDownloadURL
 from .tasks import export_to_drive_task
-from utils import utils
-
 import bleach
 import json
-import logging
-logger = logging.getLogger(settings.LOGGER_NAME)
 import time
 
 PUBLIC_METHODS = [
@@ -33,7 +28,6 @@ def api(request):
     post = json.loads(request.body).get
     get = request.GET.get
     action = get('action', '')
-    version = get('version', '')
 
     if action and action in PUBLIC_METHODS:
         year = post('year', 2016)
@@ -45,14 +39,13 @@ def api(request):
         area_name = post('areaName', '')
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
-        primitives = post('primitives', range(0, 21))
+        primitives = post('primitives', range(0, 8))
         index = int(post('index', 0))
         if isinstance(primitives, (unicode, str)):
             try:
                 primitives = primitives.split(',')
                 primitives = [int(primitive) for primitive in primitives]
             except Exception as e:
-                logger.error(str(e))
                 return JsonResponse({'error': e.message()})
         elif isinstance(primitives, list):
             # Do nothing
@@ -63,40 +56,30 @@ def api(request):
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
 
-        core = LandCoverViewer(area_path, area_name, shape, geom, radius, center, version)
+        core = MyanmarPlantation(area_path, area_name, shape, geom, radius, center)
         if action == 'landcovermap':
-            data = core.get_landcover(primitives=primitives, year=year)
-
+            data = core.get_landcover(primitives = primitives,
+                                      year = year,
+                                      )
         elif action == 'primitive':
-            data = core.get_primitive(index=index, year=year)
-
+            data = core.get_primitive(index = index,
+                                      year = year,
+                                      )
         elif action == 'probability':
             data = core.get_probability(year=year)
-
+                                    
         elif action == 'get-download-url':
             data = core.get_download_url(type = type,
                                          year = year,
                                          primitives = primitives,
                                          index = index
                                          )
-            # dump to db if success
-            if settings.USE_EMAIL_MODULE and isinstance(data, dict) and 'downloadUrl' in data:
-                try:
-                    ExportDownloadURL.objects.create(
-                        url = data.get('downloadUrl'),
-                        app = 'landcover',
-                        ip_address = utils.get_client_ip(request)
-                    )
-                except Exception as e:
-                    # do nothing
-                    logger.error(str(e))
-
         elif action == 'get-stats':
             data = core.get_stats(year=year, primitives=primitives)
 
         elif action == 'get-composite':
             data = core.get_composite(year=year)
-            
+
         elif action == 'download-to-drive':
             session_get = request.session.get
             if session_get('email') and session_get('sub') and session_get('credentials'):
@@ -115,21 +98,11 @@ def api(request):
                 token_info_uri = credentials['token_info_uri']
                 id_token_jwt = credentials['id_token_jwt']
                 user_email = session_get('email')
-                user_name = session_get('name') if session_get('name') else session_get('email')
                 user_id = session_get('sub')
-
-                export = None
-                if settings.USE_EMAIL_MODULE:
-                    export = ExportDrive.objects.create(
-                        name = user_name,
-                        app = 'landcover',
-                        started_on = datetime.now()
-                    )
 
                 if settings.USE_CELERY:
                     export_to_drive_task.delay(year = year,
-                                               area_path = area_path,
-                                               area_name = area_name,
+                                               province = province,
                                                shape = shape,
                                                geom = geom,
                                                radius = radius,
@@ -138,7 +111,6 @@ def api(request):
                                                file_name = file_name,
                                                primitives = primitives,
                                                index = index,
-                                               version = version,
                                                access_token = access_token,
                                                client_id = client_id,
                                                client_secret = client_secret,
@@ -154,8 +126,6 @@ def api(request):
                                                id_token_jwt = id_token_jwt,
                                                user_email = user_email,
                                                user_id = user_id,
-                                               export_id = export.id if export else None,
-                                               user_name = user_name
                                                )
                     data = {'info': 'The export is started! Larger area takes longer time!'}
                 else:
@@ -180,8 +150,6 @@ def api(request):
                                                   user_id = user_id,
                                                   file_name = file_name,
                                                   oauth2object = oauth2object,
-                                                  export_id = export.id if export else None,
-                                                  user_name = user_name
                                                   )
                     data['info'] = 'The export is started! Larger area takes longer time!'
             else:

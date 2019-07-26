@@ -17,6 +17,7 @@ from landcover_viewer import api as landcover_api
 from myanmar_national import api as myanmar_national_api
 from myanmar_ipcc import api as myanmar_ipcc_api
 from myanmar_fra import api as myanmar_fra_api
+from plantation_mapping import api as plantation_api
 from .views import store_auth_code, home, service_applications
 
 admin.autodiscover()
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^api/myanmar-national/$', myanmar_national_api.api),
     url(r'^api/myanmar-ipcc/$', myanmar_ipcc_api.api),
     url(r'^api/myanmar-fra/$', myanmar_fra_api.api),
+    url(r'^api/plantation/$', plantation_api.api),
     url(r'^storeauthcode/$', store_auth_code),
 ]
 
@@ -52,6 +54,7 @@ urlpatterns += i18n_patterns(
     url(r'^', include('myanmar_national.urls')),
     url(r'^', include('myanmar_ipcc.urls')),
     url(r'^', include('myanmar_fra.urls')),
+    url(r'^', include('plantation_mapping.urls')),
     url(r'^', include('cms.urls')),
 )
 

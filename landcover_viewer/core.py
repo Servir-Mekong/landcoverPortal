@@ -17,6 +17,8 @@ class LandCoverViewer():
 
     PROBABILITY_MAP = ee.ImageCollection('users/servirmekong/LandCover')
 
+    YEARLY_COMPOSITES = ee.ImageCollection('projects/servir-mekong/yearlyComposites')
+
     # geometries
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
@@ -176,7 +178,7 @@ class LandCoverViewer():
                     'color': '800080'
                 }
             ]
-        
+
             self.INDEX_CLASS = {}
             for _class in self.LANDCOVERCLASSES:
                 self.INDEX_CLASS[int(_class['value'])] = _class['name']
@@ -205,7 +207,7 @@ class LandCoverViewer():
             self.PRIMITIVES = [
                 PRIMITIVE_BARREN, PRIMITIVE_BUILTUP, PRIMITIVE_CANOPY, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
                 PRIMITIVE_EPHEMERAL_WATER, PRIMITIVE_EVERGREEN, PRIMITIVE_EVERGREEN_BROADLEAF, PRIMITIVE_EVERGREEN_NEEDLELEAF,
-                PRIMITIVE_GRASS, PRIMITIVE_IMPERVIOUS, PRIMITIVE_IRRIGATED, PRIMITIVE_MANGROVE, 
+                PRIMITIVE_GRASS, PRIMITIVE_IMPERVIOUS, PRIMITIVE_IRRIGATED, PRIMITIVE_MANGROVE,
                 PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
             ]
         elif version and version == 'v2':
@@ -304,7 +306,7 @@ class LandCoverViewer():
                     'color': '51768e'
                 }
             ]
-        
+
             self.INDEX_CLASS = {}
             for _class in self.LANDCOVERCLASSES:
                 self.INDEX_CLASS[int(_class['value'])] = _class['name']
@@ -432,7 +434,7 @@ class LandCoverViewer():
                     'color': '51768e'
                 }
             ]
-        
+
             self.INDEX_CLASS = {}
             for _class in self.LANDCOVERCLASSES:
                 self.INDEX_CLASS[int(_class['value'])] = _class['name']
@@ -530,7 +532,7 @@ class LandCoverViewer():
 
         primitive_img_coll = self.PRIMITIVES[index]
 
-        image_collection = primitive_img_coll.filterDate('%s-01-01' % year, 
+        image_collection = primitive_img_coll.filterDate('%s-01-01' % year,
                                                          '%s-12-31' % year)
         if image_collection.size().getInfo() > 0:
             image = ee.Image(image_collection.mean())
@@ -574,7 +576,6 @@ class LandCoverViewer():
             'max': '100',
             'palette': 'red,orange,yellow,green,darkgreen'
         })
-
         return {
             'eeMapId': str(map_id['mapid']),
             'eeMapToken': str(map_id['token'])
@@ -673,7 +674,7 @@ class LandCoverViewer():
             print ('past %d seconds' % (i * settings.EE_TASK_POLL_FREQUENCY))
             i += 1
             time.sleep(settings.EE_TASK_POLL_FREQUENCY)
-        
+
         # Make a copy (or copies) in the user's Drive if the task succeeded
         state = task.status()['state']
         if state == ee.batch.Task.State.COMPLETED:
@@ -694,14 +695,14 @@ class LandCoverViewer():
                         'from_address': settings.EMAIL_HOST_USER,
                         'to_address': [user_email]
                     }
-    
+
                     # send notification to user
                     send_email(email_data, html=True)
-    
+
                     # create email object
                     email_data['to_address'] = user_email
                     email = Email.objects.create(**email_data)
-    
+
                     # update export drive
                     ExportDrive.objects.filter(pk=export_id).update(
                         email = email,
@@ -741,3 +742,17 @@ class LandCoverViewer():
         return {self.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
 
 # =============================================================================
+    def get_composite(self, year=2017):
+
+        image = ee.Image(LandCoverViewer.YEARLY_COMPOSITES.filterDate('%s-01-01' % year, '%s-12-31' % year).first()).clip(self.geometry)
+
+        map_id = image.getMapId({
+            'min': 0,
+            'max': 6000,
+            'bands': 'swir1,nir,red'
+        })
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
