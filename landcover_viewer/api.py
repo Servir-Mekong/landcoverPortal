@@ -148,6 +148,7 @@ def api(request):
                                                id_token_jwt = id_token_jwt,
                                                user_email = user_email,
                                                user_id = user_id,
+                                               export_id = export.id if export else None,
                                                )
                     data = {'info': 'The export is started! Larger area takes longer time!'}
                 else:
