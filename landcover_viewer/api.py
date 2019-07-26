@@ -149,6 +149,7 @@ def api(request):
                                                user_email = user_email,
                                                user_id = user_id,
                                                export_id = export.id if export else None,
+                                               user_name = user_name
                                                )
                     data = {'info': 'The export is started! Larger area takes longer time!'}
                 else:

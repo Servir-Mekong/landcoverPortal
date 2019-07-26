@@ -42,6 +42,7 @@ def export_to_drive_task(**kwargs):
                                   user_id = kwargs['user_id'],
                                   oauth2object = oauth2object,
                                   export_id = kwargs['export_id'],
+                                  user_name = kwargs['user_name'],
                                   )
 
     print data
