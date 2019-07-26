@@ -187,18 +187,38 @@ INSTALLED_APPS = (
     'oauth2client.contrib.django_util'
 )
 
+LOGGER_NAME = 'django'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[%(pathname)s:%(lineno)s - %(funcName)s() ] %(message)s',
+        }
+    },
     'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'null': {
+            'level':'DEBUG',
+            'class':'logging.NullHandler',
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
         'file': {
             'level': 'WARNING',#'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log')
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
         },
     },
     'loggers': {
-        'django': {
+        LOGGER_NAME: {
             'handlers': ['file'],
             'level': 'WARNING',
             'propagate': True,

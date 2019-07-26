@@ -12,6 +12,8 @@ from utils import utils
 
 import bleach
 import json
+import logging
+logger = logging.getLogger(settings.LOGGER_NAME)
 import time
 
 PUBLIC_METHODS = [
@@ -49,6 +51,7 @@ def api(request):
                 primitives = primitives.split(',')
                 primitives = [int(primitive) for primitive in primitives]
             except Exception as e:
+                logger.error(str(e))
                 return JsonResponse({'error': e.message()})
         elif isinstance(primitives, list):
             # Do nothing
@@ -83,10 +86,9 @@ def api(request):
                         app = 'landcover',
                         ip_address = utils.get_client_ip(request)
                     )
-                except:
+                except Exception as e:
                     # do nothing
-                    # @ToDo: logging
-                    pass
+                    logger.error(str(e))
 
         elif action == 'get-stats':
             data = core.get_stats(year=year, primitives=primitives)
