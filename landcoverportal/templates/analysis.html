@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% block title %}Regional Land Cover Portal{% endblock %}
 {% load cms_tags staticfiles %}
 
 {% block navigation_container%}
@@ -85,7 +86,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                             <div class="form-group">
                                                 <label for="area-index-filter">Filter By</label>
-                                                <select name="area-index-filter" class="form-control" ng-options="option.name for option in areaIndexSelectors" 
+                                                <select name="area-index-filter" class="form-control" ng-options="option.name for option in areaIndexSelectors"
                                                         ng-model="selector" ng-change="populateSelectors(selector)"
                                                         style="float: none;width: 20vh;">
                                                 </select>
@@ -140,7 +141,7 @@
                                             <th>Area (Hectare)</th>
                                             <th>Percentage (%)</th>
                                         </tr>
-                
+
                                         <tr ng-repeat="data in tableData">
                                             <td>[[ data.name ]]</td>
                                             <td>[[ data.area | number: 2 ]]</td>

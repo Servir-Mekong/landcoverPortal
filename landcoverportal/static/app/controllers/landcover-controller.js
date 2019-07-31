@@ -128,17 +128,17 @@
          * Start with UI
          */
 
-        // Analysis Tool Control
-        $scope.toggleToolControl = function () {
-            if ($('#analysis-tool-control i').hasClass('fas fa-chart-pie control-gray-color')) {
-                $('#analysis-tool-control i').removeClass('fas fa-chart-pie control-gray-color').addClass('fas fa-chart-pie');
-                $scope.showTabContainer = true;
-            } else {
-                $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-chart-pie control-gray-color');
-                $scope.showTabContainer = false;
-            }
-            $scope.$apply();
-        };
+         // Analysis Tool Control
+         $scope.toggleToolControl = function () {
+             if ($('#analysis-tool-control i').hasClass('fas fa-times')) {
+                 $('#analysis-tool-control i').removeClass('fas fa-times').addClass('fas fa-chart-pie');
+                 $scope.showTabContainer = false;
+             } else {
+                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-times');
+                 $scope.showTabContainer = true;
+             }
+             $scope.$apply();
+         };
 
 
         var analysisToolControlDiv = document.getElementById('tool-control-container');
@@ -802,7 +802,6 @@
         // check to see if probability map exists
         // does not exists for v1 products
         if ($('#probability-map-container').length > 0) {
-
             // Probability Map
             // Probability opacity slider
             $scope.probabilityOpacity = 1;
@@ -841,7 +840,8 @@
                         year: $scope.sliderYear,
                         shape: $scope.shape,
                         areaSelectFrom: $scope.areaSelectFrom,
-                        areaName: $scope.areaName
+                        areaName: $scope.areaName,
+                        type: 'landcover'
                     };
 
                     LandCoverService.getProbabilityMap(parameters)
@@ -877,7 +877,81 @@
                 }
 
             };
-        }
+          }
+
+            $scope.compositeOpacity = 1;
+            $scope.showCompositeOpacityController = true;
+            /* slider init */
+            $scope.compositeSlider = $('#composite-opacity-slider').slider({
+                    formatter: function (value) {
+                        return 'Opacity: ' + value;
+                    },
+                    tooltip: 'none'
+                })
+            .on('slideStart', function (event) {
+                $scope.compositeOpacity = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope.compositeOpacity) {
+                    $scope.compositeOpacity = value;
+                    $scope.overlays.compositemap.setOpacity(value);
+                }
+            });
+
+            $scope.togglecompositeOpacityController = function () {
+                var checked = $('#composite-map-checkbox').prop('checked');
+                if (checked) {
+                    $scope.showCompositeOpacityController = true;
+                } else {
+                    $scope.showCompositeOpacityController = false;
+                }
+            };
+
+            $scope.showCompositeMap = function () {
+                $scope.togglecompositeOpacityController();
+                $timeout(function () {
+                    var parameters = {
+                        year: $scope.sliderYear,
+                        shape: $scope.shape,
+                        areaSelectFrom: $scope.areaSelectFrom,
+                        areaName: $scope.areaName,
+                        type: 'landcover'
+                    };
+
+                    LandCoverService.getCompositeMap(parameters)
+                    .then(function (data) {
+                        MapService.removeGeoJson(map);
+                        MapService.clearLayer(map, 'compositemap');
+                        var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'compositemap');
+                        var checked = $('#composite-map-checkbox').prop('checked');
+                        loadMap('compositemap', mapType);
+                        if (checked) {
+                            $timeout(function () {
+                                showInfoAlert('Showing Yearly Composite Layer for ' + $scope.sliderYear);
+                            }, 5500);
+                            $scope.showCompositeLayer = true;
+                        } else {
+                            $scope.overlays.compositemap.setOpacity(0);
+                        }
+                    }, function (error) {
+                        showErrorAlert(error.error);
+                        console.log(error);
+                    });
+                }, 15000);
+            };
+
+            $scope.toggleCompositeMap = function () {
+                var checked = $('#composite-map-checkbox').prop('checked');
+                if (checked) {
+                    $scope.showCompositeOpacityController = true;
+                    $scope.overlays.compositemap.setOpacity($scope.compositeOpacity);
+                } else {
+                    $scope.showCompositeOpacityController = false;
+                    $scope.overlays.compositemap.setOpacity(0);
+                }
+
+            };
 
     });
 

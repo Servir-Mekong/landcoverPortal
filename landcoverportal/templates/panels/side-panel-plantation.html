@@ -1,0 +1,214 @@
+<div class="nav-side-menu">
+
+    <button ng-hide="showEmailID" type="button" class="btn btn-default btn-block" style="margin: 10px 0 10px 0;" ng-click="googleSignIn()">
+        <i class="fab fa-google fa-2x pull-left" style="margin-top: 15px;"></i>
+        <h4>Sign in with Google</h4><h5>(to download data to your Google drive)</h5>
+    </button>
+
+    <div ng-show="showEmailID">
+        <h4 style="color: black; text-align: center;">[[emailID]]</h4>
+        <button type="button" class="btn btn-default btn-block" id="signinButton" style="margin: 10px 0 10px 0;" ng-click="googleSignOut()">
+            <i class="fab fa-google fa-2x pull-left" style="margin-top: 5px;"></i>
+            <h4>Sign out</h4>
+        </button>
+    </div>
+
+    <!-- Tab Container -->
+    <div id="sidebar-tab">
+        <!-- <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+            <div class="btn-group" role="group">
+                <button type="button" id="area" class="btn btn-primary" href="#land-cover-classes-tab" data-toggle="tab" title="View Land Cover Classes" data-placement="bottom">
+                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                    <div class="hidden-xs">Land Cover Map</div>
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" id="report" class="btn btn-default" href="#primitive-tab" data-toggle="tab" title="View Primitives" data-placement="bottom">
+                    <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+                    <div class="hidden-xs">Primitives</div>
+                </button>
+            </div>
+        </div> -->
+
+        <div class="well tab-tool-content">
+            <div class="tab-content">
+
+                <div class="tab-pane fade active in" id="land-cover-classes-tab">
+                    <fieldset class="row lcp-class-container">
+                        <!-- Download button -->
+                        <div class="btn-group btn-block">
+                            <button type="button" class="btn col-md-11 btn-sm btn-primary" style="margin-bottom: 10px; font-size: 14px;"><i class="fas fa-download fa-custom"></i>&nbsp;&nbsp;Download Data/Typology</button>
+                            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle"style="margin-bottom: 10px; font-size: 16px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu col-md-12">
+                                <li><a href="#" ng-click="getDownloadURL()" style="color: black;">Get Download Link</a></li>
+                                <li><a href="#" ng-click="showGDriveFileName()" style="color: black;">To your Google Drive!</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ typologyCSV ]]" style="color: black;">Download Typology Values (CSV)</a></li>
+                            </ul>
+                        </div>
+                        <!-- Start -->
+                        <div class="input-group" ng-show="showLandcoverDownloadURL" style="top: 15px;">
+                            <input type="text" class="form-control" value="[[landcoverDownloadURL]]">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default landcoverCpyBtn js-tooltip"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Copy to clipboard"
+                                        ng-click="copyToClipBoard('landcover')"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    <!-- icon from google's material design library -->
+                                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="input-group" ng-show="showLandcoverGDriveFileName" style="top: 15px;">
+                            <input type="text" id="landcoverGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button"
+                                        ng-click="saveToDrive()"
+                                        class="btn btn-primary"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    Start Download
+                                </button>
+                            </span>
+                        </div>
+                        <!-- End -->
+                    </fieldset>
+
+                    <fieldset class="row lcp-class-container" id="landcover-map-container">
+                        <div class="row">
+                          <div class="col-md-2">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" id="landcover-map-checkbox" checked ng-click="toggleLandcoverMap()">
+                                <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
+                            </label>
+                          </div>
+                          <div class="col-md-10">
+                              <h5><b>Land Cover Map</b></h5>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group col-md-12" ng-show="showLandcoverOpacityController">
+                              <label for="landcover-opacity-slider"><h5>Land Cover Map Opacity: </h5></label>
+                              <input name="landcover-opacity-slider" id="landcover-opacity-slider" data-slider-id="landcover-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                          </div>
+                          </div>
+                          </div>
+                    </fieldset>
+                    
+                    <fieldset class="row lcp-class-container" id="probability-map-container">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label class="custom-checkbox-container">
+                              <input type="checkbox" id="probability-map-checkbox" ng-click="toggleProbabilityMap()">
+                              <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
+                          </label>
+                        </div>
+                        <div class="col-md-10">
+                            <h5><b>Probability Map</b></h5>
+                        </div>
+                        <div class="col-md-12">
+                        <div class="form-group col-md-12" ng-show="showProbabilityOpacityController">
+                            <label for="probability-opacity-slider"><h5>Proability Map Opacity: </h5></label>
+                            <input name="probability-opacity-slider" id="probability-opacity-slider" data-slider-id="probability-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                        </div>
+                        </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="row lcp-class-container" id="composite-map-container">
+                      <div class="row">
+                        <div class="col-md-2">
+                          <label class="custom-checkbox-container">
+                              <input type="checkbox" id="composite-map-checkbox" ng-click="toggleCompositeMap()">
+                              <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
+                          </label>
+                        </div>
+                        <div class="col-md-10">
+                            <h5><b>Composite Map</b></h5>
+                        </div>
+                        <div class="col-md-12">
+                        <div class="form-group col-md-12" ng-show="showCompositeOpacityController">
+                            <label for="composite-opacity-slider"><h5>Composite Map Opacity: </h5></label>
+                            <input name="composite-opacity-slider" id="composite-opacity-slider" data-slider-id="composite-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                        </div>
+                        </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="row lcp-class-container">
+                        <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
+                        <button type="button" class="btn btn-primary btn-sm btn-block" ng-click="updateAssemblageProduct()" style="margin-bottom: 10px; font-size: 14px;">
+                            <i class="fas fa-sync-alt"></i>&nbsp;&nbsp; Update Map
+                        </button>
+                    </fieldset>
+                    <div ng-repeat="class in myanmarPlantationClasses" class="row lcp-class-container">
+                        <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+                        <div class="col-md-7">
+                            <h5><b>[[ class.name ]]</b></h5>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                            <span class="switch-slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="primitive-tab">
+                    <fieldset class="row lcp-class-container">
+                        <div class="btn-group btn-block">
+                            <button type="button" class="btn col-md-11 btn-sm btn-primary" style="margin-bottom: 10px; font-size: 14px;">Download Primitive Data</button>
+                            <button type="button" class="btn col-md-1 btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu col-md-12">
+                                <li><a href="#" ng-click="getDownloadURL('primitive')" style="color: black;">Get Download Link</a></li>
+                                <li><a href="#" ng-click="showGDriveFileName('primitive')" style="color: black;">To your Google Drive!</a></li>
+                            </ul>
+                        </div>
+                        <div class="input-group" ng-show="showPrimitiveDownloadURL" style="top: 15px;">
+                            <input type="text" class="form-control" value="[[primitiveDownloadURL]]">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default primitiveCanopyCpyBtn js-tooltip"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Copy to clipboard"
+                                        ng-click="copyToClipBoard('primitive')"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="input-group" ng-show="showPrimitiveGDriveFileName" style="top: 15px;">
+                            <input type="text" id="primitiveGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button"
+                                        ng-click="saveToDrive('primitive')"
+                                        class="btn btn-primary"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    Start Download
+                                </button>
+                            </span>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="row lcp-class-container" ng-show="showPrimitiveOpacitySlider">
+                        <div class="form-group col-md-12">
+                            <label for="primitive-opacity-slider">Change Opacity</label>
+                            <input name="primitive-opacity-slider" id="primitive-opacity-slider" data-slider-id="primitive-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                        </div>
+                    </fieldset>
+
+                    <div ng-repeat="class in primitiveClasses" class="row lcp-class-container">
+                        <label class="container-primitive">
+                            <h5><b>[[ class.name ]]</b></h5>
+                            <input type="radio" name="radio" value="[[ class.value ]]" ng-change="updatePrimitive(primitiveIndex)" ng-model="primitiveIndex">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- end of tab -->
+</div>
