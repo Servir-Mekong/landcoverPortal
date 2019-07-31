@@ -5,7 +5,7 @@
     .controller('myanmarPlantationController', function ($rootScope, $http, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService) {
 
         // Global Variables
-        var map = MapService.init(97.5814, 18.8936, 5.5);
+        var map = MapService.init(95.6106, 15.2732, 6.56);
 
         // Setting variables
         $scope.myanmarPlantationClasses = appSettings.myanmarPlantationClasses;
@@ -32,7 +32,7 @@
         $scope.showTabContainer = true;
         $scope.showLoader = false;
         $scope.startYear = 2015;
-        $scope.endYear = 2019;
+        $scope.endYear = 2018;
         $scope.from_min = 2017;
         $scope.from_max = 2018;
         $scope.sliderYear = 2018;
@@ -130,17 +130,17 @@
          * Start with UI
          */
 
-         // Analysis Tool Control
-         $scope.toggleToolControl = function () {
-             if ($('#analysis-tool-control i').hasClass('fas fa-times')) {
-                 $('#analysis-tool-control i').removeClass('fas fa-times').addClass('fas fa-chart-pie');
-                 $scope.showTabContainer = false;
-             } else {
-                 $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-times');
-                 $scope.showTabContainer = true;
-             }
-             $scope.$apply();
-         };
+        // Analysis Tool Control
+        $scope.toggleToolControl = function () {
+            if ($('#analysis-tool-control i').hasClass('fas fa-times')) {
+                $('#analysis-tool-control i').removeClass('fas fa-times').addClass('fas fa-chart-pie');
+                $scope.showTabContainer = false;
+            } else {
+                $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-times');
+                $scope.showTabContainer = true;
+            }
+            $scope.$apply();
+        };
 
         var analysisToolControlDiv = document.getElementById('tool-control-container');
         var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
@@ -178,11 +178,11 @@
         $scope.showPrimitiveOpacitySlider = false;
         /* slider init */
         var primitiveSlider = $('#primitive-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'none'
-            })
+            formatter: function (value) {
+                return 'Opacity: ' + value;
+            },
+            tooltip: 'none'
+        })
         .on('slideStart', function (event) {
             $scope.primitiveOpacity = $(this).data('slider').getValue();
         })
@@ -224,12 +224,12 @@
             $scope.showLoader = true;
             $timeout(function () {
             var parameters = {
-                primitives: $scope.assemblageLayers,
+                classes: $scope.assemblageLayers,
                 year: year,
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                type: 'plantation'
+                type: 'myanmar-plantation'
             };
 
             LandCoverService.getLandCoverMap(parameters)
@@ -255,12 +255,12 @@
         $scope.getStats = function () {
             $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
             var parameters = {
-                primitives:$scope.assemblageLayers,
+                classes: $scope.assemblageLayers,
                 year: $scope.sliderYear,
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                type: 'plantation'
+                type: 'myanmar-plantation'
             };
             LandCoverService.getStats(parameters)
             .then(function (data) {
@@ -535,7 +535,6 @@
             MapService.clearLayer(map, 'compositemap');
             $scope.initMap($scope.sliderYear, 'landcovermap');
             $scope.getStats();
-            $scope.showCompositeMap();
             $scope.showProbabilityMap();
             MapService.removeGeoJson(map);
         };
@@ -575,14 +574,14 @@
                 $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                 showInfoAlert('Preparing Download Link...');
                 var parameters = {
-                    primitives: $scope.assemblageLayers,
+                    classes: $scope.assemblageLayers,
                     year: $scope.sliderYear,
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
                     areaName: $scope.areaName,
                     type: type,
                     index: $scope.primitiveIndex,
-                    serviceType: 'plantation'
+                    serviceType: 'myanmar-plantation'
                 };
                 LandCoverService.getDownloadURL(parameters)
                 .then(function (data) {
@@ -618,7 +617,7 @@
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
 
                 var parameters = {
-                    primitives: $scope.assemblageLayers,
+                    classes: $scope.assemblageLayers,
                     year: $scope.sliderYear,
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
@@ -626,7 +625,7 @@
                     type: type,
                     index: $scope.primitiveIndex,
                     fileName: fileName,
-                    serviceType: 'plantation'
+                    serviceType: 'myanmar-plantation'
                 };
 
                 LandCoverService.saveToDrive(parameters)
@@ -671,7 +670,7 @@
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName: $scope.areaName,
-                type: 'plantation'
+                type: 'myanmar-plantation'
             };
 
             LandCoverService.getPrimitiveMap(parameters)
@@ -775,7 +774,7 @@
                         shape: $scope.shape,
                         areaSelectFrom: $scope.areaSelectFrom,
                         areaName: $scope.areaName,
-                        type: 'plantation'
+                        type: 'myanmar-plantation'
                     };
 
                     LandCoverService.getProbabilityMap(parameters)
@@ -811,82 +810,6 @@
                 }
 
             };
-
-
-            $scope.compositeOpacity = 1;
-            $scope.showCompositeOpacityController = true;
-            /* slider init */
-            $scope.compositeSlider = $('#composite-opacity-slider').slider({
-                    formatter: function (value) {
-                        return 'Opacity: ' + value;
-                    },
-                    tooltip: 'none'
-                })
-            .on('slideStart', function (event) {
-                $scope.compositeOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.compositeOpacity) {
-                    $scope.compositeOpacity = value;
-                    $scope.overlays.compositemap.setOpacity(value);
-                }
-            });
-
-            $scope.togglecompositeOpacityController = function () {
-                var checked = $('#composite-map-checkbox').prop('checked');
-                if (checked) {
-                    $scope.showCompositeOpacityController = true;
-                } else {
-                    $scope.showCompositeOpacityController = false;
-                }
-            };
-
-            $scope.showCompositeMap = function () {
-                $scope.togglecompositeOpacityController();
-                $timeout(function () {
-                    var parameters = {
-                        year: $scope.sliderYear,
-                        shape: $scope.shape,
-                        areaSelectFrom: $scope.areaSelectFrom,
-                        areaName: $scope.areaName,
-                        type: 'landcover'
-                    };
-
-                    LandCoverService.getCompositeMap(parameters)
-                    .then(function (data) {
-                        MapService.removeGeoJson(map);
-                        MapService.clearLayer(map, 'compositemap');
-                        var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'compositemap');
-                        var checked = $('#composite-map-checkbox').prop('checked');
-                        loadMap('compositemap', mapType);
-                        if (checked) {
-                            $timeout(function () {
-                                showInfoAlert('Showing Yearly Composite Layer for ' + $scope.sliderYear);
-                            }, 5500);
-                            $scope.showCompositeLayer = true;
-                        } else {
-                            $scope.overlays.compositemap.setOpacity(0);
-                        }
-                    }, function (error) {
-                        showErrorAlert(error.error);
-                        console.log(error);
-                    });
-                }, 100);
-            };
-
-            $scope.toggleCompositeMap = function () {
-                var checked = $('#composite-map-checkbox').prop('checked');
-                if (checked) {
-                    $scope.showCompositeOpacityController = true;
-                    $scope.overlays.compositemap.setOpacity($scope.compositeOpacity);
-                } else {
-                    $scope.showCompositeOpacityController = false;
-                    $scope.overlays.compositemap.setOpacity(0);
-                }
-
-            };
-
 
     });
 

@@ -24,7 +24,7 @@
                                     </select>
                                     {% else %}
                                         <select name="year-filter" class="form-control" id="year-filter" 
-                                                ng-options="option for option in [] | landCoverYearRange:1987:2017" 
+                                                ng-options="option for option in [] | landCoverYearRange:1987:2018" 
                                                 ng-model="leftLayerYear" ng-change="landCoverLeftYearChange(leftLayerYear, 'v3')">
                                         </select>
                                     {% endif %}
@@ -47,7 +47,7 @@
                                         </select>
                                     {% else %}
                                         <select name="year-filter" class="form-control" id="year-filter"
-                                                ng-options="option for option in [] | landCoverYearRange:1987:2017"
+                                                ng-options="option for option in [] | landCoverYearRange:1987:2018"
                                                 ng-model="rightLayerYear" ng-change="landCoverRightYearChange(rightLayerYear, 'v3')">
                                         </select>
                                     {% endif %}

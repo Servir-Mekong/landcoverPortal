@@ -45,16 +45,16 @@ def api(request):
         area_name = post('areaName', '')
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
-        primitives = post('primitives', range(0, 21))
+        classes = post('classes', range(0, 21))
         index = int(post('index', 0))
-        if isinstance(primitives, (unicode, str)):
+        if isinstance(classes, (unicode, str)):
             try:
-                primitives = primitives.split(',')
-                primitives = [int(primitive) for primitive in primitives]
+                classes = classes.split(',')
+                classes = [int(_class) for _class in classes]
             except Exception as e:
                 logger.error(str(e))
                 return JsonResponse({'error': e.message()})
-        elif isinstance(primitives, list):
+        elif isinstance(classes, list):
             # Do nothing
             pass
         else:
@@ -65,7 +65,7 @@ def api(request):
 
         core = LandCoverViewer(area_path, area_name, shape, geom, radius, center, version)
         if action == 'landcovermap':
-            data = core.get_landcover(primitives=primitives, year=year)
+            data = core.get_landcover(classes=classes, year=year)
 
         elif action == 'primitive':
             data = core.get_primitive(index=index, year=year)
@@ -76,7 +76,7 @@ def api(request):
         elif action == 'get-download-url':
             data = core.get_download_url(type = type,
                                          year = year,
-                                         primitives = primitives,
+                                         classes = classes,
                                          index = index
                                          )
             # dump to db if success
@@ -92,7 +92,7 @@ def api(request):
                     logger.error(str(e))
 
         elif action == 'get-stats':
-            data = core.get_stats(year=year, primitives=primitives)
+            data = core.get_stats(year=year, classes=classes)
 
         elif action == 'get-composite':
             data = core.get_composite(year=year)
@@ -136,7 +136,7 @@ def api(request):
                                                center = center,
                                                type = type,
                                                file_name = file_name,
-                                               primitives = primitives,
+                                               classes = classes,
                                                index = index,
                                                version = version,
                                                access_token = access_token,
@@ -175,7 +175,7 @@ def api(request):
                                                      id_token_jwt)
                     data = core.download_to_drive(type = type,
                                                   year = year,
-                                                  primitives = primitives,
+                                                  classes = classes,
                                                   user_email = user_email,
                                                   user_id = user_id,
                                                   file_name = file_name,

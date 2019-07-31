@@ -129,7 +129,7 @@
                 $scope.landCoverClasses = appSettings.landCoverClasses;
             }
             var parameters = {
-                primitives: $scope.assemblageLayers,
+                classes: $scope.assemblageLayers,
                 year: year,
                 version: version
             };

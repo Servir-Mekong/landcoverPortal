@@ -239,7 +239,7 @@
                     $scope.getYearRange(2000, 2017);
                 } else {
                     $scope.landCoverClasses = appSettings.landCoverClasses;
-                    $scope.getYearRange(1987, 2017);
+                    $scope.getYearRange(1987, 2018);
                 }
 
                 $scope.assemblageLayers = [];
@@ -254,7 +254,7 @@
             }
 
             var parameters = {
-                primitives: $scope.assemblageLayers,
+                classes: $scope.assemblageLayers,
                 year: year,
                 version: version
             };
@@ -304,7 +304,7 @@
         $scope.getTableStats = function (version) {
             $scope.showtableLoader = true;
             var parameters = {
-                primitives    : $scope.assemblageLayers,
+                classes       : $scope.assemblageLayers,
                 year          : $scope.tableYear,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName      : $scope.areaName,
@@ -337,7 +337,7 @@
         $scope.getPieStats = function (version) {
             $scope.showPieLoader = true;
             var parameters = {
-                primitives    : $scope.assemblageLayers,
+                classes       : $scope.assemblageLayers,
                 year          : $scope.pieYear,
                 areaSelectFrom: $scope.areaSelectFrom,
                 areaName      : $scope.areaName,
@@ -388,7 +388,7 @@
                 var years = CommonService.range($scope.columnStartYear, $scope.columnEndYear);
 
                 var parameters = {
-                    primitives    : $scope.assemblageLayers,
+                    classes       : $scope.assemblageLayers,
                     areaSelectFrom: $scope.areaSelectFrom,
                     areaName      : $scope.areaName,
                     version       : version

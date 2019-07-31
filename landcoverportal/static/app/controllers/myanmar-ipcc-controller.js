@@ -257,7 +257,7 @@
             $scope.showLoader = true;
 
             var parameters = {
-                primitives: $scope.assemblageLayers,
+                classes: $scope.assemblageLayers,
                 year: year,
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
@@ -287,7 +287,7 @@
         $scope.getStats = function () {
             $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
             var parameters = {
-                primitives:$scope.assemblageLayers,
+                classes: $scope.assemblageLayers,
                 year: $scope.sliderYear,
                 shape: $scope.shape,
                 areaSelectFrom: $scope.areaSelectFrom,
@@ -609,7 +609,7 @@
                 showInfoAlert('Preparing Download Link...');
 
                 var parameters = {
-                    primitives: $scope.assemblageLayers,
+                    classes: $scope.assemblageLayers,
                     year: $scope.sliderYear,
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,
@@ -652,7 +652,7 @@
                 showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
 
                 var parameters = {
-                    primitives: $scope.assemblageLayers,
+                    classes: $scope.assemblageLayers,
                     year: $scope.sliderYear,
                     shape: $scope.shape,
                     areaSelectFrom: $scope.areaSelectFrom,

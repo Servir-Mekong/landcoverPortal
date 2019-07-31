@@ -191,7 +191,7 @@ class MyanmarFRA():
         return MyanmarFRA.DEFAULT_GEOM.buffer(10000)
 
     # -------------------------------------------------------------------------
-    def get_landcover(self, primitives=range(0, 11), year=2017, download=False):
+    def get_landcover(self, classes=range(0, 11), year=2017, download=False):
 
         image = ee.Image(MyanmarFRA.LANDCOVERMAP.filterDate('%s-01-01' % year,
                                                             '%s-12-31' % year).mean())
@@ -200,9 +200,9 @@ class MyanmarFRA():
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
 
-        # get the primitives
-        for primitive in primitives:
-            _mask = image.eq(ee.Number(int(primitive)))
+        # get the classes
+        for _class in classes:
+            _mask = image.eq(ee.Number(int(_class)))
             masked_image = masked_image.add(_mask)
 
         palette = []
@@ -265,15 +265,12 @@ class MyanmarFRA():
     def get_download_url(self,
                          type = 'landcover',
                          year = 2017,
-                         primitives = range(0, 12),
+                         classes = range(0, 12),
                          index = 0,
                          ):
 
         if type == 'landcover':
-            image = self.get_landcover(primitives = primitives,
-                                       year = year,
-                                       download = True,
-                                       )
+            image = self.get_landcover(classes=classes, year=year, download=True)
         elif type == 'primitive':
             image = self.get_primitive(index = index,
                                        year = year,
@@ -297,7 +294,7 @@ class MyanmarFRA():
     def download_to_drive(self,
                           type = 'landcover',
                           year = 2017,
-                          primitives = range(0, 12),
+                          classes = range(0, 12),
                           index = 0,
                           file_name = '',
                           user_email = None,
@@ -309,10 +306,7 @@ class MyanmarFRA():
             return {'error': 'something wrong with the google drive api!'}
 
         if type == 'landcover':
-            image = self.get_landcover(primitives = primitives,
-                                       year = year,
-                                       download = True,
-                                       )
+            image = self.get_landcover(classes=classes, year=year, download=True)
         elif type == 'primitive':
             image = self.get_primitive(index = index,
                                        year = year,
@@ -365,12 +359,9 @@ class MyanmarFRA():
             return {'error': 'Task failed (id: %s) because %s' % (task.id, task.status()['error_message'])}
 
     # -------------------------------------------------------------------------
-    def get_stats(self, year=2017, primitives=range(0, 12)):
+    def get_stats(self, year=2017, classes=range(0, 12)):
 
-        image = self.get_landcover(primitives = primitives,
-                                   year = year,
-                                   download = True,
-                                   )
+        image = self.get_landcover(classes=classes, year=year, download=True)
 
         stats = image.reduceRegion(reducer = ee.Reducer.frequencyHistogram(),
                                    geometry = self.geometry,

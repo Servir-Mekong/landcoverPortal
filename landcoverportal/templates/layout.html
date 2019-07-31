@@ -44,9 +44,7 @@
 	<meta name="description" content="regional land cover monitoring system">
 	<meta name="author" content="Biplov Bhandari, Servir-Mekong">
 
-	<title>
-		{% block title %}{% endblock %}
-	</title>
+	<title> {% block title %}{% endblock %} </title>
 
 	<link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
 
@@ -131,7 +129,7 @@
 	    <script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
 
 		<!-- Moment -->
-		<script src="{% static 'vendor/moment/min/moment.min.js' %}"></script>
+		<!--<script src="{% static 'vendor/moment/min/moment.min.js' %}"></script>-->
 
 		<!-- Mapping Library -->
 	    <!-- Google Maps API -->
@@ -139,8 +137,8 @@
 		<!-- Leaflet -->
 		<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 		<script src="{% static 'vendor/leaflet-side-by-side/leaflet-side-by-side.js' %}"></script>
-        <script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
-        <script type="text/javascript" src="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.min.js"></script>
+        <!--<script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.min.js"></script>-->
 
 		<!--  Load Angular  -->
 		<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
@@ -179,9 +177,9 @@
 		<script src="{% static 'app/controllers/myanmar-national-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/myanmar-ipcc-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/myanmar-fra-controller.js' %}"></script>
+		<script src="{% static 'app/controllers/myanmar-plantation-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/side-by-side-map-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/analysis-controller.js' %}"></script>
-		<script src="{% static 'app/controllers/plantation-controller.js' %}"></script>
 
 		<!-- Directives -->
 		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->

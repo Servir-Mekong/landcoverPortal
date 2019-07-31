@@ -181,7 +181,7 @@ INSTALLED_APPS = (
     'landcover_viewer',
     'myanmar_ipcc',
     'myanmar_fra',
-    'plantation_mapping',
+    'myanmar_plantation',
     'main',
     # Google Oauth
     'django.contrib.sessions.middleware',

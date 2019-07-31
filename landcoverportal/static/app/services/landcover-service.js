@@ -9,7 +9,7 @@
 
         service.getLandCoverMap = function (options) {
 
-            var primitives = options.primitives;
+            var classes = options.classes;
             var year = options.year;
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
@@ -25,8 +25,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (type === 'myanmar-national') {
                 url = '/api/myanmar-national/';
-            } else if (type === 'plantation') {
-                url = '/api/plantation/';
+            } else if (type === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -34,7 +34,7 @@
                 url: url,
                 data: {
                     year: year,
-                    primitives: primitives.toString()
+                    classes: classes.toString()
                 },
                 params: {
                     action: 'landcovermap'
@@ -90,8 +90,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (type === 'myanmar-national') {
                 url = '/api/myanmar-national/';
-            } else if (type === 'plantation') {
-                url = '/api/plantation/';
+            } else if (type === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -148,8 +148,8 @@
             var type = options.type;
 
             var url = '/api/landcover/';
-            if (type === 'plantation') {
-                url = '/api/plantation/';
+            if (type === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -198,8 +198,8 @@
             //var v1 = options.v1;
             var type = options.type;
             var url = '/api/landcover/';
-            if (type === 'plantation') {
-                url = '/api/plantation/';
+            if (type === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -241,7 +241,7 @@
 
         service.getStats = function (options) {
 
-            var primitives = options.primitives;
+            var classes = options.classes;
             var year = options.year;
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
@@ -256,8 +256,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (type === 'myanmar-national') {
                 url = '/api/myanmar-national/';
-            } else if (type === 'plantation') {
-                url = '/api/plantation/';
+            } else if (type === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -265,7 +265,7 @@
                 url: url,
                 data: {
                     year: year,
-                    primitives: primitives.toString()
+                    classes: classes.toString()
                 },
                 params: {
                     action: 'get-stats'
@@ -304,9 +304,9 @@
             return promise;
         };
 
-        //service.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, primitives, index, serviceType) {
+        //service.getDownloadURL = function (type, shape, areaSelectFrom, areaName, year, classes, index, serviceType) {
         service.getDownloadURL = function (options) {
-            var primitives = options.primitives;
+            var classes = options.classes;
             var year = options.year;
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
@@ -323,8 +323,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (serviceType === 'myanmar-national') {
                 url = '/api/myanmar-national/';
-            } else if (serviceType === 'plantation') {
-                url = '/api/plantation/';
+            } else if (serviceType === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -333,7 +333,7 @@
                 data: {
                     year: year,
                     type: type,
-                    primitives: primitives.toString(),
+                    classes: classes.toString(),
                     index: index
                 },
                 params: {
@@ -373,9 +373,9 @@
             return promise;
         };
 
-        //service.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+        //service.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, classes, fileName, index, serviceType) {
         service.saveToDrive = function (options) {
-            var primitives = options.primitives;
+            var classes = options.classes;
             var year = options.year;
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
@@ -393,8 +393,8 @@
                 url = '/api/myanmar-ipcc/';
             } else if (serviceType === 'myanmar-national') {
                 url = '/api/myanmar-national/';
-            } else if (serviceType === 'plantation') {
-                url = '/api/plantation/';
+            } else if (serviceType === 'myanmar-plantation') {
+                url = '/api/myanmar-plantation/';
             }
 
             var req = {
@@ -403,7 +403,7 @@
                 data: {
                     year: year,
                     type: type,
-                    primitives: primitives.toString(),
+                    classes: classes.toString(),
                     fileName: fileName,
                     index: index
                 },

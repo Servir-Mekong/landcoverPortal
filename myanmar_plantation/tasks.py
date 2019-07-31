@@ -10,11 +10,11 @@ from oauth2client.client import OAuth2Credentials
 def export_to_drive_task(**kwargs):
 
     core = MyanmarPlantation(kwargs['province'],
-                       kwargs['shape'],
-                       kwargs['geom'],
-                       kwargs['radius'],
-                       kwargs['center'],
-                       )
+                             kwargs['shape'],
+                             kwargs['geom'],
+                             kwargs['radius'],
+                             kwargs['center'],
+                             )
 
     oauth2object = OAuth2Credentials(kwargs['access_token'],
                                      kwargs['client_id'],
@@ -33,8 +33,7 @@ def export_to_drive_task(**kwargs):
 
     data = core.download_to_drive(type = kwargs['type'],
                                   year = kwargs['year'],
-                                  primitives = kwargs['primitives'],
-                                  index = kwargs['index'],
+                                  classes = kwargs['classes'],
                                   file_name = kwargs['file_name'],
                                   user_email = kwargs['user_email'],
                                   user_id = kwargs['user_id'],

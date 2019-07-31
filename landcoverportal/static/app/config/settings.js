@@ -6,6 +6,11 @@ var settings = {
             'show': true
         },
         {
+            'name': 'Publications',
+            'url': '#',
+            'show': true
+        },
+        {
             'name': 'Service Applications',
             'url': '/service-applications/',
             'show': true
@@ -934,6 +939,20 @@ var settings = {
             'imageURL': 'images/myanmar-fra.png'
         },
         {
+            'name': 'Myanmar Plantations Mapping',
+            'description': 'The Dawna Tenasserim Landscape covers Kayin and Mon States, and ' +
+                  'Tanintharyi Region in Myanmar. The area harbours one of the last large intact ' +
+                  'forest landscapes in the region, which hosts a large number of ethnic groups, and ' +
+                  'a wide variety of endangered wildlife such as elephants and tigers. The region is experiencing ' +
+                  'numerous threats including rapid increase in agricultural land use and associated deforestation, ' +
+                  'notably for rubber and palm oil, road and infrastructure development, and logging resulting in habitat ' +
+                  'degradation and fragmentation. The Dawna Tenasserim plantation portal shows areas with cropland, rubber, ' +
+                  'palmoil for 2017 and 2018. '+
+                  '<br><i> Remote Sens. 2019, 11(7), 831; <a href="https://doi.org/10.3390/rs11070831">https://doi.org/10.3390/rs11070831</a> </i>',
+            'url': '/myanmar-plantation/',
+            'imageURL': 'images/plantation-mapping.jpg'
+        },
+        {
             'name': 'State of Land Report (Under Development)',
             'description': 'The Mekong region State of Land report is the application ' +
                 'of customizing RLCMS, and a response to request from The Mekong Region ' +
@@ -951,20 +970,6 @@ var settings = {
                 'from 2006 and 2015 are products of this application.',
             'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
             'imageURL': 'images/solr.png'
-        },
-        {
-            'name': 'Plantations Mapping',
-            'description': 'The Dawna Tenasserim Landscape covers Kayin and Mon States, and ' +
-                  'Tanintharyi Region in Myanmar. The area harbours one of the last large intact ' +
-                  'forest landscapes in the region, which hosts a large number of ethnic groups, and ' +
-                  'a wide variety of endangered wildlife such as elephants and tigers. The region is experiencing ' +
-                  'numerous threats including rapid increase in agricultural land use and associated deforestation, ' +
-                  'notably for rubber and palm oil, road and infrastructure development, and logging resulting in habitat ' +
-                  'degradation and fragmentation. The Dawna Tenasserim plantation portal shows areas with cropland, rubber, ' +
-                  'palmoil for 2017 and 2018. '+
-                  '<br><i> Remote Sens. 2019, 11(7), 831; <a href="https://doi.org/10.3390/rs11070831">https://doi.org/10.3390/rs11070831</a> </i>',
-            'url': '/plantation/',
-            'imageURL': 'images/plantation-mapping.jpg'
         }
     ]
 };

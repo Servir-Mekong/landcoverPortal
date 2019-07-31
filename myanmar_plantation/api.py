@@ -13,7 +13,6 @@ import time
 
 PUBLIC_METHODS = [
     'landcovermap',
-    'primitive',
     'probability',
     'get-download-url',
     'download-to-drive',
@@ -30,7 +29,7 @@ def api(request):
     action = get('action', '')
 
     if action and action in PUBLIC_METHODS:
-        year = post('year', 2016)
+        year = post('year', 2018)
         shape = post('shape', '')
         geom = post('geom', '')
         radius = post('radius', '')
@@ -39,15 +38,14 @@ def api(request):
         area_name = post('areaName', '')
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
-        primitives = post('primitives', range(0, 8))
-        index = int(post('index', 0))
-        if isinstance(primitives, (unicode, str)):
+        classes = post('classes', range(0, 8))
+        if isinstance(classes, (unicode, str)):
             try:
-                primitives = primitives.split(',')
-                primitives = [int(primitive) for primitive in primitives]
+                classes = classes.split(',')
+                classes = [int(_class) for _class in classes]
             except Exception as e:
                 return JsonResponse({'error': e.message()})
-        elif isinstance(primitives, list):
+        elif isinstance(classes, list):
             # Do nothing
             pass
         else:
@@ -58,28 +56,13 @@ def api(request):
 
         core = MyanmarPlantation(area_path, area_name, shape, geom, radius, center)
         if action == 'landcovermap':
-            data = core.get_landcover(primitives = primitives,
-                                      year = year,
-                                      )
-        elif action == 'primitive':
-            data = core.get_primitive(index = index,
-                                      year = year,
-                                      )
+            data = core.get_landcover(classes=classes, year=year)
         elif action == 'probability':
             data = core.get_probability(year=year)
-                                    
         elif action == 'get-download-url':
-            data = core.get_download_url(type = type,
-                                         year = year,
-                                         primitives = primitives,
-                                         index = index
-                                         )
+            data = core.get_download_url(type=type, year=year, classes=classes)
         elif action == 'get-stats':
-            data = core.get_stats(year=year, primitives=primitives)
-
-        elif action == 'get-composite':
-            data = core.get_composite(year=year)
-
+            data = core.get_stats(year=year, classes=classes)
         elif action == 'download-to-drive':
             session_get = request.session.get
             if session_get('email') and session_get('sub') and session_get('credentials'):
@@ -109,8 +92,7 @@ def api(request):
                                                center = center,
                                                type = type,
                                                file_name = file_name,
-                                               primitives = primitives,
-                                               index = index,
+                                               classes = classes,
                                                access_token = access_token,
                                                client_id = client_id,
                                                client_secret = client_secret,
@@ -145,7 +127,7 @@ def api(request):
                                                      id_token_jwt)
                     data = core.download_to_drive(type = type,
                                                   year = year,
-                                                  primitives = primitives,
+                                                  classes = classes,
                                                   user_email = user_email,
                                                   user_id = user_id,
                                                   file_name = file_name,

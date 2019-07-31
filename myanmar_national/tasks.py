@@ -33,7 +33,7 @@ def export_to_drive_task(**kwargs):
 
     data = core.download_to_drive(type = kwargs['type'],
                                   year = kwargs['year'],
-                                  primitives = kwargs['primitives'],
+                                  classes = kwargs['classes'],
                                   index = kwargs['index'],
                                   file_name = kwargs['file_name'],
                                   user_email = kwargs['user_email'],
