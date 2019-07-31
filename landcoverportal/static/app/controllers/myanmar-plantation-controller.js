@@ -532,7 +532,6 @@
             $scope.showLoader = true;
             MapService.clearLayer(map, 'landcovermap');
             MapService.clearLayer(map, 'probabilitymap');
-            MapService.clearLayer(map, 'compositemap');
             $scope.initMap($scope.sliderYear, 'landcovermap');
             $scope.getStats();
             $scope.showProbabilityMap();
