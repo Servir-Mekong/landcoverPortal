@@ -611,6 +611,7 @@
                         if ($('#land-cover-classes-tab').hasClass('active')) {
                             $scope.updateAssemblageProduct('v3');
                             $scope.showProbabilityMap();
+                            $scope.showCompositeMap();
                         } else if ($('#primitive-tab').hasClass('active')) {
                             $scope.updatePrimitive($scope.primitiveIndex, 'v3');
                         }
@@ -940,7 +941,7 @@
                         showErrorAlert(error.error);
                         console.log(error);
                     });
-                }, 15000);
+                }, 2000);
             };
 
             $scope.toggleCompositeMap = function () {
