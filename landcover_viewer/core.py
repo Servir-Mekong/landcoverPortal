@@ -23,8 +23,8 @@ class LandCoverViewer():
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
     COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
                                                settings.COUNTRIES_NAME)).geometry()
-    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/mekong-admin-0')
-    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Name',
+    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
+    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('NAME_0',
     #                                                                   settings.COUNTRIES_NAME)).geometry()
 
     # -------------------------------------------------------------------------
@@ -38,7 +38,7 @@ class LandCoverViewer():
                 if (area_name == 'Myanmar'):
                     area_name = 'Myanmar (Burma)'
                 self.geometry = LandCoverViewer.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Country', [area_name])).geometry()
+                                    ee.Filter.inList('Country', [area_name])).geometry().buffer(8500)
             elif (area_path == 'province'):
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -60,7 +60,7 @@ class LandCoverViewer():
                         feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
             else:
-                self.geometry = LandCoverViewer.COUNTRIES_GEOM.buffer(15000)
+                self.geometry = LandCoverViewer.COUNTRIES_GEOM.buffer(8500)
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -486,7 +486,7 @@ class LandCoverViewer():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return LandCoverViewer.COUNTRIES_GEOM.buffer(15000)
+        return LandCoverViewer.COUNTRIES_GEOM.buffer(8500)
 
     # -------------------------------------------------------------------------
     def get_landcover(self, classes=range(0, 21), year=2016, download=False):
