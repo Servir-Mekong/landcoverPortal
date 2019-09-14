@@ -18,9 +18,13 @@ class ForestMonitor():
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
-                                               settings.COUNTRIES_NAME)).geometry()
+    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
+    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
+    #                                           settings.COUNTRIES_NAME)).geometry()
+    MEKONG_BOUNDARY = ee.FeatureCollection('users/biplov/mekong-boundary')
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
+    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('NAME_0',
+    #                                                                   settings.COUNTRIES_NAME)).geometry()
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
@@ -33,7 +37,7 @@ class ForestMonitor():
                 #if (area_name == 'Myanmar'):
                 #    area_name = 'Myanmar (Burma)'
                 self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Country', [area_name])).geometry()
+                                    ee.Filter.inList('NAME_0', [area_name])).geometry()
                 self.scale = 100
             elif (area_path == 'province'):
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -51,7 +55,7 @@ class ForestMonitor():
                     self.geometry = feature.geometry()
                     self.scale = 30
             else:
-                self.geometry = ForestMonitor.COUNTRIES_GEOM
+                self.geometry = ForestMonitor.MEKONG_BOUNDARY
                 self.scale = 100
         else:
             self.geometry = self._get_geometry(shape)
@@ -77,7 +81,7 @@ class ForestMonitor():
             self.scale = 30
 
         self.scale = 100
-        return ForestMonitor.COUNTRIES_GEOM
+        return ForestMonitor.MEKONG_BOUNDARY
 
     # -------------------------------------------------------------------------
     def tree_canopy(self,
