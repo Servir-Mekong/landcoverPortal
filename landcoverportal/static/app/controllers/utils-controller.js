@@ -10,6 +10,7 @@
             $scope.partnersHeader = appSettings.partnersHeader;
             $scope.partnersFooter = appSettings.partnersFooter;
             $scope.serviceApplicationsCards = appSettings.serviceApplicationsCards;
+            $scope.publicationLists = appSettings.publicationLists;
             $scope.descriptionModalBody = '';
             $scope.descriptionModalTitle = '';
             $scope.toggleHandleClass = 'fa-chevron-up';

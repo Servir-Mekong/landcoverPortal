@@ -59,3 +59,6 @@ def home(request):
 
 def service_applications(request):
     return render(request, 'service-applications.html', {'version1': True})
+
+def publications(request):
+    return render(request, 'publications.html', {})

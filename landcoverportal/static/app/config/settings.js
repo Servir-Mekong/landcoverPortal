@@ -7,7 +7,7 @@ var settings = {
         },
         {
             'name': 'Publications',
-            'url': '#',
+            'url': '/publications/',
             'show': true
         },
         {
@@ -840,7 +840,8 @@ var settings = {
             'color': '#111149'
         }
     ],
-    serviceApplicationsCards: [{
+    serviceApplicationsCards: [
+        {
             'name': 'Regional Land Cover Monitoring System',
             'description': 'The regional land cover monitoring system provides ' +
                 'a series of annual land cover maps with a ' +
@@ -970,6 +971,12 @@ var settings = {
                 'from 2006 and 2015 are products of this application.',
             'url': 'https://code.earthengine.google.com/64330db9b75742d76777ce01fe131001',
             'imageURL': 'images/solr.png'
+        }
+    ],
+    publicationLists: [
+        {
+            'title': 'Annual continuous fields of woody vegetation structure in the Lower Mekong region from 2000‐2017 Landsat time-series',
+            'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/peter-et-al.pdf',
         }
     ]
 };
