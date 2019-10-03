@@ -51,50 +51,6 @@
     </fieldset>
     {% endif %}
 
-    {% if not version1 %}
-    <fieldset class="row lcp-class-container" id="probability-map-container">
-      <div class="row">
-        <div class="col-md-2">
-          <label class="custom-checkbox-container">
-              <input type="checkbox" id="probability-map-checkbox" ng-click="toggleProbabilityMap()">
-              <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
-          </label>
-        </div>
-        <div class="col-md-10">
-            <h5><b>Show Probability Map</b></h5>
-        </div>
-        <div class="col-md-12">
-        <div class="form-group col-md-12" ng-show="showProbabilityOpacityController">
-            <label for="probability-opacity-slider"><h5>Proability Map Opacity: </h5></label>
-            <input name="probability-opacity-slider" id="probability-opacity-slider" data-slider-id="probability-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-        </div>
-        </div>
-        </div>
-    </fieldset>
-    {% endif %}
-
-    {% if not version1 and not version2 %}
-    <fieldset class="row lcp-class-container" id="composite-map-container">
-        <div class="row">
-            <div class="col-md-2">
-                <label class="custom-checkbox-container">
-                    <input type="checkbox" id="composite-map-checkbox" ng-click="toggleCompositeMap()">
-                    <span class="custom-checkbox-checkmark" style="left:0.5em"></span>
-                </label>
-            </div>
-            <div class="col-md-10">
-                <h5><b>Yearly Composite Map</b></h5>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group col-md-12" ng-show="showCompositeOpacityController">
-                    <label for="composite-opacity-slider"><h5>Composite Map Opacity: </h5></label>
-                    <input name="composite-opacity-slider" id="composite-opacity-slider" data-slider-id="composite-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                </div>
-            </div>
-        </div>
-    </fieldset>
-    {% endif %}
-
     <fieldset class="row lcp-class-container">
         <!-- Download button -->
         <div class="btn-group btn-block">
@@ -167,11 +123,7 @@
 
 
     <fieldset class="row lcp-class-container">
-      <h4 style="font-weight:700; text-align: center;">Landcover Map</h4>
-      <div ng-show="showLandcoverOpacitySlider">
-          <label for="landcover-opacity-slider"><h5>Landcover Map Opacity: </h5></label>
-          <input name="landcover-opacity-slider" id="landcover-opacity-slider" data-slider-id="landcover-opacity-slider" type="text" style="width: 90%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-      </div>
+        <h4 style="font-weight:700; text-align: center;">Landcover Map</h4>
         <p style="color: #333;">Change the assemblage by turning on/off the layers and updating the map!</p>
 
         {% if version1 %}
@@ -187,7 +139,6 @@
             <i class="fas fa-sync-alt"></i> Update Map
         </button>
         {% endif %}
-
     </fieldset>
 
     <div ng-repeat="class in landCoverClasses">
@@ -207,11 +158,6 @@
                           <span class="custom-checkbox-checkmark"></span>
                       </label>
                     </div>
-                    <!--<label class="switch">
-                        <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
-                        <span class="switch-slider round"></span>
-                    </label>-->
-
                 </div>
 
                 <div ng-repeat="_class in landCoverClasses">
@@ -230,10 +176,6 @@
                                       <span class="custom-checkbox-checkmark"></span>
                                   </label>
                                 </div>
-                                <!--<label class="switch">
-                                    <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
-                                    <span class="switch-slider round"></span>
-                                </label>-->
                             </div>
                         </div>
                     </div>
@@ -255,10 +197,6 @@
                       <span class="custom-checkbox-checkmark"></span>
                   </label>
                 </div>
-                <!--<label class="switch">
-                    <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
-                    <span class="switch-slider round"></span>
-                </label>-->
             </div>
         </div>
 

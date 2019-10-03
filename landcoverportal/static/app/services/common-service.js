@@ -295,6 +295,131 @@
             Highcharts.chart(container, chartOptions);
         };
 
+        service.createLayerContainer = function (overlayName, overlayType, overlayTypeLayer, map, show) {
+            if (typeof(show) === 'undefined') show = true;
+            var toggleLayerSlider = function () {
+                if($('#layer-tab i#toggle-layer-' + overlayType).hasClass('fa-eye')) {
+                    if ($(this).hasClass('closed')) {
+                        $(this).removeClass('closed');
+                        $('#layer-opacity-slider-' + overlayType).removeClass('display-none-imp');
+                    } else {
+                        $(this).addClass('closed');
+                        $('#layer-opacity-slider-' + overlayType).addClass('display-none-imp');
+                    }
+                }
+            };
+
+            var toggleLayerOpacity = function () {
+                if ($(this).hasClass('fa-eye')) {
+                    $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+                    $('#layer-opacity-slider-' + overlayType).addClass('display-none-imp');
+                    if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                        if (overlayType === 'preload') {
+                            map.data.forEach(function (feature) {
+                                map.data.setStyle({
+                                    visible: false
+                                });
+                            });
+                        } else {
+                            overlayTypeLayer.setVisible(false);
+                        }
+                    } else {
+                        overlayTypeLayer.setOpacity(0);
+                    }
+                } else {
+                    $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+                    $('#layer-opacity-slider-' + overlayType).removeClass('display-none-imp');
+                    if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                        if (overlayType === 'preload') {
+                            map.data.forEach(function (feature) {
+                                map.data.setStyle({
+                                    visible: true,
+                                    fillOpacity: 0,
+                                    //strokeColor: 'yellow'
+                                });
+                            });
+                        } else {
+                            overlayTypeLayer.setVisible(true);
+                        }
+                    } else {
+                        overlayTypeLayer.setOpacity(1);
+                    }
+                }
+            };
+
+            var _container = document.createElement('div');
+            _container.setAttribute('class', 'leaflet-bar leaflet-html-legend');
+            _container.setAttribute('id', 'layer-control-' + overlayType);
+
+            var legendBlock = document.createElement('div');
+            legendBlock.setAttribute('class', 'legend-block layer-control');
+
+            var layerHeading = document.createElement('h4');
+            layerHeading.setAttribute('class', 'inline-block-display');
+            var legendCaret = document.createElement('div');
+            legendCaret.setAttribute('class', 'legend-caret');
+            var spanInHeading = document.createElement('span');
+            spanInHeading.appendChild(document.createTextNode(overlayName[overlayType]));
+            layerHeading.appendChild(legendCaret);
+            layerHeading.appendChild(spanInHeading);
+
+            var toggleLayer = document.createElement('i');
+            toggleLayer.setAttribute('id', 'toggle-layer-' + overlayType);
+            if (show) {
+                toggleLayer.setAttribute('class', 'far fa-eye float-right');
+            } else {
+                toggleLayer.setAttribute('class', 'far fa-eye-slash float-right');
+            }
+            toggleLayer.style.cursor = 'pointer';
+            toggleLayer.addEventListener('click', toggleLayerOpacity);
+
+            var opacitySliderContainer = document.createElement('span');
+            opacitySliderContainer.setAttribute('class', 'opacity-slider');
+            opacitySliderContainer.setAttribute('id', 'layer-opacity-slider-' + overlayType);
+            var sliderLabel = document.createElement('span');
+            sliderLabel.setAttribute('class', 'slider-label inline-block-display');
+            sliderLabel.appendChild(document.createTextNode('Transparency:'));
+            var opacitySlider = document.createElement('input');
+            opacitySlider.setAttribute('id', 'layer-opacity-slider');
+            opacitySlider.setAttribute('class', 'layer-opacity-slider-' + overlayType);
+            opacitySlider.setAttribute('data-slider-id', 'layer-opacity-slider');
+            opacitySlider.setAttribute('type', 'text');
+            opacitySlider.setAttribute('data-slider-min', '0');
+            opacitySlider.setAttribute('data-slider-max', '1');
+            opacitySlider.setAttribute('data-slider-step', '0.1');
+            opacitySliderContainer.appendChild(sliderLabel);
+            opacitySliderContainer.appendChild(opacitySlider);
+            if (!show) {
+                opacitySliderContainer.setAttribute('class', 'display-none-imp');
+            }
+
+            layerHeading.addEventListener('click', toggleLayerSlider);
+
+            legendBlock.appendChild(layerHeading);
+            legendBlock.appendChild(toggleLayer);
+            legendBlock.appendChild(opacitySliderContainer);
+
+            if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                legendBlock.removeChild(opacitySliderContainer);
+                layerHeading.removeChild(legendCaret);
+            }
+
+            var div1 = document.createElement('div');
+            div1.appendChild(layerHeading);
+            div1.appendChild(toggleLayer);
+
+            var div2 = document.createElement('div');
+            if (['polygon', 'preload'].indexOf(overlayType) === -1) {
+                div2.appendChild(opacitySliderContainer);
+            }
+
+            legendBlock.appendChild(div1);
+            legendBlock.appendChild(div2);
+            _container.appendChild(legendBlock);
+
+            return _container;
+        };
+
     });
 
 })();

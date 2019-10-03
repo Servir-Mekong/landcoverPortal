@@ -124,6 +124,58 @@
             });
         };
 
+        /*
+         * Layer Legend
+         */
+
+        var initializeLayerSlider = function (className, overlayType) {
+            $scope[overlayType + 'Opacity'] = 1;
+            var layerSlider = $('.' + className).slider({
+                formatter: function (value) {
+                    return value;
+                },
+                //tooltip: 'always'
+            })
+            .on('slideStart', function (event) {
+                $scope[overlayType + 'Opacity'] = $(this).data('slider').getValue();
+            })
+            .on('slideStop', function (event) {
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope[overlayType + 'Opacity']) {
+                    $scope.overlays[overlayType].setOpacity(value);
+                }
+            });
+        };
+
+        var addLayer = function (overlayType, show) {
+            if (typeof(show) === 'undefined') show = true;
+            var overlayName = {
+                'landcovermap'  : 'Land Cover Map for ' + $scope.sliderYear,
+                'compositemap'  : 'Composite Map for ' + $scope.sliderYear,
+                'probabilitymap': 'Probability Map',
+                'primitivemap'  : 'Primitive Layer for ' + $scope.sliderYear,
+                'polygon'       : 'User Defined Area',
+                'preload'       : 'Pre-defined Area'
+            };
+
+            if ($('#layer-tab #layer-control-' + overlayType).length > 0) {
+                $('#layer-tab #layer-control-' + overlayType).remove();
+            }
+            var _container = CommonService.createLayerContainer(overlayName, overlayType, $scope.overlays[overlayType], map, show);
+            $('#layer-tab').append(_container);
+            if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                console.log('no slider initialized');
+            } else {
+                initializeLayerSlider('layer-opacity-slider-' + overlayType, overlayType);
+            }
+        };
+
+        var removeLayer = function (overlayType) {
+            if ($('#layer-tab #layer-control-' + overlayType).length > 0) {
+                $('#layer-tab #layer-control-' + overlayType).remove();
+            }
+        };
+
         /**
          * Start with UI
          */
@@ -131,7 +183,7 @@
          // Analysis Tool Control
          $scope.toggleToolControl = function () {
              if ($('#analysis-tool-control i').hasClass('fas fa-times')) {
-                 $('#analysis-tool-control i').removeClass('fas fa-times').addClass('fas fa-chart-pie');
+                 $('#analysis-tool-control i').removeClass('fas fa-times').addClass('fas fa-eye');
                  $scope.showTabContainer = false;
              } else {
                  $('#analysis-tool-control i').removeClass('fas fa-chart-pie').addClass('fas fa-times');
@@ -193,49 +245,6 @@
                 }
             });
         }, 0);
-
-        /**
-         * Slider
-         */
-        // Landcover opacity slider
-        $scope.landcoverOpacity = 1;
-        $scope.showLandcoverOpacitySlider = true;
-        /* slider init */
-        var landcoverSlider = $('#landcover-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.landcoverOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.landcoverOpacity) {
-                $scope.overlays.landcovermap.setOpacity(value);
-            }
-        });
-
-        // Primitive opacity slider
-        $scope.primitiveOpacity = 1;
-        $scope.showPrimitiveOpacitySlider = false;
-        /* slider init */
-        var primitiveSlider = $('#primitive-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.primitiveOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.primitiveOpacity) {
-                $scope.overlays.primitivemap.setOpacity(value);
-            }
-        });
 
         /*
         * Select Options for Variables
@@ -312,6 +321,7 @@
                     showInfoAlert('The map data shows the landcover data for ' + $scope.sliderYear);
                 }, 3500);
                 //$scope.showLegend = true;
+                addLayer(type, true);
             }, function (error) {
                 $scope.showLoader = false;
                 showErrorAlert(error.error);
@@ -396,11 +406,13 @@
         * load administrative area
         **/
         $scope.loadAdminArea = function (name) {
+            removeLayer('polygon');
             MapService.clearDrawing($scope.overlays.polygon);
             MapService.removeGeoJson(map);
             $scope.shape = {};
             $scope.areaName = name;
             MapService.loadGeoJson(map, $scope.areaSelectFrom, name);
+            addLayer('preload', true);
         };
 
         /**
@@ -427,6 +439,7 @@
 
             var overlay = event.overlay;
             $scope.overlays.polygon = overlay;
+            addLayer('polygon', true);
             $scope.shape = {};
 
             var drawingType = event.type;
@@ -590,7 +603,7 @@
             });
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap', version);
-            $scope.getStats(version);
+            //$scope.getStats(version);
             MapService.removeGeoJson(map);
         };
 
@@ -783,16 +796,18 @@
 
             LandCoverService.getPrimitiveMap(parameters)
             .then(function (data) {
+                var type = 'primitivemap';
                 MapService.removeGeoJson(map);
-                MapService.clearLayer(map, 'primitivemap');
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'primitivemap');
-                loadMap('primitivemap', mapType);
+                MapService.clearLayer(map, type);
+                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                loadMap(type, mapType);
                 $timeout(function () {
                     showInfoAlert('Showing ' + getPrimitiveLabel(index) + ' primitive layer for ' + $scope.sliderYear);
                 }, 3500);
                 //$scope.showLegend = true;
                 $scope.showPrimitiveOpacitySlider = true;
                 $scope.primitiveIndex = index;
+                addLayer(type, true);
             }, function (error) {
                 $scope.showLoader = false;
                 showErrorAlert(error.error);
@@ -800,162 +815,75 @@
             });
         };
 
-        // check to see if probability map exists
-        // does not exists for v1 products
-        if ($('#probability-map-container').length > 0) {
-            // Probability Map
-            // Probability opacity slider
-            $scope.probabilityOpacity = 1;
-            $scope.showProbabilityOpacityController = true;
-            /* slider init */
-            var probabilitySlider = $('#probability-opacity-slider').slider({
-                    formatter: function (value) {
-                        return 'Opacity: ' + value;
-                    },
-                    tooltip: 'always'
-                })
-            .on('slideStart', function (event) {
-                $scope.probabilityOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.probabilityOpacity) {
-                    $scope.probabilityOpacity = value;
-                    $scope.overlays.probabilitymap.setOpacity(value);
-                }
-            });
+        $scope.showProbabilityMap = function () {
+            //toggleProbabilityOpacityController();
+            $timeout(function () {
+                var parameters = {
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    type: 'landcover'
+                };
 
-            var toggleProbabilityOpacityController = function () {
-                var checked = $('#probability-map-checkbox').prop('checked');
-                if (checked) {
-                    $scope.showProbabilityOpacityController = true;
-                } else {
-                    $scope.showProbabilityOpacityController = false;
-                }
-            };
+                LandCoverService.getProbabilityMap(parameters)
+                .then(function (data) {
+                    var type = 'probabilitymap';
+                    MapService.removeGeoJson(map);
+                    MapService.clearLayer(map, type);
+                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                    var checked = $('#probability-map-checkbox').prop('checked');
+                    loadMap(type, mapType);
+                    if (checked) {
+                        $timeout(function () {
+                            showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
+                        }, 5500);
+                        $scope.showProbabilityLayer = true;
+                    } else {
+                        $scope.overlays.probabilitymap.setOpacity(0);
+                    }
+                    addLayer(type, false);
+                }, function (error) {
+                    showErrorAlert(error.error);
+                    console.log(error);
+                });
+            }, 1000);
+        };
 
-            $scope.showProbabilityMap = function () {
-                toggleProbabilityOpacityController();
-                $timeout(function () {
-                    var parameters = {
-                        year: $scope.sliderYear,
-                        shape: $scope.shape,
-                        areaSelectFrom: $scope.areaSelectFrom,
-                        areaName: $scope.areaName,
-                        type: 'landcover'
-                    };
+        $scope.showCompositeMap = function () {
+            //$scope.togglecompositeOpacityController();
+            $timeout(function () {
+                var parameters = {
+                    year: $scope.sliderYear,
+                    shape: $scope.shape,
+                    areaSelectFrom: $scope.areaSelectFrom,
+                    areaName: $scope.areaName,
+                    type: 'landcover'
+                };
 
-                    LandCoverService.getProbabilityMap(parameters)
-                    .then(function (data) {
-                        MapService.removeGeoJson(map);
-                        MapService.clearLayer(map, 'probabilitymap');
-                        var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'probabilitymap');
-                        var checked = $('#probability-map-checkbox').prop('checked');
-                        loadMap('probabilitymap', mapType);
-                        if (checked) {
-                            $timeout(function () {
-                                showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
-                            }, 5500);
-                            $scope.showProbabilityLayer = true;
-                        } else {
-                            $scope.overlays.probabilitymap.setOpacity(0);
-                        }
-                    }, function (error) {
-                        showErrorAlert(error.error);
-                        console.log(error);
-                    });
-                }, 1000);
-            };
-
-            $scope.toggleProbabilityMap = function () {
-                var checked = $('#probability-map-checkbox').prop('checked');
-                if (checked) {
-                    $scope.showProbabilityOpacityController = true;
-                    $scope.overlays.probabilitymap.setOpacity($scope.probabilityOpacity);
-                } else {
-                    $scope.showProbabilityOpacityController = false;
-                    $scope.overlays.probabilitymap.setOpacity(0);
-                }
-
-            };
-        }
-
-        // not displaying for v1 and v2
-        if ($('#composite-map-container').length > 0) {
-            $scope.compositeOpacity = 1;
-            $scope.showCompositeOpacityController = true;
-            /* slider init */
-            $scope.compositeSlider = $('#composite-opacity-slider').slider({
-                    formatter: function (value) {
-                        return 'Opacity: ' + value;
-                    },
-                    tooltip: 'none'
-                })
-            .on('slideStart', function (event) {
-                $scope.compositeOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.compositeOpacity) {
-                    $scope.compositeOpacity = value;
-                    $scope.overlays.compositemap.setOpacity(value);
-                }
-            });
-
-            $scope.togglecompositeOpacityController = function () {
-                var checked = $('#composite-map-checkbox').prop('checked');
-                if (checked) {
-                    $scope.showCompositeOpacityController = true;
-                } else {
-                    $scope.showCompositeOpacityController = false;
-                }
-            };
-
-            $scope.showCompositeMap = function () {
-                $scope.togglecompositeOpacityController();
-                $timeout(function () {
-                    var parameters = {
-                        year: $scope.sliderYear,
-                        shape: $scope.shape,
-                        areaSelectFrom: $scope.areaSelectFrom,
-                        areaName: $scope.areaName,
-                        type: 'landcover'
-                    };
-
-                    LandCoverService.getCompositeMap(parameters)
-                    .then(function (data) {
-                        MapService.removeGeoJson(map);
-                        MapService.clearLayer(map, 'compositemap');
-                        var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'compositemap');
-                        var checked = $('#composite-map-checkbox').prop('checked');
-                        loadMap('compositemap', mapType);
-                        if (checked) {
-                            $timeout(function () {
-                                showInfoAlert('Showing Yearly Composite Layer for ' + $scope.sliderYear);
-                            }, 5500);
-                            $scope.showCompositeLayer = true;
-                        } else {
-                            $scope.overlays.compositemap.setOpacity(0);
-                        }
-                    }, function (error) {
-                        showErrorAlert(error.error);
-                        console.log(error);
-                    });
-                }, 2000);
-            };
-
-            $scope.toggleCompositeMap = function () {
-                var checked = $('#composite-map-checkbox').prop('checked');
-                if (checked) {
-                    $scope.showCompositeOpacityController = true;
-                    $scope.overlays.compositemap.setOpacity($scope.compositeOpacity);
-                } else {
-                    $scope.showCompositeOpacityController = false;
-                    $scope.overlays.compositemap.setOpacity(0);
-                }
-
-            };
-        }
+                LandCoverService.getCompositeMap(parameters)
+                .then(function (data) {
+                    var type = 'compositemap';
+                    MapService.removeGeoJson(map);
+                    MapService.clearLayer(map, type);
+                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                    var checked = $('#composite-map-checkbox').prop('checked');
+                    loadMap(type, mapType);
+                    if (checked) {
+                        $timeout(function () {
+                            showInfoAlert('Showing Yearly Composite Layer for ' + $scope.sliderYear);
+                        }, 5500);
+                        $scope.showCompositeLayer = true;
+                    } else {
+                        $scope.overlays.compositemap.setOpacity(0);
+                    }
+                    addLayer(type, false);
+                }, function (error) {
+                    showErrorAlert(error.error);
+                    console.log(error);
+                });
+            }, 2000);
+        };
 
     });
 

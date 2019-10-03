@@ -484,6 +484,7 @@ class ForestMonitor():
                                        tree_canopy_definition = tree_canopy_definition,
                                        tree_height_definition = tree_height_definition,
                                        )
+            image = image.toByte()
         else:
             return {
                 'error': 'invalid type! check your request!'

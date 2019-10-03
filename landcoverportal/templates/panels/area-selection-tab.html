@@ -15,24 +15,24 @@
         <!-- Inner Tab -->
         <div class="tab-pane fade active in" id="draw-tab">
 
-          <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('polygon')">
-            <i class="fas fa-draw-polygon fa-2x" style="color:#379683"></i>
-            <p style="margin: 0 0 0px;">Polygon</p>
-          </button>
-          <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('circle')">
-            <i class="far fa-circle fa-2x" style="color:#379683"></i>
-            <p style="margin: 0 0 0px;">Circle</p>
-          </button>
-          <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('rectangle')">
-            <i class="far fa-square fa-2x" style="color:#379683"></i>
-            <p style="margin: 0 0 0px;">Rectangle</p>
-          </button>
+            <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('polygon')">
+                <i class="fas fa-draw-polygon fa-2x" style="color:#379683"></i>
+                <p style="margin: 0 0 0px;">Polygon</p>
+            </button>
+            <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('circle')">
+                <i class="far fa-circle fa-2x" style="color:#379683"></i>
+                <p style="margin: 0 0 0px;">Circle</p>
+            </button>
+            <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('rectangle')">
+                <i class="far fa-square fa-2x" style="color:#379683"></i>
+                <p style="margin: 0 0 0px;">Rectangle</p>
+            </button>
 
             <label class="btn btn-primary btn-sm btn-block" style="margin-top:10px;" id="file-input-container">
                 <p style="margin: 0 0 0px;"><i class="far fa-folder-open fa-2x" style="color:#fff"></i>  Upload Area</p>
                 <p style="margin: 0 0 0px;">(accepts kml, kmz and geojson)</p>
                 <input type="file" class="hide" id="file-input"
-                        accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
+                       accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
             </label>
         </div>
         <div class="tab-pane fade in" id="admin-tab">
