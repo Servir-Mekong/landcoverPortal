@@ -12,6 +12,7 @@ class ForestMonitor():
     '''
 
     ee.Initialize(settings.EE_CREDENTIALS)
+
     # image collection
     TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
     TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')

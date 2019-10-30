@@ -977,6 +977,10 @@ var settings = {
         {
             'title': 'Annual continuous fields of woody vegetation structure in the Lower Mekong region from 2000‐2017 Landsat time-series',
             'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/peter-et-al.pdf',
+        },
+        {
+            'title': 'Primitives as building blocks for constructing land cover maps',
+            'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/primitive-as-building-block.pdf',
         }
     ]
 };
