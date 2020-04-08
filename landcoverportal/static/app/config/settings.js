@@ -974,14 +974,27 @@ var settings = {
         }
     ],
     publicationLists: [
-        {
-            'title': 'Annual continuous fields of woody vegetation structure in the Lower Mekong region from 2000‐2017 Landsat time-series',
-            'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/peter-et-al.pdf',
-        },
-        {
-            'title': 'Primitives as building blocks for constructing land cover maps',
-            'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/primitive-as-building-block.pdf',
-        }
+      {
+          'title': 'Primitives as building blocks for constructing land cover maps',
+          'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/primitive-as-building-block.pdf',
+      },
+      {
+          'title': 'Land Cover Mapping in Data Scarce Environments: Challenges and Opportunities',
+          'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/Land-Cover-Mapping-in-Data-Scarce-Environments.pdf',
+      },
+      {
+          'title': 'Annual continuous fields of woody vegetation structure in the Lower Mekong region from 2000‐2017 Landsat time-series',
+          'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/peter-et-al.pdf',
+      },
+      {
+          'title': 'Linking Earth Observations for Assessing the Food Security Situation in Vietnam: A Landscape Approach',
+          'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/Linkin- Earth-Observations-for-Assessing-the-Food-Security-Situation-in-Vietnam.pdf',
+      },
+      {
+          'title': 'Collect Earth: An online tool for systematic reference data collection in landcover and use applications',
+          'url': '/static/vendor/viewerjs/ViewerJS/index.html#../../../publications/An-online-tool-for-systematic-reference-data-collection.pdf',
+      },
+
     ]
 };
 
