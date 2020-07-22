@@ -1,0 +1,249 @@
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head%}
+    <title>RLCMS | Services</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="branding" class="image">
+      <div class="overlay">
+        <div class="">
+          <h2 class="animated fadeInDown">Map and Services</h2>
+        </div>
+      </div>
+
+    </section><!-- End Hero -->
+
+    <main id="main">
+      <section id="" class="portfolio">
+      <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+              <ul id="portfolio-flters">
+                <li data-filter="*" class="filter-active">Show All</li>
+                <li data-filter=".filter-landcover">Land Cover</li>
+                <li data-filter=".filter-forest">Forest</li>
+                <li data-filter=".filter-dashboard">Dashboard</li>
+                <li data-filter=".filter-tools">Tools</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row portfolio-container">
+            <div class="col-lg-12 col-md-6 portfolio-item filter-landcover">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/services/bkk-lc.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="/landcover/" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Regional Land Cover Monitoring System</h2>
+                    <p>The regional land cover monitoring system provides a series of annual land cover maps with a multi-purpose typology for the period of 2000-2016 which includes:
+                    Highly accurate, high quality regional land cover maps at a 30-meter resolution designed to serve explicit user-defined objectives.
+                    Highly consistent maps over time, by using consistent regional classification scheme which harmonizes with land cover typologies from five Lower Mekong countries (22 land cover categories, which was identified through the regional consultative meeting).
+                    Frequently updated (annual or bi annually) maps which leverage advantages of various open available remote sensing data sources.
+                    The purpose of this system is to facilitate the production of custom, high-quality land cover information products to serve a variety of policy, planning, management, and reporting needs of regional and national institutions in the Lower Mekong Region. The system leverages the power of Google Earth Engine and relies in most cases on field observations and the interpretation of high resolution imagery by stakeholders relevant to a given project.
+                    Once the system has been customized to deliver a given product or set of products, these can be updated regularly in a structured manner to serve ongoing monitoring needs.</p>
+                    <div>
+                      <a href="https://github.com/Servir-Mekong/landcoverPortal" class="btn-rounded-sm">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-forest">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/services/forest.jpg" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="/forest-monitor/" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Forest Monitoring</h2>
+                    <p>The forest monitoring system is product of collaboration between SERVIR-Mekong and the Global Land Analysis and Discovery Lab (GLAD) from University of Maryland.
+The tool allows users to view and download annual tree canopy cover percentage, annual tree height, ability to access annual forest extent by customizing country’s forest definition. Users can also perform calculations of forest dynamic which includes forest gain and loss by customizing forest definition and the change period.</p>
+                    <div>
+                      <a href="https://github.com/Servir-Mekong/landcoverPortal" class="btn-rounded-sm">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-landcover">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/myanmar-national-portal.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="/myanmar-national-portal/" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Myanmar National Land Cover Partal</h2>
+                    <p>SERVIR-Mekong and partners are collaborating and supporting the Forest Department of Myanmar to improve the forest monitoring system of Myanmar, which contributes for Myanmar National Forest Resources Assessment (FRA) to FAO.
+The RLCMS is customized to meet the forest types definition in Myanmar. The product of this application are forest maps with forest categories and sub categories. Forest map products are from 2000 to 2016. The uncertainty and accuracy data assessment is integrated in the assemblage and map results.</p>
+                    <div>
+                      <a href="https://github.com/Servir-Mekong/landcoverPortal" class="btn-rounded-sm">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-landcover">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/myanmar-ipcc.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="/myanmar-ipcc/" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Myanmar National IPCC</h2>
+                    <p>SERVIR-Mekong and partners are collaborating and supporting the Forest Department of Myanmar to improve the land cover monitoring system which contributes for greenhouse gas emission inventory, climate change monitoring and reporting to the United Nations Climate Change (UNFCCC) by the government of Myanmar.
+This customized product is a robust and sustainable national land cover monitoring system which can produce accurate LULC baseline datasets, and be updated annually for Myanmar's contribution to UNFCCC report.
+Products of this application are annual land cover maps with 6 IPCC typologies classes (includes: Forest land, cropland, grassland, wetland) from 2000 to 2016. Activity data of 6 land cover categories will also be calculated in this application at different administrative levels.</p>
+                    <div>
+                      <a href="https://github.com/Servir-Mekong/landcoverPortal" class="btn-rounded-sm">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-landcover">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/plantation-mapping.jpg" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="/myanmar-plantation/" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Myanmar Plantation Mapping</h2>
+                    <p>The Dawna Tenasserim Landscape covers Kayin and Mon States, and Tanintharyi Region in Myanmar. The area harbours one of the last large intact forest landscapes in the region, which hosts a large number of ethnic groups, and a wide variety of endangered wildlife such as elephants and tigers. The region is experiencing numerous threats including rapid increase in agricultural land use and associated deforestation, notably for rubber and palm oil, road and infrastructure development, and logging resulting in habitat degradation and fragmentation. The Dawna Tenasserim plantation portal shows areas with cropland, rubber, palmoil for 2017 and 2018.
+Remote Sens. 2019, 11(7), 831; https://doi.org/10.3390/rs11070831</p>
+                    <div>
+                      <a href="https://github.com/Servir-Mekong/landcoverPortal" class="btn-rounded-sm">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-lg-12 col-md-6 portfolio-item filter-forest">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/services/forest-alert.jpg" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="#" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Cambodia Forest Alert</h2>
+                    <p></p>
+                    <div>
+                      <a href="#" class="btn-rounded-sm">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-dashboard">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/services/statistical-tool.jpg" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="#" class="btn-rounded">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Statistical Analysis</h2>
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-tools">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/partners/ceo.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="http://www.collect.earth/" class="btn-rounded" target="_blank">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>Collect Earth Online</h2>
+                    <p>Collect Earth Online is a custom built, open-source, high resolution satellite image viewing and interpretation system that is being developed by SERVIR-Mekong as a tool for use in projects that require land cover and/or land use reference data. Collect Earth Online promotes consistency in locating, interpreting, and labeling reference data plots for use in classifying and monitoring land cover / land use change. The full functionality of Collect Earth Online including collaborative compilation of reference point databases is implemented online so there is no need for desktop installation.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 portfolio-item filter-tools">
+              <div class="row">
+                <div class="col-lg-4 col-md-6 padding-15">
+                  <div class="margin-10">
+                    <img src="/static/images/partners/SEPAL_logo3.png" class="img-fluid" alt="">
+                  </div>
+                  <div class="text-center">
+                    <a href="https://sepal.io/" class="btn-rounded" target="_blank">BROWSE APPLICATION</a>
+                  </div>
+                </div>
+                <div class="col-lg-8 col-md-6 padding-15">
+                  <div class="services-detail animated fadeInUp">
+                    <h2>SEPAL</h2>
+                    <p>SEPAL allows users to query and process satellite data quickly and efficiently, tailor their products for local needs, and produce sophisticated and relevant geospatial analyses quickly.
+Harnessing cloud-based supercomputers and modern geospatial data infrastructures (e.g. Google Earth Engine), SEPAL enables access and processing of historical satellite data as well as newer data from Landsat and higher-resolution data from Europe's Copernicus programme.</p>
+                    <div>
+                      <a href="https://github.com/openforis/sepal/wiki" class="btn-rounded-sm" target="_blank">GitHub</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+      </div>
+    </section><!-- End Services -->
+
+
+
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>

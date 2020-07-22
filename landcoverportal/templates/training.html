@@ -1,0 +1,160 @@
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head%}
+    <title>RLCMS | Training</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="branding" class="image">
+      <div class="overlay">
+        <div class="">
+          <h2 class="animated fadeInDown">Training</h2>
+        </div>
+      </div>
+
+    </section><!-- End Hero -->
+
+    <main id="main">
+      <div class="container" ng-controller="trainingController">
+        <div class="col-lg-12">
+          <div class="row margin-top">
+            <div class="col-lg-12 col-md-6">
+              <div class="training-title">
+                <h1>Events and Capacity Trainings</h1>
+              </div>
+            </div>
+
+
+            <div class="col-lg-9 col-md-6" id="">
+
+              <div class="training-container">
+
+                <div class="col-lg-12 col-md-6 training-item filter-[[ training.Country ]] filter-[[ training.EventType ]] filter-[[ training.Year ]] filter-[[ training.Topic ]]" ng-repeat="training in trainingList">
+                  <div class="row training-list">
+                    <div class="col-lg-2 col-md-6 padding-15">
+                      <div class="margin-10">
+                        <div class="training-content-month">
+                          [[training.Month]]
+                        </div>
+                        <div class="training-content-year">
+                          [[training.Year]]
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-10 col-md-6 padding-15">
+                      <div class="training-content animated fadeInUp">
+                        <a href="/training-detail/?tid=[[training.id]]" target="_blank">[[training.Title]]</a>
+                        <p>Topic: [[training.Topic]]</p>
+                        <p>Start: [[training.DateStart]]     End: [[training.DateFinish]]</p>
+                        <p>Location: [[training.Venue]], [[training.Country]]</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+              <div class="training-filter-box">
+                <div class="training-filter-title">
+                  Filter by
+                </div>
+
+                <div id="options">
+                  <div class="training-filter-by option-set" data-group="EventType">
+                    <p>Type of Event</p>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Training" id="filter-Training" /><label for="filter-Training">Training</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Workshop" id="filter-Workshop" /><label for="filter-Workshop">Workshop</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="training-filter-by option-set" data-group="Topic">
+                    <p>Topic</p>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-6">
+                        <input type="checkbox" value=".filter-GIS" id="filter-GIS" /><label for="filter-GIS">GIS</label>
+                      </div>
+                      <div class="col-lg-12 col-md-6">
+                        <input type="checkbox" value=".filter-RS" id="filter-RS" /><label for="filter-RS">Remote Sensing</label>
+                      </div>
+                      <div class="col-lg-12 col-md-6">
+                        <input type="checkbox" value=".filter-LULC" id="filter-LULC" /><label for="filter-LULC">Land Use and Land Cover</label>
+                      </div>
+                      <div class="col-lg-12 col-md-6">
+                        <input type="checkbox" value=".filter-GEE" id="filter-GEE" /><label for="filter-GEE">Google Earth Engine</label>
+                      </div>
+                      <div class="col-lg-12 col-md-6">
+                        <input type="checkbox" value=".filter-RLCMS" id="filter-RLCMS" /><label for="filter-RLCMS">RLCMS</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="training-filter-by option-set" data-group="Country">
+                    <p>Country</p>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Thailand" id="filter-Thailand" /><label for="filter-Thailand">Thailand</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Cambodia" id="filter-Cambodia" /><label for="filter-Cambodia">Cambodia</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Laos" id="filter-Laos" /><label for="filter-Laos">Laos</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Myanmar" id="filter-Myanmar" /><label for="filter-Myanmar">Myanmar</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-Vietnam" id="filter-Vietnam" /><label for="filter-Vietnam">Viet Nam</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="training-filter-by option-set" data-group="Year">
+                    <p>Year</p>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-2015" id="filter-2015" /><label for="filter-2015">2015</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-2016" id="filter-2016" /><label for="filter-2016">2016</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-2017" id="filter-2017" /><label for="filter-2017">2017</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-2018" id="filter-2018" /><label for="filter-2018">2018</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-2019" id="filter-2019" /><label for="filter-2015">2019</label>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                        <input type="checkbox" value=".filter-2020" id="filter-2020" /><label for="filter-2020">2020</label>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>

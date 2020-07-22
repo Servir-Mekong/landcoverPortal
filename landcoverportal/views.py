@@ -4,7 +4,7 @@ import httplib2
 import json
 
 from django.conf import settings
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
@@ -62,3 +62,80 @@ def service_applications(request):
 
 def publications(request):
     return render(request, 'publications.html', {})
+
+def about(request):
+    return render(request, 'about.html', {})
+
+def services(request):
+    return render(request, "services.html")
+
+def method(request):
+    return render(request, "method.html")
+
+def library(request):
+    return render(request, "library.html")
+
+def publication(request):
+    return render(request, "publication.html")
+
+def event(request):
+    return render(request, "events.html")
+
+def training(request):
+    return render(request, "training.html")
+
+def blog(request):
+    return render(request, "blog.html")
+
+def dashboard(request):
+    return render(request, "dashboard.html")
+
+def GETBlog(request):
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials/privatekey.json', scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('RLCMS-blog').sheet1
+    telemedicine = sheet.get_all_records()
+    your_list_as_json = json.dumps(telemedicine)
+    return HttpResponse(your_list_as_json)
+
+def GETEvents(request):
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials/privatekey.json', scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('RLCMS-events').sheet1
+    res_list = sheet.get_all_records()
+    res_list = sorted(res_list, key=lambda x: int(x['Order']), reverse=True)
+    list_as_json = json.dumps(res_list)
+    return HttpResponse(list_as_json)
+
+def GETTensorContent(request):
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials/privatekey.json', scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('RLCMS-tensorflow').sheet1
+    res_list = sheet.get_all_records()
+    # res_list = sorted(res_list, key=lambda x: int(x['Order']), reverse=True)
+    list_as_json = json.dumps(res_list)
+    return HttpResponse(list_as_json)
+
+def GETTrainingContent(request):
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('credentials/privatekey.json', scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('RLCMS-training').sheet1
+    res_list = sheet.get_all_records()
+    # res_list = sorted(res_list, key=lambda x: int(x['Order']), reverse=True)
+    list_as_json = json.dumps(res_list)
+    return HttpResponse(list_as_json)
+
+def training_detail(request):
+    return render(request, "training-detail.html")

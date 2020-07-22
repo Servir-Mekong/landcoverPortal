@@ -4,6 +4,7 @@
     angular.module('landcoverportal')
         .controller('utilsController', function ($rootScope, $scope, appSettings) {
 
+
             $scope.menus = appSettings.menus;
             $scope.application = appSettings.application;
             $scope.footerLinks = appSettings.footerLinks;

@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head%}
+    <title>RLCMS | Dashboard</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="branding" class="image">
+      <div class="overlay">
+        <div class="">
+          <h2 class="animated fadeInDown">Statistical Analysis</h2>
+        </div>
+      </div>
+
+    </section><!-- End Hero -->
+
+    <main id="main">
+      <div class="container"  ng-controller="DashboardController">
+        <div class="row">
+          <div class="col-lg-12 col-md-6 padding-20">
+            <div class="dashboard-box">
+              <h2>LAND COVER STATISTICS</h2>
+              <div id="income" width="600" height="800"></div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="dashboard-box">
+              <h2>PRIMARY FOREST</h2>
+            </div>
+
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="dashboard-box">
+              <h2>TREE CANOPY COVER</h2>
+            </div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>

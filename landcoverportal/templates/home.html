@@ -1,66 +1,342 @@
-{% extends "layout.html" %}
-{% block title %}Regional Land Cover Portal{% endblock %}
-{% load staticfiles %}
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head %}
+    <title>RLCMS | Home</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="hero">
+      <div class="hero-container">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 
-{% block navigation_container%}
-	{% include "navigation.html" %}
-{% endblock navigation_container %}
+          <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
 
-{% block main_container %}
+          <div class="carousel-inner" role="listbox">
 
-	<div class="container-fluid">
+            <!-- Slide 1 -->
+            <div class="carousel-item active" style="background-image: url('/static/images/slide/slide-1.jpg');">
+              <div class="carousel-container">
+                <div class="carousel-content container">
+                  <h2 class="animated fadeInDown">Welcome to <span>RLCMS</span></h2>
+                  <p class="animated fadeInUp">Utilizes satellite technology to produce high-quality regional land cover maps and additional land cover information, for each year from 2000 to present, at 30 meters resolution that is needed for regional applications and decision-making contexts.</p>
+                  <a href="/about" class="btn-get-started animated fadeInUp scrollto">Read More</a>
+                </div>
+              </div>
+            </div>
 
-	    <!--<div class="row">
-			<div class="col-md-12 video-container">
-				<iframe id="ytplayer" type="text/html" src="https://www.youtube.com/embed/W0LHTWG-UmQ?controls=0&showinfo=0&rel=0&autoplay=1&loop=1&controls=0&modestbranding=1&playlist=W0LHTWG-UmQ&enablejsapi=1&mute=1"
-						frameborder="0" allowfullscreen>1
-				</iframe>
-			</div>
-	    </div>-->
+            <!-- Slide 2 -->
+            <div class="carousel-item" style="background-image: url('/static/images/slide/slide-2.jpg');">
+              <div class="carousel-container">
+                <div class="carousel-content container">
+                  <h2 class="animated fadeInDown">Land Cover</h2>
+                  <p class="animated fadeInUp">High quality regional land cover maps at a 30-meter resolution designed to meet explicit user-defined objectives in the Mekong region. </p>
+                  <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
+                </div>
+              </div>
+            </div>
 
-		<div class="row main-padding" id="about" style="padding-top: 25px; margin-bottom: 40px;">
-			<div class="col-md-12">
+            <!-- Slide 3 -->
+            <div class="carousel-item" style="background-image: url('/static/images/slide/slide-3.jpg');">
+              <div class="carousel-container">
+                <div class="carousel-content container">
+                  <h2 class="animated fadeInDown">Forest Monitoring</h2>
+                  <p class="animated fadeInUp">Annually updated maps which leverage the advantages of various open-source remote sensing data.</p>
+                  <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
+                </div>
+              </div>
+            </div>
 
-			    <div class="panel panel-primary">
-			        <div class="panel-body">
-			        	<h1><b>About</b></h1>
-			        	<h4 class="text-justify">
-			        		Monitoring land cover and land use change is important for land resource planning and for ecosystem services including biodiversity conservation and resilience to climate change. However, data updates are infrequent and classification systems do not always serve key user groups. At the regional level, the only maps currently available are those extracted from global land cover maps, which lack some of the typological resolution (i.e., there are too few land cover classes or the classes are not the most appropriate for the region) needed for many regional applications and decision-making contexts.
-			        	</h4>
-			        	<h1><b>Purpose</b></h1>
-			        	<h4 class="text-justify">
-			        		The purpose of this system is to produce high-quality regional land cover maps and identify land cover changes in the Lower Mekong, leveraging the power of Google Earth Engine plus field research by stakeholders throughout the region, to meet the decision-making needs of the regions’ countries and agencies on a regular basis. Specifically, the objectives are:
-			        		<br />
-			        		<ul>
-			        			<li>
-			        				Develop a unified regional (satellite-based) land cover monitoring system;
-			        			</li>
-			        			<li>
-			        				Produce regular land cover maps of the Lower Mekong countries for each of the years 2000 to present at the spatial resolution needed for regional applications and decision-making; and
-			        			</li>
-			        			<li>
-			        				Provide an analysis tool that can easily be used for different time series.
-			        			</li>
-			        		</ul>
-			        	</h4>
-			        	<h1><b>Uses</b></h1>
-			        	<h4 class="text-justify">
-			        		This system will inform policies and planning as well as decision-making by a wide range of users. For example, the product will inform analysis and policy on changes in forest cover and associated Greenhouse Gas emissions.
-			        	</h4>
-			        </div>
-			    </div>
+            <!-- Slide 4 -->
+            <div class="carousel-item" style="background-image: url('/static/images/slide/slide-4.jpg');">
+              <div class="carousel-container">
+                <div class="carousel-content container">
+                  <h2 class="animated fadeInDown">Myanmar Portal</h2>
+                  <p class="animated fadeInUp">Myanmar’s remaining intact forest landscapes are under threat of rapid increase in agricultural land use and associated deforestation due to rubber, palm oil, road and infrastructure development and logging.</p>
+                  <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
+                </div>
+              </div>
+            </div>
 
-			</div>
-		</div>
+            <!-- Slide 5 -->
+            <!-- <div class="carousel-item" style="background-image: url('/static/images/slide/slide-5.jpg');">
+              <div class="carousel-container">
+                <div class="carousel-content container">
+                  <h2 class="animated fadeInDown">Cambodia Forest Alert</h2>
+                  <p class="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                  <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
+                </div>
+              </div>
+            </div> -->
+          </div>
 
-	</div>
+          <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon icofont-rounded-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon icofont-rounded-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
 
-	<!--<div class="arrow bounce">
-		<a class="glyphicon glyphicon-circle-arrow-down scroll-down" href="#" aria-hidden="true"></a>
-	</div>-->
+        </div>
+      </div>
+    </section><!-- End Hero -->
 
-{% endblock main_container %}
+    <main id="main">
 
-{% block footer_container %}
-    {% include "footer.html" %}
-{% endblock footer_container %}
+      <!-- ======= Event Section ======= -->
+      <section class="counts section-bg">
+        <div class="container" ng-controller="EventsController">
+          <div class="section-title">
+            <h2>Latest Events</h2>
+          </div>
+          <div class="row justify-content-center">
+
+            <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" ng-repeat="event in EventListHome">
+              <div class="count-box">
+                <img src="[[event.FeaturedImage]]" alt="" style="width:100%;">
+                <span>[[event.Title]]</span>
+                <p>[[event.Date]]</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="text-center">
+            <a class="btn-rounded" href="/library/events">SEE MORE EVENTS</a>
+          </div>
+        </div>
+      </section>
+      <!-- ======= End Event Section ======= -->
+
+      <!-- ======= Info Section ======= -->
+
+      <section class="method-lists">
+        <div class="container">
+          <div class="row no-gutters">
+            <div class="">
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up">
+              <div class="highlight-icon">
+                <img src="/static/images/icons/Free-easily.png" alt="">
+              </div>
+              <h4>Free, easily accessible</h4>
+              <p>Open source data and is fully customizable to meet user-tailored needs.</p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100">
+              <div class="highlight-icon">
+                <img src="/static/images/icons/Collaboratively.png" alt="">
+              </div>
+              <h4>Collaboratively</h4>
+              <p>Collaborative development enables flexible and consistent land cover classifications.</p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200">
+              <div class="highlight-icon">
+                <img src="/static/images/icons/Annually.png" alt="">
+              </div>
+              <h4>Annually</h4>
+              <p>Information annually frequently updated with high accuracy.</p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300">
+              <div class="highlight-icon">
+                <img src="/static/images/icons/Artificial-intelligence.png" alt="">
+              </div>
+              <h4>Artificial Intelligence</h4>
+              <p>Newest methodologies in the field of Machine Learning and Artificial Intelligence.</p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="400">
+              <div class="highlight-icon">
+                <img src="/static/images/icons/Cloud-technologies.png" alt="">
+              </div>
+              <h4>Cloud Technologies</h4>
+              <p>Use of the latest cloud computing technologies,  leveraging the power of Google Earth Engine cloud-based platform.</p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="500">
+              <div class="highlight-icon">
+                <img src="/static/images/icons/Well-document.png" alt="">
+              </div>
+              <h4>Well-documented methodology</h4>
+              <p>Which includes quality control and assurance, that has been assessed and approved by a rigorous scientific peer review process.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!-- ======= End Info Section ======= -->
+
+      <!-- ======= About Us Section ======= -->
+      <section id="about" class="about portfolio">
+        <div class="container">
+
+          <div class="row no-gutters">
+            <div class="col-lg-6" style="padding:20px;">
+              <div class="row portfolio-container">
+                <div class="col-lg-6 col-md-6 portfolio-item">
+                  <div class="portfolio-wrap">
+                    <img src="/static/images/services-cat/bkk-lc.png" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                      <h4>Mekong Land Cover</h4>
+                      <div class="portfolio-links">
+                        <a href="/static/images/services-cat/bkk-lc.png" data-gall="portfolioGallery" class="venobox" title="Mekong Land Cover"><i class="icofont-eye"></i></a>
+                        <a href="/landcover/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 portfolio-item">
+                  <div class="portfolio-wrap">
+                    <img src="/static/images/services-cat/forest.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                      <h4>Forest Monitoring</h4>
+                      <div class="portfolio-links">
+                        <a href="/static/images/services-cat/forest.jpg" data-gall="portfolioGallery" class="venobox" title="Forest Monitoring"><i class="icofont-eye"></i></a>
+                        <a href="/forest-monitor/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 portfolio-item">
+                  <div class="portfolio-wrap">
+                    <img src="/static/images/services-cat/mmr-1.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                      <h4>Myanmar National Land Cover Partal</h4>
+                      <div class="portfolio-links">
+                        <a href="/static/images/services-cat/mmr-1.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National Land Cover Partal"><i class="icofont-eye"></i></a>
+                        <a href="/myanmar-national-portal/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 portfolio-item">
+                  <div class="portfolio-wrap">
+                    <img src="/static/images/services-cat/mmr-2.jpg" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                      <h4>Myanmar National IPCC</h4>
+                      <div class="portfolio-links">
+                        <a href="/static/images/services-cat/mmr-2.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National IPCC"><i class="icofont-eye"></i></a>
+                        <a href="/myanmar-ipcc/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+            <div class="col-lg-6 d-flex flex-column justify-content-center about-content">
+              <div class="section-title">
+                <h2>SERVICE CATALOGUE</h2>
+                <p>To facilitate the  the production of custom, high-quality land cover information products to serve a variety of policy, planning, management, and reporting needs of regional and national institutions in the Lower Mekong Region. Once the system has been customized to produce a given product or set of products, these can be updated regularly in a structured way to serve ongoing monitoring needs.</p>
+              </div>
+              <div class="text-center">
+                <a href="/services" class="btn-rounded">SEE MORE OUR SERVICES</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section><!-- End About Us Section -->
+
+
+      <!-- ======= About Lists Section ======= -->
+      <section class="about-lists">
+        <div class="container">
+
+          <div class="row no-gutters">
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" style="background-image: url(/static/images/imagegrid/method.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;">
+              <div class="overlay">
+                <a href="/method">METHOD</a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100" style="background-image: url(/static/images/slide/slide-2.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;">
+              <div class="overlay">
+                <a href="/dashboard">DASHBOARD</a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200" style="background-image: url(/static/images/imagegrid/publication.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;">
+              <div class="overlay">
+                <a href="/library/publication">PUBLICATION</a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300" style="background-image: url(/static/images/imagegrid/blog.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;">
+              <div class="overlay">
+                <a href="/blog">BLOG</a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="400" style="background-image: url(/static/images/imagegrid/training.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;">
+              <div class="overlay">
+                <a href="/training">TRAINING</a>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="500" style="background-image: url(/static/images/imagegrid/library.jpg); background-position: center; background-repeat: no-repeat; background-size: cover;">
+              <div class="overlay">
+                <a href="/library/code">LIBRARY</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section><!-- End About Lists Section -->
+
+      <!-- ======= Services Section ======= -->
+      <section id="services" class="services">
+        <div class="container">
+
+          <div class="section-title">
+            <h2>Our Partners</h2>
+          </div>
+
+          <div class="row justify-content-md-center">
+            <div class="col-lg-3 col-md-6 icon-box" data-aos="fade-up">
+              <img src="/static/images/partners/usaid.png" alt="" style="width:auto; height:70px;">
+            </div>
+            <div class="col-lg-2 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+              <img src="/static/images/partners/nasa.png" alt="" style="width:auto; height:70px;">
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+              <img src="/static/images/partners/servir-mekong.png" alt="" style="width:auto; height:50px;">
+            </div>
+          </div>
+          <div class="row justify-content-md-center">
+            <div class="col-lg-2 col-md-6 icon-box" data-aos="fade-up">
+              <img src="/static/images/partners/adpc.png" alt="" style="width:auto; height:50px;">
+            </div>
+            <div class="col-lg-3 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+              <img src="/static/images/partners/sig.png" alt="" style="width:auto; height:50px;">
+            </div>
+            <div class="col-lg-2 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+              <img src="/static/images/partners/sei.png" alt="" style="width:auto; height:60px;">
+            </div>
+            <div class="col-lg-2 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+              <img src="/static/images/partners/deltares.png" alt="" style="width:auto; height:70px;">
+            </div>
+            </div>
+
+          </div>
+
+      </section><!-- End Services Section -->
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>

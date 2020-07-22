@@ -484,6 +484,120 @@ var settings = {
             'caret': false
         }
     ],
+
+    landCoverClassesV4: [
+        {
+            'name': 'Unknown',
+            'value': '0',
+            'color': '#dc0f0f',
+            'caret': false
+        },
+        {
+            'name': 'Surface Water',
+            'value': '1',
+            'color': '#518db4',
+            'caret': false
+        },
+        {
+            'name': 'Snow and Ice',
+            'value': '2',
+            'color': '#abe6ff',
+            'caret': false
+        },
+        {
+            'name': 'Mangroves',
+            'value': '3',
+            'color': '#325553',
+            'caret': false
+        },
+        {
+            'name': 'Flooded Forest',
+            'value': '4',
+            'color': '#61adbe',
+            'caret': false
+        },
+        {
+            'name': 'Forest',
+            'value': '5',
+            'color': '#21884f',
+            'caret': true
+        },
+        {
+            'name': 'Orchard or Plantation Forest',
+            'value': '6',
+            'color': '#58b368',
+            'caret': false
+        },
+        {
+            'name': 'Evergreen Broadleaf',
+            'value': '7',
+            'color': '#164412',
+            'nestedUnder': '5',
+            'caret': false
+        },
+        {
+            'name': 'Mixed Forest',
+            'value': '8',
+            'color': '#33772b',
+            'nestedUnder': '5',
+            'caret': false
+        },
+        {
+            'name': 'Urban and Built Up',
+            'value': '9',
+            'color': '#f57873',
+            'caret': false
+        },
+        {
+            'name': 'Cropland',
+            'value': '10',
+            'color': '#a8da81',
+            'caret': false
+        },
+        {
+            'name': 'Rice',
+            'value': '11',
+            'color': '#fdf17e',
+            'caret': false
+        },
+        {
+            'name': 'Mining',
+            'value': '12',
+            'color': '#ff7f00',
+            'caret': false
+        },
+        {
+            'name': 'Barren',
+            'value': '13',
+            'color': '#fdbf6f',
+            'caret': false
+        },
+        {
+            'name': 'Wetlands',
+            'value': '14',
+            'color': '#d8f4ff',
+            'caret': false
+        },
+        {
+            'name': 'Grassland',
+            'value': '15',
+            'color': '#b2df8a',
+            'caret': false
+        },
+        {
+            'name': 'Shrubland',
+            'value': '16',
+            'color': '#b0cf30',
+            'caret': false
+        },
+        {
+            'name': 'Aquaculture',
+            'value': '17',
+            'color': '#3167a1',
+            'caret': false
+        }
+    ],
+
     primitiveClassesV1: [
         {
             'name': 'Barren',

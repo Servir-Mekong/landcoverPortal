@@ -1,1 +1,1 @@
-# land-cover-portal
+# RLCMS

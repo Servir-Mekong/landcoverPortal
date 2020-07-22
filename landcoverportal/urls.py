@@ -18,7 +18,7 @@ from myanmar_national import api as myanmar_national_api
 from myanmar_ipcc import api as myanmar_ipcc_api
 from myanmar_fra import api as myanmar_fra_api
 from myanmar_plantation import api as myanmar_plantation_api
-from .views import store_auth_code, home, service_applications, publications
+from .views import store_auth_code, home, about, services, method, library, event, publication, blog, dashboard, GETBlog, GETEvents, GETTensorContent, training, service_applications, publications, GETTrainingContent, training_detail
 
 admin.autodiscover()
 
@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^api/myanmar-fra/$', myanmar_fra_api.api),
     url(r'^api/myanmar-plantation/$', myanmar_plantation_api.api),
     url(r'^storeauthcode/$', store_auth_code),
+    url(r'training-detail/$', training_detail),
 ]
 
 #urlpatterns += i18n_patterns(
@@ -44,12 +45,26 @@ urlpatterns += i18n_patterns(
     #url(r'^home/', TemplateView.as_view(template_name="home.html")),
     url(r'^$', home),
     url(r'^home/', home),
+    url(r'^about/', about),
+    url(r'^method/', method),
+    url(r'^library/code', library),
+    url(r'^library/events', event),
+    url(r'^library/publication', publication),
+    url(r'^blog/', blog),
+    url(r'^training/', training),
+    url(r'^dashboard/', dashboard),
+    url(r'^services/', services),
     url(r'^service-applications/', service_applications),
     url(r'^publications/', publications),
-    url(r'^method/', TemplateView.as_view(template_name="method.html")),
+    url(r'^api/blog/', GETBlog),
+    url(r'^api/events/', GETEvents),
+    url(r'^api/tf-content/', GETTensorContent),
+    url(r'^api/training/', GETTrainingContent),
+
+    # url(r'^method/', TemplateView.as_view(template_name="method.html")),
     url(r'^privacy-policy/', TemplateView.as_view(template_name="privacy-policy.html")),
-    #url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
-    #url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
+    url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
+    url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
     url(r'^', include('forest_monitor.urls')),
     url(r'^', include('landcover_viewer.urls')),
     url(r'^', include('myanmar_national.urls')),

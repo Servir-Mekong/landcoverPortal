@@ -1,0 +1,278 @@
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head%}
+    <title>RLCMS | Library</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="branding" class="image">
+      <div class="overlay">
+        <div class="">
+          <h2 class="animated fadeInDown">Library</h2>
+        </div>
+      </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+      <div class="container">
+        <div class="col-lg-12">
+          <div class="row margin-top">
+            <div class="col-lg-3 col-md-6">
+              <ul id="library-nav">
+                <li class="active" id="li-code">Code Repository</li>
+                <li id="li-publication">Publication</li>
+                <li id="li-events">Events</li>
+              </ul>
+            </div>
+            <div class="col-lg-9 col-md-6" id="code-repository">
+
+
+
+              <div class="code-repository" ng-controller="TensorFlowController">
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+                  <!-- Accordion card -->
+                  <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading-gee">
+                      <a data-toggle="collapse" data-parent="#accordionEx" href="#collapse-gee" aria-expanded="true"
+                        aria-controls="collapseOne1">
+                        <h5 class="mb-0">
+                          Google Earth Engine <i class="fas fa-angle-down rotate-icon"></i>
+                        </h5>
+                      </a>
+                    </div>
+                    <!-- Card body -->
+                    <div id="collapse-gee" class="collapse show" role="tabpanel" aria-labelledby="heading-gee" data-parent="#accordionEx">
+                      <div class="card-body">
+                        <span><i>(Requires Earth Engine Authentication)</i></span>
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6">
+                            <img src="/static/images/gee-wheel.png" alt="" style="width:15%">
+                            <a style="border-radius: 50px; padding: 5px;color: #3c80f3;font-size: 14px; border: 1px solid #3c80f3;" href="https://signup.earthengine.google.com/">Sign Up</a>
+                          </div>
+                        </div>
+                        <div class="row margin-top">
+                          <div class="col-lg-12 col-md-6">
+                            <h2>Land Cover Mapping Google Earth Engine Scripts</h2>
+                            <p>A large number of indices were calculated from surface reflectance composites. These were combined with training data in the machine learning algorithm. The machine learning algorithm produced primitives which are probability maps for each land use category.  An assemblage script was used to create land cover maps. The accuracy assessment was done with validation data.</p>
+                          </div>
+                          <div class="col-lg-12 col-md-6">
+                            <a style="border-radius: 50px; padding: 5px;color: #3c80f3;font-size: 14px; border: 1px solid #3c80f3;" href="/method">Read More</a>
+                          </div>
+                          <br>
+                          <br>
+
+                          <div class="col-lg-6 col-md-6">
+                            <div class="row library-code-items">
+                              <div class="col-lg-3 col-md-6">
+                                <div class="library-code-number">
+                                  <h1>1</h1>
+                                </div>
+                              </div>
+                              <div class="col-lg-9 col-md-6 library-code-text">
+                                <a href="https://code.earthengine.google.com/c617b1c7394552756ad56879be27fde9">The module to calculate covariates</a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6">
+                            <div class="row library-code-items">
+                              <div class="col-lg-3 col-md-6">
+                                <div class="library-code-number">
+                                  <h1>2</h1>
+                                </div>
+                              </div>
+                              <div class="col-lg-9 col-md-6 library-code-text">
+                                <a href="https://code.earthengine.google.com/6ecbf3d394e0b3a5bf8516f0a37d447e">Random Forest Classifier</a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6">
+                            <div class="row library-code-items">
+                              <div class="col-lg-3 col-md-6">
+                                <div class="library-code-number">
+                                  <h1>3</h1>
+                                </div>
+                              </div>
+                              <div class="col-lg-9 col-md-6 library-code-text">
+                                <a href="https://code.earthengine.google.com/1cfd284b113d00d1868c2583b6a532a6">Decision Tree</a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6">
+                            <div class="row library-code-items">
+                              <div class="col-lg-3 col-md-6">
+                                <div class="library-code-number">
+                                  <h1>4</h1>
+                                </div>
+                              </div>
+                              <div class="col-lg-9 col-md-6 library-code-text">
+                                <a href="https://code.earthengine.google.com/6bf67213e225915b7f8b483b466c8158">Monte-carlo Simulation</a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6">
+                            <div class="row library-code-items">
+                              <div class="col-lg-3 col-md-6">
+                                <div class="library-code-number">
+                                  <h1>5</h1>
+                                </div>
+                              </div>
+                              <div class="col-lg-9 col-md-6 library-code-text">
+                                <a href="https://code.earthengine.google.com/26cf31cf04b37d0decb1f31a20da6555">Whitaker Smoothing Algorithm</a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6 col-md-6">
+                            <div class="row library-code-items">
+                              <div class="col-lg-3 col-md-6">
+                                <div class="library-code-number">
+                                  <h1>6</h1>
+                                </div>
+                              </div>
+                              <div class="col-lg-9 col-md-6 library-code-text">
+                                <a href="https://code.earthengine.google.com/0e0039dd145fd41f35ff6dcec6f3f32d">Logical Transitions</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- Accordion card -->
+
+                  <!-- Accordion card -->
+                  <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading-tensor">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse-tensor"
+                        aria-expanded="false" aria-controls="collapseTwo2">
+                        <h5 class="mb-0">
+                          TensorFlow <i class="fas fa-angle-down rotate-icon"></i>
+                        </h5>
+                      </a>
+                    </div>
+                    <!-- Card body -->
+                    <div id="collapse-tensor" class="collapse" role="tabpanel" aria-labelledby="heading-tensor" data-parent="#accordionEx">
+                      <div class="card-body table-band">
+                        <table id="tensor-table" class="display" style="width:100%">
+                          <thead>
+                              <tr>
+                                  <th width="10%"> Title</th>
+                                  <th>Model Script</th>
+                                  <th>GitHub Folder</th>
+                                  <th>Presentation</th>
+                                  <th>POC</th>
+                                  <th>Organization</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr ng-repeat="tf in TFList">
+                                  <td><b>[[tf.Title]]</b></td>
+                                  <td>
+                                    <a href="[[tf.ModelLink]]" target="_blank"> [[tf.Model]]</a>
+                                  </td>
+                                  <td>
+                                    <a href="[[tf.Github]]" target="_blank"> [[tf.GithubFolder]]</a>
+                                  </td>
+                                  <td>
+                                    <a href="[[tf.SlideLink]]" target="_blank">[[tf.Slide]]</a>
+                                  </td>
+                                  <td>[[tf.POC]]</td>
+                                  <td>[[tf.Organization]]</td>
+                              </tr>
+                          </tbody>
+
+                      </table>
+                      <select class="" id="table-status" hidden>
+                        <option value="0"></option>
+                        <option value="1"></option>
+                      </select>
+                        <br>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Accordion card -->
+
+
+                  <!-- Accordion card -->
+                  <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading-googlegit">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse-googlegit"
+                        aria-expanded="false" aria-controls="collapseTwo2">
+                        <h5 class="mb-0">
+                          Google Git <i class="fas fa-angle-down rotate-icon"></i>
+                        </h5>
+                      </a>
+                    </div>
+                    <!-- Card body -->
+                    <div id="collapse-googlegit" class="collapse" role="tabpanel" aria-labelledby="heading-googlegit" data-parent="#accordionEx">
+                      <div class="card-body table-band">
+                        <p><b>Google Git Repository</b></p>
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6">
+                            <a style="border-radius: 50px; padding: 5px;color: #3c80f3;font-size: 14px; border: 1px solid #3c80f3;" href="https://earthengine.googlesource.com/RLCMS/+/master">Google Git Repository</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- Accordion card -->
+
+                  <!-- Accordion card -->
+                  <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="heading-github">
+                      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapse-github"
+                        aria-expanded="false" aria-controls="collapseTwo2">
+                        <h5 class="mb-0">
+                          Github <i class="fas fa-angle-down rotate-icon"></i>
+                        </h5>
+                      </a>
+                    </div>
+                    <!-- Card body -->
+                    <div id="collapse-github" class="collapse" role="tabpanel" aria-labelledby="heading-github" data-parent="#accordionEx">
+                      <div class="card-body table-band">
+                        <p><b>Github</b></p>
+                        <div class="row">
+                          <div class="col-lg-12 col-md-6">
+                            <a style="border-radius: 50px; padding: 5px;color: #3c80f3;font-size: 14px; border: 1px solid #3c80f3;" href="https://github.com/Servir-Mekong/landcoverPortal">Land Cover Portal Repository</a>
+                            <a style="border-radius: 50px; padding: 5px;color: #3c80f3;font-size: 14px; border: 1px solid #3c80f3;" href="https://github.com/Servir-Mekong/LandCoverMonitoring">Land Cover Monitoring Repository</a>
+                          </div>
+                        </div>
+                        <br>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Accordion card -->
+
+
+
+                </div>
+                <!-- Accordion wrapper -->
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>

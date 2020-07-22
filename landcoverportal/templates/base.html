@@ -1,0 +1,309 @@
+{% load cms_tags menu_tags sekizai_tags staticfiles %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" data-framework="angularjs">
+<head>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+	  	function gtag(){dataLayer.push(arguments);}
+	  	gtag('js', new Date());
+
+		gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+	</script>
+	<!-- Google Sign in -->
+	<script>
+		function start() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+					client_id: '{{ GOOGLE_OAUTH2_CLIENT_ID }}',
+					// Scopes to request in addition to 'profile' and 'email'
+					scope: 'https://www.googleapis.com/auth/drive'
+				});
+			});
+		}
+	</script>
+
+	<!-- Mouse Flow -->
+	<script type="text/javascript">
+		window._mfq = window._mfq || [];
+		(function() {
+			var mf = document.createElement("script");
+			mf.type = "text/javascript"; mf.async = true;
+			mf.src = "//cdn.mouseflow.com/projects/8abf1772-ee4f-4989-826a-cc135f063452.js";
+			document.getElementsByTagName("head")[0].appendChild(mf);
+		})();
+	</script>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+	<meta name="keywords" content="landcover, machine learning, vietnam, cambodia, laos, myanmar, thailand, google earth engine">
+	<meta name="viewport" content="width=1024">
+	<meta name="description" content="regional land cover monitoring system">
+	<meta name="author" content="Biplov Bhandari, Servir-Mekong">
+
+	{% block head%}
+	<title>RLCMS | Home</title>
+	{% endblock %}
+
+	<link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+
+	{% addtoblock "css" %}
+	    <style type="text/css">
+	        /** Hide when Angular is not yet loaded and initialized */
+	        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	            display: none !important;
+	        }
+	    </style>
+
+		<!-- Mapping -->
+		<link href="{% static 'vendor/leaflet/dist/leaflet.css' %}" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.control.min.css" />
+
+		<!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+		<link href="{% static 'vendor/chart.js/dist/Chart.min.css' %}" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+		<!-- Load CSS -->
+		{% if debug %}
+		<!-- Custom CSS -->
+
+
+		<link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+
+		{% else %}
+		<link href="{% static 'dist/application.min.css' %}" rel="stylesheet">
+		{% endif %}
+
+	{% endaddtoblock %}
+
+	{% render_block "css" %}
+
+
+
+
+</head>
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+      <div class="container">
+
+        <div class="logo float-left">
+          <h1 class="text-light"><a href="index.html"><span>RLCMS</span></a></h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+
+          <!-- <a href="index.html"><img src="/static/images/rlcmslogo.png" alt="" class="img-fluid"></a> -->
+        </div>
+
+        <nav class="nav-menu float-right d-none d-lg-block">
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/method">Method</a></li>
+            <li><a href="/library/code">Library</a></li>
+            <li><a href="/about">About Us</a></li>
+
+          </ul>
+        </nav><!-- .nav-menu -->
+
+      </div>
+    </header><!-- End Header -->
+
+    {% block body%}
+
+
+    {%  endblock%}
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-6 col-md-6 footer-info">
+              <h3><img src="/static/images/partners/servir-mekong.png" alt="" style="width:auto; height:35px;"></h3>
+
+              <p>
+                <b>ASIAN DISASTER PREPAREDNESS CENTER (ADPC)</b> <br>
+                SM Tower, 24th Floor, 979/69 Paholyothin Road, Samsen Nai Phayathai,<br>
+                Bangkok 10400 Thailand<br>
+                BTS Skytrain: Sanam Pao, Exit 1<br>
+                <strong>Phone:</strong> +66 2 298 0681-92<br>
+                <strong>Fax:</strong> +66 2 298 0012<br>
+              </p>
+              <div class="social-links mt-3">
+                <!-- <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a> -->
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Menu Links</h4>
+              <ul>
+                <li><i class="bx bx-chevron-right"></i> <a href="/home">Home</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/services">Services</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/method">Method</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/library">Library</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/about">About Us</a></li>
+              </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Our Services</h4>
+              <ul>
+                <li><i class="bx bx-chevron-right"></i> <a href="/landcover" target="_blank">Mekong Land Cover Portal</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/forest-monitor" target="_blank">Forest Monitoring</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/myanmar-national-portal" target="_blank">Myanmar	National Land Cover Portal</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="/myanmar-ipcc" target="_blank">Myanmar National IPCC</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="myanmar-plantation" target="_blank">Myanmar Plantation Mapping</a></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>RLCMS</span></strong>. All Rights Reserved
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+	{% addtoblock "js" %}
+		<!-- Load JS Lib -->
+
+
+		<!-- jQuery -->
+		<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+		<!-- Bootstrap Plugins -->
+	    <script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+	    <!-- Slider -->
+	    <script src="{% static 'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
+	    <!-- Ion Range Slider -->
+	    <script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
+
+		<!-- Moment -->
+		<!--<script src="{% static 'vendor/moment/min/moment.min.js' %}"></script>-->
+
+		<!-- Mapping Library -->
+	    <!-- Google Maps API -->
+		<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&v=3.exp&libraries=drawing,geometry"></script>
+		<!-- Leaflet -->
+		<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+		<script src="{% static 'vendor/leaflet-side-by-side/leaflet-side-by-side.js' %}"></script>
+        <!--<script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.min.js"></script>-->
+
+		<!--  Load Angular  -->
+		<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
+
+		<!-- Angular Plugins -->
+		<script src="{% static 'vendor/angular-sanitize/angular-sanitize.min.js' %}"></script>
+		<script src="{% static 'vendor/ngstorage/ngStorage.min.js' %}"></script>
+
+		<!-- Spatial Libraries -->
+		<script src="{% static 'vendor/togeojson/togeojson.js' %}"></script>
+
+		<!-- Graphs DASHBOARD-->
+		<script src="{% static 'vendor/highcharts/highcharts.js' %}"></script>
+		<script src="{% static 'vendor/highcharts/modules/exporting.js' %}"></script>
+		<script src="{% static 'vendor/highcharts/modules/export-data.js' %}"></script>
+		<script src="{% static 'vendor/chart.js/dist/Chart.min.js' %}"></script>
+
+
+
+		{% if debug %}
+		<!-- Bootstrap Application -->
+		<script src="{% static 'app/init.js' %}"></script>
+
+		<!-- Load Settings -->
+		<script src="{% static 'app/config/settings.js' %}"></script>
+
+	<!-- Services -->
+	<script src="{% static 'app/services/common-service.js' %}"></script>
+	<script src="{% static 'app/services/map-service.js' %}"></script>
+	<script src="{% static 'app/services/landcover-service.js' %}"></script>
+	<script src="{% static 'app/services/forest-monitor-service.js' %}"></script>
+	<script src="{% static 'app/services/blog-service.js' %}"></script>
+	<script src="{% static 'app/services/events-service.js' %}"></script>
+	<script src="{% static 'app/services/tensor-service.js' %}"></script>
+	<script src="{% static 'app/services/training-service.js' %}"></script>
+
+		<!-- Controllers -->
+		<script src="{% static 'app/controllers/utils-controller.js' %}"></script>
+		<script src="{% static 'app/controllers/landcover-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/forest-monitor-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/myanmar-national-portal-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/myanmar-national-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/myanmar-ipcc-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/myanmar-fra-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/myanmar-plantation-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/side-by-side-map-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/analysis-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/blog-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/events-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/dashboard-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/tensor-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/training-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/trainingDetail-controller.js' %}"></script>
+
+
+		<!-- Directives -->
+		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->
+		<script src="{% static 'app/directives/validate-email.js' %}"></script>
+
+		<!-- Vendor JS Files -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'vendor/jquery-sticky/jquery.sticky.js' %}"></script>
+    <script src="{% static 'vendor/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'vendor/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+
+				<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+    <!--  main JS File -->
+    <script src="{% static 'app/controllers/main.js' %}"></script>
+
+
+		{% else %}
+		<script src="{% static 'dist/application.min.js' %}"></script>
+		{% endif %}
+
+	{% endaddtoblock %}
+
+
+	{% render_block "js" %}
+
+
+</body>
+</html>

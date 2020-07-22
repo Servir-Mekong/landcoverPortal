@@ -1,0 +1,134 @@
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head%}
+    <title>RLCMS | Training</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="branding" class="image">
+      <div class="overlay">
+        <div class="">
+          <h2 class="animated fadeInDown">Training</h2>
+        </div>
+      </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+      <div class="container">
+        <div class="col-lg-12">
+          <div class="row margin-top">
+
+
+            <div class="col-lg-12 col-md-6 " ng-controller="trainingDetailController">
+            <div class="container">
+
+                <div class="row training-detail">
+                  <div class="col-lg-12 col-md-6 events-box events-item filter-landcover">
+                    <div class="row">
+                      <div class="col-lg-12 col-md-6 margin-top">
+                        <h2>[[title]]</h2>
+                        <p>Topic: [[topic]] | <span>Date Start: [[dateStart]]     End: [[dateFinish]] | Location: [[venue]], [[country]]</span></p>
+
+                      </div>
+                      <div class="col-lg-12 col-md-6 padding-15">
+                        <div class="margin-10">
+                          <img src="[[image]]" class="img-fluid" alt="">
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-6 padding-15">
+                        <table>
+                          <tr>
+                            <th>Topic</th>
+                            <td>[[topic]]</td>
+                          </tr>
+                          <tr>
+                            <th>Date</th>
+                            <td>Start: [[dateStart]]  <br> End: [[dateFinish]]</td>
+                          </tr>
+                          <tr>
+                            <th>Venue</th>
+                            <td>[[venue]]</td>
+                          </tr>
+                          <tr>
+                            <th>Country</th>
+                            <td>[[country]]</td>
+                          </tr>
+                          <tr>
+                            <th>Type of Event</th>
+                            <td>[[eventType]]</td>
+                          </tr>
+                          <tr>
+                            <th>SERVIR Mekong Involvement</th>
+                            <td>[[involvement]]</td>
+                          </tr>
+                          <tr>
+                            <th>Scale</th>
+                            <td>[[scale]]</td>
+                          </tr>
+                          <tr>
+                            <th>Co-partners</th>
+                            <td>[[partners]]</td>
+                          </tr>
+                          <tr>
+                            <th>Number of Participants</th>
+                            <td>[[noparticipants]]</td>
+                          </tr>
+                          <tr>
+                            <th>Male</th>
+                            <td>[[male]]</td>
+                          </tr>
+                          <tr>
+                            <th>Female</th>
+                            <td>[[female]]</td>
+                          </tr>
+                          <tr>
+                            <th>Participants</th>
+                            <td><a href="[[participants]]" target="_blank">[[participants]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Agenda</th>
+                            <td><a href="[[agenda]]" target="_blank">[[agenda]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Material</th>
+                            <td><a href="[[material]]" target="_blank">[[material]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Report</th>
+                            <td><a href="[[report]]" target="_blank">[[report]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Evaluation</th>
+                            <td><a href="[[evaluation]]" target="_blank">[[evaluation]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Photo</th>
+                            <td><a href="[[foto]]" target="_blank">[[foto]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Video</th>
+                            <td><a href="[[video]]" target="_blank">[[video]]</a></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+            </div>
+          </div><!-- End Events -->
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>
