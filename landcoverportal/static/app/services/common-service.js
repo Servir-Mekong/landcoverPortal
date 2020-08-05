@@ -7,7 +7,7 @@
 
         var service = this;
 
-        service.mapClass = 'col-md-9 col-lg-9';
+        service.mapClass = 'col-md-12 col-lg-12';
         service.sideClass = 'col-md-3 col-lg-3';
 
         service.getAreaVariableOptions = function (option, myanmar) {
@@ -31,16 +31,6 @@
             });
         };
 
-        service.AnalysisToolControl = function (controlDiv) {
-            // Set CSS for the control border.
-            var controlUI = document.createElement('div');
-            controlUI.setAttribute('class', 'tool-control text-center');
-            controlUI.setAttribute('id', 'analysis-tool-control');
-            controlUI.title = 'Toogle Tools Visibility';
-            controlUI.innerHTML = "<i class='fas fa-times'></i>";
-            controlDiv.appendChild(controlUI);
-            return controlUI;
-        };
 
         service.range = function (start, end) {
             var foo = [];

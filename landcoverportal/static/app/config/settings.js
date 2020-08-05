@@ -1,7 +1,17 @@
 var settings = {
     menus: [
         {
-            'name': 'Methods',
+            'name': 'Home',
+            'url': '/home/',
+            'show': true
+        },
+        {
+            'name': 'Services',
+            'url': '/services/',
+            'show': true
+        },
+        {
+            'name': 'Method',
             'url': '/method/',
             'show': true
         },
@@ -11,8 +21,13 @@ var settings = {
             'show': true
         },
         {
-            'name': 'Service Applications',
-            'url': '/service-applications/',
+            'name': 'Library',
+            'url': '/library/code',
+            'show': true
+        },
+        {
+            'name': 'About Us',
+            'url': '/about',
             'show': true
         }
     ],

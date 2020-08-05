@@ -7,81 +7,144 @@
 {% endblock navigation_container %}
 
 {% block main_container %}
+<div class="">
+  <div class="container-fluid">
 
-<div class="container-fluid">
+      <div class="row" ng-controller="landCoverController">
 
-    <div class="row" ng-controller="landCoverController">
+          <!-- Alert Container -->
+          <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
+              <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>[[alertContent]]</strong>
+          </div>
 
-        <!-- Alert Container -->
-        <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
-            <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>[[alertContent]]</strong>
-        </div>
+          <!-- Loader Container -->
+          <div id="loader" class="loader" ng-show="showLoader">
+              <!--<div class="loading-img" style="background: url('static/images/spinner.gif') no-repeat;"></div>-->
+              <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+          </div>
 
-        <!-- Loader Container -->
-        <div id="loader" class="loader" ng-show="showLoader">
-            <!--<div class="loading-img" style="background: url('static/images/spinner.gif') no-repeat;"></div>-->
-            <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
-        </div>
+          <!-- Sidebar Container -->
 
-        <!-- Sidebar Container -->
-        <div class="[[ sideClass ]]">
-            {% include "panels/side-panel-landcover.html" %}
-        </div>
 
-        <!-- Map Container -->
-        {% if version1 %}
-            <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); showCompositeMap();"></div>
-        {% elif version2 %}
-            <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2017, 'landcovermap', 'v2', true); showCompositeMap(); showProbabilityMap();"></div>
-        {% else %}
-            <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2018, 'landcovermap', 'v3', true); showCompositeMap(); showProbabilityMap();"></div>
-        {% endif %}
+          <!-- Map Container -->
+          {% if version1 %}
+              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); showCompositeMap();"></div>
+          {% elif version2 %}
+              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2017, 'landcovermap', 'v2', true); showCompositeMap(); showProbabilityMap();"></div>
+          {% else %}
+              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2018, 'landcovermap', 'v3', true); showCompositeMap(); showProbabilityMap();">
 
-        <!-- Toogle button container -->
-        <div id="tool-control-container"></div>
+              </div>
 
-        <!-- Time Slider -->
-        {% if version1 %}
-            <div class="slider-year-container">
-                <input type="text" id="slider-year-selector-version1" name="slider-year-selector" value="" />
-            </div>
-        {% elif version2 %}
-            <div class="slider-year-container">
-                <input type="text" id="slider-year-selector-version2" name="slider-year-selector" value="" />
-            </div>
-        {% else %}
-            <div class="slider-year-container">
-                <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
-            </div>
-        {% endif %}
+              <div class="control-panel map-component">
+                <div class="scalebar-container"></div>
+                <!-- Map Munu -->
+                <ul>
+                  <li class="pointer shadow" id="zoom-in">
+                    <svg class="panel-icon">
+                      <use xlink:href="#icon-plus">
+                        <svg fill="#FFF" id="icon-plus" viewBox="0 0 1024 1024">
+                          <title>Zoom In</title>
+                          <path d="M573.44 245.76h-122.88v204.8h-204.8v122.88h204.8v204.8h122.88v-204.8h204.8v-122.88h-204.8v-204.8z" class="path1"></path>
+                        </svg>
+                      </use>
+                    </svg>
+                    <span class="tooltipmap tooltipmap1 left"> ZOOM IN </span>
+                  </li>
+                  <li class="pointer shadow" id="zoom-out">
+                    <svg class="panel-icon">
+                      <svg fill="#FFF" id="icon-minus" viewBox="0 0 1024 1024">
+                        <title>Zoom Out</title>
+                        <path d="M778.24 573.44h-532.48v-122.88h532.48v122.88z" class="path1"></path>
+                      </svg>
+                    </svg>
+                    <span class="tooltipmap tooltipmap2 left"> ZOOM OUT</span>
+                  </li>
 
-        <!-- Tab Container -->
-        <div class="tab-tool" ng-show="showTabContainer">
-            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
-                <div class="btn-group" role="group">
-                    <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
-                      <i class="fas fa-map-marked-alt fa-2x"></i>
-                    </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button type="button" id="report" class="btn btn-default js-tooltip" href="#layer-tab" data-toggle="tab" title="Layer Groups">
-                        <i class='fas fa-layer-group fa-2x'></i>
-                    </button>
-                </div>
-            </div>
+                  <li class="pointer shadow" id="sign-in" ng-click="googleSignIn()">
+                    <svg class="panel-icon">
+                        <svg width="1.9em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        </svg>
+                    </svg>
+                    <span class="tooltipmap tooltipmap3 left"> Sign in with Google </span>
+                  </li>
 
-            <div class="well tab-tool-content">
-                <div class="tab-content">
+                  <li class="pointer shadow" id="sign-in">
+                    <a href="/landcover/analysis/"><svg class="panel-icon">
+                      <svg width="2em" height="2em" viewBox="-4 -3 20 20" class="bi bi-bar-chart-line-fill" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="4" height="5" x="1" y="10" rx="1"/>
+                      <rect width="4" height="9" x="6" y="6" rx="1"/>
+                      <rect width="4" height="14" x="11" y="1" rx="1"/>
+                      <path fill-rule="evenodd" d="M0 14.5a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+                      </svg>
+                    </svg>
+                    <span class="tooltipmap tooltipmap4 left"> Statistical Analysis </span></a>
 
-                    {% include "panels/area-selection-tab.html" %}
+                  </li>
 
-                    <div class="tab-pane fade in" id="layer-tab"></div>
-                </div>
-            </div>
-        </div>
+                </ul>
 
-    </div>
+                <ul class="map-data-content">
+                  <li class="pointer shadow" id="control-landcover">
+                    <svg class="panel-icon">
+                      <svg width="2em" height="1.5em" viewBox="0 0 16 16" class="bi bi-map" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M15.817.613A.5.5 0 0 1 16 1v13a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 14.51l-4.902.98A.5.5 0 0 1 0 15V2a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0l4.902.98 4.902-.98a.5.5 0 0 1 .415.103zM10 2.41l-4-.8v11.98l4 .8V2.41zm1 11.98l4-.8V1.61l-4 .8v11.98zm-6-.8V1.61l-4 .8v11.98l4-.8z"/>
+                      </svg>
+                    </svg>
+                    <span class="tooltipmap tooltipmap5 left"> Land Cover</span>
+                  </li>
+
+                  <li class="pointer shadow" id="control-primitives">
+                    <svg class="panel-icon">
+                      <svg width="2em" height="1.5em" viewBox="0 0 16 16" class="bi bi-circle-half" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15V1a7 7 0 1 1 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+                      </svg>
+                    </svg>
+                    <span class="tooltipmap tooltipmap6 left"> Primitives</span>
+                  </li>
+
+                  <li class="pointer shadow" id="control-layers">
+                    <svg width="2em" height="1.5em" viewBox="0 0 16 16" class="bi bi-layers" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M3.188 8L.264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l-1.063.567L14.438 10 8 13.433 1.562 10 4.25 8.567 3.187 8z"/>
+                    <path fill-rule="evenodd" d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882l7.5-4zM1.563 6L8 9.433 14.438 6 8 2.567 1.562 6z"/>
+                  </svg>
+                    <span class="tooltipmap tooltipmap7 left"> More Layers</span>
+                  </li>
+                </ul>
+
+              </div>
+          {% endif %}
+
+          <!-- Toogle button container -->
+          <div id="tool-control-container"></div>
+
+          <!-- Time Slider -->
+          {% if version1 %}
+              <div class="slider-year-container">
+                  <input type="text" id="slider-year-selector-version1" name="slider-year-selector" value="" />
+              </div>
+          {% elif version2 %}
+              <div class="slider-year-container">
+                  <input type="text" id="slider-year-selector-version2" name="slider-year-selector" value="" />
+              </div>
+          {% else %}
+              <div class="slider-year-container">
+                  <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
+              </div>
+          {% endif %}
+
+          <!-- Tab Container -->
+          <div class="tab-tool" ng-show="showTabContainer">
+            {% include "panels/area-selection-tab.html" %}
+          </div>
+          
+          {% include "panels/side-panel-landcover.html" %}
+
+      </div>
+  </div>
+
 </div>
 
 {% endblock main_container %}

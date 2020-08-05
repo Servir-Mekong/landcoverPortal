@@ -108,7 +108,7 @@
 
 .usaid {
     background-size: auto 50px;
-    width: 170px !important;
+    width: 120px !important;
     float: left;
     margin-right: 5px;
     margin-bottom: 3px;
@@ -122,7 +122,7 @@
 
 .nasa {
     background-size: auto 50px;
-    width: 60px !important;
+    width: 40px !important;
     float: left;
     margin-right: 5px;
 }
@@ -135,7 +135,7 @@
 
 .adpc {
     background-size: auto 50px;
-    width: 110px !important;
+    width: 65px !important;
     float: left;
 }
 
@@ -147,7 +147,7 @@
 
 .icimod {
     background-size: auto 50px;
-    width: 110px !important;
+    width: 80px !important;
 	float: left;
 	margin: 2px 0 0 5px;
 }
@@ -161,7 +161,7 @@
 .servir {
     float: right;
     background-size: auto 35px;
-    width: 250px !important;
+    width: 120px !important;
     padding-top: 10px;
 }
 
@@ -175,7 +175,7 @@
 .servir-hkh {
     float: right;
     background-size: auto 35px;
-    width: 200px !important;
+    width: 120px !important;
     padding-top: 10px;
 }
 
@@ -206,4 +206,19 @@ a.navbar-brand:hover, a.navbar-brand:focus, .nav > li > a:hover, .nav > li > a:f
     width: auto;
     margin-top: 2px;
     /* top: 0; */
+}
+
+.navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 0px;
+    margin-top: 5px;
+}
+
+.navbar-brand {
+    float: left;
+    height: 30px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
 }

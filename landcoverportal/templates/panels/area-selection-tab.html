@@ -1,53 +1,152 @@
-<div class="tab-pane fade active in" id="area-tab">
-    <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary btn-sm js-tooltip" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
-                <div class="hidden-xs">Draw or <br/>Upload Area</div>
-            </button>
-        </div>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-sm js-tooltip" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
-                <div class="hidden-xs">Administrative <br/> Region</div>
-            </button>
-        </div>
+<div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+    <div class="btn-group" role="group">
+        <button type="button" id="area" class="btn btn-primary" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-layers-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882l7.5-4z"/>
+            <path fill-rule="evenodd" d="M2.125 8.567l-1.86.992a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882l-1.86-.992-5.17 2.756a1.5 1.5 0 0 1-1.41 0l.418-.785-.419.785-5.169-2.756z"/>
+          </svg>
+          LEGEND
+        </button>
     </div>
-    <div class="tab-content inner-tab">
-        <!-- Inner Tab -->
-        <div class="tab-pane fade active in" id="draw-tab">
+    <div class="btn-group" role="group">
+        <button type="button" id="report" class="btn btn-default" href="#layer-tab" data-toggle="tab" title="Layer Groups">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+            <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+          </svg>
+            AREA
+        </button>
+    </div>
+</div>
+<div class="well tab-tool-content">
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="area-tab">
 
-            <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('polygon')">
-                <i class="fas fa-draw-polygon fa-2x" style="color:#379683"></i>
-                <p style="margin: 0 0 0px;">Polygon</p>
-            </button>
-            <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('circle')">
-                <i class="far fa-circle fa-2x" style="color:#379683"></i>
-                <p style="margin: 0 0 0px;">Circle</p>
-            </button>
-            <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('rectangle')">
-                <i class="far fa-square fa-2x" style="color:#379683"></i>
-                <p style="margin: 0 0 0px;">Rectangle</p>
-            </button>
+          <div class="legend-tab">
+            <label><b>Land Cover Map</b></label>
+            <div class="">
+              <span class="opacity-slider" id="layer-opacity-slider-landcovermap"></span>
+              <div class="">
+                <p>Opacity:</p>
+                <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-landcovermap" style="width: 80%;">
+                <span>0%</span><span style="float:right;">100%</span>
+              </div>
 
-            <label class="btn btn-primary btn-sm btn-block" style="margin-top:10px;" id="file-input-container">
-                <p style="margin: 0 0 0px;"><i class="far fa-folder-open fa-2x" style="color:#fff"></i>  Upload Area</p>
-                <p style="margin: 0 0 0px;">(accepts kml, kmz and geojson)</p>
-                <input type="file" class="hide" id="file-input"
-                       accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
-            </label>
-        </div>
-        <div class="tab-pane fade in" id="admin-tab">
-            <div class="form-group">
-                <label for="area-index-filter">Filter Area By</label>
-                <select name="area-index-filter" class="form-control" ng-options="option.name for option in areaIndexSelectors"
-                        ng-model="areaIndexSelector" ng-change="populateAreaVariableOptions(areaIndexSelector)">
-                </select>
+
             </div>
-            <div class="form-group" ng-show="showAreaVariableSelector">
-                <label for="area-variable-filter">Select From</label>
-                <select name="area-variable-filter" class="form-control" ng-options="option for option in areaVariableOptions"
-                        ng-model="areaName" ng-change="loadAdminArea(areaName)">
-                </select>
-            </div>
+            <ul class="toggles-list" style="margin-top: 10px;">
+              <!-- <li class="toggle"><label class="switch_layer"><input  name="country_toggle" id="country_toggle"  type="checkbox"><span class="slider_toggle round"></span></label><label>Country</label></li> -->
+              <li class="toggle" ng-repeat="class in landCoverClasses">
+                <label class="legend-lc-class" style="background: [[ class.color ]]">
+                  <!-- <span class="slider_toggle round"></span> -->
+                </label>
+                <label>[[ class.name ]]</label>
+              </li>
+              </ul>
+              <hr>
+              <div ng-show="showLegendPrimitivemap">
+                <label><b>Primitive Layer</b></label>
+                <div class="slidecontainer">
+                  <p>Opacity:</p>
+                  <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-primitivemap" style="width: 80%;">
+                  <span>0%</span><span style="float:right;">100%</span>
+
+                </div>
+                <hr>
+              </div>
+
+              <div ng-show="showLegendProbabilitymap">
+                <label><b>Probability Map</b></label>
+                <div class="slidecontainer">
+                  <p>Opacity:</p>
+                  <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-probabilitymap" style="width: 80%;">
+                  <span>0%</span><span style="float:right;">100%</span>
+
+                </div>
+                <hr>
+              </div>
+
+              <div ng-show="showLegendCompositemap">
+                <label><b>Composite Map</b></label>
+                <div class="slidecontainer">
+                  <p>Opacity:</p>
+                  <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-compositemap" style="width: 80%;">
+                  <span>0%</span><span style="float:right;">100%</span>
+                </div>
+                <hr>
+              </div>
+
+          </div>
         </div>
+        <div class="tab-pane fade in" id="layer-tab">
+          <div class="btn-pref-inner btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+              <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-primary btn-sm area-define-tab" href="#draw-tab" data-toggle="tab" title="Draw Polygon, Circle or Rectangle or upload shpaefile/kml">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-bounding-box-circles" fill="#8dd4b2" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.5 2h-9V1h9v1zm-10 1.5v9h-1v-9h1zm11 9v-9h1v9h-1zM3.5 14h9v1h-9v-1z"/>
+                    <path fill-rule="evenodd" d="M14 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    </svg>
+                      <div class="hidden-xs">Draw or <br/>Upload Area</div>
+                  </button>
+              </div>
+              <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-default btn-sm area-define-tab" href="#admin-tab" data-toggle="tab" title="Select From Countries Administrative Layers">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-map" fill="#8dd4b2" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M15.817.613A.5.5 0 0 1 16 1v13a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 14.51l-4.902.98A.5.5 0 0 1 0 15V2a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0l4.902.98 4.902-.98a.5.5 0 0 1 .415.103zM10 2.41l-4-.8v11.98l4 .8V2.41zm1 11.98l4-.8V1.61l-4 .8v11.98zm-6-.8V1.61l-4 .8v11.98l4-.8z"/>
+                    </svg>
+                      <div class="hidden-xs">Administrative <br/> Region</div>
+                  </button>
+              </div>
+          </div>
+          <div class="tab-content inner-tab">
+              <!-- Inner Tab -->
+              <div class="tab-pane fade active in" id="draw-tab">
+                <p class="draw-tab-desc">Draw in the map the area you want to analyze</p>
+
+                  <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('polygon')">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-pentagon" fill="#8dd4b2" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M8 1.288l-6.842 5.56L3.733 15h8.534l2.575-8.153L8 1.288zM16 6.5L8 0 0 6.5 3 16h10l3-9.5z"/>
+                      </svg>
+                      <p style="margin: 0 0 0px;">Polygon</p>
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('circle')">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-circle" fill="#8dd4b2" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      </svg>
+                      <p style="margin: 0 0 0px;">Circle</p>
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm btn-drawtool" ng-click="drawShape('rectangle')">
+                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-bounding-box-circles" fill="#8dd4b2" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.5 2h-9V1h9v1zm-10 1.5v9h-1v-9h1zm11 9v-9h1v9h-1zM3.5 14h9v1h-9v-1z"/>
+                    <path fill-rule="evenodd" d="M14 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM2 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+                    </svg>
+                      <p style="margin: 0 0 0px;">Rectangle</p>
+                  </button>
+                  <p class="draw-tab-desc">or</p>
+
+                  <label class="btn btn-primary btn-sm btn-block btn-upload-file" id="file-input-container">
+                      <p style="margin: 0 0 0px;"><i class="far fa-folder-open fa-2x" style="color:#fff"></i>  Upload Area</p>
+                      <p style="margin: 0 0 0px;">(accepts kml, kmz and geojson)</p>
+                      <input type="file" class="hide" id="file-input"
+                             accept=".kml,.kmz,.json,.geojson,application/json,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz">
+                  </label>
+              </div>
+              <div class="tab-pane fade in" id="admin-tab">
+                  <div class="form-group">
+                      <p class="select-area-admin">Filter Area By</p>
+                      <select name="area-index-filter" class="form-control" ng-options="option.name for option in areaIndexSelectors"
+                              ng-model="areaIndexSelector" ng-change="populateAreaVariableOptions(areaIndexSelector)">
+                      </select>
+                  </div>
+                  <div class="form-group" ng-show="showAreaVariableSelector">
+                      <p class="select-area-admin">Select From</p>
+                      <select name="area-variable-filter" class="form-control" ng-options="option for option in areaVariableOptions"
+                              ng-model="areaName" ng-change="loadAdminArea(areaName)">
+                      </select>
+                  </div>
+              </div>
+          </div>
+        </div>
+
     </div>
 </div>

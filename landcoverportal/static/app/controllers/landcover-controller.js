@@ -49,6 +49,10 @@
         $scope.sliderYear = null;
         $scope.sliderEndYear = null;
 
+        $scope.showLegendPrimitivemap = false;
+        $scope.showLegendProbabilitymap = false;
+        $scope.showLegendCompositemap = false;
+
         // Typology CSV
         $scope.typologyCSV = null;
 
@@ -192,15 +196,6 @@
              $scope.$apply();
          };
 
-
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
-        // Setup the click event listener
-        analysisToolControlUI.addEventListener('click', function () {
-            $scope.toggleToolControl();
-        });
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
-
         /**
          * Tab
          */
@@ -321,7 +316,7 @@
                     showInfoAlert('The map data shows the landcover data for ' + $scope.sliderYear);
                 }, 3500);
                 //$scope.showLegend = true;
-                addLayer(type, true);
+                //addLayer(type, true);
             }, function (error) {
                 $scope.showLoader = false;
                 showErrorAlert(error.error);
@@ -412,7 +407,7 @@
             $scope.shape = {};
             $scope.areaName = name;
             MapService.loadGeoJson(map, $scope.areaSelectFrom, name);
-            addLayer('preload', true);
+            //addLayer('preload', true);
         };
 
         /**
@@ -439,7 +434,7 @@
 
             var overlay = event.overlay;
             $scope.overlays.polygon = overlay;
-            addLayer('polygon', true);
+            //addLayer('polygon', true);
             $scope.shape = {};
 
             var drawingType = event.type;
@@ -596,11 +591,12 @@
             $scope.showLoader = true;
             $scope.closeAlert();
             $scope.assemblageLayers = [];
-            $('input[name="assemblage-checkbox"]').each(function () {
+            $('input[name="assemblage-checkbox_2"]').each(function () {
                 if ($(this).prop('checked')) {
                     $scope.assemblageLayers.push($(this).val());
                 }
             });
+            console.log(  $scope.assemblageLayers);
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap', version);
             //$scope.getStats(version);
@@ -806,8 +802,9 @@
                 }, 3500);
                 //$scope.showLegend = true;
                 $scope.showPrimitiveOpacitySlider = true;
+                $scope.showLegendPrimitivemap = true;
                 $scope.primitiveIndex = index;
-                addLayer(type, true);
+                //addLayer(type, true);
             }, function (error) {
                 $scope.showLoader = false;
                 showErrorAlert(error.error);
@@ -832,17 +829,18 @@
                     MapService.removeGeoJson(map);
                     MapService.clearLayer(map, type);
                     var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
-                    var checked = $('#probability-map-checkbox').prop('checked');
+                    var checked = $('#probability_toggle').prop('checked');
                     loadMap(type, mapType);
                     if (checked) {
                         $timeout(function () {
                             showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
                         }, 5500);
                         $scope.showProbabilityLayer = true;
+                        $scope.showLegendProbabilitymap = true;
                     } else {
                         $scope.overlays.probabilitymap.setOpacity(0);
                     }
-                    addLayer(type, false);
+                    //addLayer(type, false);
                 }, function (error) {
                     showErrorAlert(error.error);
                     console.log(error);
@@ -867,23 +865,99 @@
                     MapService.removeGeoJson(map);
                     MapService.clearLayer(map, type);
                     var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
-                    var checked = $('#composite-map-checkbox').prop('checked');
+                    var checked = $('#composite_toggle').prop('checked');
                     loadMap(type, mapType);
                     if (checked) {
                         $timeout(function () {
                             showInfoAlert('Showing Yearly Composite Layer for ' + $scope.sliderYear);
                         }, 5500);
                         $scope.showCompositeLayer = true;
+                        $scope.showLegendCompositemap = true;
                     } else {
                         $scope.overlays.compositemap.setOpacity(0);
                     }
-                    addLayer(type, false);
+                    //addLayer(type, false);
                 }, function (error) {
                     showErrorAlert(error.error);
                     console.log(error);
                 });
-            }, 2000);
+            }, 1000);
         };
+
+        $('#control-landcover').click(function() {
+          $("#sidenav-landcover-class").css("width", "250px");
+          $("#sidenav-primitives-class").css("width", "0");
+          $("#sidenav-more-layers").css("width", "0");
+          $(".control-panel").css("right", "260px");
+        });
+
+        $('#control-primitives').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "250px");
+          $("#sidenav-more-layers").css("width", "0");
+          $(".control-panel").css("right", "260px");
+        });
+
+        $('#control-layers').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "0");
+          $("#sidenav-more-layers").css("width", "250px");
+          $(".control-panel").css("right", "260px");
+        });
+
+        $('.closebtn').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "0");
+          $("#sidenav-more-layers").css("width", "0");
+          $(".control-panel").css("right", "10px");
+        });
+
+        $('#composite_toggle').click(function() {
+          var checked = $('#composite_toggle').prop('checked');
+          if(checked){
+            $scope.showCompositeMap();
+          }else{
+            $scope.overlays.compositemap.setOpacity(0);
+          }
+        });
+
+        $('#zoom-in').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom+1);
+        });
+        $('#zoom-out').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom-1);
+        });
+
+        $('#probability_toggle').click(function() {
+          var checked = $('#probability_toggle').prop('checked');
+          if(checked){
+            $scope.showProbabilityMap();
+          }else{
+            $scope.overlays.probabilitymap.setOpacity(0);
+          }
+        });
+
+        $(document).on('input', '#layer-opacity-slider-landcovermap', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.landcovermap.setOpacity(value);
+        });
+        $(document).on('input', '#layer-opacity-slider-primitivemap', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.primitivemap.setOpacity(value);
+        });
+        $(document).on('input', '#layer-opacity-slider-probabilitymap', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.probabilitymap.setOpacity(value);
+        });
+        $(document).on('input', '#layer-opacity-slider-compositemap', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.compositemap.setOpacity(value);
+        });
+
+        $('#control-landcover').click();
+
 
     });
 
