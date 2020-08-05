@@ -76,7 +76,7 @@
     /* display: inline-block; */
     /* z-index: 2; */
     bottom: 15px;
-    background: rgb(0 0 0 / 75%);
+    background: rgb(0 0 0 / 65%);
     border-radius: 0;
     padding: 2px;
 }
@@ -86,14 +86,21 @@
     font-size: 12px;
 }
 
+.irs--round .irs-line {
+    top: 30px;
+    height: 4px;
+    background-color: #dee4ec;
+    border-radius: 4px;
+}
+
 .irs--round .irs-bar {
-    top: 36px;
+    top: 30px;
     height: 4px;
     background-color: #8dd4b2;
 }
 
 .irs--round .irs-handle {
-  top: 30px;
+  top: 25px;
   width: 10px;
   height: 15px;
   border: 3px solid #8dd4b2;
