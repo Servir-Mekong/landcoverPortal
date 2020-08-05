@@ -2,512 +2,425 @@
 
 {% include "fms-user-info.html" %}
 
-<div class="nav-side-menu">
-    <!--<div class="brand">Analysis Parameters</div>-->
-    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+<div id="sidenav-forest-class" class="sidenav sidenav-right">
 
-    <div class="menu-list">
-        <div class="forest-definition inline-block-display" style="background-color: white; color:black;">
-            <h4 class="text-center">Data courtesy of:</h4>
-            <div class="row sidebar-image-container">
-                <a href="https://glad.umd.edu/" target="_blank">
-                    <div class="col-md-6">
-                        <img src="{% static 'images/glad.png' %}" class="grow img-responsive" height="70px" width="100%" />
-                    </div>
-                    <div class="col-md-6">
-                        <img src="{% static 'images/umd.png' %}" class="grow img-responsive" height="70px" width="100%" />
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <button ng-hide="showEmailID" type="button" class="btn btn-default btn-block" style="margin: 10px 0 10px 0;" ng-click="googleSignIn()">
-            <i class="fab fa-google fa-2x pull-left" style="margin-top: 15px;"></i>
-            <h4>Sign in with Google</h4><h5>(to download data to your Google drive)</h5>
-        </button>
-
-        <div ng-show="showEmailID">
-            <h4 style="color: black; text-align: center;">[[emailID]]</h4>
-            <button type="button" class="btn btn-default btn-block" id="signinButton" style="margin: 10px 0 10px 0;" ng-click="googleSignOut()">
-                <i class="fab fa-google fa-2x pull-left" style="margin-top: 5px;"></i>
-                <h4>Sign out</h4>
-            </button>
-        </div>
-
-        <div class="forest-definition inline-block-display">
-            <h4 class="text-center">Forest Definition</h4>
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="treeCanopyDefinition">
-                            <h5>Tree canopy greater than (%)</h5>
-                        </label>
-                    <input type="number" class="form-control custom-form" id="treeCanopyDefinition" min="10" max="100" step="1" ng-init="treeCanopyDefinition=10" ng-model="treeCanopyDefinition">
-                </div>
-                <div class="form-group">
-                    <label for="treeHeightDefinition">
-                            <h5>Tree height greater than (meters)</h5>
-                        </label>
-                    <input type="number" class="form-control custom-form" id="treeHeightDefinition" min="5" step="1" ng-init="treeHeightDefinition=5" ng-model="treeHeightDefinition">
-                </div>
-            </form>
-        </div>
-
-        <ul id="menu-content" class="menu-content collapse out">
-
-            <li></li>
-
-            <li data-toggle="collapse" data-target="#treeCanopy" class="collapsed">
-                <a href="#">
-                    <span class="fas fa-tree fa-2x" aria-hidden="true"></span>
-                    Forest Extent
-                    <span class="sidebar-arrow"></span>
-                </a>
-            </li>
-            <ul class="sub-menu collapse" id="treeCanopy">
-                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy cover"></span>
-                    <p class="inline-block-display">Tree Canopy Cover for </p>
-                    <div class="form-group inline-block-display">
-                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
-                        </select>
-                    </div>
-                    <div class="form-group" ng-show="showTreeCanopyOpacitySlider">
-                        <label for="tree-canopy-opacity-slider" style="margin-right: 10px;">Transparency </label>
-                        <input name="tree-canopy-opacity-slider" id="tree-canopy-opacity-slider" data-slider-id="tree-canopy-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                    </div>
-                    <div class="form-group text-center" ng-show="showTreeCanopyDownloadButtons">
-                        <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" href="" data-toggle="modal" id="treeCanopyButton"
-                                    data-download-button="getURL" data-download-year=[[treeCanopyYear]]
-                                    ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
-                                Get Download URL
-                            </button>
-                            <button type="button" class="btn btn-info" ng-switch-when="true" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
-                                Download to GDrive
-                            </button>
-                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
-                                Download to GDrive
-                            </button>
-                            <!--<button type="button" class="btn btn-info" disabled="!showEmailID ? 'disabled' : ''" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
-                                Download to GDrive
-                            </button>-->
-                        </div>
-                    </div>
-                    <div class="input-group" ng-show="showTreeCanopyDownloadURL" style="margin: 10px;">
-                        <input type="text" class="form-control" value="[[treeCanopyDownloadURL]]">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default treeCanopyCpyBtn js-tooltip"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Copy to clipboard"
-                                    ng-click="copyToClipBoard('treeCanopy')"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                <!-- icon from google's material design library -->
-                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="input-group" ng-show="showTreeCanopyGDriveFileName" style="margin: 10px;">
-                        <input type="text" id="treeCanopyGDriveFileName" placeholder="Enter Filename!" class="form-control">
-                        <span class="input-group-btn">
-                            <button type="button"
-                                    ng-click="saveToDrive('treeCanopy', treeCanopyYear)"
-                                    class="btn btn-primary"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                Start Download
-                            </button>
-                        </span>
-                    </div>
-                </li>
-                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy height"></span>
-                    <p class="inline-block-display">Tree Canopy Height for </p>
-                    <div class="form-group inline-block-display">
-                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)">
-                        </select>
-                    </div>
-                    <div class="form-group" ng-show="showTreeHeightOpacitySlider">
-                        <label for="tree-height-opacity-slider" style="margin-right: 10px;">Transparency </label>
-                        <input name="tree-height-opacity-slider" id="tree-height-opacity-slider" style="width: 70%;" data-slider-id="tree-height-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                    </div>
-                    <div class="form-group text-center" ng-show="showTreeHeightDownloadButtons">
-                        <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" id="treeHeightButton" href="" data-toggle="modal"
-                                    data-download-button="getURL" data-download-year=[[treeHeightYear]]
-                                    ng-click="getDownloadURL('treeHeight', treeHeightYear)">
-                                Get Download URL
-                            </button>
-                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
-                                Download to GDrive
-                            </button>
-                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
-                                Download to GDrive
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-group" ng-show="showTreeHeightDownloadURL" style="margin: 10px;">
-                        <input type="text" class="form-control" value="[[treeHeightDownloadURL]]">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default treeHeightCpyBtn js-tooltip"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Copy to clipboard"
-                                    ng-click="copyToClipBoard('treeHeight')"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                <!-- icon from google's material design library -->
-                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="input-group" ng-show="showTreeHeightGDriveFileName" style="margin: 10px;">
-                        <input type="text" id="treeHeightGDriveFileName" placeholder="Enter Filename!" class="form-control">
-                        <span class="input-group-btn">
-                            <button type="button"
-                                    ng-click="saveToDrive('treeHeight', treeHeightYear)"
-                                    class="btn btn-primary"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                Start Download
-                            </button>
-                        </span>
-                    </div>
-                </li>
-                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="annual forest extend"></span>
-                    <p class="inline-block-display">Annual Forest Extend for </p>
-                    <div class="form-group inline-block-display">
-                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestExtendYear" ng-change="calculateForestExtend(forestExtendYear)">
-                        </select>
-                    </div>
-                    <div class="form-group" ng-show="showForestExtendOpacitySlider">
-                        <label for="forest-extend-opacity-slider" style="margin-right: 10px;">Transparency </label>
-                        <input name="forest-extend-opacity-slider" id="forest-extend-opacity-slider" data-slider-id="tree-extend-opacity-slider" type="text" style="width: 70%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                    </div>
-                    <div class="form-group text-center" ng-show="showForestExtendDownloadButtons">
-                        <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" id="forestExtendButton" class="btn btn-success" href="" data-toggle="modal"
-                                    data-download-button="getURL" data-download-year=[[forestExtendYear]]
-                                    ng-click="getDownloadURL('forestExtend', forestExtendYear)">
-                                Get Download URL
-                            </button>
-                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
-                                Download to GDrive
-                            </button>
-                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
-                                Download to GDrive
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-group" ng-show="showForestExtendDownloadURL" style="margin: 10px;">
-                        <input type="text" class="form-control" value="[[forestExtendDownloadURL]]">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default forestExtendCpyBtn js-tooltip"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Copy to clipboard"
-                                    ng-click="copyToClipBoard('forestExtend')"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                <!-- icon from google's material design library -->
-                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="input-group" ng-show="showForestExtendGDriveFileName" style="margin: 10px;">
-                        <input type="text" id="forestExtendGDriveFileName" placeholder="Enter Filename!" class="form-control">
-                        <span class="input-group-btn">
-                            <button type="button"
-                                    ng-click="saveToDrive('forestExtend', forestExtendYear)"
-                                    class="btn btn-primary"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                Start Download
-                            </button>
-                        </span>
-                    </div>
-                </li>
-            </ul>
-
-            <li data-toggle="collapse" data-target="#forestExtend" class="collapsed">
-                <a href="#">
-                    <span class="fas fa-tree fa-2x" aria-hidden="true"></span>
-                    Primary Forest
-                    <span class="sidebar-arrow"></span>
-                </a>
-            </li>
-            <ul class="sub-menu collapse" id="forestExtend">
-                <li><span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="tree canopy height"></span>
-                    <p class="inline-block-display">Primary Forest </p>
-                    <div class="form-group inline-block-display">
-                        <select name="year-filter" class="form-control" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="primaryForestYear" ng-change="primaryForestYearChange(primaryForestYear)">
-                        </select>
-                    </div>
-                    <div class="form-group" ng-show="showPrimaryForestOpacitySlider">
-                        <label for="primary-forest-opacity-slider" style="margin-right: 10px;">Transparency </label>
-                        <input name="primary-forest-opacity-slider" id="primary-forest-opacity-slider" style="width: 70%;" data-slider-id="primary-forest-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                    </div>
-                    <div class="form-group text-center" ng-show="showPrimaryForestDownloadButtons">
-                        <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" id="primaryForestButton" href="" data-toggle="modal"
-                                    data-download-button="getURL" data-download-year=[[primaryForestYear]]
-                                    ng-click="getDownloadURL('primaryForest', primaryForestYear)">
-                                Get Download URL
-                            </button>
-                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('primaryForest', primaryForestYear)">
-                                Download to GDrive
-                            </button>
-                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('primaryForest', primaryForestYear)">
-                                Download to GDrive
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-group" ng-show="showPrimaryForestDownloadURL" style="margin: 10px;">
-                        <input type="text" class="form-control" value="[[primaryForestDownloadURL]]">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default primaryForestCpyBtn js-tooltip"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Copy to clipboard"
-                                    ng-click="copyToClipBoard('primaryForest')"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                <!-- icon from google's material design library -->
-                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="input-group" ng-show="showPrimaryForestGDriveFileName" style="margin: 10px;">
-                        <input type="text" id="primaryForestGDriveFileName" placeholder="Enter Filename!" class="form-control">
-                        <span class="input-group-btn">
-                            <button type="button"
-                                    ng-click="saveToDrive('primaryForest', primaryForestYear)"
-                                    class="btn btn-primary"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                Start Download
-                            </button>
-                        </span>
-                    </div>
-                </li>
-            </ul>
-
-            <li data-toggle="collapse" data-target="#forestDynamics" class="collapsed">
-                <a href="#">
-                    <span class="fas fa-tree fa-2x" aria-hidden="true"></span> Forest Dynamics <span class="sidebar-arrow"></span>
-                </a>
-            </li>
-            <ul class="sub-menu collapse" id="forestDynamics">
-                <!--<li><a href="#">Forest Definition</a>
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="treeCanopyDefinition">
-                                    <h5>Tree canopy greater than (%)</h5>
-                                </label>
-                                <input type="number" class="form-control custom-form" id="treeCanopyDefinition" min="10" max="100" step="1" ng-init="treeCanopyDefinition=10" ng-model="treeCanopyDefinition">
-                            </div>
-                            <div class="form-group">
-                                <label for="treeHeightDefinition">
-                                    <h5>Tree height greater than (meters)</h5>
-                                </label>
-                                <input type="number" class="form-control custom-form" id="treeHeightDefinition" min="5" step="1" ng-init="treeHeightDefinition=5" ng-model="treeHeightDefinition">
-                            </div>-->
-                <!--<div class="form-group">
-                                <label for="areaDefinition">
-                                    <h5>Area greater than (hectares)</h5>
-                                </label>
-                                <input type="number" class="form-control custom-form" id="areaDefinition" min="0.5" step="0.1" ng-init="areaDefinition=0.5" ng-model="areaDefinition">
-                            </div>-->
-                <!--</form>
-                    </li>-->
-                <li>
-                    <p class="display-block text-align-center">
-                        Forest Gain 
-                        <span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="forest gain"></span>
-                    </p>
-                    <div class="text-center">
-                        <span>From </span>
-                        <div class="form-group inline-block-display">
-                            <select name="forest-gain-start-year" class="form-control" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestGainStartYear">
-                            </select>
-                        </div>
-                        <span> To </span>
-                        <div class="form-group inline-block-display">
-                            <select name="forest-gain-end-year" class="form-control" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestGainEndYear">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-success" ng-click="calculateForestGain(forestGainStartYear, forestGainEndYear)">
-                            Perform Calculations
-                        </button>
-                    </div>
-                    <div class="form-group" ng-show="showForestGainOpacitySlider">
-                        <label for="forest-gain-opacity-slider" style="margin-right: 10px;">Transparency </label>
-                        <input name="forest-gain-opacity-slider" id="forest-gain-opacity-slider" style="width: 70%;" data-slider-id="forest-gain-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                    </div>
-                    <div class="form-group text-center" ng-show="showForestGainDownloadButtons">
-                        <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" id="forestGainButton" href="" data-toggle="modal"
-                                    data-download-button="getURL" data-download-year-start=[[forestGainStartYear]] data-download-year-end=[[forestGainEndYear]]
-                                    ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
-                                Get Download URL
-                            </button>
-                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
-                                Download to GDrive
-                            </button>
-                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
-                                Download to GDrive
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-group" ng-show="showForestGainDownloadURL" style="margin: 10px;">
-                        <input type="text" class="form-control" value="[[forestGainDownloadURL]]">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default forestGainCpyBtn js-tooltip"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Copy to clipboard"
-                                    ng-click="copyToClipBoard('forestGain')"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                <!-- icon from google's material design library -->
-                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="input-group" ng-show="showForestGainGDriveFileName" style="margin: 10px;">
-                        <input type="text" id="forestGainGDriveFileName" placeholder="Enter Filename!" class="form-control">
-                        <span class="input-group-btn">
-                            <button type="button"
-                                    ng-click="saveToDrive('forestGain', forestGainStartYear, forestGainEndYear, true)"
-                                    class="btn btn-primary"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                Start Download
-                            </button>
-                        </span>
-                    </div>
-                </li>
-                <li>
-                    <p class="display-block text-align-center">
-                        Forest Loss 
-                        <span class="glyphicon glyphicon-question-sign js-tooltip" aria-hidden="true" title="forest loss"></span>
-                    </p>
-                    <div class="text-center">
-                        <span>From </span>
-                        <div class="form-group inline-block-display">
-                            <select name="forest-loss-start-year" class="form-control" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestLossStartYear">
-                            </select>
-                        </div>
-                        <span> To </span>
-                        <div class="form-group inline-block-display">
-                            <select name="forest-loss-end-year" class="form-control" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestLossEndYear">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-success" ng-click="calculateForestLoss(forestLossStartYear, forestLossEndYear)">
-                            Perform Calculations
-                        </button>
-                    </div>
-                    <div class="form-group" ng-show="showForestLossOpacitySlider">
-                        <label for="forest-loss-opacity-slider" style="margin-right: 10px;">Transparency </label>
-                        <input name="forest-loss-opacity-slider" id="forest-loss-opacity-slider" style="width: 70%;" data-slider-id="forest-loss-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                    </div>
-                    <div class="form-group text-center" ng-show="showForestLossDownloadButtons">
-                        <div ng-switch="showEmailID" class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" id="forestLossButton" href="" data-toggle="modal"
-                                    data-download-button="getURL" data-download-year-start=[[forestLossStartYear]] data-download-year-end=[[forestLossEndYear]]
-                                    ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
-                                Get Download URL
-                            </button>
-                            <button type="button" class="btn btn-info" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
-                                Download to GDrive
-                            </button>
-                            <button type="button" class="btn btn-info" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
-                                Download to GDrive
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-group" ng-show="showForestLossDownloadURL" style="margin: 10px;">
-                        <input type="text" class="form-control" value="[[forestLossDownloadURL]]">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default forestLossCpyBtn js-tooltip"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Copy to clipboard"
-                                    ng-click="copyToClipBoard('forestLoss')"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                <!-- icon from google's material design library -->
-                                <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                            </button>
-                        </span>
-                    </div>
-                    <div class="input-group" ng-show="showForestLossGDriveFileName" style="margin: 10px;">
-                        <input type="text" id="forestLossGDriveFileName" placeholder="Enter Filename!" class="form-control">
-                        <span class="input-group-btn">
-                            <button type="button"
-                                    ng-click="saveToDrive('forestLoss', forestLossStartYear, forestLossEndYear, true)"
-                                    class="btn btn-primary"
-                                    style="height: 34px;margin-bottom: 14px;">
-                                Start Download
-                            </button>
-                        </span>
-                    </div>
-                </li>
-                <!--<li><a href="#">Forest Change </a>
-                    <div class="text-center">
-                        <span>From </span>
-                        <div class="form-group inline-block-display">
-                            <select name="forest-change-start-year" class="form-control" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="forestChangeStartYear">
-                                </select>
-                        </div>
-                        <span> To </span>
-                        <div class="form-group inline-block-display">
-                            <select name="forest-change-end-year" class="form-control" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2017" ng-model="forestChangeEndYear">
-                                </select>
-                        </div>
-                        </span>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success" ng-click="calculateForestChange(forestChangeStartYear, forestChangeEndYear)">
-                                Perform Calculations
-                            </button>
-                        </div>
-                        <div class="form-group" ng-show="showForestChangeOpacitySlider">
-                            <label for="forest-change-opacity-slider" style="margin-right: 10px;">Opacity </label>
-                            <input name="forest-change-opacity-slider" id="forest-change-opacity-slider" style="width: 70%;" data-slider-id="forest-change-opacity-slider" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
-                        </div>
-                        <div class="form-group text-center" ng-show="showForestChangeDownloadButtons">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-success" href="" ng-click="getDownloadURL('forestChange', forestChangeStartYear, forestChangeEndYear, true)">
-                                    Get Download URL
-                                </button>
-                                <button type="button" class="btn btn-info" href="" ng-click="showGDriveFileName('forestChange', forestChangeStartYear, forestChangeEndYear, true)">
-                                    Download to GDrive
-                                </button>
-                            </div>
-                        </div>
-                        <div class="input-group" ng-show="showForestChangeDownloadURL" style="margin: 10px;">
-                            <input type="text" class="form-control" value="[[forestChangeDownloadURL]]">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default forestChangeCpyBtn js-tooltip"
-                                        data-toggle="tooltip" data-placement="bottom"
-                                        title="Copy to clipboard"
-                                        ng-click="copyToClipBoard('forestChange')"
-                                        style="height: 34px;margin-bottom: 14px;">
-                                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
-                                </button>
-                            </span>
-                        </div>
-                        <div class="input-group" ng-show="showForestChangeGDriveFileName" style="margin: 10px;">
-                            <input type="text" id="forestChangeGDriveFileName" placeholder="Enter Filename for GDrive!" class="form-control">
-                            <span class="input-group-btn">
-                                <button type="button"
-                                        ng-click="saveToDrive('forestChange', forestChangeStartYear, forestChangeEndYear, true)"
-                                        class="btn btn-primary"
-                                        style="height: 34px;margin-bottom: 14px;">
-                                    Start Download
-                                </button>
-                            </span>
-                        </div>
-                </li>-->
-            </ul>
-
-            <!--<li data-toggle="collapse" data-target="#landUse" class="collapsed">
-                <a href="#">
-                    <span class="glyphicon glyphicon-grain" aria-hidden="true"></span> Forest Land Use <span class="sidebar-arrow"></span>
-                </a>
-            </li>
-            <ul class="sub-menu collapse" id="landUse">
-                <li><a href="#">Primary Forest</a></li>
-                    <li><a href="#">Plantations</a></li>
-                <li>Coming Soon...</li>
-            </ul>-->
-
-        </ul>
+  <div class="sideanv-content">
+    <span class="closebtn" id="sidenav-landcover-close">&times;</span>
+    <label><b>FOREST DEFINITION</b></label>
+    <div class="form-group">
+      <label for="treeCanopyDefinition">
+        <h5>Tree canopy greater than (%)</h5>
+      </label>
+      <input type="number" class="form-control-forest custom-form" id="treeCanopyDefinition" min="10" max="100" step="1" ng-init="treeCanopyDefinition=10" ng-model="treeCanopyDefinition">
     </div>
+    <div class="form-group">
+      <label for="treeHeightDefinition">
+        <h5>Tree height greater than (m.)</h5>
+      </label>
+      <input type="number" class="form-control-forest custom-form" id="treeHeightDefinition" min="5" step="1" ng-init="treeHeightDefinition=5" ng-model="treeHeightDefinition">
+    </div>
+    <hr>
+    <div class="" id="forest-extent-panel">
+      <label><b>FOREST EXTENT</b></label>
+      <div class="toggles-list toggle">
+        <label class="switch_layer">
+          <input id="treeCanopySwitch" name="treeCanopySwitch"  type="checkbox" checked>
+          <span class="slider_toggle round"></span>
+        </label>
+        <label>Tree Canopy Cover</label>
+      </div>
+      <select name="year-filter" class="form-control-forest" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="treeCanopyYear" ng-change="treeCanopyYearChange(treeCanopyYear)">
+      </select>
+
+      <div ng-show="showTreeCanopyOpacitySlider" class="opacity-slider">
+        <p>Opacity:</p>
+        <input type="range" min="1" max="100" value="100" class="slider" id="tree-canopy-opacity-slider" style="width: 100%;">
+        <span>0%</span><span style="float:right;">100%</span>
+      </div>
+
+      <div class="form-group text-center" ng-show="showTreeCanopyDownloadButtons">
+        <div ng-switch="showEmailID" class="btn-group" role="group">
+          <button type="button" class="btn btn-success btn-custom-sm" href="" data-toggle="modal" id="treeCanopyButton"
+          data-download-button="getURL" data-download-year=[[treeCanopyYear]]
+          ng-click="getDownloadURL('treeCanopy', treeCanopyYear)">
+          Get Download URL
+        </button>
+        <button type="button" class="btn btn-info btn-custom-sm" ng-switch-when="true" ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
+          Download to GDrive
+        </button>
+        <button type="button" class="btn btn-info btn-custom-sm" disabled="disabled" ng-switch-default ng-click="showGDriveFileName('treeCanopy', treeCanopyYear)">
+          Download to GDrive
+        </button>
+      </div>
+    </div>
+    <div class="input-group" ng-show="showTreeCanopyDownloadURL" style="margin: 10px;">
+      <input type="text" class="form-control-forest" value="[[treeCanopyDownloadURL]]">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default treeCanopyCpyBtn js-tooltip"
+        data-toggle="tooltip" data-placement="bottom"
+        title="Copy to clipboard"
+        ng-click="copyToClipBoard('treeCanopy')"
+        style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+        <!-- icon from google's material design library -->
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+          <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+        </svg>
+      </button>
+    </span>
+  </div>
+  <div class="input-group" ng-show="showTreeCanopyGDriveFileName" style="margin: 10px;">
+    <input type="text" id="treeCanopyGDriveFileName" placeholder="Enter Filename!" class="form-control-forest">
+    <span class="input-group-btn">
+      <button type="button"
+      ng-click="saveToDrive('treeCanopy', treeCanopyYear)"
+      class="btn btn-primary"
+      style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+      Start Download
+    </button>
+  </span>
+</div>
+
+
+
+<div class="toggles-list toggle">
+  <label class="switch_layer">
+    <input id="treeHeightSwitch" name="treeHeightSwitch"  type="checkbox" checked>
+    <span class="slider_toggle round"></span>
+  </label>
+  <label>Tree Canopy Height</label>
+</div>
+<select name="year-filter" class="form-control-forest" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="treeHeightYear" ng-change="treeHeightYearChange(treeHeightYear)">
+</select>
+
+<div ng-show="showTreeHeightOpacitySlider" class="opacity-slider">
+  <p>Opacity:</p>
+  <input type="range" min="1" max="100" value="100" class="slider" id="tree-height-opacity-slider" style="width: 100%;">
+  <span>0%</span><span style="float:right;">100%</span>
+</div>
+
+<div class="form-group text-center" ng-show="showTreeHeightDownloadButtons">
+  <div ng-switch="showEmailID" class="btn-group" role="group">
+    <button type="button" class="btn btn-success btn-custom-sm" id="treeHeightButton" href="" data-toggle="modal"
+    data-download-button="getURL" data-download-year=[[treeHeightYear]]
+    ng-click="getDownloadURL('treeHeight', treeHeightYear)">
+    Get Download URL
+  </button>
+  <button type="button" class="btn btn-info  btn-custom-sm" ng-switch-when="true" href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
+    Download to GDrive
+  </button>
+  <button type="button" class="btn btn-info  btn-custom-sm" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('treeHeight', treeHeightYear)">
+    Download to GDrive
+  </button>
+</div>
+</div>
+<div class="input-group" ng-show="showTreeHeightDownloadURL" style="margin: 10px;">
+  <input type="text" class="form-control-forest" value="[[treeHeightDownloadURL]]">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default treeHeightCpyBtn js-tooltip"
+    data-toggle="tooltip" data-placement="bottom"
+    title="Copy to clipboard"
+    ng-click="copyToClipBoard('treeHeight')"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    <!-- icon from google's material design library -->
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+      <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+    </svg>
+  </button>
+</span>
+</div>
+<div class="input-group" ng-show="showTreeHeightGDriveFileName" style="margin: 10px;">
+  <input type="text" id="treeHeightGDriveFileName" placeholder="Enter Filename!" class="form-control-forest">
+  <span class="input-group-btn">
+    <button type="button"
+    ng-click="saveToDrive('treeHeight', treeHeightYear)"
+    class="btn btn-primary"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    Start Download
+  </button>
+</span>
+</div>
+
+
+<div class="toggles-list toggle">
+  <label class="switch_layer">
+    <input id="forestExtendSwitch" name="forestExtendSwitch" type="checkbox" checked>
+    <span class="slider_toggle round"></span>
+  </label>
+  <label>Annual Forest Extend</label>
+</div>
+<select name="year-filter" class="form-control-forest" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestExtendYear" ng-change="calculateForestExtend(forestExtendYear)">
+</select>
+
+<div ng-show="showForestExtendOpacitySlider" class="opacity-slider">
+  <p>Opacity:</p>
+  <input type="range" min="1" max="100" value="100" class="slider" id="forest-extend-opacity-slider" style="width: 100%;">
+  <span>0%</span><span style="float:right;">100%</span>
+</div>
+
+<div class="form-group text-center" ng-show="showForestExtendDownloadButtons">
+  <div ng-switch="showEmailID" class="btn-group" role="group">
+    <button type="button" id="forestExtendButton" class="btn btn-success btn-custom-sm" href="" data-toggle="modal"
+    data-download-button="getURL" data-download-year=[[forestExtendYear]]
+    ng-click="getDownloadURL('forestExtend', forestExtendYear)">
+    Get Download URL
+  </button>
+  <button type="button" class="btn btn-info btn-custom-sm" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
+    Download to GDrive
+  </button>
+  <button type="button" class="btn btn-info btn-custom-sm" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestExtend', forestExtendYear)">
+    Download to GDrive
+  </button>
+</div>
+</div>
+<div class="input-group" ng-show="showForestExtendDownloadURL" style="margin: 10px;">
+  <input type="text" class="form-control-forest" value="[[forestExtendDownloadURL]]">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default forestExtendCpyBtn js-tooltip"
+    data-toggle="tooltip" data-placement="bottom"
+    title="Copy to clipboard"
+    ng-click="copyToClipBoard('forestExtend')"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    <!-- icon from google's material design library -->
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+      <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+    </svg>
+  </button>
+</span>
+</div>
+<div class="input-group" ng-show="showForestExtendGDriveFileName" style="margin: 10px;">
+  <input type="text" id="forestExtendGDriveFileName" placeholder="Enter Filename!" class="form-control-forest">
+  <span class="input-group-btn">
+    <button type="button"
+    ng-click="saveToDrive('forestExtend', forestExtendYear)"
+    class="btn btn-primary"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    Start Download
+  </button>
+</span>
+</div>
+</div>
+
+<div id="primary-forest-panel">
+  <label><b>PRIMARY FOREST</b></label>
+
+  <div class="toggles-list toggle">
+    <label class="switch_layer">
+      <input id="primaryForestSwitch" name="primaryForestSwitch"  type="checkbox" checked>
+      <span class="slider_toggle round"></span>
+    </label>
+    <label>Primary Forest</label>
+  </div>
+  <select name="year-filter" class="form-control-forest" id="year-filter" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="primaryForestYear" ng-change="primaryForestYearChange(primaryForestYear)">
+  </select>
+
+  <div ng-show="showPrimaryForestOpacitySlider" class="opacity-slider">
+    <p>Opacity:</p>
+    <input type="range" min="1" max="100" value="100" class="slider" id="primary-forest-opacity-slider" style="width: 100%;">
+    <span>0%</span><span style="float:right;">100%</span>
+  </div>
+
+  <div class="form-group text-center" ng-show="showPrimaryForestDownloadButtons">
+    <div ng-switch="showEmailID" class="btn-group" role="group">
+      <button type="button" class="btn btn-success btn-custom-sm" id="primaryForestButton" href="" data-toggle="modal"
+      data-download-button="getURL" data-download-year=[[primaryForestYear]]
+      ng-click="getDownloadURL('primaryForest', primaryForestYear)">
+      Get Download URL
+    </button>
+    <button type="button" class="btn btn-info btn-custom-sm" ng-switch-when="true" href="" ng-click="showGDriveFileName('primaryForest', primaryForestYear)">
+      Download to GDrive
+    </button>
+    <button type="button" class="btn btn-info btn-custom-sm" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('primaryForest', primaryForestYear)">
+      Download to GDrive
+    </button>
+  </div>
+</div>
+<div class="input-group" ng-show="showPrimaryForestDownloadURL" style="margin: 10px;">
+  <input type="text" class="form-control-forest" value="[[primaryForestDownloadURL]]">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default primaryForestCpyBtn js-tooltip"
+    data-toggle="tooltip" data-placement="bottom"
+    title="Copy to clipboard"
+    ng-click="copyToClipBoard('primaryForest')"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    <!-- icon from google's material design library -->
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+      <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+    </svg>
+  </button>
+</span>
+</div>
+<div class="input-group" ng-show="showPrimaryForestGDriveFileName" style="margin: 10px;">
+  <input type="text" id="primaryForestGDriveFileName" placeholder="Enter Filename!" class="form-control-forest">
+  <span class="input-group-btn">
+    <button type="button"
+    ng-click="saveToDrive('primaryForest', primaryForestYear)"
+    class="btn btn-primary"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    Start Download
+  </button>
+</span>
+</div>
+
+
+</div>
+<div id="forest-dynamics-panel">
+  <label><b>FOREST DYNAMICS</b></label>
+
+  <div class="toggles-list toggle">
+    <label class="switch_layer">
+      <input id="forestGainSwitch" name="forestGainSwitch"  type="checkbox" checked>
+      <span class="slider_toggle round"></span>
+    </label>
+    <label>Forest Gain</label>
+  </div>
+
+  <div ng-show="showForestGainOpacitySlider" class="opacity-slider">
+    <p>Opacity:</p>
+    <input type="range" min="1" max="100" value="100" class="slider" id="forest-gain-opacity-slider" style="width: 100%;">
+    <span>0%</span><span style="float:right;">100%</span>
+  </div>
+
+  <div>
+    <span style="font-size:12px;">From </span>
+    <div class="form-group inline-block-display">
+      <select name="forest-gain-start-year" class="form-control-forest" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestGainStartYear">
+      </select>
+    </div>
+    <span style="font-size:12px;"> To </span>
+    <div class="form-group inline-block-display">
+      <select name="forest-gain-end-year" class="form-control-forest" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestGainEndYear">
+      </select>
+    </div>
+  </div>
+  <div class="text-center">
+    <button type="button" class="btn btn-success btn-custom-md" ng-click="calculateForestGain(forestGainStartYear, forestGainEndYear)">
+      Perform Calculations
+    </button>
+  </div>
+
+  <div class="form-group text-center" ng-show="showForestGainDownloadButtons">
+    <div ng-switch="showEmailID" class="btn-group" role="group">
+      <button type="button" class="btn btn-success btn-custom-sm" id="forestGainButton" href="" data-toggle="modal"
+      data-download-button="getURL" data-download-year-start=[[forestGainStartYear]] data-download-year-end=[[forestGainEndYear]]
+      ng-click="getDownloadURL('forestGain', forestGainStartYear, forestGainEndYear, true)">
+      Get Download URL
+    </button>
+    <button type="button" class="btn btn-info btn-custom-sm" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
+      Download to GDrive
+    </button>
+    <button type="button" class="btn btn-info btn-custom-sm" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestGain', forestGainStartYear, forestGainEndYear, true)">
+      Download to GDrive
+    </button>
+  </div>
+</div>
+<div class="input-group" ng-show="showForestGainDownloadURL" style="margin: 10px;">
+  <input type="text" class="form-control-forest" value="[[forestGainDownloadURL]]">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default forestGainCpyBtn js-tooltip"
+    data-toggle="tooltip" data-placement="bottom"
+    title="Copy to clipboard"
+    ng-click="copyToClipBoard('forestGain')"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    <!-- icon from google's material design library -->
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+      <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+    </svg>
+  </button>
+</span>
+</div>
+<div class="input-group" ng-show="showForestGainGDriveFileName" style="margin: 10px;">
+  <input type="text" id="forestGainGDriveFileName" placeholder="Enter Filename!" class="form-control-forest">
+  <span class="input-group-btn">
+    <button type="button"
+    ng-click="saveToDrive('forestGain', forestGainStartYear, forestGainEndYear, true)"
+    class="btn btn-primary"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    Start Download
+  </button>
+</span>
+</div>
+
+<div class="toggles-list toggle">
+  <label class="switch_layer">
+    <input id="forestLossSwitch" name="forestLossSwitch"  type="checkbox" checked>
+    <span class="slider_toggle round"></span>
+  </label>
+  <label>Forest Loss</label>
+</div>
+
+<div ng-show="showForestLossOpacitySlider" class="opacity-slider">
+  <p>Opacity:</p>
+  <input type="range" min="1" max="100" value="100" class="slider" id="forest-loss-opacity-slider" style="width: 100%;">
+  <span>0%</span><span style="float:right;">100%</span>
+</div>
+
+<div>
+  <span>From </span>
+  <div class="form-group inline-block-display">
+    <select name="forest-loss-start-year" class="form-control-forest" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestLossStartYear">
+    </select>
+  </div>
+  <span> To </span>
+  <div class="form-group inline-block-display">
+    <select name="forest-loss-end-year" class="form-control-forest" ng-options="option for option in [] | treeCanopyHeightYearRange:2000:2018" ng-model="forestLossEndYear">
+    </select>
+  </div>
+</div>
+<div class="text-center">
+  <button type="button" class="btn btn-success btn-custom-md" ng-click="calculateForestLoss(forestLossStartYear, forestLossEndYear)">
+    Perform Calculations
+  </button>
+</div>
+
+<div class="form-group text-center" ng-show="showForestLossDownloadButtons">
+  <div ng-switch="showEmailID" class="btn-group" role="group">
+    <button type="button" class="btn btn-success btn-custom-sm" id="forestLossButton" href="" data-toggle="modal"
+    data-download-button="getURL" data-download-year-start=[[forestLossStartYear]] data-download-year-end=[[forestLossEndYear]]
+    ng-click="getDownloadURL('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+    Get Download URL
+  </button>
+  <button type="button" class="btn btn-info btn-custom-sm" ng-switch-when="true" href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+    Download to GDrive
+  </button>
+  <button type="button" class="btn btn-info btn-custom-sm" disabled="disabled" ng-switch-default href="" ng-click="showGDriveFileName('forestLoss', forestLossStartYear, forestLossEndYear, true)">
+    Download to GDrive
+  </button>
+</div>
+</div>
+<div class="input-group" ng-show="showForestLossDownloadURL" style="margin: 10px;">
+  <input type="text" class="form-control-forest" value="[[forestLossDownloadURL]]">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default forestLossCpyBtn js-tooltip"
+    data-toggle="tooltip" data-placement="bottom"
+    title="Copy to clipboard"
+    ng-click="copyToClipBoard('forestLoss')"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    <!-- icon from google's material design library -->
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+      <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+    </svg>
+  </button>
+</span>
+</div>
+<div class="input-group" ng-show="showForestLossGDriveFileName" style="margin: 10px;">
+  <input type="text" id="forestLossGDriveFileName" placeholder="Enter Filename!" class="form-control-forest">
+  <span class="input-group-btn">
+    <button type="button"
+    ng-click="saveToDrive('forestLoss', forestLossStartYear, forestLossEndYear, true)"
+    class="btn btn-primary"
+    style="height: 20px;margin-bottom: 10px;padding: 1px 10px;background: #333;">
+    Start Download
+  </button>
+</span>
+</div>
+</div>
+
+</div>
+
 </div>

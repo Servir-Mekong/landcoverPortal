@@ -16,11 +16,6 @@ var settings = {
             'show': true
         },
         {
-            'name': 'Publications',
-            'url': '/publications/',
-            'show': true
-        },
-        {
             'name': 'Library',
             'url': '/library/code',
             'show': true

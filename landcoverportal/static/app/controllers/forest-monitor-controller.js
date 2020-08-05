@@ -183,14 +183,6 @@
          };
 
 
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
-        // Setup the click event listener
-        analysisToolControlUI.addEventListener('click', function () {
-            $scope.toggleToolControl();
-        });
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
-
         /**
          * Tab
          */
@@ -349,6 +341,7 @@
         $scope.getDownloadURL = function (type, startYear, endYear, requireBoth) {
             var verified = verifyBeforeDownload(startYear, endYear, requireBoth);
             if (verified) {
+              console.log("verified")
                 if ($scope.fmsUserDownloadInfo) {
                     $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
                     showInfoAlert('Preparing Download Link...');
@@ -398,6 +391,7 @@
                         console.log(error);
                     });
                 } else {
+                  console.log("call model")
                     $scope.fmsUserInfoTrigger = type;
                     $('#fms-user-info-modal').modal('show');
                     return true;
@@ -659,11 +653,11 @@
         });
 
         // Callbacks for Parameters (forest canopy, change, loss etc)
-        var parameterChangeSuccessCallback = function (name, data, slider, message) {
+        var parameterChangeSuccessCallback = function (name, data, message) {
             MapService.removeGeoJson(map);
             var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, name);
             loadMap(name, mapType);
-            slider.slider('setValue', 1);
+            //slider.slider('setValue', 1);
             showSuccessAlert(message);
             $scope.showLoader = false;
         };
@@ -690,18 +684,42 @@
         $scope.treeCanopyOpacitySliderValue = null;
         $scope.showTreeCanopyDownloadButtons = false;
 
-        /* slider init */
-        var treeCanopySlider = $('#tree-canopy-opacity-slider').slider(sliderOptions)
-        .on('slideStart', function (event) {
-            $scope.treeCanopyOpacitySliderValue = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.treeCanopyOpacitySliderValue) {
-                $scope.treeCanopyOpacitySliderValue = value;
-                $scope.overlays.treeCanopy.setOpacity(value);
-            }
+        $(document).on('input', '#tree-canopy-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.treeCanopyOpacitySliderValue = value;
+          $scope.overlays.treeCanopy.setOpacity(value);
         });
+
+        $(document).on('input', '#tree-height-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.treeHeightOpacitySliderValue = value;
+          $scope.overlays.treeHeight.setOpacity(value);
+        });
+
+        $(document).on('input', '#forest-extend-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.forestExtendOpacitySliderValue = value;
+          $scope.overlays.forestExtend.setOpacity(value);
+        });
+
+        $(document).on('input', '#primary-forest-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.primaryForestOpacitySliderValue = value;
+          $scope.overlays.primaryForest.setOpacity(value);
+        });
+
+        $(document).on('input', '#forest-gain-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.forestGainOpacitySliderValue = value;
+          $scope.overlays.forestGain.setOpacity(value);
+        });
+
+        $(document).on('input', '#forest-loss-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.forestLossOpacitySliderValue = value;
+          $scope.overlays.forestLoss.setOpacity(value);
+        });
+
 
         /* Layer switcher */
         $('#treeCanopySwitch').change(function () {
@@ -731,7 +749,7 @@
 
             ForestMonitorService.treeCanopyChange(parameters)
             .then(function (data) {
-                parameterChangeSuccessCallback(name, data, treeCanopySlider, 'Tree Canopy Cover for year ' + year + ' !');
+                parameterChangeSuccessCallback(name, data, 'Tree Canopy Cover for year ' + year + ' !');
                 $scope.showTreeCanopyOpacitySlider = true;
                 $scope.showTreeCanopyDownloadButtons = true;
             }, function (error) {
@@ -762,18 +780,6 @@
         $scope.treeHeightOpacitySliderValue = null;
         $scope.showTreeHeightDownloadButtons = false;
 
-        /* slider init */
-        var treeHeightSlider = $('#tree-height-opacity-slider').slider(sliderOptions)
-        .on('slideStart', function (event) {
-            $scope.treeHeightOpacitySliderValue = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.treeHeightOpacitySliderValue) {
-                $scope.treeHeightOpacitySliderValue = value;
-                $scope.overlays.treeHeight.setOpacity(value);
-            }
-        });
 
         /* Layer switcher */
         $('#treeHeightSwitch').change(function () {
@@ -801,7 +807,7 @@
 
             ForestMonitorService.treeHeightChange(parameters)
             .then(function (data) {
-                parameterChangeSuccessCallback(name, data, treeHeightSlider, 'Tree Canopy Height for year ' + year + ' !');
+                parameterChangeSuccessCallback(name, data, 'Tree Canopy Height for year ' + year + ' !');
                 $scope.showTreeHeightOpacitySlider = true;
                 $scope.showTreeHeightDownloadButtons = true;
             }, function (error) {
@@ -815,19 +821,6 @@
        $scope.showPrimaryForestOpacitySlider = false;
        $scope.primaryForestOpacitySliderValue = null;
        $scope.showPrimaryForestDownloadButtons = false;
-
-       /* slider init */
-       var primaryForestSlider = $('#primary-forest-opacity-slider').slider(sliderOptions)
-       .on('slideStart', function (event) {
-           $scope.primaryForestOpacitySliderValue = $(this).data('slider').getValue();
-       })
-       .on('slideStop', function (event) {
-           var value = $(this).data('slider').getValue();
-           if (value !== $scope.primaryForestOpacitySliderValue) {
-               $scope.primaryForestOpacitySliderValue = value;
-               $scope.overlays.primaryForest.setOpacity(value);
-           }
-       });
 
        /* Layer switcher */
        $('#primaryForestSwitch').change(function () {
@@ -856,7 +849,7 @@
 
            ForestMonitorService.primaryForestChange(parameters)
            .then(function (data) {
-               parameterChangeSuccessCallback(name, data, primaryForestSlider, 'Primary Forest for year ' + year + ' !');
+               parameterChangeSuccessCallback(name, data, 'Primary Forest for year ' + year + ' !');
                $scope.showPrimaryForestOpacitySlider = true;
                $scope.showPrimaryForestDownloadButtons = true;
            }, function (error) {
@@ -887,18 +880,7 @@
         $scope.forestGainOpacitySliderValue = null;
         $scope.showForestGainDownloadButtons = false;
 
-        /* slider init */
-        var forestGainSlider = $('#forest-gain-opacity-slider').slider(sliderOptions)
-        .on('slideStart', function (event) {
-            $scope.forestGainOpacitySliderValue = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.forestGainOpacitySliderValue) {
-                $scope.forestGainOpacitySliderValue = value;
-                $scope.overlays.forestGain.setOpacity(value);
-            }
-        });
+
 
         /* Layer switcher */
         $('#forestGainSwitch').change(function () {
@@ -931,7 +913,7 @@
 
                 ForestMonitorService.forestGain(parameters)
                 .then(function (data) {
-                    parameterChangeSuccessCallback(name, data, forestGainSlider, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
+                    parameterChangeSuccessCallback(name, data, 'Forest Gain from year ' + startYear + ' to ' + endYear + ' !');
                     $scope.showForestGainOpacitySlider = true;
                     $scope.showForestGainDownloadButtons = true;
                 }, function (error) {
@@ -964,18 +946,7 @@
         $scope.forestLossOpacitySliderValue = null;
         $scope.showForestLossDownloadButtons = false;
 
-        /* slider init */
-        var forestLossSlider = $('#forest-loss-opacity-slider').slider(sliderOptions)
-        .on('slideStart', function (event) {
-            $scope.forestLossOpacitySliderValue = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.forestLossOpacitySliderValue) {
-                $scope.forestLossOpacitySliderValue = value;
-                $scope.overlays.forestLoss.setOpacity(value);
-            }
-        });
+
 
         /* Layer switcher */
         $('#forestLossSwitch').change(function () {
@@ -1008,7 +979,7 @@
 
                 ForestMonitorService.forestLoss(parameters)
                 .then(function (data) {
-                    parameterChangeSuccessCallback(name, data, forestLossSlider, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
+                    parameterChangeSuccessCallback(name, data, 'Forest Loss from year ' + startYear + ' to ' + endYear + ' !');
                     $scope.showForestLossOpacitySlider = true;
                     $scope.showForestLossDownloadButtons = true;
                 }, function (error) {
@@ -1043,18 +1014,7 @@
         $scope.forestExtendOpacitySliderValue = null;
         $scope.showForestExtendDownloadButtons = false;
 
-        /* slider init */
-        var forestExtendSlider = $('#forest-extend-opacity-slider').slider(sliderOptions)
-        .on('slideStart', function (event) {
-            $scope.forestExtendOpacitySliderValue = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.forestExtendOpacitySliderValue) {
-                $scope.forestExtendOpacitySliderValue = value;
-                $scope.overlays.forestExtend.setOpacity(value);
-            }
-        });
+
 
         /* Layer switcher */
         $('#forestExtendSwitch').change(function () {
@@ -1086,7 +1046,7 @@
 
             ForestMonitorService.forestExtend(parameters)
             .then(function (data) {
-                parameterChangeSuccessCallback(name, data, forestExtendSlider, 'Forest Extend for year ' + year + ' !');
+                parameterChangeSuccessCallback(name, data, 'Forest Extend for year ' + year + ' !');
                 $scope.showForestExtendOpacitySlider = true;
                 $scope.showForestExtendDownloadButtons = true;
             }, function (error) {
@@ -1109,6 +1069,55 @@
                 parameterChangeErrorCallback(error);
             });
         };
+
+        /* Layer switcher */
+        $('#primaryForestSwitch').change(function () {
+            if ($(this).is(':checked')) {
+                $scope.overlays.primaryForest.setOpacity($scope.primaryForestOpacitySliderValue);
+            } else {
+                $scope.overlays.primaryForest.setOpacity(0);
+            }
+        });
+
+        $('.closebtn').click(function() {
+          $("#sidenav-forest-class").css("width", "0");;
+          $(".control-panel").css("right", "10px");
+        });
+
+        $('#control-forest-extent').click(function() {
+          $("#sidenav-forest-class").css("width", "250px");
+          $(".control-panel").css("right", "260px");
+          $("#forest-extent-panel").css("display", "block");
+          $("#primary-forest-panel").css("display", "none");
+          $("#forest-dynamics-panel").css("display", "none");
+        });
+
+        $('#control-primary-forest').click(function() {
+          $("#sidenav-forest-class").css("width", "250px");
+          $(".control-panel").css("right", "260px");
+          $("#forest-extent-panel").css("display", "none");
+          $("#primary-forest-panel").css("display", "block");
+          $("#forest-dynamics-panel").css("display", "none");
+        });
+
+        $('#control-forest-dynamics').click(function() {
+          $("#sidenav-forest-class").css("width", "250px");
+          $(".control-panel").css("right", "260px");
+          $("#forest-extent-panel").css("display", "none");
+          $("#primary-forest-panel").css("display", "none");
+          $("#forest-dynamics-panel").css("display", "block");
+        });
+        $('#control-forest-extent').click();
+        $('#zoom-in').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom+1);
+        });
+        $('#zoom-out').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom-1);
+        });
+
+
 
     });
 
