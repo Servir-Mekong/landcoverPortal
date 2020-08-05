@@ -14,8 +14,9 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
 
     # image collection
-    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
-    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
+
+    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/UMD/tree_canopy')
+    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/tree_height')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
@@ -134,7 +135,7 @@ class ForestMonitor():
                     get_image = False,
                     for_download = False,
                     year = None,
-                    tree_height_definition = 5, 
+                    tree_height_definition = 5,
                     ):
 
         if not year:
@@ -174,15 +175,42 @@ class ForestMonitor():
         }
 
     # -------------------------------------------------------------------------
-    def primary_forest(self, get_image=False, year=None):
+
+    def primary_forest(self, get_image=False, year=None, tree_height_definition = 5, tree_canopy_definition = 10):
 
         if not year:
             return {
                 'message': 'Please specify a year for which you want to perform the calculations!'
             }
 
-        image = ee.Image(ForestMonitor.PRIMARY_FOREST.filterDate('%s-01-01' % year,
-                                                                 '%s-12-31' % year).mean())
+        def getPrimaryForest(year, list):
+            #As anomaly images are computed, add them to the list.
+            tccImage = ee.Image(ForestMonitor.TREE_CANOPY.filterDate(ee.Date.fromYMD(year, 1, 1), ee.Date.fromYMD(year, 12, 31)).first())
+            tchImage = ee.Image(ForestMonitor.TREE_HEIGHT.filterDate(ee.Date.fromYMD(year, 1, 1), ee.Date.fromYMD(year, 12, 31)).first())
+            previous = ee.Image(ee.List(list).get(-1))
+            #You may choose to include the tree canopy height definition or not
+            mask = tccImage.gt(tree_canopy_definition).And(tchImage.gt(tree_height_definition)).And(previous.eq(1))
+            image = previous.updateMask(mask)
+            image = image.set('system:time_start', ee.Date.fromYMD(year, 1, 1).millis())
+            return ee.List(list).add(image)
+
+        PRIMARY_FOREST = ForestMonitor.PRIMARY_FOREST.sort('system:time_start', False);
+
+        primary2000 = PRIMARY_FOREST.first();
+
+        startYear = 2001
+        endYear = 2019
+
+        sequence =  ee.List.sequence(startYear, endYear)
+
+        first = ee.List([primary2000]);
+        primaryForestList = ee.List(sequence.iterate(getPrimaryForest, first))
+
+        primaryForest = ee.ImageCollection(primaryForestList)
+
+
+        image = ee.Image(primaryForest.filterDate('%s-01-01' % year,
+                                                  '%s-12-31' % year).mean()).toByte()
 
         # 0: non-forest
         # 1: forest
@@ -196,7 +224,7 @@ class ForestMonitor():
         map_id = image.getMapId({
             'min': '0',
             'max': '1',
-            'palette': '0b4523'
+            'palette': '2d783a'
         })
 
         return {
@@ -208,7 +236,7 @@ class ForestMonitor():
     @staticmethod
     def _get_combined_img_coll():
 
-        years = ee.List.sequence(2000, 2018)
+        years = ee.List.sequence(2000, 2019)
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
@@ -456,7 +484,11 @@ class ForestMonitor():
                                      tree_height_definition = tree_height_definition,
                                      )
         elif (type == 'primaryForest'):
-            image = self.primary_forest(get_image=True, year=start_year)
+            image = self.primary_forest(get_image=True,
+                                        year=start_year,
+                                        tree_canopy_definition = tree_canopy_definition,
+                                        tree_height_definition = tree_height_definition
+                                        )
             image = image.toByte()
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
@@ -530,7 +562,11 @@ class ForestMonitor():
                                      tree_height_definition = tree_height_definition,
                                      )
         elif (type == 'primaryForest'):
-            image = self.primary_forest(get_image=True, year=start_year)
+            image = self.primary_forest(get_image=True,
+                                        year=start_year,
+                                        tree_canopy_definition = tree_canopy_definition,
+                                        tree_height_definition = tree_height_definition
+                                        )
             image = image.toByte()
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
@@ -587,7 +623,7 @@ class ForestMonitor():
             print ('past %d seconds' % (i * settings.EE_TASK_POLL_FREQUENCY))
             i += 1
             time.sleep(settings.EE_TASK_POLL_FREQUENCY)
-        
+
         # Make a copy (or copies) in the user's Drive if the task succeeded
         state = task.status()['state']
         if state == ee.batch.Task.State.COMPLETED:
@@ -619,7 +655,11 @@ class ForestMonitor():
                                      )
         elif (type == 'primaryForest'):
             name = 'b1'
-            image = self.primary_forest(get_image=True, year=year)
+            image = self.primary_forest(get_image=True,
+                                        year=year,
+                                        tree_canopy_definition = tree_canopy_definition,
+                                        tree_height_definition = tree_height_definition
+                                        )
         elif (type == 'forestGain'):
             image = self.forest_gain(get_image = True,
                                      start_year = start_year,

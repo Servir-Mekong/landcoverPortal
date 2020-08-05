@@ -62,7 +62,11 @@ def api(request):
                                     tree_height_definition = tree_height_definition,
                                     )
         elif action == 'primary-forest':
-            data = core.primary_forest(year=post('year', ''))
+            data = core.primary_forest(year = post('year', ''),
+                                      tree_canopy_definition = tree_canopy_definition,
+                                      tree_height_definition = tree_height_definition,
+                                      )
+
         elif action == 'forest-gain':
             data = core.forest_gain(start_year = start_year,
                                     end_year = end_year,

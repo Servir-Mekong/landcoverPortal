@@ -103,12 +103,16 @@
             var shape = options.shape;
             var areaSelectFrom = options.areaSelectFrom;
             var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
 
             var req = {
                 method: 'POST',
                 url: '/api/forest-monitor/',
                 data: {
-                    year: year
+                    year: year,
+                    treeCanopyDefinition: treeCanopyDefinition,
+                    treeHeightDefinition: treeHeightDefinition
                 },
                 params: {
                     action: 'primary-forest'

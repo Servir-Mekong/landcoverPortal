@@ -844,7 +844,9 @@
                shape: $scope.shape,
                areaSelectFrom: $scope.areaSelectFrom,
                areaName: $scope.areaName,
-               type: name
+               type: name,
+               treeCanopyDefinition: $scope.treeCanopyDefinition,
+               treeHeightDefinition: $scope.treeHeightDefinition,
            };
 
            ForestMonitorService.primaryForestChange(parameters)

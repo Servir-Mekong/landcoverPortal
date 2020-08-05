@@ -214,11 +214,13 @@
 /* Sidebar */
 
 .sidebar-image-container {
-    /*width: 50%;
-    margin: 0 auto;*/
-    padding: 5px;
-    margin-left: 10%;
-    margin-right: 10%;
+  padding: 5px;
+  margin-left: 0%;
+  margin-right: 0;
+  position: absolute;
+  bottom: 90px;
+  width: 100%;
+  left: -10px;
 }
 
 
