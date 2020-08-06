@@ -39,8 +39,8 @@ class MyanmarPlantation():
     ]
 
     # geometries
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection("FAO/GAUL/2015/level0")
+    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('ADM0_NAME', ['Myanmar'])).geometry()
 
     # Class and Inde
     MAP_CLASSES = [
@@ -147,7 +147,8 @@ class MyanmarPlantation():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return MyanmarPlantation.DEFAULT_GEOM.buffer(10000)
+        # return MyanmarPlantation.DEFAULT_GEOM.buffer(10000)
+        return MyanmarPlantation.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
     def get_landcover(self, classes=range(0, 11), year=2018, download=False):

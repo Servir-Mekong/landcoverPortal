@@ -25,12 +25,11 @@
         </div>
 
         <!-- Sidebar Container -->
-        <div class="[[ sideClass ]]">
-            {% include "panels/side-panel-myanmar-plantation.html" %}
-        </div>
+        {% include "panels/side-panel-myanmar-plantation.html" %}
+
 
         <!-- Map Container -->
-        <div class="[[ mapClass ]] map" id="map" ng-init="initMap(2018, 'landcovermap'); getStats(); showProbabilityMap();"></div>
+        <div class="[[ mapClass ]] map" id="map" ng-init="initMap(2018, 'landcovermap'); showProbabilityMap(); getStats();"></div>
 
         <!-- Toogle button container -->
         <div id="tool-control-container"></div>
@@ -40,29 +39,55 @@
             <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
         </div>
 
+
+        <div class="control-panel map-component">
+          <div class="scalebar-container"></div>
+          <!-- Map Munu -->
+          <ul>
+            <li class="pointer shadow" id="zoom-in">
+              <svg class="panel-icon">
+                <use xlink:href="#icon-plus">
+                  <svg fill="#FFF" id="icon-plus" viewBox="0 0 1024 1024">
+                    <title>Zoom In</title>
+                    <path d="M573.44 245.76h-122.88v204.8h-204.8v122.88h204.8v204.8h122.88v-204.8h204.8v-122.88h-204.8v-204.8z" class="path1"></path>
+                  </svg>
+                </use>
+              </svg>
+              <span class="tooltipmap tooltipmap1 left"> ZOOM IN </span>
+            </li>
+            <li class="pointer shadow" id="zoom-out">
+              <svg class="panel-icon">
+                <svg fill="#FFF" id="icon-minus" viewBox="0 0 1024 1024">
+                  <title>Zoom Out</title>
+                  <path d="M778.24 573.44h-532.48v-122.88h532.48v122.88z" class="path1"></path>
+                </svg>
+              </svg>
+              <span class="tooltipmap tooltipmap2 left"> ZOOM OUT</span>
+            </li>
+
+            <li class="pointer shadow" id="sign-in" ng-click="googleSignIn()">
+              <svg class="panel-icon">
+                  <svg width="1.9em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                  </svg>
+              </svg>
+              <span class="tooltipmap tooltipmap3 left"> Sign in with Google </span>
+            </li>
+
+            <li class="pointer shadow" id="control-landcover">
+              <svg class="panel-icon">
+                <svg width="2em" height="1.5em" viewBox="0 0 16 16" class="bi bi-map" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M15.817.613A.5.5 0 0 1 16 1v13a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 14.51l-4.902.98A.5.5 0 0 1 0 15V2a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0l4.902.98 4.902-.98a.5.5 0 0 1 .415.103zM10 2.41l-4-.8v11.98l4 .8V2.41zm1 11.98l4-.8V1.61l-4 .8v11.98zm-6-.8V1.61l-4 .8v11.98l4-.8z"/>
+                </svg>
+              </svg>
+              <span class="tooltipmap tooltipmap4 left"> Land Cover</span>
+            </li>
+          </ul>
+        </div>
+
         <!-- Tab Container -->
         <div class="tab-tool" ng-show="showTabContainer">
-            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
-                <div class="btn-group" role="group">
-                    <button type="button" id="area" class="btn btn-primary js-tooltip" href="#area-tab" data-toggle="tab" title="Define Reporting Area">
-                        <i class="fas fa-map-marked-alt fa"></i> <b>Define Area</b>
-                    </button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button type="button" id="report" class="btn btn-default js-tooltip" href="#report-tab" data-toggle="tab" title="Reports">
-                        <i class='fas fa-chart-pie fa'></i> <b>Chart Report</b>
-                    </button>
-                </div>
-            </div>
-
-            <div class="well tab-tool-content">
-                <div class="tab-content">
-
-                    {% include "panels/area-selection-tab.html" %}
-
-                    <div class="tab-pane fade in" id="report-tab"></div>
-                </div>
-            </div>
+            {% include "panels/plantation-area-selection-tab.html" %}
         </div>
 
     </div>

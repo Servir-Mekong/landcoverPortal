@@ -76,6 +76,7 @@
                     fullscreenControlOptions: {
                         position: google.maps.ControlPosition.LEFT_TOP
                     },
+                    zoomControl: false,
                     zoomControlOptions: {
                         position: google.maps.ControlPosition.LEFT_TOP
                     },

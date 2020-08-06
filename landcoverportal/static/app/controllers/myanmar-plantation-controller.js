@@ -142,14 +142,6 @@
             $scope.$apply();
         };
 
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
-        // Setup the click event listener
-        analysisToolControlUI.addEventListener('click', function () {
-            $scope.toggleToolControl();
-        });
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
-
         /**
          * Tab
          */
@@ -552,11 +544,10 @@
             grid_num: $scope.endYear - $scope.startYear,
             prettify_enabled: false,
             onFinish: function (data) {
+              $scope.updateAssemblageProduct();
                 if ($scope.sliderYear !== data.from) {
                     $scope.sliderYear = data.from;
-                    if ($('#land-cover-classes-tab').hasClass('active')) {
-                        $scope.updateAssemblageProduct();
-                    }
+                    $scope.updateAssemblageProduct();
                 }
             }
         });
@@ -695,21 +686,10 @@
             // Landcover opacity slider
             $scope.landcoverOpacity = 1;
             $scope.showLandcoverOpacityController = true;
-            /* slider init */
-            var landcoverSlider = $('#landcover-opacity-slider').slider({
-                    formatter: function (value) {
-                        return 'Opacity: ' + value;
-                    },
-                    tooltip: 'none'
-                })
-            .on('slideStart', function (event) {
-                $scope.landcoverOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.landcoverOpacity) {
-                    $scope.overlays.landcovermap.setOpacity(value);
-                }
+
+            $(document).on('input', '#landcover-opacity-slider', function() {
+              var value = $(this).val()/100;
+              $scope.overlays.landcovermap.setOpacity(value);
             });
 
             var toggleLandcoverOpacityController = function () {
@@ -738,22 +718,10 @@
             // Probability opacity slider
             $scope.probabilityOpacity = 1;
             $scope.showProbabilityOpacityController = true;
-            /* slider init */
-            var probabilitySlider = $('#probability-opacity-slider').slider({
-                    formatter: function (value) {
-                        return 'Opacity: ' + value;
-                    },
-                    tooltip: 'none'
-                })
-            .on('slideStart', function (event) {
-                $scope.probabilityOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.probabilityOpacity) {
-                    $scope.probabilityOpacity = value;
-                    $scope.overlays.probabilitymap.setOpacity(value);
-                }
+
+            $(document).on('input', '#probability-opacity-slider', function() {
+              var value = $(this).val()/100;
+              $scope.overlays.probabilitymap.setOpacity(value);
             });
 
             var toggleProbabilityOpacityController = function () {
@@ -809,6 +777,25 @@
                 }
 
             };
+
+            $('#control-landcover').click(function() {
+              $("#sidenav-landcover-class").css("width", "250px");
+              $(".control-panel").css("right", "260px");
+            });
+            $('.closebtn').click(function() {
+              $("#sidenav-landcover-class").css("width", "0");
+              $(".control-panel").css("right", "10px");
+            });
+            $('#zoom-in').click(function() {
+              var currentZoom = map.getZoom();
+              map.setZoom(currentZoom+1);
+            });
+            $('#zoom-out').click(function() {
+              var currentZoom = map.getZoom();
+              map.setZoom(currentZoom-1);
+            });
+
+            $('#control-landcover').click();
 
     });
 
