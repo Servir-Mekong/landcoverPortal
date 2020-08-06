@@ -57,11 +57,11 @@
                 {
                     'name': 'Myanmar National FRA',
                     'url': '/myanmar-fra/',
-                    'show': true
+                    'show': false
                 },
                 {
                     'name': 'SERVIR Services',
-                    'url': '/service-applications/',
+                    'url': '/services/',
                     'show': true
                 }
             ]
@@ -208,42 +208,20 @@
         // Landcover opacity slider
         $scope.landcoverOpacity = 1;
         $scope.showLandcoverOpacitySlider = true;
-        /* slider init */
-        var landcoverSlider = $('#landcover-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.landcoverOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.landcoverOpacity) {
-                $scope.overlays.landcovermap.setOpacity(value);
-            }
+
+        $(document).on('input', '#landcover-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.landcovermap.setOpacity(value);
         });
 
         // Primitive opacity slider
         $scope.primitiveOpacity = 1;
         $scope.showPrimitiveOpacitySlider = false;
-        /* slider init */
-        var primitiveSlider = $('#primitive-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.primitiveOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.primitiveOpacity) {
-                $scope.overlays.primitivemap.setOpacity(value);
-            }
+        $(document).on('input', '#primitive-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.primitivemap.setOpacity(value);
         });
+
 
         /*
         * Select Options for Variables

@@ -3,6 +3,13 @@
   <div class="sideanv-content">
     <span class="closebtn" id="sidenav-landcover-close">&times;</span>
     <label><b>LAND COVER CLASSES</b></label>
+
+    <div ng-show="showLandcoverOpacitySlider" class="opacity-slider">
+      <p>Opacity:</p>
+      <input type="range" min="1" max="100" value="100" class="slider" id="landcover-opacity-slider" style="width: 100%;">
+      <span>0%</span><span style="float:right;">100%</span>
+    </div>
+
     <ul class="toggles-list">
 
       <!-- <li class="toggle"><label class="switch_layer"><input  name="country_toggle" id="country_toggle"  type="checkbox"><span class="slider_toggle round"></span></label><label>Country</label></li> -->
@@ -89,6 +96,13 @@
   <div class="sideanv-content">
     <span class="closebtn" id="sidenav-primitives-close">&times;</span>
     <label><b>PRIMITIVES CLASSES</b></label>
+
+    <div ng-show="showPrimitiveOpacitySlider" class="opacity-slider">
+      <p>Opacity:</p>
+      <input type="range" min="1" max="100" value="100" class="slider" id="primitive-opacity-slider" style="width: 100%;">
+      <span>0%</span><span style="float:right;">100%</span>
+    </div>
+
     <ul class="toggles-list">
       <!-- <li class="toggle"><label class="switch_layer"><input  name="country_toggle" id="country_toggle"  type="checkbox"><span class="slider_toggle round"></span></label><label>Country</label></li> -->
       <li class="toggle" ng-repeat="class in primitiveClasses">
