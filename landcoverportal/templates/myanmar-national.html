@@ -25,9 +25,8 @@
         </div>
 
         <!-- Sidebar Container -->
-        <div class="[[ sideClass ]]">
-            {% include "panels/side-panel-myanmar-national.html" %}
-        </div>
+        {% include "panels/side-panel-myanmar-national.html" %}
+
 
         <!-- Map Container -->
         <div class="[[ mapClass ]] map" id="map" ng-init="initMap(2017, 'landcovermap'); getStats();"></div>

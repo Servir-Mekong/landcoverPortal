@@ -72,7 +72,7 @@
                         position: google.maps.ControlPosition.TOP_CENTER
                     },
                     mapTypeId: 'terrain',
-                    fullscreenControl: true,
+                    fullscreenControl: false,
                     fullscreenControlOptions: {
                         position: google.maps.ControlPosition.LEFT_TOP
                     },

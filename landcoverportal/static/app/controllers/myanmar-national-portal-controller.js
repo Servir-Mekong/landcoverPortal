@@ -69,7 +69,7 @@
         $rootScope.$broadcast('changeExtraBrands', {
             extraBrands: [
                 {
-                    'src': 'images/monrec.png',
+                    'src': 'images/partners/monrec.png',
                     'show': true,
                     'href': 'http://www.monrec.gov.mm/'
                 }
@@ -181,14 +181,6 @@
              }
              $scope.$apply();
          };
-
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
-        // Setup the click event listener
-        analysisToolControlUI.addEventListener('click', function () {
-            $scope.toggleToolControl();
-        });
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
 
         /**
          * Tab
@@ -605,11 +597,11 @@
             onFinish: function (data) {
                 if ($scope.sliderYear !== data.from) {
                     $scope.sliderYear = data.from;
-                    if ($('#land-cover-classes-tab').hasClass('active')) {
-                        $scope.updateAssemblageProduct();
-                    } else if ($('#primitive-tab').hasClass('active')) {
-                        $scope.updatePrimitive($scope.primitiveIndex);
+                    $scope.updateAssemblageProduct();
+                    if(document.querySelector('input[name="radio"]:checked')){
+                      $scope.updatePrimitive($scope.primitiveIndex);
                     }
+
                 }
             }
         });
@@ -743,6 +735,37 @@
                 console.log(error);
             });
         };
+
+        $('#control-landcover').click(function() {
+          $("#sidenav-landcover-class").css("width", "250px");
+          $("#sidenav-primitives-class").css("width", "0");
+          $(".control-panel").css("right", "260px");
+        });
+
+        $('#control-primitives').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "250px");
+          $(".control-panel").css("right", "260px");
+        });
+
+
+        $('.closebtn').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "0");
+          $(".control-panel").css("right", "10px");
+        });
+        $('#zoom-in').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom+1);
+        });
+        $('#zoom-out').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom-1);
+        });
+
+        $('#control-landcover').click();
+        document.body.style.marginTop = "35px";
+        $("#map").css("height", "calc(100vh - 35px)")
     });
 
 })();
