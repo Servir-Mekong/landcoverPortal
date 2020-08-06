@@ -34,8 +34,8 @@ class MyanmarIPCC():
     ]
 
     # geometries
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection("FAO/GAUL/2015/level0")
+    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('ADM0_NAME', ['Myanmar'])).geometry()
 
     # Class and Index
     LANDCOVERCLASSES = [
@@ -174,7 +174,8 @@ class MyanmarIPCC():
                         feature = ee.Feature(province_json)
                     self.geometry = feature.geometry()
             else:
-                self.geometry = MyanmarIPCC.DEFAULT_GEOM.buffer(10000)
+                # self.geometry = MyanmarIPCC.DEFAULT_GEOM.buffer(10000)
+                self.geometry = MyanmarIPCC.DEFAULT_GEOM
         else:
             self.geometry = self._get_geometry(shape)
 
@@ -197,7 +198,8 @@ class MyanmarIPCC():
                     return ee.Geometry.Polygon(coor_list).convexHull()
                 return ee.Geometry.Polygon(coor_list)
 
-        return MyanmarIPCC.DEFAULT_GEOM.buffer(10000)
+        # return MyanmarIPCC.DEFAULT_GEOM.buffer(10000)
+        return MyanmarIPCC.DEFAULT_GEOM
 
     # -------------------------------------------------------------------------
     def get_landcover(self, classes=range(0, 11), year=2017, download=False):
@@ -242,7 +244,7 @@ class MyanmarIPCC():
 
         primitive_img_coll = MyanmarIPCC.PRIMITIVES[index]
 
-        image_collection = primitive_img_coll.filterDate('%s-01-01' % year, 
+        image_collection = primitive_img_coll.filterDate('%s-01-01' % year,
                                                          '%s-12-31' % year)
         if image_collection.size().getInfo() > 0:
             image = ee.Image(image_collection.mean())
@@ -346,7 +348,7 @@ class MyanmarIPCC():
             print ('past %d seconds' % (i * settings.EE_TASK_POLL_FREQUENCY))
             i += 1
             time.sleep(settings.EE_TASK_POLL_FREQUENCY)
-        
+
         # Make a copy (or copies) in the user's Drive if the task succeeded
         state = task.status()['state']
         if state == ee.batch.Task.State.COMPLETED:

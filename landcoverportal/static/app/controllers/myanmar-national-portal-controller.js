@@ -222,7 +222,6 @@
           $scope.overlays.primitivemap.setOpacity(value);
         });
 
-
         /*
         * Select Options for Variables
         **/

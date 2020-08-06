@@ -155,14 +155,6 @@
              $scope.$apply();
          };
 
-        var analysisToolControlDiv = document.getElementById('tool-control-container');
-        var analysisToolControlUI = new CommonService.AnalysisToolControl(analysisToolControlDiv);
-        // Setup the click event listener
-        analysisToolControlUI.addEventListener('click', function () {
-            $scope.toggleToolControl();
-        });
-        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(analysisToolControlDiv);
-
         /**
          * Tab
          */
@@ -189,41 +181,18 @@
         // Landcover opacity slider
         $scope.landcoverOpacity = 1;
         $scope.showLandcoverOpacitySlider = true;
-        /* slider init */
-        var landcoverSlider = $('#landcover-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.landcoverOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.landcoverOpacity) {
-                $scope.overlays.landcovermap.setOpacity(value);
-            }
+        $(document).on('input', '#landcover-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.landcovermap.setOpacity(value);
         });
+
 
         // Primitive opacity slider
         $scope.primitiveOpacity = 1;
         $scope.showPrimitiveOpacitySlider = false;
-        /* slider init */
-        var primitiveSlider = $('#primitive-opacity-slider').slider({
-                formatter: function (value) {
-                    return 'Opacity: ' + value;
-                },
-                tooltip: 'always'
-            })
-        .on('slideStart', function (event) {
-            $scope.primitiveOpacity = $(this).data('slider').getValue();
-        })
-        .on('slideStop', function (event) {
-            var value = $(this).data('slider').getValue();
-            if (value !== $scope.primitiveOpacity) {
-                $scope.overlays.primitivemap.setOpacity(value);
-            }
+        $(document).on('input', '#primitive-opacity-slider', function() {
+          var value = $(this).val()/100;
+          $scope.overlays.primitivemap.setOpacity(value);
         });
 
         /*
@@ -726,6 +695,36 @@
                 console.log(error);
             });
         };
+
+        $('#control-landcover').click(function() {
+          $("#sidenav-landcover-class").css("width", "250px");
+          $("#sidenav-primitives-class").css("width", "0");
+          $(".control-panel").css("right", "260px");
+        });
+
+        $('#control-primitives').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "250px");
+          $(".control-panel").css("right", "260px");
+        });
+
+
+        $('.closebtn').click(function() {
+          $("#sidenav-landcover-class").css("width", "0");
+          $("#sidenav-primitives-class").css("width", "0");
+          $(".control-panel").css("right", "10px");
+        });
+        $('#zoom-in').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom+1);
+        });
+        $('#zoom-out').click(function() {
+          var currentZoom = map.getZoom();
+          map.setZoom(currentZoom-1);
+        });
+
+        $('#control-landcover').click();
+
     });
 
 })();
