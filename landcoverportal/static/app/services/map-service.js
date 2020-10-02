@@ -166,19 +166,20 @@
             }
         };
 
-        service.getMapType = function (mapId, mapToken, type) {
+        service.getMapType = function (type, eeMapURL) {
             var eeMapOptions = {
-                getTileUrl: function (tile, zoom) {
-                    var url = 'https://earthengine.googleapis.com/map/';
-                    url += [mapId, zoom, tile.x, tile.y].join('/');
-                    url += '?token=' + mapToken;
+              getTileUrl: function (tile, zoom) {
+                    var url = eeMapURL.replace('{x}', tile.x)
+                                      .replace('{y}', tile.y)
+                                      .replace('{z}', zoom);
                     return url;
                 },
-                tileSize: new google.maps.Size(256, 256),
-                opacity: 1.0,
-                name: type
+              tileSize: new google.maps.Size(256, 256),
+              name: type,
+              opacity: 1.0
             };
-            return new google.maps.ImageMapType(eeMapOptions);
+            var mapType = new google.maps.ImageMapType(eeMapOptions);
+            return mapType
         };
 
         service.getPolygonBoundArray = function (array) {

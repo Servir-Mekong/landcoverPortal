@@ -35,8 +35,9 @@ class MyanmarFRA():
     ]
 
     # geometries
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
+
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
+    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('NAME_0', ['Myanmar'])).geometry()
 
     # Class and Index
     LANDCOVERCLASSES = [
@@ -143,7 +144,7 @@ class MyanmarFRA():
                 if (area_name == 'Myanmar'):
                     area_name = 'Myanmar (Burma)'
                 self.geometry = MyanmarFRA.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('Country', [area_name])).geometry()
+                                    ee.Filter.inList('NAME_0', [area_name])).geometry()
             elif (area_path == 'province'):
                 if settings.DEBUG:
                     path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -225,7 +226,7 @@ class MyanmarFRA():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -258,7 +259,7 @@ class MyanmarFRA():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------

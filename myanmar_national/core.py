@@ -34,8 +34,8 @@ class MyanmarNational():
     ]
 
     # geometries
-    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country', ['Myanmar (Burma)'])).geometry()
+    MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
+    DEFAULT_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('NAME_0', ['Myanmar'])).geometry()
 
     # Class and Index
     LANDCOVERCLASSES = [
@@ -198,7 +198,7 @@ class MyanmarNational():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -206,7 +206,7 @@ class MyanmarNational():
 
         primitive_img_coll = MyanmarNational.PRIMITIVES[index]
 
-        image_collection = primitive_img_coll.filterDate('%s-01-01' % year, 
+        image_collection = primitive_img_coll.filterDate('%s-01-01' % year,
                                                          '%s-12-31' % year)
         if image_collection.size().getInfo() > 0:
             image = ee.Image(image_collection.mean())
@@ -231,7 +231,7 @@ class MyanmarNational():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -307,7 +307,7 @@ class MyanmarNational():
             print ('past %d seconds' % (i * settings.EE_TASK_POLL_FREQUENCY))
             i += 1
             time.sleep(settings.EE_TASK_POLL_FREQUENCY)
-        
+
         # Make a copy (or copies) in the user's Drive if the task succeeded
         state = task.status()['state']
         if state == ee.batch.Task.State.COMPLETED:

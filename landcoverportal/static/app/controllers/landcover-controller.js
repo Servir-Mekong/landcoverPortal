@@ -270,6 +270,7 @@
             $scope.showLoader = false;
         };
 
+
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
@@ -315,7 +316,7 @@
             };
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 $timeout(function () {
                     showInfoAlert('The map data shows the landcover data for ' + $scope.sliderYear);
@@ -799,7 +800,7 @@
                 var type = 'primitivemap';
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, type);
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 $timeout(function () {
                     showInfoAlert('Showing ' + getPrimitiveLabel(index) + ' primitive layer for ' + $scope.sliderYear);
@@ -831,7 +832,7 @@
                     var type = 'probabilitymap';
                     MapService.removeGeoJson(map);
                     MapService.clearLayer(map, type);
-                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                    var mapType = MapService.getMapType(type, data.eeMapURL);
                     var checked = $('#probability-map-checkbox').prop('checked');
                     loadMap(type, mapType);
                     if (checked) {
@@ -866,7 +867,7 @@
                     var type = 'compositemap';
                     MapService.removeGeoJson(map);
                     MapService.clearLayer(map, type);
-                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                    var mapType = MapService.getMapType(type, data.eeMapURL);
                     var checked = $('#composite-map-checkbox').prop('checked');
                     loadMap(type, mapType);
                     if (checked) {

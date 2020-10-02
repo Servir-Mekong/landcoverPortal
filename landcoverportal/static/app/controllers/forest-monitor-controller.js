@@ -661,7 +661,7 @@
         // Callbacks for Parameters (forest canopy, change, loss etc)
         var parameterChangeSuccessCallback = function (name, data, slider, message) {
             MapService.removeGeoJson(map);
-            var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, name);
+            var mapType = MapService.getMapType(name, data.eeMapURL);
             loadMap(name, mapType);
             slider.slider('setValue', 1);
             showSuccessAlert(message);

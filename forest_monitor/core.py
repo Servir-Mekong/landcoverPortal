@@ -14,8 +14,8 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
 
     # image collection
-    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_canopy')
-    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tree_height')
+    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/UMD/tree_canopy')
+    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/tree_height')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
@@ -125,7 +125,7 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -134,7 +134,7 @@ class ForestMonitor():
                     get_image = False,
                     for_download = False,
                     year = None,
-                    tree_height_definition = 5, 
+                    tree_height_definition = 5,
                     ):
 
         if not year:
@@ -170,7 +170,7 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -201,14 +201,14 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
     @staticmethod
     def _get_combined_img_coll():
 
-        years = ee.List.sequence(2000, 2018)
+        years = ee.List.sequence(2000, 2019)
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
@@ -280,7 +280,7 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -328,7 +328,7 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -390,7 +390,7 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -431,7 +431,7 @@ class ForestMonitor():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -587,7 +587,7 @@ class ForestMonitor():
             print ('past %d seconds' % (i * settings.EE_TASK_POLL_FREQUENCY))
             i += 1
             time.sleep(settings.EE_TASK_POLL_FREQUENCY)
-        
+
         # Make a copy (or copies) in the user's Drive if the task succeeded
         state = task.status()['state']
         if state == ee.batch.Task.State.COMPLETED:
