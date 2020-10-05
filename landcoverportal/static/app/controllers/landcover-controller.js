@@ -310,7 +310,7 @@
             };
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 $timeout(function () {
                     showInfoAlert('The map data shows the landcover data for ' + $scope.sliderYear);
@@ -620,7 +620,7 @@
                         $scope.updateAssemblageProduct('v3');
                         $scope.showProbabilityMap();
                         $scope.showCompositeMap();
-                        
+
                         if(document.querySelector('input[name="radio"]:checked')){
                           $scope.updatePrimitive($scope.primitiveIndex, 'v3');
                         }
@@ -802,7 +802,7 @@
                 var type = 'primitivemap';
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, type);
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 $timeout(function () {
                     showInfoAlert('Showing ' + getPrimitiveLabel(index) + ' primitive layer for ' + $scope.sliderYear);
@@ -835,7 +835,7 @@
                     var type = 'probabilitymap';
                     MapService.removeGeoJson(map);
                     MapService.clearLayer(map, type);
-                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                    var mapType = MapService.getMapType(type, data.eeMapURL);
                     var checked = $('#probability_toggle').prop('checked');
                     loadMap(type, mapType);
                     if (checked) {
@@ -871,7 +871,7 @@
                     var type = 'compositemap';
                     MapService.removeGeoJson(map);
                     MapService.clearLayer(map, type);
-                    var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                    var mapType = MapService.getMapType(type, data.eeMapURL);
                     var checked = $('#composite_toggle').prop('checked');
                     loadMap(type, mapType);
                     if (checked) {

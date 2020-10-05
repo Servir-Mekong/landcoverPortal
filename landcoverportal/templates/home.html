@@ -20,8 +20,8 @@
             <div class="carousel-item active" style="background-image: url('/static/images/slide/slide-1.jpg');">
               <div class="carousel-container">
                 <div class="carousel-content container">
-                  <h2 class="animated fadeInDown">Welcome to <span>RLCMS</span></h2>
-                  <p class="animated fadeInUp">Utilizes satellite technology to produce high-quality regional land cover maps and additional land cover information, for each year from 2000 to present, at 30 meters resolution that is needed for regional applications and decision-making contexts.</p>
+                  <h2 class="animated fadeInDown">Regional Land Cover Monitoring System</h2>
+                  <p class="animated fadeInUp">"Space to Village: monitoring land cover and land use change in the Lower Mekong"</p>
                   <a href="/about" class="btn-get-started animated fadeInUp scrollto">Read More</a>
                 </div>
               </div>
@@ -32,7 +32,7 @@
               <div class="carousel-container">
                 <div class="carousel-content container">
                   <h2 class="animated fadeInDown">Land Cover</h2>
-                  <p class="animated fadeInUp">High quality regional land cover maps at a 30-meter resolution designed to meet explicit user-defined objectives in the Mekong region. </p>
+                  <p class="animated fadeInUp">"High quality regional land cover mapping at 30-m resolution using satellite technology" </p>
                   <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
                 </div>
               </div>
@@ -43,14 +43,14 @@
               <div class="carousel-container">
                 <div class="carousel-content container">
                   <h2 class="animated fadeInDown">Forest Monitoring</h2>
-                  <p class="animated fadeInUp">Annually updated maps which leverage the advantages of various open-source remote sensing data.</p>
+                  <p class="animated fadeInUp">"Empowering decision-makers with frequently updated maps, leveraging the advantages of open-source remote sensing data"</p>
                   <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
                 </div>
               </div>
             </div>
 
             <!-- Slide 4 -->
-            <div class="carousel-item" style="background-image: url('/static/images/slide/slide-4.jpg');">
+            <!-- <div class="carousel-item" style="background-image: url('/static/images/slide/slide-4.jpg');">
               <div class="carousel-container">
                 <div class="carousel-content container">
                   <h2 class="animated fadeInDown">Myanmar Portal</h2>
@@ -58,7 +58,7 @@
                   <a href="/services" class="btn-get-started animated fadeInUp scrollto">Our Services</a>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Slide 5 -->
             <!-- <div class="carousel-item" style="background-image: url('/static/images/slide/slide-5.jpg');">
@@ -98,7 +98,7 @@
             <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" ng-repeat="event in EventListHome">
               <div class="count-box">
                 <img src="[[event.FeaturedImage]]" alt="" style="width:100%;">
-                <span>[[event.Title]]</span>
+                <a href="/event-detail/?eid=[[event.Order]]" target="_blank">[[event.Title]]</a>
                 <p>[[event.Date]]</p>
               </div>
             </div>
@@ -111,67 +111,6 @@
       </section>
       <!-- ======= End Event Section ======= -->
 
-      <!-- ======= Info Section ======= -->
-
-      <section class="method-lists">
-        <div class="container">
-          <div class="row no-gutters">
-            <div class="">
-
-            </div>
-
-            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up">
-              <div class="highlight-icon">
-                <img src="/static/images/icons/Free-easily.png" alt="">
-              </div>
-              <h4>Free, easily accessible</h4>
-              <p>Open source data and is fully customizable to meet user-tailored needs.</p>
-            </div>
-
-            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100">
-              <div class="highlight-icon">
-                <img src="/static/images/icons/Collaboratively.png" alt="">
-              </div>
-              <h4>Collaboratively</h4>
-              <p>Collaborative development enables flexible and consistent land cover classifications.</p>
-            </div>
-
-            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200">
-              <div class="highlight-icon">
-                <img src="/static/images/icons/Annually.png" alt="">
-              </div>
-              <h4>Annually</h4>
-              <p>Information annually frequently updated with high accuracy.</p>
-            </div>
-
-            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300">
-              <div class="highlight-icon">
-                <img src="/static/images/icons/Artificial-intelligence.png" alt="">
-              </div>
-              <h4>Artificial Intelligence</h4>
-              <p>Newest methodologies in the field of Machine Learning and Artificial Intelligence.</p>
-            </div>
-
-            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="400">
-              <div class="highlight-icon">
-                <img src="/static/images/icons/Cloud-technologies.png" alt="">
-              </div>
-              <h4>Cloud Technologies</h4>
-              <p>Use of the latest cloud computing technologies,  leveraging the power of Google Earth Engine cloud-based platform.</p>
-            </div>
-
-            <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="500">
-              <div class="highlight-icon">
-                <img src="/static/images/icons/Well-document.png" alt="">
-              </div>
-              <h4>Well-documented methodology</h4>
-              <p>Which includes quality control and assurance, that has been assessed and approved by a rigorous scientific peer review process.</p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-      <!-- ======= End Info Section ======= -->
 
       <!-- ======= About Us Section ======= -->
       <section id="about" class="about portfolio">
@@ -186,7 +125,7 @@
                     <div class="portfolio-info">
                       <h4>Mekong Land Cover</h4>
                       <div class="portfolio-links">
-                        <a href="/static/images/services-cat/bkk-lc.png" data-gall="portfolioGallery" class="venobox" title="Mekong Land Cover"><i class="icofont-eye"></i></a>
+                        <!-- <a href="/static/images/services-cat/bkk-lc.png" data-gall="portfolioGallery" class="venobox" title="Mekong Land Cover"><i class="icofont-eye"></i></a> -->
                         <a href="/landcover/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
                       </div>
                     </div>
@@ -199,7 +138,7 @@
                     <div class="portfolio-info">
                       <h4>Forest Monitoring</h4>
                       <div class="portfolio-links">
-                        <a href="/static/images/services-cat/forest.jpg" data-gall="portfolioGallery" class="venobox" title="Forest Monitoring"><i class="icofont-eye"></i></a>
+                        <!-- <a href="/static/images/services-cat/forest.jpg" data-gall="portfolioGallery" class="venobox" title="Forest Monitoring"><i class="icofont-eye"></i></a> -->
                         <a href="/forest-monitor/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
                       </div>
                     </div>
@@ -212,7 +151,7 @@
                     <div class="portfolio-info">
                       <h4>Myanmar National Land Cover Partal</h4>
                       <div class="portfolio-links">
-                        <a href="/static/images/services-cat/mmr-1.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National Land Cover Partal"><i class="icofont-eye"></i></a>
+                        <!-- <a href="/static/images/services-cat/mmr-1.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National Land Cover Partal"><i class="icofont-eye"></i></a> -->
                         <a href="/myanmar-national-portal/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
                       </div>
                     </div>
@@ -225,7 +164,7 @@
                     <div class="portfolio-info">
                       <h4>Myanmar National IPCC</h4>
                       <div class="portfolio-links">
-                        <a href="/static/images/services-cat/mmr-2.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National IPCC"><i class="icofont-eye"></i></a>
+                        <!-- <a href="/static/images/services-cat/mmr-2.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National IPCC"><i class="icofont-eye"></i></a> -->
                         <a href="/myanmar-ipcc/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
                       </div>
                     </div>
@@ -242,13 +181,76 @@
                 <p>To facilitate the  the production of custom, high-quality land cover information products to serve a variety of policy, planning, management, and reporting needs of regional and national institutions in the Lower Mekong Region. Once the system has been customized to produce a given product or set of products, these can be updated regularly in a structured way to serve ongoing monitoring needs.</p>
               </div>
               <div class="text-center">
-                <a href="/services" class="btn-rounded">SEE MORE OUR SERVICES</a>
+                <a href="/services" class="btn-rounded">BROWSE APPLICATIONS</a>
               </div>
             </div>
           </div>
 
         </div>
       </section><!-- End About Us Section -->
+
+
+            <!-- ======= Info Section ======= -->
+
+            <section class="method-lists">
+              <div class="container">
+                <div class="row no-gutters">
+                  <div class="">
+
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 content-item">
+                    <div class="highlight-icon">
+                      <img src="/static/images/icons/Free-easily.png" alt="">
+                    </div>
+                    <h4>Easily Accessible</h4>
+                    <p>The system uses free, easily accessible, open source data and is fully customizable to meet user-tailored needs</p>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 content-item">
+                    <div class="highlight-icon">
+                      <img src="/static/images/icons/Collaboratively.png" alt="">
+                    </div>
+                    <h4>Co-developed</h4>
+                    <p>Collaborative development enables flexible and consistent land cover classifications</p>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 content-item">
+                    <div class="highlight-icon">
+                      <img src="/static/images/icons/Annually.png" alt="">
+                    </div>
+                    <h4>Frequently Updated</h4>
+                    <p>Information is annually updated with high accuracy</p>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 content-item">
+                    <div class="highlight-icon">
+                      <img src="/static/images/icons/Artificial-intelligence.png" alt="">
+                    </div>
+                    <h4>Artificial Intelligence</h4>
+                    <p>Newest methodologies in the field of Machine Learning and Artificial Intelligence.</p>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 content-item">
+                    <div class="highlight-icon">
+                      <img src="/static/images/icons/Cloud-technologies.png" alt="">
+                    </div>
+                    <h4>Cloud Technology</h4>
+                    <p>Use of the latest cloud computing technologies,  leveraging the power of Google Earth Engine cloud-based platform.</p>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 content-item">
+                    <div class="highlight-icon">
+                      <img src="/static/images/icons/Well-document.png" alt="">
+                    </div>
+                    <h4>Well-documented Methodology</h4>
+                    <p>Methodology includes quality control and assurance, which has been assessed and approved by a rigorous scientific peer review process</p>
+                  </div>
+
+                </div>
+              </div>
+            </section>
+            <!-- ======= End Info Section ======= -->
 
 
       <!-- ======= About Lists Section ======= -->

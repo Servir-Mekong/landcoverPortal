@@ -145,70 +145,111 @@
   //about Navigation
   $("#li-about1").click(function(){
     $("#about-1").show();
+    $("#about-6").hide();
+    $("#about-7").hide();
     $("#about-2").hide();
-    $("#about-3").hide();
     $("#about-4").hide();
     $("#about-5").hide();
     $(this).addClass("active");
     $("#li-about2").removeClass("active");
-    $("#li-about3").removeClass("active");
     $("#li-about4").removeClass("active");
     $("#li-about5").removeClass("active");
+    $("#li-about6").removeClass("active");
+    $("#li-about7").removeClass("active");
   });
   $("#li-about2").click(function(){
     $("#about-2").show();
-    $("#about-1").hide();
-    $("#about-3").hide();
-    $("#about-4").hide();
-    $("#about-5").hide();
-    $(this).addClass("active");
-    $("#li-about1").removeClass("active");
-    $("#li-about3").removeClass("active");
-    $("#li-about4").removeClass("active");
-    $("#li-about5").removeClass("active");
-  });
-  $("#li-about3").click(function(){
-    $("#about-3").show();
-    $("#about-2").hide();
+    $("#about-6").hide();
+    $("#about-7").hide();
     $("#about-1").hide();
     $("#about-4").hide();
     $("#about-5").hide();
     $(this).addClass("active");
     $("#li-about1").removeClass("active");
-    $("#li-about2").removeClass("active");
     $("#li-about4").removeClass("active");
     $("#li-about5").removeClass("active");
+    $("#li-about6").removeClass("active");
+    $("#li-about7").removeClass("active");
   });
+
   $("#li-about4").click(function(){
     $("#about-4").show();
+    $("#about-6").hide();
+    $("#about-7").hide();
     $("#about-2").hide();
     $("#about-1").hide();
-    $("#about-3").hide();
     $("#about-5").hide();
     $(this).addClass("active");
     $("#li-about1").removeClass("active");
     $("#li-about2").removeClass("active");
-    $("#li-about3").removeClass("active");
     $("#li-about5").removeClass("active");
+    $("#li-about6").removeClass("active");
+    $("#li-about7").removeClass("active");
   });
   $("#li-about5").click(function(){
     $("#about-5").show();
+    $("#about-6").hide();
+    $("#about-7").hide();
     $("#about-2").hide();
     $("#about-1").hide();
-    $("#about-3").hide();
     $("#about-4").hide();
     $(this).addClass("active");
     $("#li-about1").removeClass("active");
     $("#li-about2").removeClass("active");
-    $("#li-about3").removeClass("active");
     $("#li-about4").removeClass("active");
+    $("#li-about6").removeClass("active");
+    $("#li-about7").removeClass("active");
   });
+
+  $("#li-about6").click(function(){
+    $("#about-6").show();
+    $("#about-7").hide();
+    $("#about-5").hide();
+    $("#about-2").hide();
+    $("#about-1").hide();
+    $("#about-4").hide();
+    $(this).addClass("active");
+    $("#li-about1").removeClass("active");
+    $("#li-about2").removeClass("active");
+    $("#li-about4").removeClass("active");
+    $("#li-about5").removeClass("active");
+    $("#li-about7").removeClass("active");
+  });
+
+  $("#li-about7").click(function(){
+    $("#about-7").show();
+    $("#about-6").hide();
+    $("#about-5").hide();
+    $("#about-2").hide();
+    $("#about-1").hide();
+    $("#about-4").hide();
+    $(this).addClass("active");
+    $("#li-about1").removeClass("active");
+    $("#li-about2").removeClass("active");
+    $("#li-about4").removeClass("active");
+    $("#li-about5").removeClass("active");
+    $("#li-about6").removeClass("active");
+  });
+
 
   $('#blog-flters li').on('click', function() {
     $("#blog-flters li").removeClass('filter-active');
     $(this).addClass('filter-active');
     var blogIsotope = $('.blog-container').isotope({
       itemSelector: '.blog-item',
+      layoutMode: 'fitRows'
+    });
+
+    blogIsotope.isotope({
+      filter: $(this).data('filter')
+    });
+  });
+
+  $('#events-flters li').on('click', function() {
+    $("#events-flters li").removeClass('filter-active');
+    $(this).addClass('filter-active');
+    var blogIsotope = $('.events-container').isotope({
+      itemSelector: '.events-item',
       layoutMode: 'fitRows'
     });
 
@@ -301,7 +342,16 @@
 
   });
 
-
+  // Add active class to the current button (highlight it)
+    var pageMenu = $("#page-menu");
+    var lis = header.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      this.className += " active";
+      });
+    }
 
 
 })(jQuery);

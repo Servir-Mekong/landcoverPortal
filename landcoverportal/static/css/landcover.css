@@ -461,7 +461,7 @@ ul {
   right: 0;
   overflow: auto;
   padding-bottom: 100px;
-  top: 80px;
+  top: 90px;
   height: 100%;
   z-index: 98;
   background: rgb(0 0 0 / 75%);
@@ -589,6 +589,10 @@ input:checked + .slider_toggle:before, input:checked + .slider_toggle_jrc:before
   width: auto;
   height: 30px;
   margin-bottom: 10px;
+}
+
+.btn-update:hover {
+  color: #F89F1D;
 }
 
 hr {

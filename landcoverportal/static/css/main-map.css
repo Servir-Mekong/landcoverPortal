@@ -5,7 +5,9 @@
 }*/
 
 /*body { padding-top: 70px; }*/
-
+body {
+  font-family: "Open Sans", sans-serif;
+}
 @media(min-width:768px) {
     body {
         margin-top: 80px;
@@ -132,7 +134,7 @@
 
 .map {
     display: block;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 90px);
 
 }
 
@@ -331,7 +333,7 @@ input:checked+.switch-slider:before {
   width: 250px;
   background-color: #FFF;
   border: 1px solid #e3e3e3;
-  top: 90px;
+  top: 95px;
   left: auto;
   left: 10px;
   display: inline-block;

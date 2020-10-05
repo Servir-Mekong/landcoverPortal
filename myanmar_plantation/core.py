@@ -193,7 +193,7 @@ class MyanmarPlantation():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -324,7 +324,7 @@ class MyanmarPlantation():
         })
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
     # -------------------------------------------------------------------------
@@ -348,7 +348,7 @@ class MyanmarPlantation():
 
         return {
             'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
+            'eeMapURL': str(map_id['tile_fetcher'].url_format)
         }
 
 # END =========================================================================

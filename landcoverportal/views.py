@@ -139,3 +139,6 @@ def GETTrainingContent(request):
 
 def training_detail(request):
     return render(request, "training-detail.html")
+
+def event_detail(request):
+    return render(request, "events-detail.html")

@@ -18,7 +18,7 @@ from myanmar_national import api as myanmar_national_api
 from myanmar_ipcc import api as myanmar_ipcc_api
 from myanmar_fra import api as myanmar_fra_api
 from myanmar_plantation import api as myanmar_plantation_api
-from .views import store_auth_code, home, about, services, method, library, event, publication, blog, dashboard, GETBlog, GETEvents, GETTensorContent, training, service_applications, publications, GETTrainingContent, training_detail
+from .views import store_auth_code, home, about, services, method, library, event, publication, blog, dashboard, GETBlog, GETEvents, GETTensorContent, training, service_applications, publications, GETTrainingContent, training_detail, event_detail
 
 admin.autodiscover()
 
@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^api/myanmar-plantation/$', myanmar_plantation_api.api),
     url(r'^storeauthcode/$', store_auth_code),
     url(r'training-detail/$', training_detail),
+    url(r'event-detail/$', event_detail),
 ]
 
 #urlpatterns += i18n_patterns(

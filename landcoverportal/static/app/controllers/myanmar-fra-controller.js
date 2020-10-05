@@ -265,7 +265,7 @@
 
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 $timeout(function () {
                     showInfoAlert('The map data shows the landcover data for ' + $scope.sliderYear);
@@ -710,7 +710,7 @@
             .then(function (data) {
                 MapService.removeGeoJson(map);
                 MapService.clearLayer(map, 'primitivemap');
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, 'primitivemap');
+                var mapType = MapService.getMapType('primitivemap', data.eeMapURL);
                 loadMap('primitivemap', mapType);
                 $timeout(function () {
                     showInfoAlert('Showing ' + getPrimitiveLabel(index) + ' primitive layer for ' + $scope.sliderYear);

@@ -11,7 +11,12 @@ var settings = {
             'show': true
         },
         {
-            'name': 'Method',
+          'name': 'Dashboard',
+          'url': '/dashboard',
+          'show': true
+        },
+        {
+            'name': 'Methodology',
             'url': '/method/',
             'show': true
         },
@@ -21,7 +26,7 @@ var settings = {
             'show': true
         },
         {
-            'name': 'About Us',
+            'name': 'About',
             'url': '/about',
             'show': true
         }

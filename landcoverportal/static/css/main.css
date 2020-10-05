@@ -14,11 +14,11 @@ body {
 }
 
 a {
-  color: #428bca;
+  color: #354751;
 }
 
 a:hover {
-  color: #9eccf4;
+  color: #F89F1D;
   text-decoration: none;
 }
 
@@ -42,11 +42,12 @@ td, th {
   border: 1px solid #dee2e6;
   font-size: 14px;
   font-weight: 500;
+  padding: 10px;
 }
 
 th {
-  background: #e1ecf7;
-  border-color: #dee2e6;
+  background: #e6ecda;
+  border-color: #e6ecda;
   width: 40%;
   font-size: 14px;
   font-weight: 600;
@@ -90,7 +91,7 @@ th {
     font-weight: 500;
     margin-bottom: 20px;
     padding-bottom: 0;
-    color: #5c768d;
+    color: #354751;
 }
 
 .publication-title a{
@@ -107,7 +108,7 @@ th {
   font-weight: 600;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #5c768d;
+  color: #354751;
 }
 
 
@@ -116,7 +117,7 @@ th {
   font-weight: 600;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #5c768d;
+  color: #354751;
   margin-top: 30px;
 }
 
@@ -126,20 +127,26 @@ th {
   font-weight: 500;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #5c768d;
+  color: #354751;
 }
 
 .about-title p{
   margin-top: 0;
   margin-bottom: 0;
+
 }
 
+.about-title img{
+  width: 50%;
+  margin-bottom: 10px;
+
+}
 .about-title h1 {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #5c768d;
+  color: #354751;
 }
 
 .partners-section a{
@@ -153,7 +160,7 @@ th {
     font-weight: 600;
     margin-bottom: 20px;
     padding-bottom: 0;
-    color: #5c768d;
+    color: #354751;
 }
 
 .services-detail p {
@@ -171,7 +178,7 @@ th {
 .events-box h2 {
   font-size: 18px;
   font-weight: 600;
-  color: #5c768d;
+  color: #354751;
 }
 
 .events-title h1 {
@@ -179,7 +186,7 @@ th {
     font-weight: 600;
     margin-bottom: 20px;
     padding-bottom: 0;
-    color: #5c768d;
+    color: #354751;
 }
 
 .events #events-flters {
@@ -195,17 +202,17 @@ th {
   padding: 5px 20px;
   font-size: 12px;
   line-height: 20px;
-  color: #444;
+  color: #354751;
   border-radius: 50px;
-  border: 1px solid #428bca;
+  border: 1px solid #f89f1d;
   background: #fff;
   margin-bottom: 5px;
   transition: all 0.3s ease-in-out;
 }
 
-.events #events-flters li:hover, .blog #events-flters li.filter-active {
-  background: #428bca;
-  color: #fff;
+.events #events-flters li:hover, .events #events-flters li.filter-active {
+  background: #f89f1d;
+  color: #354751;
 }
 
 .events #events-flters li:last-child {
@@ -233,15 +240,15 @@ th {
   line-height: 20px;
   color: #444;
   border-radius: 50px;
-  border: 1px solid #428bca;
+  border: 1px solid #f89f1d;
   background: #fff;
   margin-bottom: 5px;
   transition: all 0.3s ease-in-out;
 }
 
 .blog #blog-flters li:hover, .blog #blog-flters li.filter-active {
-  background: #428bca;
-  color: #fff;
+  background: #f89f1d;
+  color: #444;
 }
 
 .blog #blog-flters li:last-child {
@@ -279,24 +286,25 @@ th {
 
 .blog-detail p {
   font-size: 12px;
-  color: #5c768d;
+  color: #354751;
   margin-top: 2px;
   margin-bottom: 0;
 }
 
 .btn-rounded{
-  border: 1px solid #1c5c93;
+  border: 1px solid #f89f1d;
   border-radius: 50px;
   padding: 5px;
-  color: #1c5c93;
-  font-size: 14px
+  color: #354751;
+  font-size: 12px;
+  background: rgba(255,255,255,0.9);
 }
 
 .btn-rounded-sm{
-  border: 1px solid #1c5c93;
+  border: 1px solid #f89f1d;
   border-radius: 50px;
   padding: 3px;
-  color: #1c5c93;
+  color: #354751;
   font-size: 12px
 }
 
@@ -448,9 +456,9 @@ th {
 }
 
 #library-nav li{
-  border: 1px solid #5c768d;
+  border: 1px solid #354751;
   padding: 5px;
-  background: #5c768d;
+  background: #354751;
   color: #FFF;
   text-align: center;
   font-weight: 300;
@@ -458,14 +466,46 @@ th {
 }
 
 #library-nav li.active{
-  border: 1px solid #5c768d;
+  border: 1px solid #354751;
   padding: 5px;
   background: #FFF;
-  color: #5c768d;
+  color: #354751;
   text-align: center;
   font-weight: 600;
 }
 
+#about-nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+#about-nav li {
+  float: left;
+  margin: 0 10px;
+  color: #354751;
+  cursor: pointer;
+}
+
+#about-nav li.active{
+  color: #f89f1d;
+  font-weight: 700;
+  border-bottom: 3px solid #f89f1d;
+}
+
+#about-nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+#about-nav li a:hover {
+  background-color: #111111;
+}
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
@@ -477,7 +517,7 @@ th {
   border-radius: 3px;
   right: 15px;
   bottom: 15px;
-  background: #428bca;
+  background: #354751;
   color: #fff;
   transition: display 0.5s ease-in-out;
   z-index: 99999;
@@ -492,7 +532,7 @@ th {
 
 .back-to-top:hover {
   color: #fff;
-  background: #629fd3;
+  background: #F89F1D;
   transition: background 0.2s ease-in-out;
 }
 
@@ -527,7 +567,7 @@ th {
 }
 
 #topbar .social-links a {
-  color: #5c768d;
+  color: #354751;
   padding: 4px 12px;
   display: inline-block;
   line-height: 1px;
@@ -542,7 +582,7 @@ th {
 # Header
 --------------------------------------------------------------*/
 #header {
-  height: 70px;
+  height: 100px;
   transition: all 0.5s;
   transition: all 0.5s;
   padding: 10px 0;
@@ -565,7 +605,7 @@ th {
 }
 
 #header .logo h1 a, #header .logo h1 a:hover {
-  color: #1c5c93;
+  color: #FFF;
   text-decoration: none;
 }
 
@@ -591,19 +631,23 @@ th {
   float: left;
 }
 
+
 .nav-menu a {
   display: block;
   position: relative;
-  color: #5c768d;
+  color: #FFF;
   padding: 12px 15px;
   transition: 0.3s;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
 }
 
+
+
 .nav-menu a:hover, .nav-menu .active > a, .nav-menu li:hover > a {
-  color: #428bca;
+  color: #F89F1D;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .nav-menu .drop-down ul {
@@ -711,7 +755,7 @@ th {
 }
 
 .mobile-nav a:hover, .mobile-nav .active > a, .mobile-nav li:hover > a {
-  color: #9eccf4;
+  color: #354751;
   text-decoration: none;
 }
 
@@ -756,7 +800,7 @@ th {
 }
 
 .mobile-nav-toggle i {
-  color: #5c768d;
+  color: #354751;
 }
 
 .mobile-nav-overly {
@@ -787,7 +831,7 @@ th {
 --------------------------------------------------------------*/
 #branding {
   height: 300px;
-  border-top: 8px solid #9eccf4;
+  border-top: 8px solid #f89f1d;
   padding: 0;
   background-image: url(/static/images/slide/slide-1.jpg);
   background-size: cover;
@@ -933,7 +977,7 @@ th {
   letter-spacing: 1px;
   display: inline-block;
   padding: 12px 32px;
-  border-radius: 5px;
+  border-radius: 50px;
   transition: 0.5s;
   line-height: 1;
   margin: 10px;
@@ -941,11 +985,11 @@ th {
   -webkit-animation-delay: 0.8s;
   animation-delay: 0.8s;
   border: 0;
-  background: #428bca;
+  background: #F89F1D;
 }
 
 #hero .btn-get-started:hover {
-  background: #1c5c93;
+  background: #354751;
 }
 
 @media (max-width: 768px) {
@@ -975,6 +1019,11 @@ section {
   background-color: #f5f9fc;
 }
 
+.section-menu-about {
+  background-color: #f5f9fc;
+  padding: 20px 0;
+}
+
 .section-title {
   text-align: center;
   padding-bottom: 30px;
@@ -985,7 +1034,7 @@ section {
   font-weight: 600;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #5c768d;
+  color: #354751;
 }
 
 .section-title p {
@@ -1210,7 +1259,7 @@ section {
   display: block;
   font-size: 24px;
   font-weight: 400;
-  color: #9eccf4;
+  color: #354751;
 }
 
 .about-lists .content-item h4 {
@@ -1261,7 +1310,7 @@ section {
   font-size: 14px;
   display: block;
   font-weight: 500;
-  color: #1c5c93;
+  color: #354751;
 }
 
 .counts .count-box p {
@@ -1340,40 +1389,6 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Our blog
---------------------------------------------------------------*/
-.blog #blog-flters {
-  padding: 0;
-  margin: 0 0 35px 0;
-  list-style: none;
-  text-align: center;
-}
-
-.blog #blog-flters li {
-  cursor: pointer;
-  margin: 0 5px 15px 0;
-  display: inline-block;
-  padding: 5px 20px;
-  font-size: 12px;
-  line-height: 20px;
-  color: #444;
-  border-radius: 50px;
-  border: 1px solid #428bca;
-  background: #fff;
-  margin-bottom: 5px;
-  transition: all 0.3s ease-in-out;
-}
-
-.blog #blog-flters li:hover, .blog #blog-flters li.filter-active {
-  background: #428bca;
-  color: #fff;
-}
-
-.blog #blog-flters li:last-child {
-  margin-right: 0;
-}
-
-/*--------------------------------------------------------------
 # Our Portfolio
 --------------------------------------------------------------*/
 .portfolio .portfolio-item {
@@ -1397,19 +1412,19 @@ section {
   margin: 0 5px 15px 0;
   display: inline-block;
   padding: 5px 20px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 20px;
   color: #444;
   border-radius: 50px;
-  border: 1px solid #428bca;
+  border: 1px solid #f89f1d;
   background: #fff;
   margin-bottom: 5px;
   transition: all 0.3s ease-in-out;
 }
 
 .portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
-  background: #428bca;
-  color: #fff;
+  background: #f89f1d;
+  color: #354751;
 }
 
 .portfolio #portfolio-flters li:last-child {
@@ -1521,7 +1536,7 @@ section {
   bottom: -48px;
   left: 20px;
   right: 20px;
-  background: linear-gradient(360deg, #5c768d 0%, rgba(92, 118, 141, 0.9) 35%, rgba(140, 167, 191, 0.8) 100%);
+  background: linear-gradient(360deg, #354751 0%, rgba(92, 118, 141, 0.9) 35%, rgba(140, 167, 191, 0.8) 100%);
   padding: 15px 0;
   border-radius: 4px;
 }
@@ -1563,7 +1578,7 @@ section {
 }
 
 .team .member .social a:hover {
-  color: #9eccf4;
+  color: #354751;
 }
 
 .team .member .social i {
@@ -1613,7 +1628,7 @@ section {
   color: #428bca;
   border-radius: 50%;
   padding: 8px;
-  border: 2px dotted #9eccf4;
+  border: 2px dotted #354751;
 }
 
 .contact .info-box h3 {
@@ -1730,7 +1745,7 @@ section {
 }
 
 #footer {
-  background: #587187;
+  background: #354751;
   padding: 0 0 30px 0;
   color: #fff;
   font-size: 14px;
@@ -1738,10 +1753,10 @@ section {
 }
 
 #footer .footer-top {
-  background: #5c768d;
-  border-top: 1px solid #768fa6;
-  border-bottom: 1px solid #67839c;
-  padding: 60px 0 30px 0;
+  background: #e6ecda;
+    border-top: 1px solid #e6ecda;
+    border-bottom: 1px solid #e6ecda;
+    padding: 60px 0 30px 0;
 }
 
 #footer .footer-top .footer-info {
@@ -1761,14 +1776,14 @@ section {
   line-height: 24px;
   margin-bottom: 0;
   font-family: "Raleway", sans-serif;
-  color: #fff;
+  color: #354751;
 }
 
 #footer .footer-top .social-links a {
   font-size: 18px;
   display: inline-block;
   background: #768fa6;
-  color: #fff;
+  color: #354751;
   line-height: 1;
   padding: 8px 0;
   margin-right: 4px;
@@ -1781,14 +1796,14 @@ section {
 
 #footer .footer-top .social-links a:hover {
   background: #428bca;
-  color: #fff;
+  color: #F89F1D;
   text-decoration: none;
 }
 
 #footer .footer-top h4 {
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
+  color: #354751;
   position: relative;
   padding-bottom: 12px;
 }
@@ -1805,7 +1820,7 @@ section {
 
 #footer .footer-top .footer-links ul i {
   padding-right: 2px;
-  color: #9eccf4;
+  color: #354751;
   font-size: 18px;
   line-height: 1;
 }
@@ -1821,19 +1836,19 @@ section {
 }
 
 #footer .footer-top .footer-links ul a {
-  color: #fff;
+  color: #354751;
   transition: 0.3s;
   display: inline-block;
   line-height: 1;
 }
 
 #footer .footer-top .footer-links ul a:hover {
-  color: #9eccf4;
+  color: #F89F1D;
 }
 
 #footer .footer-top .footer-newsletter form {
   margin-top: 30px;
-  background: #fff;
+  background: #354751;
   padding: 6px 10px;
   position: relative;
   border-radius: 4;
@@ -1877,7 +1892,7 @@ section {
 }
 
 #footer .credits a {
-  color: #9eccf4;
+  color: #354751;
 }
 
 
@@ -1922,7 +1937,7 @@ section {
   display: block;
   font-size: 24px;
   font-weight: 400;
-  color: #9eccf4;
+  color: #354751;
 }
 
 .method-lists .content-item h4 {
@@ -1961,7 +1976,7 @@ section {
 
 
 .card-header h5 {
-  color: #1c5c93;
+  color: #354751;
   font-size: 18px;
   font-weight: 600;
 }
@@ -1981,9 +1996,10 @@ section {
 
 .table-band td, th {
   height: 2rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid #ddd;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #354751;
   text-align: center;
   width: 20%;
 }
@@ -2014,7 +2030,7 @@ section {
   width: 50%;
   font-size: 28px;
   padding: 10px 10px 10px 5px;
-  color: #5c768d;
+  color: #354751;
  }
 
 .library-code-text {
@@ -2162,7 +2178,7 @@ table.dataTable.no-footer {
   font-weight: 600;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #435b7c
+  color: #354751
 }
 
 .training-content p {
@@ -2179,12 +2195,115 @@ table.dataTable.no-footer {
 .training-detail h2 {
     font-size: 26px;
     font-weight: 600;
-    color: #1c5c93;
+    color: #354751;
 }
 
 .highlight-icon {
   text-align: center;
 }
 .highlight-icon img{
-  width: 150px;
+  width: 100px;
+}
+
+
+.banner-container {
+    background: url(https://servir.adpc.net/themes/svmk/images/optimized/satellite-inside.png);
+    background-position: 110% 70%;
+    background-repeat: no-repeat;
+    background-size: 800px auto;
+}
+
+.usaid {
+    background-size: auto 50px;
+    width: 130px !important;
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
+@media (max-width: 1024px) {
+	.usaid {
+		margin: auto;
+	}
+}
+
+.nasa {
+    background-size: auto 50px;
+    width: 45px !important;
+    float: left;
+    margin-right: 5px;
+}
+
+@media (max-width: 1024px) {
+	.nasa {
+		margin: auto;
+	}
+}
+
+.adpc, .vawr {
+    background-size: auto 50px;
+    width: 75px !important;
+    float: left;
+}
+
+@media (max-width: 1024px) {
+	.adpc {
+		margin: auto;
+	}
+}
+
+.servir {
+    float: right;
+    background-size: auto 35px;
+    width: 200px !important;
+    padding-top: 10px;
+}
+
+@media (max-width: 1024px) {
+	.servir {
+		margin: auto;
+		float: none;
+	}
+}
+
+.jpl, .mrc {
+	background-size: auto 50px;
+    width: 60px !important;
+    float: left;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+.sei {
+    width: 130px !important;
+    margin-left: -15px;
+}
+
+/*
+Dashboard style */
+
+.chart-option-btn {
+  width: 30px;
+  height: 30px;
+  background: #f89f1d;
+  border: none;
+  border-radius: 50px;
+  color: #FFF;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #f89f1d;
+    height: 20px;
+    border-radius: 50px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

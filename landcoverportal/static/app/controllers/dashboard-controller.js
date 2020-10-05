@@ -9,26 +9,68 @@
       for (var i = 0; i < $scope.landCoverClasses.length; i++) {
           $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
       }
-      var graphData = [];
-      var graphData2 = [];
+
+      $scope.selectorOptions = CommonService.getAreaVariableOptions('country');
+      $scope.yearRange = CommonService.range(1987, 2018);
 
       var classes_name = [];
       var lc_color = [];
+      var chart = null;
+
+
+
+      $scope.loadSelectors = function (name) {
+          $scope.areaName = name;
+          $scope.getStats();
+      };
+
+
+      $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
+
+      $scope.exportCsv = function(){
+        chart.downloadCSV()
+      }
+      $scope.exportPng = function(){
+        chart.exportChart()
+      }
+      $scope.fullscreen = function(){
+        Highcharts.FullScreen = function(container) {
+          this.init(container.parentNode); // main div of the chart
+        };
+
+        Highcharts.FullScreen.prototype = {
+          init: function(container) {
+            if (container.requestFullscreen) {
+              container.requestFullscreen();
+            } else if (container.mozRequestFullScreen) {
+              container.mozRequestFullScreen();
+            } else if (container.webkitRequestFullscreen) {
+              container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) {
+              container.msRequestFullscreen();
+            }
+          }
+        };
+        chart.fullscreen = new Highcharts.FullScreen(chart.container);
+      }
+
 
       // Get stats for the graph
       $scope.getStats = function (version) {
-          $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
+        $scope.selectedYear= $("#year-variable-filter option:selected" ).text();
+          $('#landcover-bar-chart').html('<p style="color:#f89f1d; font-size:12px;">Please wait while I generate chart for you...</p>');
           var parameters = {
               classes:"0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17",
-              year: 2018,
+              year: $scope.tableYear,
               shape: $scope.shape,
-              areaSelectFrom: $scope.areaSelectFrom,
+              areaSelectFrom: 'country',
               areaName: $scope.areaName,
               version: version
           };
           LandCoverService.getStats(parameters)
           .then(function (data) {
-              var graphData = [];
+            var graphData = [];
+            var graphData2 = [];
               for (var key in data) {
                   graphData.push(data[key]);
                   classes_name.push(key);
@@ -82,7 +124,7 @@
               // });
 
 
-              Highcharts.chart('income', {
+              chart = Highcharts.chart('landcover-bar-chart', {
                 chart: {
                   type: 'column',
                   // Explicitly tell the width and height of a chart
@@ -111,6 +153,9 @@
                       fontFamily: 'serif'
                   }
                 },
+                exporting: {
+                         enabled: false
+                },
                 tooltip: {
                   headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                   pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -138,6 +183,7 @@
               console.log(error);
           });
       };
+
       $scope.getStats();
 
 

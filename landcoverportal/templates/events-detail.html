@@ -1,0 +1,90 @@
+{% extends 'base.html'%}
+<html>
+  <head>
+    {% block head%}
+    <title>RLCMS | Training</title>
+    {% endblock %}
+  </head>
+  <body>
+    {% block body%}
+    <!-- ======= Hero Section ======= -->
+    <section id="branding" class="image">
+      <div class="overlay">
+        <div class="">
+          <h2 class="animated fadeInDown">Training</h2>
+        </div>
+      </div>
+    </section><!-- End Hero -->
+
+    <main id="main">
+      <div class="container">
+        <div class="col-lg-12">
+          <div class="row margin-top">
+
+
+            <div class="col-lg-12 col-md-6 " ng-controller="eventDetailController">
+            <div class="container">
+
+                <div class="row training-detail">
+                  <div class="col-lg-12 col-md-6 events-box events-item">
+                    <div class="row">
+                      <div class="col-lg-12 col-md-6 margin-top">
+                        <h2>[[title]]</h2>
+                        <p>Date Start: [[dateStart]]     End: [[dateFinish]] | Location: [[venue]], [[country]]</p>
+
+                      </div>
+                      <div class="col-lg-12 col-md-6 padding-15">
+                        <div class="margin-10">
+                          <img src="[[featuredImage]]" class="img-fluid" alt="">
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-6 padding-15">
+                        <table>
+                          <tr>
+                            <th>Concept and Objectives</th>
+                            <td>[[concept]]</td>
+                          </tr>
+                          <tr>
+                            <th>Date</th>
+                            <td>[[date]]</td>
+                          </tr>
+                          <tr>
+                            <th>Venue</th>
+                            <td>[[venue]]</td>
+                          </tr>
+                          <tr>
+                            <th>Agenda</th>
+                            <td><a href="[[genda]]" target="_blank">[[agenda]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Presentation</th>
+                            <td><a href="[[presentation]]" target="_blank">[[presentation]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Related Documents</th>
+                            <td><a href="[[relatedDoc]]" target="_blank">[[relatedDoc]]</a></td>
+                          </tr>
+                          <tr>
+                            <th>Photo and Video</th>
+                            <td><a href="[[photo]]" target="_blank">[[photo]]</a></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+            </div>
+          </div><!-- End Events -->
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </main><!-- End #main -->
+    {% endblock %}
+  </body>
+</html>

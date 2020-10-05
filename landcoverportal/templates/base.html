@@ -70,13 +70,7 @@
     <link href="{% static 'vendor/venobox/venobox.css' %}" rel="stylesheet">
     <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
 		<link href="{% static 'vendor/chart.js/dist/Chart.min.css' %}" rel="stylesheet">
-<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
-
-
-
-
-
-
+		<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 
 		<!-- Load CSS -->
 		{% if debug %}
@@ -93,36 +87,51 @@
 
 	{% render_block "css" %}
 
-
-
-
 </head>
 <body>
 
     <!-- ======= Header ======= -->
-    <header id="header">
-      <div class="container">
 
-        <div class="logo float-left">
-          <h1 class="text-light"><a href="index.html"><span>RLCMS</span></a></h1>
-          <!-- Uncomment below if you prefer to use an image logo -->
+		<header id="header">
+			<div class="row">
+				<div class="container banner-container main-padding">
+					<div class=""  ng-controller="utilsController">
+						<div ng-repeat="partner in partnersHeader" class="banner">
+	 						<a href="[[partner.url]]" target="_blank" ng-show="partner.version1">
+	 							<img class="grow img-responsive [[partner.className]]" src="{% static '' %}[[partner.src]]" alt="[[partner.alt]]">
+	 						</a>
+	 	      	</div>
+				</div>
 
-          <!-- <a href="index.html"><img src="/static/images/rlcmslogo.png" alt="" class="img-fluid"></a> -->
-        </div>
+	      </div>
+			</div>
+			<div class="row" style="background: #354751;color: #FFF;border-bottom: 0px solid #354751;">
+				<div class="container">
 
-        <nav class="nav-menu float-right d-none d-lg-block">
-          <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/method">Method</a></li>
-            <li><a href="/library/code">Library</a></li>
-            <li><a href="/about">About Us</a></li>
+	        <div class="logo float-left" style="cursor: pointer;">
+						<img src="{% static 'images/rlcms_logo.png' %}" alt="" style="width:40px;margin-top:5px; margin-right:10px;">
+	        </div>
+					<div class="logo float-left">
+						<h1>RLCMS</h1>
+	        </div>
 
-          </ul>
-        </nav><!-- .nav-menu -->
+	        <nav class="nav-menu float-right d-none d-lg-block">
+	          <ul id="page-menu">
+							<li><a href="/home">Home</a></li>
+							<li><a href="/services">Services</a></li>
+							<li><a href="/dashboard">Dashboard</a></li>
+							<li><a href="/method">Methodology</a></li>
+							<li><a href="/library/code">Library</a></li>
+							<li><a href="/about">About</a></li>
+	          </ul>
+	        </nav>
 
-      </div>
-    </header><!-- End Header -->
+	      </div>
+			</div>
+
+
+    </header>
+
 
     {% block body%}
 
@@ -270,6 +279,7 @@
 	<script src="{% static 'app/controllers/tensor-controller.js' %}"></script>
 	<script src="{% static 'app/controllers/training-controller.js' %}"></script>
 	<script src="{% static 'app/controllers/trainingDetail-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/eventDetail-controller.js' %}"></script>
 
 
 		<!-- Directives -->
@@ -288,7 +298,7 @@
     <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'vendor/aos/aos.js' %}"></script>
 
-				<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
     <!--  main JS File -->
     <script src="{% static 'app/controllers/main.js' %}"></script>

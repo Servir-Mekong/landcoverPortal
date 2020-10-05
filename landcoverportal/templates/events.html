@@ -16,20 +16,24 @@
       </div>
     </section><!-- End Hero -->
 
+    <section class="section-menu-about">
+      <div class="container">
+        <div class="row justify-content-center">
+          <ul id="about-nav">
+            <li id="li-code">Code Repository</li>
+            <li id="li-publication">Publication</li>
+            <li class="active" id="li-events">Events</li>
+          </ul>
+        </div>
+      </div>
+    </section><!-- End Hero -->
+
     <main id="main">
       <div class="container">
         <div class="col-lg-12">
           <div class="row margin-top">
-            <div class="col-lg-3 col-md-6">
-              <ul id="library-nav">
-                <li id="li-code">Code Repository</li>
-                <li id="li-publication">Publication</li>
-                <li class="active" id="li-events">Events</li>
-              </ul>
-            </div>
 
-
-            <div class="col-lg-9 col-md-6 " id="events" ng-controller="EventsController">
+            <div class="col-lg-12 col-md-6 " id="events" ng-controller="EventsController">
             <div class="container">
               <div class="events-title">
                 <h1>Events</h1>
@@ -38,57 +42,39 @@
                   <div class="col-lg-12">
                     <ul id="events-flters">
                       <li data-filter="*" class="filter-active">Show All</li>
-                      <li data-filter=".filter-landcover">SERVIR Mekong</li>
-                      <li data-filter=".filter-forest">SERVIR Himalaya</li>
+                      <li data-filter=".filter-Mekong">SERVIR Mekong</li>
+                      <li data-filter=".filter-Himalaya">SERVIR Himalaya</li>
                     </ul>
                   </div>
                 </div>
 
+
+
                 <div class="row events-container">
-                  <div class="col-lg-12 col-md-6 events-box events-item filter-landcover" ng-repeat="event in EventList">
-                    <div class="row">
-                      <div class="col-lg-12 col-md-6 margin-top">
-                        <h2>[[event.Title]]</h2>
-                      </div>
-                      <div class="col-lg-12 col-md-6 padding-15">
-                        <div class="margin-10">
-                          <img src="[[event.FeaturedImage]]" class="img-fluid" alt="">
+
+
+                    <div class="col-lg-12 col-md-6 events-item filter-[[ event.Hub ]]" ng-repeat="event in EventList">
+                      <div class="row training-list">
+                        <div class="col-lg-2 col-md-6 padding-15">
+                          <div class="margin-10">
+                            <div class="training-content-month">
+                              [[event.Month]]
+                            </div>
+                            <div class="training-content-year">
+                              [[event.Year]]
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-10 col-md-6 padding-15">
+                          <div class="training-content animated fadeInUp">
+                            <a href="/event-detail/?eid=[[event.Order]]" target="_blank">[[event.Title]]</a>
+                            <p>Start: [[event.DateStart]]     End: [[event.DateFinish]]</p>
+                            <p>Location: [[event.Venue]], [[event.Country]]</p>
+                          </div>
                         </div>
                       </div>
-                      <div class="col-lg-12 col-md-6 padding-15">
-                        <table>
-                          <tr>
-                            <th>Concept and Objectives</th>
-                            <td>[[event.Concept]]</td>
-                          </tr>
-                          <tr>
-                            <th>Date</th>
-                            <td>[[event.Date]]</td>
-                          </tr>
-                          <tr>
-                            <th>Venue</th>
-                            <td>[[event.Venue]]</td>
-                          </tr>
-                          <tr>
-                            <th>Agenda</th>
-                            <td><a href="[[event.Agenda]]" target="_blank">[[event.Agenda]]</a></td>
-                          </tr>
-                          <tr>
-                            <th>Presentation</th>
-                            <td><a href="[[event.Presentation]]" target="_blank">[[event.Presentation]]</a></td>
-                          </tr>
-                          <tr>
-                            <th>Related Documents</th>
-                            <td><a href="[[event.RelatedDoc]]" target="_blank">[[event.RelatedDoc]]</a></td>
-                          </tr>
-                          <tr>
-                            <th>Photo and Video</th>
-                            <td><a href="[[event.Photo]]" target="_blank">[[event.Photo]]</a></td>
-                          </tr>
-                        </table>
-                      </div>
                     </div>
-                  </div>
+
                   <br>
                 </div>
             </div>

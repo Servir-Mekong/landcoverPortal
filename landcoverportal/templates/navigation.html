@@ -4,17 +4,11 @@
 
     <div class="navbar-container" ng-controller="utilsController">
 		<div class="container-fluid banner-container main-padding">
-            <div ng-repeat="partner in partnersHeader" class="banner">
-				{% if version1 %}
+      <div ng-repeat="partner in partnersHeader" class="banner">
 					<a href="[[partner.url]]" target="_blank" ng-show="partner.version1">
 						<img class="grow img-responsive [[partner.className]]" src="{% static '' %}[[partner.src]]" alt="[[partner.alt]]">
 					</a>
-				{% else %}
-					<a href="[[partner.url]]" target="_blank" ng-show="partner.version1 || !partner.version1">
-						<img class="grow img-responsive [[partner.className]]" src="{% static '' %}[[partner.src]]" alt="[[partner.alt]]">
-					</a>
-			 	{% endif %}
-            </div>
+      </div>
 		</div>
 
 
@@ -34,18 +28,19 @@
 				<img src="{% static '/images/monrec.png' %}">
 			</a>-->
 
-			<a class="float-left" style="display: block; cursor: pointer; padding: 10px; margin: 0 5px; border-radius: 50%; color: white;" href="#"
-			   ng-show="showToggleFullScreenIcon" ng-click="toggleFullScreen()">
-				<i class="fas fa-bars fa-2x"></i>
-			</a>
-
 			<span ng-repeat="brand in extraBrands">
 				<a class="navbar-brand" ng-show="brand.show" href="brand.href" target="_blank">
 					<img src="{% static '' %}[[brand.src]]" >
 				</a>
 			</span>
 
-		    <a class="navbar-brand navmenu" style="padding: 5px 5px;" href="[[ application.url ]]">[[ application.name ]]</a>
+<div class="logo float-left" style="cursor: pointer;">
+  <img src="{% static 'images/rlcms_logo.png' %}" alt="" style="width:35px;margin-top:5px;">
+</div>
+<div class="logo float-left">
+  <h4 style="color:#FFF;margin: 10px;">[[ application.name ]]</h4>
+</div>
+
 		</div>
 
 		<div class="container-fluid menu-container main-padding" >

@@ -9,7 +9,9 @@
       eventsService.getEvents(parameters)
       .then(function (data) {
         $scope.EventList = data;
+        $scope.EventList.reverse();
         $scope.EventListHome = data.filter((data,idx) => idx < 4)
+        localStorage['eventListCache'] = JSON.stringify(data);
 
       }, function (error) {
 
