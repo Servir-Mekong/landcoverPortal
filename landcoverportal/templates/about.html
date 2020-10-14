@@ -32,7 +32,7 @@
     </section><!-- End Hero -->
 
     <main id="main">
-      <div class="container">
+      <div class="container" ng-controller="AboutController">
         <div class="col-lg-12">
           <div class="row margin-top">
             <div class="col-lg-12 col-md-6" id="about-1">
@@ -47,20 +47,36 @@
                 </p>
                 <br>
                 <div class="text-center">
-                  <img src="/static/images/about/rlcms.png" class="img-fluid" alt="RLCMS">
+                  <img src="/static/images/about/RLCMS_Diagram_cycle.png" class="img-fluid" alt="RLCMS" width="60%;">
                 </div>
 
                 <br>
-                <p>
+                <!-- <p>
                   SERVIR-Mekong is a joint initiative of the U.S. Agency for International Development (USAID) and the U.S. National Aeronautics and Space Administration (NASA), implemented by the Geospatial Information Department of Asian Disaster Preparedness Center (ADPC). It makes use of publicly available satellite imagery and technologies to address challenges related to water resources, disasters, climate resilience, agriculture and ecosystems in the Lower Mekong.
-                </p>
+                </p> -->
                 <br>
               </div>
             </div>
             <div class="col-lg-12 col-md-6" id="about-2">
               <div class="about-title">
                 <h1>Co-development/System Development</h1>
-                <br><br><br><br><br><br><br><br>
+                <p>SERVIR’s unique service approach connects scientists and decision-makers to collaborate on finding sustainable solutions to ongoing development challenges and helps to bridge the gap between these two communities. This approach supports scalable, needs-based technical collaborations.</p>
+                <br>
+                <div class="row">
+                  <div class="col-lg-7">
+                    <img src="/static/images/about/rlcms_architecture_diagram.png" class="img-fluid" alt="rlcms architecture diagram" width="100%;">
+                  </div>
+                  <div class="col-lg-5">
+                    <p>The SERVIR service approach places great emphasis on:</p>
+                    <ul style="list-style-type:circle">
+                      <li>Identifying specific development problems together with local communities to guide researchers</li>
+                      <li>Co-developing geospatial services with decision-makers and end-users together with international researchers and experts</li>
+                      <li>Building capacity of partners to achieve sustainability</li>
+                    </ul>
+                  </div>
+                </div>
+
+
               </div>
             </div>
             <div class="col-lg-12 col-md-6" id="about-4">
@@ -203,24 +219,103 @@
             <div class="col-lg-12 col-md-6" id="about-5">
               <div class="about-title">
                 <h1>Portal User Guide and Manual</h1>
+                <a href="https://gdoc.pub/doc/e/2PACX-1vQWuDUyC3KO0GMrqxvP2uc_LvUgkCAnU-cAIqJx5G0A0h7V7UyNF3gEkXMjorwE059Y06DwpyJCVfcb" target="_blank">Click here to access an user guide and manual </a>
 
-                <br><br><br><br><br><br><br><br>
               </div>
             </div>
 
             <div class="col-lg-12 col-md-6" id="about-6">
               <div class="about-title">
-                <h1>Impact</h1>
+                <h1>The Mekong Region - State of Land Report</h1>
+                <ul style="list-style-type:circle">
+                  <li>SERVIR-Mekong, in collaboration with the Centre for Development and Environment and University of Bern, contributed to the online 2018 State of Land in the Mekong Region report.</li>
+                  <li>The report used data from SERVIR-Mekong’s RLCMS to inform regional assessments and cross-country comparative analyses of land use and land cover change in the Mekong region, setting a baseline for future reporting of current conditions and land governance.</li>
+                </ul>
+                <p></p>
 
-                <br><br><br><br><br><br><br><br>
+
+                <br>
+                <hr>
+                <h1>Regional Land and Forest Monitoring</h1>
+                <p>The RLCMS provides a series of annual land cover maps with a multi-purpose typology, from the year 2000-present.</p>
+                <br>
+                <div class="row">
+                  <div class="col-lg-4 col-md-6">
+                    <div class="text-center">
+                      <img src="/static/images/about/High-quality-or.png" class="img-fluid" alt="RLCMS" width="40%">
+                      <p>High quality, 30-m resolution, regional land cover maps designed to meet</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                    <div class="text-center">
+                      <img src="/static/images/about/Annually-updated-or.png" class="img-fluid" alt="RLCMS" width="49%">
+                      <p>Annually updated maps using open-source remote sensing data</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                    <div class="text-center">
+                      <img src="/static/images/about/Classification-theme-or.png" class="img-fluid" alt="RLCMS" width="40%">
+                      <p>Consistent regional classification scheme which aligns with land cover typologies</p>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+                <hr>
+                <h1>Plantation Mapping in Myanmar</h1>
+                <ul style="list-style-type:circle">
+                  <li>Myanmar’s remaining intact forest landscapes are under threat due to an increase in agricultural land use and deforestation. SERVIR’s RLCMS was customized for plantation mapping of the Dawna Tenasserim Landscape in Myanmar, which is suffering from habitat degradation and fragmentation.</li>
+                  <li>The online map interface shows areas of cropland, rubber and palm oil in the Dawna Tenasserim Landscape, for 2017 and 2018. This enables business opportunities for alternative timber sources to be identified, reducing the impacts on biodiversity and improving sustainable resource management.</li>
+                </ul>
+
+                <br>
+                <hr>
+                <h1>Cambodia Protected Area Alerts System</h1>
+                <ul style="list-style-type:circle">
+                  <li>SERVIR-Mekong partnered with USAID Greening Prey Lang (GPL) to support the Ministry of Environment (MOE) in monitoring protected forest areas. Sentinel-1 (SAR) data will be used for near real-time detection and alerts of threats, such as deforestation.</li>
+                  <li>The SERVIR-Mekong data will supplement ground-observations collected by the USAID GPL project and data uploaded by citizens. The platform will not only provide geospatial data, but also produce action-ready information including user-defined alert messages, customized reports and maps.</li>
+                </ul>
+
+                <br>
+                <hr>
+                <h1>Dashboard for Monitoring and Evaluating Landscape Improvements in Cambodia</h1>
+                <ul style="list-style-type:circle">
+                  <li>Satellite-based analyses to help monitor progress and evaluate project impacts aimed at landscape interventions and improving the biophysical condition of the landscape.</li>
+                  <li>SERVIR-Mekong will develop an online user-friendly tool that uses vegetation indices as a proxy for progress and success of USAID/Cambodia projects. This service will also be usable across the USAID network for monitoring and evaluation purposes.</li>
+                </ul>
+
               </div>
             </div>
 
             <div class="col-lg-12 col-md-6" id="about-7">
               <div class="about-title">
                 <h1>Contact Us</h1>
+                <div class="row">
+                  <div class="col-lg-7 col-md-6">
+                    <div class="" id="contact_map" style="height:350px;width:100%;"></div>
+                    <br>
 
-                <br><br><br><br><br><br><br><br>
+                  </div>
+                  <div class="col-lg-5 col-md-6">
+                    <p>
+                      <b>ASIAN DISASTER PREPAREDNESS CENTER (ADPC)</b> <br>
+                      SM Tower, 24th Floor, 979/69 Paholyothin Road, Samsen Nai Phayathai,<br>
+                      Bangkok 10400 Thailand<br>
+                      BTS Skytrain: Sanam Pao, Exit 1<br>
+                      <strong>Phone:</strong> +66 2 298 0681-92<br>
+                      <strong>Fax:</strong> +66 2 298 0012<br>
+                    </p>
+                    <br>
+
+                    <p><b>For Technical Inquiries:</b></p>
+                    <p>Data and Information Related: Dr. Nguyen Hanh Quyen (nguyen.quyen@adpc.net), Dr. Ate Poortinga (apoortinga@sig-gis.com ) </p>
+                    <p>Portal Related: Thannarot Kunlamai (thannarot.kunlamai@adpc.net )</p>
+                    <br>
+                    <p>If you'd like to send us a message, you can send us an email to <a href="mailto:servir-contact@adpc.net">servir-contact@adpc.net</a>
+                    </p>
+                  </div>
+                </div>
+
               </div>
             </div>
 

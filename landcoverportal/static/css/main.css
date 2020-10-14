@@ -127,20 +127,24 @@ th {
   font-weight: 500;
   margin-bottom: 20px;
   padding-bottom: 0;
-  color: #354751;
+  color: #f89f1d;
 }
 
 .about-title p{
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 14px;
 
 }
 
 .about-title img{
-  width: 50%;
   margin-bottom: 10px;
-
 }
+
+.about-title a, .about-title ul li{
+  font-size: 14px;
+}
+
 .about-title h1 {
   font-size: 24px;
   font-weight: 600;
@@ -1318,6 +1322,7 @@ section {
   margin: 0;
   font-family: "Raleway", sans-serif;
   font-size: 12px;
+  color: #f89f1d;
 }
 
 /*--------------------------------------------------------------
@@ -1969,6 +1974,13 @@ section {
 .method-lists p{
   font-size: 16px;
 }
+.method-lists h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  color: #354751;
+}
 
 .card-body , .card-body p{
   font-size: 15px;
@@ -1987,7 +1999,7 @@ section {
 }
 
 .method-flowchart img{
-  width: 100%
+  width: 60%
 }
 
 .method-collapse {
