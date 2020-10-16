@@ -697,7 +697,67 @@ class ForestMonitor():
         stats = stats * 0.0001
         try:
             return {
-                'area': '{:,} hectare at {} m resolution'.format(float('%.2f' % stats), self.scale)
+                'area': '{:,} hectare at {} m resolution'.format(float('%.2f' % stats), self.scale),
+                'areanumber': float('%.2f' % stats)
+            }
+        except Exception as e:
+            return {
+                'reportError': e.message
+            }
+
+    # -------------------------------------------------------------------------
+    def get_stats_dashboard(self, type, year, start_year, end_year, tree_canopy_definition, tree_height_definition):
+        name = 'forest_cover'
+        if (type == 'treeCanopy'):
+            name = 'tcc'
+            image = self.tree_canopy(get_image = True,
+                                     for_download = True,
+                                     year = year,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     )
+        elif (type == 'forestGain'):
+            image = self.forest_gain(get_image = True,
+                                     start_year = start_year,
+                                     end_year = end_year,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_height_definition,
+                                     )
+        elif (type == 'forestLoss'):
+            image = self.forest_loss(get_image = True,
+                                     start_year = start_year,
+                                     end_year = end_year,
+                                     tree_canopy_definition = tree_canopy_definition,
+                                     tree_height_definition = tree_canopy_definition,
+                                     )
+        elif (type == 'primaryForest'):
+            name = 'b1'
+            image = self.primary_forest(get_image=True,
+                                        year=year,
+                                        tree_canopy_definition = tree_canopy_definition,
+                                        tree_height_definition = tree_height_definition
+                                        )
+
+        elif (type == 'forestExtend'):
+            image = self.forest_extend(get_image = True,
+                                       year = year,
+                                       tree_canopy_definition = tree_canopy_definition,
+                                       tree_height_definition = tree_height_definition,
+                                       )
+        else:
+            return {
+                'reportError': 'type must be one of treeCanopy, primaryForest, forestGain, forestLoss or forestExtend'
+            }
+
+        reducer = image.gt(0).multiply(self.scale).multiply(self.scale).reduceRegions(
+            reducer = ee.Reducer.sum(),
+            collection = ForestMonitor.MEKONG_FEATURE_COLLECTION,
+            crs = 'EPSG:32647', # WGS Zone N 47
+            scale = self.scale
+        )
+        stats = reducer.getInfo()
+        try:
+            return {
+                'features': stats
             }
         except Exception as e:
             return {

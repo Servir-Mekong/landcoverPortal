@@ -504,6 +504,46 @@
             return promise;
         };
 
+        this.getStatsDashboard = function (options) {
+
+            var year = options.year;
+            var startYear = options.startYear;
+            var endYear = options.endYear;
+            var areaSelectFrom = options.areaSelectFrom;
+            var areaName = options.areaName;
+            var treeCanopyDefinition = options.treeCanopyDefinition;
+            var treeHeightDefinition = options.treeHeightDefinition;
+            var type = options.type; // can be treeCanopy, forestGain, forestLoss or forestExtend
+
+            var req = {
+                method: 'POST',
+                url: '/api/forest-monitor/',
+                data: {
+                    year: year,
+                    startYear: startYear,
+                    endYear: endYear,
+                    treeCanopyDefinition: treeCanopyDefinition,
+                    treeHeightDefinition: treeHeightDefinition
+                },
+                params: {
+                    action: 'get-stats-dashboard',
+                    type: type
+                }
+            };
+
+            var promise = $http(req)
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e.data;
+            });
+            return promise;
+        };
+
+
+
         this.getUserDownloadInfo = function () {
             if ($sessionStorage.fmsUserDownloadInfo) {
                 return $sessionStorage.fmsUserDownloadInfo;
