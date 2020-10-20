@@ -800,12 +800,13 @@
         };
 
         $scope.saveToDrive = function (options) {
+          $scope.showCompositeGDriveFileName = false;
             var type = options.type || 'landcover';
             var version = options.version;
             if (verifyBeforeDownload(type)) {
                 // Check if filename is provided, if not use the default one
                 var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
-                showInfoAlert('Please wait while I prepare the download link for you. This might take a while!');
+                showInfoAlert('Please wait while, We are preparing the image for you. It will take several minutes to export the image to your Google Drive!');
 
                 var parameters = {
                     classes: $scope.assemblageLayers,
@@ -825,9 +826,10 @@
                         showErrorAlert(data.error);
                         console.log(data.error);
                     } else {
-                        showInfoAlert(data.info);
+                        showSuccessAlert(data.info);
                         $scope.hideGDriveFileName(type);
                         $('#' + type + 'GDriveFileName').val('');
+                        $scope.showCompositeGDriveFileName = true;
                     }
                 }, function (error) {
                     showErrorAlert(error.error);

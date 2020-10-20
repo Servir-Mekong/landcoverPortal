@@ -96,7 +96,7 @@ def api(request):
 
         elif action == 'get-composite':
             data = core.get_composite(year=year)
-            
+
         elif action == 'download-to-drive':
             session_get = request.session.get
             if session_get('email') and session_get('sub') and session_get('credentials'):
@@ -157,7 +157,7 @@ def api(request):
                                                export_id = export.id if export else None,
                                                user_name = user_name
                                                )
-                    data = {'info': 'The export is started! Larger area takes longer time!'}
+                    data = {'info': 'The export is complete! Please check the data in your Google Drive!'}
                 else:
                     from oauth2client.client import OAuth2Credentials
                     oauth2object = OAuth2Credentials(access_token,
@@ -183,10 +183,10 @@ def api(request):
                                                   export_id = export.id if export else None,
                                                   user_name = user_name
                                                   )
-                    data['info'] = 'The export is started! Larger area takes longer time!'
+                    data['info'] = 'The export is complete! Please check the data in your Google Drive!'
             else:
                 # default fallback
-                data = {'error': 'You have not allowed the tool to use your google drive to upload file! Allow it first and try again!'}
+                data = {'error': 'You have not allowed the tool to use your google drive to upload file! Please try to login to your Google Drive by clicking at the User Icon Button and try again!'}
 
         if 'error' in data:
             return JsonResponse(data, status=500)

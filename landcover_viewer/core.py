@@ -636,7 +636,7 @@ class LandCoverViewer():
             image = self.get_probability(year=year, download=True)
         elif type == 'composite':
             image = self.get_composite(year=year, download=True)
-            
+
         temp_file_name = get_unique_string()
 
         if not file_name:
@@ -675,30 +675,30 @@ class LandCoverViewer():
                                                     file_name,
                                                     oauth2object)
 
-                if export_id:
+                # if export_id:
                     # dump in db now
                     # start with email
                     # @ToDo: use email template
-                    email_data = {
-                        'subject': 'SERVIR-Mekong: your export is ready',
-                        'body': 'Hi <strong>{}</strong>,<br/><br/>Your export is ready. Open <a href="https://drive.google.com" target="_blank">google drive</a> or alternatively click this <a href="{}" target="_blank">link</a><br/><br/><i>This is automatically generated email. Do not reply to this email.</i>'.format(user_name, link),
-                        'from_address': settings.EMAIL_HOST_USER,
-                        'to_address': [user_email]
-                    }
+                    # email_data = {
+                    #     'subject': 'SERVIR-Mekong: your export is ready',
+                    #     'body': 'Hi <strong>{}</strong>,<br/><br/>Your export is ready. Open <a href="https://drive.google.com" target="_blank">google drive</a> or alternatively click this <a href="{}" target="_blank">link</a><br/><br/><i>This is automatically generated email. Do not reply to this email.</i>'.format(user_name, link),
+                    #     'from_address': settings.EMAIL_HOST_USER,
+                    #     'to_address': [user_email]
+                    # }
 
                     # send notification to user
-                    send_email(email_data, html=True)
+                    # send_email(email_data, html=True)
 
                     # create email object
-                    email_data['to_address'] = user_email
-                    email = Email.objects.create(**email_data)
+                    # email_data['to_address'] = user_email
+                    # email = Email.objects.create(**email_data)
 
                     # update export drive
-                    ExportDrive.objects.filter(pk=export_id).update(
-                        email = email,
-                        url = link,
-                        completed_on = timezone.now()
-                    )
+                    # ExportDrive.objects.filter(pk=export_id).update(
+                    #     email = email,
+                    #     url = link,
+                    #     completed_on = timezone.now()
+                    # )
                 return {'driveLink': link}
             except Exception as e:
                 print (str(e))
@@ -733,7 +733,7 @@ class LandCoverViewer():
 
         image = ee.Image(LandCoverViewer.YEARLY_COMPOSITES.filterDate('%s-01-01' % year, '%s-12-31' % year).first()).clip(self.geometry)
         if download:
-            return image.select(['swir1','nir','red'])
+            return image.select(['red','green','blue'])
         map_id = image.getMapId({
             'min': 0,
             'max': 6000,
