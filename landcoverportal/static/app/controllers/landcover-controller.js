@@ -52,6 +52,8 @@
         $scope.showLegendPrimitivemap = false;
         $scope.showLegendProbabilitymap = false;
         $scope.showLegendCompositemap = false;
+        $scope.showCompositeExportData = false;
+        $scope.showProbabilityExportData = false;
 
         // Typology CSV
         $scope.typologyCSV = null;
@@ -329,7 +331,7 @@
          */
         // Get stats for the graph
         $scope.getStats = function (version) {
-            $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
+            $('#landcover-pie-chart').html('<p style="color:#f89f1d; font-size:12px;">Please wait while We are generating chart for you...</p>');
             var parameters = {
                 classes:$scope.assemblageLayers,
                 year: $scope.sliderYear,
@@ -340,15 +342,76 @@
             };
             LandCoverService.getStats(parameters)
             .then(function (data) {
-                var graphData = [];
+              var graphData = [];
+              var classes_name = [];
+              var totalArea = 0;
+              var chartTitle = '';
                 for (var key in data) {
+                    totalArea += data[key];
+                    classes_name.push(data[key]);
                     graphData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
                 }
-                CommonService.buildChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear);
+                //Showing the pie chart
+                var landcoverPiechart = Highcharts.chart('landcover-pie-chart', {
+                  chart: {
+                    type: 'pie',
+                    // Explicitly tell the width and height of a chart
+                    width: 200,
+                    height: 400,
+                    style: {
+                        fontFamily: "sans-serif"
+                    }
+                  },
+                  credits: {
+                    enabled: false
+                  },
+                  title: false,
+                  subtitle: false,
+                  plotOptions: {
+                      pie: {
+                          allowPointSelect: false,
+                          cursor: 'pointer',
+                          dataLabels: {
+                              enabled: false,
+                              format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                              style: { fontFamily: 'sans-serif'}
+                          },
+                          showInLegend: true,
+                      }
+                  },
+                  legend: {
+                    layout: 'vertical',
+                    verticalAlign: 'middle',
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    floating: false,
+                    itemMarginBottom: 3,
+                    itemStyle: {
+                        color: '#666666',
+                        fontWeight: 'normal',
+                        fontSize: '10px'
+                    },
+                    labelFormatter: function() {
+                      return this.name + " (" + (this.y/totalArea*100).toFixed(2) + "%)";
+                   }
+                 },
+                  exporting: {
+                           enabled: true
+                  },
+                  series: [{
+                    name: 'Area',
+                    data: graphData,
+                    showInLegend: true,
+
+                  }]
+                });
+
+
             }, function (error) {
                 console.log(error);
             });
         };
+
 
         var verifyBeforeDownload = function (type) {
             if (typeof(type) === 'undefined') type = 'landcover';
@@ -599,6 +662,7 @@
             console.log(  $scope.assemblageLayers);
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap', version);
+            $scope.getStats();
             //$scope.getStats(version);
             MapService.removeGeoJson(map);
         };
@@ -620,6 +684,7 @@
                         $scope.updateAssemblageProduct('v3');
                         $scope.showProbabilityMap();
                         $scope.showCompositeMap();
+                        $scope.getStats();
 
                         if(document.querySelector('input[name="radio"]:checked')){
                           $scope.updatePrimitive($scope.primitiveIndex, 'v3');
@@ -688,6 +753,8 @@
         $scope.showLandcoverDownloadURL = false;
         $scope.showPrimitiveDownloadURL = false;
         $scope.primitiveDownloadURL = '';
+        $scope.probabilityDownloadURL = '';
+        $scope.showProbabilityDownloadURL = false;
 
         $scope.getDownloadURL = function (options) {
             var type = options.type || 'landcover';
@@ -843,9 +910,11 @@
                             showInfoAlert('Showing Probability Map Layer for ' + $scope.sliderYear);
                         }, 5500);
                         $scope.showProbabilityLayer = true;
+                        $scope.showProbabilityExportData = true;
                         $scope.showLegendProbabilitymap = true;
                     } else {
                         $scope.overlays.probabilitymap.setOpacity(0);
+                        $scope.showProbabilityExportData = false;
                     }
                     //addLayer(type, false);
                 }, function (error) {
@@ -879,9 +948,11 @@
                             showInfoAlert('Showing Yearly Composite Layer for ' + $scope.sliderYear);
                         }, 5500);
                         $scope.showCompositeLayer = true;
+                        $scope.showCompositeExportData = true;
                         $scope.showLegendCompositemap = true;
                     } else {
                         $scope.overlays.compositemap.setOpacity(0);
+                        $scope.showCompositeExportData = false;
                     }
                     //addLayer(type, false);
                 }, function (error) {
@@ -890,6 +961,8 @@
                 });
             }, 1000);
         };
+
+
 
         $('#control-landcover').click(function() {
           $("#sidenav-landcover-class").css("width", "250px");

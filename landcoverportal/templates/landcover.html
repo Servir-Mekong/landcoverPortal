@@ -29,11 +29,11 @@
 
           <!-- Map Container -->
           {% if version1 %}
-              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); showCompositeMap();"></div>
+              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); showCompositeMap(); "></div>
           {% elif version2 %}
               <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2017, 'landcovermap', 'v2', true); showCompositeMap(); showProbabilityMap();"></div>
           {% else %}
-              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2018, 'landcovermap', 'v3', true); showCompositeMap(); showProbabilityMap();">
+              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2018, 'landcovermap', 'v3', true); showCompositeMap(); showProbabilityMap(); getStats('v3');">
 
               </div>
 
@@ -139,7 +139,7 @@
           <div class="tab-tool" ng-show="showTabContainer">
             {% include "panels/area-selection-tab.html" %}
           </div>
-          
+
           {% include "panels/side-panel-landcover.html" %}
 
       </div>

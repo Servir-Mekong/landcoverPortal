@@ -596,7 +596,8 @@ class LandCoverViewer():
             image = self.get_primitive(index=index, year=year, download=True)
         elif type == 'probability':
             image = self.get_probability(year=year, download=True)
-
+        elif type == 'composite':
+            image = self.get_composite(year=year, download=True)
         _scale = 30
         while True:
             try:
@@ -633,7 +634,9 @@ class LandCoverViewer():
             image = self.get_primitive(index=index, year=year, download=True)
         elif type == 'probability':
             image = self.get_probability(year=year, download=True)
-
+        elif type == 'composite':
+            image = self.get_composite(year=year, download=True)
+            
         temp_file_name = get_unique_string()
 
         if not file_name:
@@ -726,10 +729,11 @@ class LandCoverViewer():
         return {self.INDEX_CLASS[int(float(k))]:float('{0:.2f}'.format(v)) for k,v  in data.items()}
 
 # =============================================================================
-    def get_composite(self, year=2017):
+    def get_composite(self, year=2017, download=False):
 
         image = ee.Image(LandCoverViewer.YEARLY_COMPOSITES.filterDate('%s-01-01' % year, '%s-12-31' % year).first()).clip(self.geometry)
-
+        if download:
+            return image.select(['swir1','nir','red'])
         map_id = image.getMapId({
             'min': 0,
             'max': 6000,
