@@ -179,7 +179,7 @@
               opacity: 1.0
             };
             var mapType = new google.maps.ImageMapType(eeMapOptions);
-            return mapType
+            return mapType;
         };
 
         service.getPolygonBoundArray = function (array) {

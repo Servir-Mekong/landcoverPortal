@@ -57,6 +57,9 @@ def store_auth_code(request):
 def home(request):
     return render(request, 'home.html', {'version1': True})
 
+def announcement(request):
+    return render(request, 'announcement.html', {'version1': True})
+
 def service_applications(request):
     return render(request, 'service-applications.html', {'version1': True})
 
