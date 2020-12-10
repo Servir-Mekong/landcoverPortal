@@ -14,15 +14,11 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
 
     # image collection
-
     TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/UMD/tree_canopy')
     TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/tree_height')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     # geometries
-    #MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw')
-    #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('Country',
-    #                                           settings.COUNTRIES_NAME)).geometry()
     MEKONG_BOUNDARY = ee.FeatureCollection('users/biplov/mekong-boundary')
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
     #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('NAME_0',
