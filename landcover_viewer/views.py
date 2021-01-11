@@ -21,19 +21,19 @@ def landcover(request):
 '''
 
 def landcover(request):
-    return render(request, 'landcover.html', {})
+    return render(request, 'announcement.html', {})
 
 def landcover_analysis(request):
-    return render(request, 'analysis.html', {})
+    return render(request, 'announcement.html', {})
 
 def landcover_v1(request):
-    return render(request, 'landcover.html', {'version1': True})
+    return render(request, 'announcement.html', {'version1': True})
 
 def landcover_v1_analysis(request):
-    return render(request, 'analysis.html', {'version1': True})
+    return render(request, 'announcement.html', {'version1': True})
 
 def landcover_v2(request):
-    return render(request, 'landcover.html', {'version2': True})
+    return render(request, 'announcement.html', {'version2': True})
 
 def landcover_v2_analysis(request):
-    return render(request, 'analysis.html', {'version2': True})
+    return render(request, 'announcement.html', {'version2': True})

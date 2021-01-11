@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 def myanmar_ipcc(request):
 
-    return render(request, 'myanmar-ipcc.html', {})
+    return render(request, 'announcement.html', {})

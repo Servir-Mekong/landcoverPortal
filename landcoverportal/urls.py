@@ -26,15 +26,15 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^oauth2/', include(oauth2_urls)),
-    # forest monitor urls
-    # url(r'^api/forest-monitor/download-info/$', forest_monitor_views.DownloadInfoCreateRead.as_view()),
-    # url(r'^api/forest-monitor/$', forest_monitor_api.api),
-    # url(r'^api/landcover/$', landcover_api.api),
-    # url(r'^api/myanmar-national/$', myanmar_national_api.api),
-    # url(r'^api/myanmar-ipcc/$', myanmar_ipcc_api.api),
-    # url(r'^api/myanmar-fra/$', myanmar_fra_api.api),
-    # url(r'^api/myanmar-plantation/$', myanmar_plantation_api.api),
-    # url(r'^storeauthcode/$', store_auth_code),
+    #forest monitor urls
+    url(r'^api/forest-monitor/download-info/$', forest_monitor_views.DownloadInfoCreateRead.as_view()),
+    url(r'^api/forest-monitor/$', forest_monitor_api.api),
+    url(r'^api/landcover/$', landcover_api.api),
+    url(r'^api/myanmar-national/$', myanmar_national_api.api),
+    url(r'^api/myanmar-ipcc/$', myanmar_ipcc_api.api),
+    url(r'^api/myanmar-fra/$', myanmar_fra_api.api),
+    url(r'^api/myanmar-plantation/$', myanmar_plantation_api.api),
+    url(r'^storeauthcode/$', store_auth_code),
 ]
 
 #urlpatterns += i18n_patterns(
@@ -48,15 +48,15 @@ urlpatterns += i18n_patterns(
     url(r'^publications/', announcement),
     url(r'^method/', TemplateView.as_view(template_name="announcement.html")),
     url(r'^privacy-policy/', TemplateView.as_view(template_name="privacy-policy.html")),
-    #url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
-    #url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
-    # url(r'^', include('forest_monitor.urls')),
-    # url(r'^', include('landcover_viewer.urls')),
-    # url(r'^', include('myanmar_national.urls')),
-    # url(r'^', include('myanmar_ipcc.urls')),
-    # url(r'^', include('myanmar_fra.urls')),
-    # url(r'^', include('myanmar_plantation.urls')),
-    # url(r'^', include('cms.urls')),
+    url(r'^service-applications/', TemplateView.as_view(template_name="service-applications.html")),
+    url(r'^side-by-side-map/', TemplateView.as_view(template_name="side-by-side-map.html")),
+    url(r'^', include('forest_monitor.urls')),
+    url(r'^', include('landcover_viewer.urls')),
+    url(r'^', include('myanmar_national.urls')),
+    url(r'^', include('myanmar_ipcc.urls')),
+    url(r'^', include('myanmar_fra.urls')),
+    url(r'^', include('myanmar_plantation.urls')),
+    url(r'^', include('cms.urls')),
 )
 
 # This is only needed when using runserver.

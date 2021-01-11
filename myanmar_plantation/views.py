@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 def myanmar_plantation(request):
 
-    return render(request, 'myanmar-plantation.html', {})
+    return render(request, 'announcement.html', {})
