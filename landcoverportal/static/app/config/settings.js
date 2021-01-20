@@ -80,7 +80,7 @@ var settings = {
             'alt': 'The United States Agency for International Development',
             'url': 'https://www.usaid.gov/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/USAID_Logo_Color.png',
-            'src': 'images/usaid.png',
+            'src': 'images/partners/usaid.png',
             'className': 'usaid',
             'version1': true
         },
@@ -88,7 +88,7 @@ var settings = {
             'alt': 'The National Aeronautics and Space Administration',
             'url': 'https://www.nasa.gov/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/NASA_Logo_Color.png',
-            'src': 'images/nasa.png',
+            'src': 'images/partners/nasa.png',
             'className': 'nasa',
             'version1': true
         },
@@ -96,21 +96,21 @@ var settings = {
             'alt': 'Asian Disaster Preparedness Center',
             'url': 'http://www.adpc.net/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/partner-adbc.png',
-            'src': 'images/adpc.png',
+            'src': 'images/partners/adpc.png',
             'className': 'adpc',
             'version1': true
         },
         {
             'alt': 'ICIMOD',
             'url': 'http://www.icimod.org/',
-            'src': 'images/icimod.png',
+            'src': 'images/partners/icimod.png',
             'className': 'icimod',
             'version1': false
         },
         {
             'alt': 'SERVIR-HKH',
             'url': 'http://servir.icimod.org/',
-            'src': 'images/servir-himalaya.png',
+            'src': 'images/partners/servir-himalaya.png',
             'className': 'servir-hkh',
             'version1': false
         },
@@ -118,7 +118,61 @@ var settings = {
             'alt': 'SERVIR-Mekong',
             'url': 'https://servir.adpc.net/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png',
-            'src': 'images/servir-mekong.png',
+            'src': 'images/partners/servir-mekong.png',
+            'className': 'servir',
+            'version1': true
+        },
+    ],
+    partnersForestHeader: [{
+            'alt': 'The United States Agency for International Development',
+            'url': 'https://www.usaid.gov/',
+            //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/USAID_Logo_Color.png',
+            'src': 'images/partners/usaid.png',
+            'className': 'usaid',
+            'version1': true
+        },
+        {
+            'alt': 'The National Aeronautics and Space Administration',
+            'url': 'https://www.nasa.gov/',
+            //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/NASA_Logo_Color.png',
+            'src': 'images/partners/nasa.png',
+            'className': 'nasa',
+            'version1': true
+        },
+        {
+            'alt': 'Asian Disaster Preparedness Center',
+            'url': 'http://www.adpc.net/',
+            //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/partner-adbc.png',
+            'src': 'images/partners/adpc.png',
+            'className': 'adpc',
+            'version1': true
+        },
+        {
+            'alt': 'ICIMOD',
+            'url': 'http://www.icimod.org/',
+            'src': 'images/partners/icimod.png',
+            'className': 'icimod',
+            'version1': false
+        },
+        {
+            'alt': 'SERVIR-HKH',
+            'url': 'http://servir.icimod.org/',
+            'src': 'images/partners/servir-himalaya.png',
+            'className': 'servir-hkh',
+            'version1': false
+        },
+        {
+            'alt': 'GLAD',
+            'url': 'https://glad.umd.edu/',
+            'src': 'images/partners/glad.png',
+            'className': 'glad',
+            'version1': false
+        },
+        {
+            'alt': 'SERVIR-Mekong',
+            'url': 'https://servir.adpc.net/',
+            //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png',
+            'src': 'images/partners/servir-mekong.png',
             'className': 'servir',
             'version1': true
         },

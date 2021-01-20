@@ -421,13 +421,6 @@ th {
   background-size: 130px;
 }
 
-.partner-logo.--glad{
-  background-image: url(/static/images/partners/glad.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 130px;
-}
-
 .partner-logo.--usf{
   background-image: url(/static/images/partners/usf-gsal.png);
   background-position: center;
@@ -2311,7 +2304,7 @@ table.dataTable.no-footer {
 	}
 }
 
-.adpc, .vawr {
+.adpc, .vawr{
     background-size: auto 50px;
     width: 75px !important;
     float: left;

@@ -165,11 +165,19 @@
 }
 
 .icimod {
-    background-size: auto 50px;
-    width: 80px !important;
+  background-size: auto 50px;
+  width: 80px !important;
 	float: left;
 	margin: 2px 0 0 5px;
 }
+
+.glad {
+  background-size: auto 50px;
+  width: 40px !important;
+	float: left;
+	margin: 2px 0 0 5px;
+}
+
 
 @media (max-width: 1024px) {
 	.icimod {

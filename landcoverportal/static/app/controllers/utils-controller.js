@@ -9,6 +9,7 @@
             $scope.application = appSettings.application;
             $scope.footerLinks = appSettings.footerLinks;
             $scope.partnersHeader = appSettings.partnersHeader;
+            $scope.partnersForestHeader = appSettings.partnersForestHeader;
             $scope.partnersFooter = appSettings.partnersFooter;
             $scope.serviceApplicationsCards = appSettings.serviceApplicationsCards;
             $scope.publicationLists = appSettings.publicationLists;

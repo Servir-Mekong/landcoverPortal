@@ -70,7 +70,7 @@ def services(request):
     return render(request, "services.html")
 
 def method(request):
-    return render(request, "method.html")
+    return render(request, "method-ondev.html")
 
 def library(request):
     return render(request, "library.html")
