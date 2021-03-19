@@ -30,7 +30,7 @@ djangocms-snippet==1.9.2
 djangocms-style==2.0.2
 djangocms-text-ckeditor==3.5.0
 djangocms-video==2.0.3
-djangorestframework==3.6.4
+djangorestframework==3.11.2
 earthengine-api==0.1.182
 easy-thumbnails==2.4.1
 enum34==1.1.6
