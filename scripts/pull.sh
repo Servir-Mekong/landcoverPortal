@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source /home/ubuntu/landcovertool_env/bin/activate
-cd /home/landcoverportal
+source /home/rlcms/landcover_env/bin/activate
+cd /home/rlcms/rlcms-v2
 git reset --hard HEAD
 git pull
 gulp build
 python manage.py collectstatic
-service supervisor restart
-service nginx restart
+sudo systemctl restart supervisor 
+sudo service nginx restart
