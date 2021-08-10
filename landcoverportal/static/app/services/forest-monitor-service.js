@@ -51,6 +51,26 @@
             return promise;
         };
 
+        this.getEndYear = function () {
+            var req = {
+                method: 'POST',
+                url: '/api/forest-monitor/',
+                data: {},
+                params: {
+                    action: 'get-available-data-year'
+                }
+            };
+            var promise = $http(req)
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function (e) {
+                    console.log('Error: ', e);
+                    throw e.data;
+                });
+            return promise;
+        };
+
         this.treeHeightChange = function (options) {
 
             var year = options.year;

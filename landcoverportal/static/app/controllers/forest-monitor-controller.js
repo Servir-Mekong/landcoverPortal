@@ -2,16 +2,6 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .filter('treeCanopyHeightYearRange', function () {
-        return function (input, min, max) {
-            min = parseInt(min);
-            max = parseInt(max);
-            for (var i = min; i <= max; i++) {
-                input.push(i);
-            }
-            return input;
-        };
-    })
     .controller('forestMonitorController', function ($rootScope, $scope, $sanitize, $http, appSettings, CommonService, MapService, ForestMonitorService) {
 
         // Global Variables
@@ -24,6 +14,20 @@
 
         // User Info
         $scope.fmsUserDownloadInfo = ForestMonitorService.getUserDownloadInfo();
+
+        //endyear
+        $scope.endYear = [];
+        ForestMonitorService.getEndYear().then(function (data) {
+            $scope.endYear = data.available_year;
+            var arr = [];
+            for(var year=2000; year<=data.available_year; year++) {
+                arr.push({'year':year})
+            };
+            $scope.endYear = arr;
+        }, function (error) {
+            showErrorAlert(error.error);
+        });
+
 
         // $scope variables
         $scope.overlays = {};

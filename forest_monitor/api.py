@@ -25,6 +25,7 @@ PUBLIC_METHODS = [
     'download-to-drive',
     'get-stats',
     'get-stats-dashboard',
+    'get-available-data-year',
 ]
 
 @csrf_exempt
@@ -115,6 +116,9 @@ def api(request):
             data = core.get_stats(type, year, start_year, end_year, tree_canopy_definition, tree_height_definition)
         elif action == 'get-stats-dashboard':
             data = core.get_stats_dashboard(type, year, start_year, end_year, tree_canopy_definition, tree_height_definition)
+        elif action == 'get-available-data-year':
+            data = core.get_available_data_year()
+        
         elif action == 'download-to-drive':
             session_get = request.session.get
             if session_get('email') and session_get('sub') and session_get('credentials'):

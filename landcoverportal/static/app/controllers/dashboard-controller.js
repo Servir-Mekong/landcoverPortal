@@ -21,7 +21,21 @@
 
       $scope.selectorOptions = CommonService.getAreaVariableOptions('country');
       $scope.yearRange = CommonService.range(1987, 2018);
-      $scope.yearForestRange = CommonService.range(2000, 2019);
+
+      // init the default year
+      $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
+      ForestMonitorService.getEndYear().then(function (data) {
+          $scope.yearForestRange = CommonService.range(2000, parseInt(data.available_year));
+          $scope.tableForestYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
+          $scope.tableCanopyYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
+          $scope.tableForestEndYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
+          $scope.tableForestStartYear = $scope.yearForestRange[$scope.yearForestRange.length - 10];
+          $scope.tableForestLossEndYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
+          $scope.tableForestLossStartYear = $scope.yearForestRange[$scope.yearForestRange.length - 10];
+          $scope.init();
+      }, function (error) {
+          showErrorAlert(error.error);
+      });
 
       var classes_name = [];
       var lc_color = [];
@@ -40,14 +54,6 @@
           $scope.getStats();
       };
 
-      // init the default year
-      $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
-      $scope.tableForestYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
-      $scope.tableCanopyYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
-      $scope.tableForestEndYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
-      $scope.tableForestStartYear = $scope.yearForestRange[$scope.yearForestRange.length - 10];
-      $scope.tableForestLossEndYear = $scope.yearForestRange[$scope.yearForestRange.length - 1];
-      $scope.tableForestLossStartYear = $scope.yearForestRange[$scope.yearForestRange.length - 10];
 
       // CSV exporting function
       $scope.exportCsv = function(type){
@@ -98,7 +104,18 @@
           canopyChart.fullscreen = new Highcharts.FullScreen(canopyChart.container);
         }
       };
-
+      $scope.init = function () {
+        //init calling to get land cover stats
+              $scope.getStats();
+        // init calling the fuction to get forest stats
+              $scope.getForestStats();
+        // init getting tree canopy stats
+              $scope.getCanopyStats();
+        // init calling the fuction to get forest stats
+              $scope.getForestGainStats();
+        // init calling the fuction to get forest stats
+              $scope.getForestLossStats();
+      }
       // Get stats for the Land Cover graph
       $scope.getStats = function (version) {
         $scope.selectedYear= $("#year-variable-filter option:selected" ).text();
@@ -364,8 +381,7 @@
               console.log(error);
           });
       };
-      //init calling to get land cover stats
-      $scope.getStats();
+      
 
 
       // Here is a function getting primary forest stats
@@ -468,8 +484,7 @@
               console.log(error);
           });
       };
-      // init calling the fuction to get forest stats
-      $scope.getForestStats();
+      
 
 
       // Here is a function getting tree canopy stats
@@ -572,8 +587,7 @@
               console.log(error);
           });
       };
-      // init getting tree canopy stats
-      $scope.getCanopyStats();
+      
 
 
 
@@ -623,8 +637,7 @@
               console.log(error);
           });
       };
-      // init calling the fuction to get forest stats
-      $scope.getForestGainStats();
+      
 
       // Here is a function getting primary forest stats
       $scope.getForestLossStats = function () {
@@ -671,8 +684,7 @@
               console.log(error);
           });
       };
-      // init calling the fuction to get forest stats
-      $scope.getForestLossStats();
+      
 
 
     });

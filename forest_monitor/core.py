@@ -18,6 +18,10 @@ class ForestMonitor():
     TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/tree_height')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
+    
+    AVBDATA_STARTYEAR = ee.Date(TREE_CANOPY.first().get('system:time_start')).get('year').getInfo()
+    AVBDATA_ENDYEAR= ee.Date(TREE_CANOPY.sort('system:time_start',False).first().get('system:time_start')).get('year').getInfo()
+
     # geometries
     MEKONG_BOUNDARY = ee.FeatureCollection('users/biplov/mekong-boundary')
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
@@ -190,16 +194,17 @@ class ForestMonitor():
             image = image.set('system:time_start', ee.Date.fromYMD(year, 1, 1).millis())
             return ee.List(list).add(image)
 
-        PRIMARY_FOREST = ForestMonitor.PRIMARY_FOREST.sort('system:time_start', False);
+        PRIMARY_FOREST = ForestMonitor.PRIMARY_FOREST.sort('system:time_start', False)
 
-        primary2000 = PRIMARY_FOREST.first();
+        primary2000 = PRIMARY_FOREST.first()
+
 
         startYear = 2001
-        endYear = 2019
+        endYear = ForestMonitor.AVBDATA_ENDYEAR
 
         sequence =  ee.List.sequence(startYear, endYear)
 
-        first = ee.List([primary2000]);
+        first = ee.List([primary2000])
         primaryForestList = ee.List(sequence.iterate(getPrimaryForest, first))
 
         primaryForest = ee.ImageCollection(primaryForestList)
@@ -220,7 +225,7 @@ class ForestMonitor():
         map_id = image.getMapId({
             'min': '0',
             'max': '1',
-            'palette': '2d783a'
+            'palette': '267300'
         })
 
         return {
@@ -229,10 +234,18 @@ class ForestMonitor():
         }
 
     # -------------------------------------------------------------------------
+
+    def get_available_data_year(self):
+        endYear = ForestMonitor.AVBDATA_ENDYEAR
+        return {
+            'available_year': endYear
+    }
+
+    # -------------------------------------------------------------------------
     @staticmethod
     def _get_combined_img_coll():
 
-        years = ee.List.sequence(2000, 2019)
+        years = ee.List.sequence(2000, ForestMonitor.AVBDATA_ENDYEAR)
         date_ymd = ee.Date.fromYMD
 
         def addBands(year):
@@ -299,7 +312,7 @@ class ForestMonitor():
             return gain_image
 
         map_id = gain_image.getMapId({
-            'palette': 'blue'
+            'palette': '004DA8'
         })
 
         return {
@@ -347,7 +360,7 @@ class ForestMonitor():
             return loss_image
 
         map_id = loss_image.getMapId({
-            'palette': 'red'
+            'palette': 'E600A9'
         })
 
         return {
@@ -408,7 +421,7 @@ class ForestMonitor():
         map_id = change_image.getMapId({
             'min': min,
             'max': max,
-            'palette': 'yellow'
+            'palette': 'F5F57A'
             #'palette': 'FF0000, FFFF00, 00FF00'
         })
 
@@ -450,7 +463,7 @@ class ForestMonitor():
         map_id = image.getMapId({
             'min': str(tree_canopy_definition),
             'max': '100',
-            'palette': '228B22'
+            'palette': '70A800'
         })
 
         return {
