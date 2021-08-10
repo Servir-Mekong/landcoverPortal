@@ -343,6 +343,7 @@ class LandCoverViewer():
             self.v3 = True
             self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/rlcmsV3')
             # Class and Index
+        
             self.LANDCOVERCLASSES = [
                 {
                     'name': 'Unknown',
@@ -352,62 +353,62 @@ class LandCoverViewer():
                 {
                     'name': 'Surface Water',
                     'value': '1',
-                    'color': 'aec3d4'
+                    'color': '004DA8'
                 },
                 {
                     'name': 'Snow and Ice',
                     'value': '2',
-                    'color': 'b1f9ff'
+                    'color': 'FFFFFF'
                 },
                 {
                     'name': 'Mangroves',
                     'value': '3',
-                    'color': '111149'
+                    'color': '00A884'
                 },
                 {
                     'name': 'Flooded Forest',
                     'value': '4',
-                    'color': '287463'
+                    'color': 'B4D79E'
                 },
                 {
                     'name': 'Forest',
                     'value': '5',
-                    'color': '152106'
+                    'color': '70A800'
                 },
                 {
                     'name': 'Orchard or Plantation Forest',
                     'value': '6',
-                    'color': 'c3aa69'
+                    'color': 'F5F57A'
                 },
                 {
                     'name': 'Evergreen Broadleaf',
                     'value': '7',
-                    'color': '7db087'
+                    'color': '267300'
                 },
                 {
                     'name': 'Mixed Forest',
                     'value': '8',
-                    'color': '387242'
+                    'color': 'AAFF00'
                 },
                 {
                     'name': 'Urban and Built Up',
                     'value': '9',
-                    'color': 'cc0013'
+                    'color': 'E600A9'
                 },
                 {
                     'name': 'Cropland',
                     'value': '10',
-                    'color': '8dc33b'
+                    'color': 'FFD37F'
                 },
                 {
                     'name': 'Rice',
                     'value': '11',
-                    'color': 'ffff00'
+                    'color': 'FFFFBE'
                 },
                 {
                     'name': 'Mining',
                     'value': '12',
-                    'color': 'cec2a5'
+                    'color': 'A900E6'
                 },
                 {
                     'name': 'Barren',
@@ -422,12 +423,12 @@ class LandCoverViewer():
                 {
                     'name': 'Grassland',
                     'value': '15',
-                    'color': 'f4a460'
+                    'color': 'D7C29E'
                 },
                 {
                     'name': 'Shrubland',
                     'value': '16',
-                    'color': '800080'
+                    'color': '89CD66'
                 },
                 {
                     'name': 'Aquaculture',
