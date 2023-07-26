@@ -45,7 +45,7 @@
             var _default = {
                 center: service.CENTER,
                 zoom: service.DEFAULT_ZOOM,
-                layers: [service.getMapBoxLeafletLayer()]
+                layers: [service.getEsriWorldImageryLeafletLayer()]
             };
             return L.map(div, $.extend(_default, options));
         };

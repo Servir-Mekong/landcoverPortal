@@ -88,7 +88,7 @@
         // layer control
         var baseLayers = {
             'Satellite Imagery': MapService.getEsriWorldImageryLeafletLayer(),
-            'Grayscale': MapService.getMapBoxLeafletLayer(),
+            // 'Grayscale': MapService.getMapBoxLeafletLayer(),
             'Topo Map': MapService.getEsriWorldTopoLeafletLayer()
         };
         L.control.layers(baseLayers, null, {position: 'bottomleft'}).addTo(map);
@@ -204,11 +204,13 @@
 
         /* Updates the image based on the current control panel config. */
         var loadMap = function (type, data) {
-            $scope[type + 'Layer'] = L.tileLayer('https://earthengine.googleapis.com/map/' + data.eeMapId + '/{z}/{x}/{y}?token=' + data.eeMapToken);
+            $scope[type + 'Layer'] = L.tileLayer(data.eeMapURL);
             $scope[type + 'Layer'].setZIndex(9999);
             $scope[type + 'Layer'].addTo(map);
             $scope.showMapLoader = false;
         };
+
+
 
         // Area filter
         $scope.areaIndexSelectors = appSettings.areaIndexSelectors;
@@ -261,6 +263,7 @@
 
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
+                // var mapType = MapService.getMapType(side, data.eeMapURL);
                 loadMap(side, data);
             }, function (error) {
                 //$scope.showAlert('danger', error.error);
