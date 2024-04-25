@@ -32,7 +32,14 @@
     "leaflet-side-by-side": "https://github.com/digidem/leaflet-side-by-side.git#6ea4567fe8d1b3e6ea3b0e9ca05d311f5be125a3",
     "moment": "^2.24.0",
     "viewerjs": "^0.5.9",
-    "MDBootstrap": "^4.19.0",
-    "chart.js": "^2.9.3"
+    "MDBootstrap": "^4.1.0",
+    "chart.js": "^2.9.3",
+    "counterup": "^1.0.0",
+    "jquery-sticky": "^1.0.4",
+    "venobox": "^2.1.7",
+    "isotope-layout": "isotope#^3.0.6",
+    "aos": "^2.3.4",
+    "waypoints": "jquery-waypoints#^4.0.1",
+    "jquery.easing": "^1.3.1"
   }
 }

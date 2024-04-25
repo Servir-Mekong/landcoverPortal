@@ -30,7 +30,6 @@ class LandCoverViewer():
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center, version):
-
         self.geom = geom
         self.radius = radius
         self.center = center
@@ -67,407 +66,155 @@ class LandCoverViewer():
 
         self.v1 = False
         self.v2 = False
-        self.v3 = False
-        if version and version == 'v1':
-            self.v1 = True
-            self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/Assemblage/RegionalLC')
-            # Class and Index
-            self.LANDCOVERCLASSES = [
-                {
-                    'name': 'Other',
-                    'value': '0',
-                    'color': '6f6f6f'
-                },
-                {
-                    'name': 'Surface Water',
-                    'value': '1',
-                    'color': 'aec3d4'
-                },
-                {
-                    'name': 'Snow and Ice',
-                    'value': '2',
-                    'color': 'b1f9ff'
-                },
-                {
-                    'name': 'Mangroves',
-                    'value': '3',
-                    'color': '111149'
-                },
-                {
-                    'name': 'Flooded Forest',
-                    'value': '4',
-                    'color': '287463'
-                },
-                {
-                    'name': 'Deciduous Forest',
-                    'value': '5',
-                    'color': '152106'
-                },
-                {
-                    'name': 'Orchard or Plantation Forest',
-                    'value': '6',
-                    'color': 'c3aa69'
-                },
-                {
-                    'name': 'Evergreen Broadleaf Alpine',
-                    'value': '7',
-                    'color': '9ad2a5'
-                },
-                {
-                    'name': 'Evergreen Broadleaf',
-                    'value': '8',
-                    'color': '7db087'
-                },
-                {
-                    'name': 'Evergreen Needleleaf',
-                    'value': '9',
-                    'color': '486f50'
-                },
-                {
-                    'name': 'Evergreen Mixed Forest',
-                    'value': '10',
-                    'color': '387242'
-                },
-                {
-                    'name': 'Mixed Evergreen and Deciduous',
-                    'value': '11',
-                    'color': '115420'
-                },
-                {
-                    'name': 'Urban and Built Up',
-                    'value': '12',
-                    'color': 'cc0013'
-                },
-                {
-                    'name': 'Cropland',
-                    'value': '13',
-                    'color': '8dc33b'
-                },
-                {
-                    'name': 'Rice Paddy',
-                    'value': '14',
-                    'color': 'ffff00'
-                },
-                {
-                    'name': 'Mudflat and Intertidal',
-                    'value': '15',
-                    'color': 'a1843b'
-                },
-                {
-                    'name': 'Mining',
-                    'value': '16',
-                    'color': 'cec2a5'
-                },
-                {
-                    'name': 'Barren',
-                    'value': '17',
-                    'color': '674c06'
-                },
-                {
-                    'name': 'Wetlands',
-                    'value': '18',
-                    'color': '3bc3b2'
-                },
-                {
-                    'name': 'Grassland',
-                    'value': '19',
-                    'color': 'f4a460'
-                },
-                {
-                    'name': 'Shrubland',
-                    'value': '20',
-                    'color': '800080'
-                }
-            ]
+    
+        self.v5 = True
+        self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/RLCMSV2/lc_rlcms_logical_v5')
+        # Class and Index
+    
+        self.LANDCOVERCLASSES = [
+            {
+                'name': 'aquaculture',
+                'value': '0',
+                'color': '29B6F6'
+            },
+            {
+                'name': 'barren',
+                'value': '1',
+                'color': 'CCCCCC'
+            },
+            {
+                'name': 'cropland',
+                'value': '2',
+                'color': 'F2E527'
+            },
+            {
+                'name': 'cropPlantation',
+                'value': '3',
+                'color': 'F4CCCC'
+            },
+            {
+                'name': 'deciduous',
+                'value': '4',
+                'color': '70A800'
+            },
+            {
+                'name': 'evergreen',
+                'value': '5',
+                'color': '267300'
+            },
+            {
+                'name': 'floodedForest',
+                'value': '6',
+                'color': 'B4D79E'
+            },
+            {
+                'name': 'forestPlantation',
+                'value': '7',
+                'color': 'C49963'
+            },
+            {
+                'name': 'grass',
+                'value': '8',
+                'color': 'D7C29E'
+            },
+            {
+                'name': 'mangrove',
+                'value': '9',
+                'color': 'FF7FBF'
+            },
+            {
+                'name': 'otherForest',
+                'value': '10',
+                'color': 'AA66CD'
+            },
+            {
+                'name': 'palm',
+                'value': '11',
+                'color': 'F5F57A'
+            },
+            {
+                'name': 'rice',
+                'value': '12',
+                'color': 'FFFFBE'
+            },
+            {
+                'name': 'rubber',
+                'value': '13',
+                'color': 'AAFF00'
+            },
+            {
+                'name': 'shrub',
+                'value': '14',
+                'color': '89CD66'
+            },
+            {
+                'name': 'urban',
+                'value': '15',
+                'color': 'E600A9'
+            },
+            {
+                'name': 'water',
+                'value': '16',
+                'color': '004DA8'
+            },
+            {
+                'name': 'wetland',
+                'value': '17',
+                'color': '91E5A5'
+            },
+            {
+                'name': 'sugarcane',
+                'value': '18',
+                'color': 'FFB752'
+            },
+            {
+                'name': 'cassava',
+                'value': '19',
+                'color': 'A2C4C9'
+            },
+            {
+                'name': 'snow',
+                'value': '20',
+                'color': 'F4F4F4'
+            },
+            {
+                'name': 'other',
+                'value': '21',
+                'color': '6F6F6F'
+            }
+        ]
 
-            self.INDEX_CLASS = {}
-            for _class in self.LANDCOVERCLASSES:
-                self.INDEX_CLASS[int(_class['value'])] = _class['name']
+        self.INDEX_CLASS = {}
+        for _class in self.LANDCOVERCLASSES:
+            self.INDEX_CLASS[int(_class['value'])] = _class['name']
 
-            # primitives
-            PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/Primitives/P_barren')
-            PRIMITIVE_BUILTUP = ee.ImageCollection('projects/servir-mekong/Primitives/P_builtup')
-            PRIMITIVE_CANOPY = ee.ImageCollection('projects/servir-mekong/Primitives/P_canopy')
-            PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/Primitives/P_cropland')
-            PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/Primitives/P_deciduous')
-            PRIMITIVE_EPHEMERAL_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_ephemeral_water')
-            PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen')
-            PRIMITIVE_EVERGREEN_BROADLEAF = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen_broadleaf')
-            PRIMITIVE_EVERGREEN_NEEDLELEAF = ee.ImageCollection('projects/servir-mekong/Primitives/P_evergreen_needleleaf')
-            #PRIMITIVE_FOREST_COVER = ee.ImageCollection('projects/servir-mekong/Primitives/P_forest_cover')
-            PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/Primitives/P_grass')
-            PRIMITIVE_IMPERVIOUS = ee.ImageCollection('projects/servir-mekong/Primitives/P_impervious')
-            PRIMITIVE_IRRIGATED = ee.ImageCollection('projects/servir-mekong/Primitives/P_irrigated')
-            PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/Primitives/P_mangrove')
-            #PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/Primitives/P_mixed_forest')
-            PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_rice')
-            PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/Primitives/P_shrub')
-            PRIMITIVE_SNOW_ICE = ee.ImageCollection('projects/servir-mekong/Primitives/P_snow_ice').select('max_snow')
-            PRIMITIVE_SURFACE_WATER = ee.ImageCollection('projects/servir-mekong/Primitives/P_surface_water')
-            PRIMITIVE_TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/Primitives/P_tree_height')
-            self.PRIMITIVES = [
-                PRIMITIVE_BARREN, PRIMITIVE_BUILTUP, PRIMITIVE_CANOPY, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
-                PRIMITIVE_EPHEMERAL_WATER, PRIMITIVE_EVERGREEN, PRIMITIVE_EVERGREEN_BROADLEAF, PRIMITIVE_EVERGREEN_NEEDLELEAF,
-                PRIMITIVE_GRASS, PRIMITIVE_IMPERVIOUS, PRIMITIVE_IRRIGATED, PRIMITIVE_MANGROVE,
-                PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW_ICE, PRIMITIVE_SURFACE_WATER, PRIMITIVE_TREE_HEIGHT
-            ]
-        elif version and version == 'v2':
-            self.v2 = True
-            self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/rlcms')
-            # Class and Index
-            self.LANDCOVERCLASSES = [
-                {
-                    'name': 'Unknown',
-                    'value': '0',
-                    'color': '6f6f6f'
-                },
-                {
-                    'name': 'Surface Water',
-                    'value': '1',
-                    'color': 'aec3d4'
-                },
-                {
-                    'name': 'Snow and Ice',
-                    'value': '2',
-                    'color': 'b1f9ff'
-                },
-                {
-                    'name': 'Mangroves',
-                    'value': '3',
-                    'color': '111149'
-                },
-                {
-                    'name': 'Flooded Forest',
-                    'value': '4',
-                    'color': '287463'
-                },
-                {
-                    'name': 'Deciduous Forest',
-                    'value': '5',
-                    'color': '152106'
-                },
-                {
-                    'name': 'Orchard or Plantation Forest',
-                    'value': '6',
-                    'color': 'c3aa69'
-                },
-                {
-                    'name': 'Evergreen Broadleaf',
-                    'value': '7',
-                    'color': '7db087'
-                },
-                {
-                    'name': 'Mixed Forest',
-                    'value': '8',
-                    'color': '387242'
-                },
-                {
-                    'name': 'Urban and Built Up',
-                    'value': '9',
-                    'color': 'cc0013'
-                },
-                {
-                    'name': 'Cropland',
-                    'value': '10',
-                    'color': '8dc33b'
-                },
-                {
-                    'name': 'Rice',
-                    'value': '11',
-                    'color': 'ffff00'
-                },
-                {
-                    'name': 'Mining',
-                    'value': '12',
-                    'color': 'cec2a5'
-                },
-                {
-                    'name': 'Barren',
-                    'value': '13',
-                    'color': '674c06'
-                },
-                {
-                    'name': 'Wetlands',
-                    'value': '14',
-                    'color': '3bc3b2'
-                },
-                {
-                    'name': 'Grassland',
-                    'value': '15',
-                    'color': 'f4a460'
-                },
-                {
-                    'name': 'Shrubland',
-                    'value': '16',
-                    'color': '800080'
-                },
-                {
-                    'name': 'Aquaculture',
-                    'value': '17',
-                    'color': '51768e'
-                }
-            ]
-
-            self.INDEX_CLASS = {}
-            for _class in self.LANDCOVERCLASSES:
-                self.INDEX_CLASS[int(_class['value'])] = _class['name']
-
-            # primitives
-            PRIMITIVE_AQUACULTURE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/aquaculture')
-            PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/barren')
-            PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
-            PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/cropland')
-            PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/deciduous')
-            PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/evergreen')
-            PRIMITIVE_FLOODED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/floodedForest')
-            PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/grass')
-            PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mangrove')
-            PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mixedForest')
-            PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/openForest')
-            PRIMITIVE_PLANTATIONS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/plantations')
-            PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/rice')
-            PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/shrub')
-            PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/snow')
-            PRIMITIVE_TIDAL = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tidal')
-            PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/urban')
-            PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/water')
-            PRIMITIVE_WETLANDS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/wetlands')
-            PRIMITIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/woody')
-            self.PRIMITIVES = [
-                PRIMITIVE_AQUACULTURE, PRIMITIVE_BARREN, PRIMITIVE_CLOSED_FOREST, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
-                PRIMITIVE_EVERGREEN, PRIMITIVE_FLOODED_FOREST, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, PRIMITIVE_MIXED_FOREST,
-                PRIMITIVE_OPEN_FOREST, PRIMITIVE_PLANTATIONS, PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW,
-                PRIMITIVE_TIDAL, PRIMITIVE_URBAN, PRIMITIVE_WATER, PRIMITIVE_WETLANDS, PRIMITIVE_WOODY
-            ]
-        else:
-            self.v3 = True
-            self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/rlcmsV3')
-            # Class and Index
-        
-            self.LANDCOVERCLASSES = [
-                {
-                    'name': 'Unknown',
-                    'value': '0',
-                    'color': '6f6f6f'
-                },
-                {
-                    'name': 'Surface Water',
-                    'value': '1',
-                    'color': '004DA8'
-                },
-                {
-                    'name': 'Snow and Ice',
-                    'value': '2',
-                    'color': 'FFFFFF'
-                },
-                {
-                    'name': 'Mangroves',
-                    'value': '3',
-                    'color': '00A884'
-                },
-                {
-                    'name': 'Flooded Forest',
-                    'value': '4',
-                    'color': 'B4D79E'
-                },
-                {
-                    'name': 'Forest',
-                    'value': '5',
-                    'color': '70A800'
-                },
-                {
-                    'name': 'Orchard or Plantation Forest',
-                    'value': '6',
-                    'color': 'F5F57A'
-                },
-                {
-                    'name': 'Evergreen Broadleaf',
-                    'value': '7',
-                    'color': '267300'
-                },
-                {
-                    'name': 'Mixed Forest',
-                    'value': '8',
-                    'color': 'AAFF00'
-                },
-                {
-                    'name': 'Urban and Built Up',
-                    'value': '9',
-                    'color': 'E600A9'
-                },
-                {
-                    'name': 'Cropland',
-                    'value': '10',
-                    'color': 'FFD37F'
-                },
-                {
-                    'name': 'Rice',
-                    'value': '11',
-                    'color': 'FFFFBE'
-                },
-                {
-                    'name': 'Mining',
-                    'value': '12',
-                    'color': 'A900E6'
-                },
-                {
-                    'name': 'Barren',
-                    'value': '13',
-                    'color': '674c06'
-                },
-                {
-                    'name': 'Wetlands',
-                    'value': '14',
-                    'color': '3bc3b2'
-                },
-                {
-                    'name': 'Grassland',
-                    'value': '15',
-                    'color': 'D7C29E'
-                },
-                {
-                    'name': 'Shrubland',
-                    'value': '16',
-                    'color': '89CD66'
-                },
-                {
-                    'name': 'Aquaculture',
-                    'value': '17',
-                    'color': '51768e'
-                }
-            ]
-
-            self.INDEX_CLASS = {}
-            for _class in self.LANDCOVERCLASSES:
-                self.INDEX_CLASS[int(_class['value'])] = _class['name']
-
-            # primitives
-            PRIMITIVE_AQUACULTURE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/aquaculture')
-            PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/barren')
-            PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
-            PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/cropland')
-            PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/deciduous')
-            PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/evergreen')
-            PRIMITIVE_FLOODED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/floodedForest')
-            PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/grass')
-            PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mangrove')
-            PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mixedForest')
-            PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/openForest')
-            PRIMITIVE_PLANTATIONS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/plantations')
-            PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/rice')
-            PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/shrub')
-            PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/snow')
-            PRIMITIVE_TIDAL = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tidal')
-            PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/urban')
-            PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/water')
-            PRIMITIVE_WETLANDS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/wetlands')
-            PRIMITIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/woody')
-            self.PRIMITIVES = [
-                PRIMITIVE_AQUACULTURE, PRIMITIVE_BARREN, PRIMITIVE_CLOSED_FOREST, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
-                PRIMITIVE_EVERGREEN, PRIMITIVE_FLOODED_FOREST, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, PRIMITIVE_MIXED_FOREST,
-                PRIMITIVE_OPEN_FOREST, PRIMITIVE_PLANTATIONS, PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW,
-                PRIMITIVE_TIDAL, PRIMITIVE_URBAN, PRIMITIVE_WATER, PRIMITIVE_WETLANDS, PRIMITIVE_WOODY
-            ]
+        # primitives
+        PRIMITIVE_AQUACULTURE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/aquaculture')
+        PRIMITIVE_BARREN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/barren')
+        PRIMITIVE_CLOSED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/closedForest')
+        PRIMITIVE_CROPLAND = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/cropland')
+        PRIMITIVE_DECIDUOUS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/deciduous')
+        PRIMITIVE_EVERGREEN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/evergreen')
+        PRIMITIVE_FLOODED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/floodedForest')
+        PRIMITIVE_GRASS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/grass')
+        PRIMITIVE_MANGROVE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mangrove')
+        PRIMITIVE_MIXED_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/mixedForest')
+        PRIMITIVE_OPEN_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/openForest')
+        PRIMITIVE_PLANTATIONS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/plantations')
+        PRIMITIVE_RICE = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/rice')
+        PRIMITIVE_SHRUB = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/shrub')
+        PRIMITIVE_SNOW = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/snow')
+        PRIMITIVE_TIDAL = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/tidal')
+        PRIMITIVE_URBAN = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/urban')
+        PRIMITIVE_WATER = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/water')
+        PRIMITIVE_WETLANDS = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/wetlands')
+        PRIMITIVE_WOODY = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/woody')
+        self.PRIMITIVES = [
+            PRIMITIVE_AQUACULTURE, PRIMITIVE_BARREN, PRIMITIVE_CLOSED_FOREST, PRIMITIVE_CROPLAND, PRIMITIVE_DECIDUOUS,
+            PRIMITIVE_EVERGREEN, PRIMITIVE_FLOODED_FOREST, PRIMITIVE_GRASS, PRIMITIVE_MANGROVE, PRIMITIVE_MIXED_FOREST,
+            PRIMITIVE_OPEN_FOREST, PRIMITIVE_PLANTATIONS, PRIMITIVE_RICE, PRIMITIVE_SHRUB, PRIMITIVE_SNOW,
+            PRIMITIVE_TIDAL, PRIMITIVE_URBAN, PRIMITIVE_WATER, PRIMITIVE_WETLANDS, PRIMITIVE_WOODY
+        ]
 
     # -------------------------------------------------------------------------
     def _get_geometry(self, shape):
@@ -491,12 +238,12 @@ class LandCoverViewer():
         return LandCoverViewer.MEKONG_BOUNDARY#COUNTRIES_GEOM.buffer(8500)
 
     # -------------------------------------------------------------------------
-    def get_landcover(self, classes=range(0, 21), year=2016, download=False):
+    def get_landcover(self, classes=range(0, 21), year=2023, download=False):
 
         image = ee.Image(self.LANDCOVERMAP.filterDate('%s-01-01' % year,
                                                       '%s-12-31' % year).mean())
-        if self.v2 or self.v3:
-            image = image.select('lc')
+
+        image = image.select('lc')
 
         # Start with creating false boolean image
         masked_image = image.eq(ee.Number(100))
@@ -512,7 +259,6 @@ class LandCoverViewer():
             palette.append(_class['color'])
 
         palette = ','.join(palette)
-
         image = image.updateMask(masked_image).clip(self.geometry)
 
         if download:

@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('landcoverportal')
-    .controller('DashboardController', function ($http, $rootScope, $scope, $sanitize, $timeout, appSettings, CommonService, MapService, LandCoverService, ForestMonitorService) {
+    .controller('DashboardController', function ($scope, appSettings, CommonService, LandCoverService, ForestMonitorService) {
       $scope.landCoverClasses = [];
       $scope.LCForestColor = '';
       $scope.LCForest = '';
@@ -13,14 +13,14 @@
       $scope.LCWaterColor = '';
       $scope.LCWater = '';
       $scope.LCData = [];
-      $scope.landCoverClasses = appSettings.landCoverClassesV4;
+      $scope.landCoverClasses = appSettings.landCoverClasses;
       $scope.landCoverClassesColor = {};
       for (var i = 0; i < $scope.landCoverClasses.length; i++) {
           $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
       }
 
       $scope.selectorOptions = CommonService.getAreaVariableOptions('country');
-      $scope.yearRange = CommonService.range(1987, 2018);
+      $scope.yearRange = CommonService.range(2000, 2023);
 
       // init the default year
       $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
@@ -160,16 +160,16 @@
               }
 
               for(var i=0; i<graphData2.length; i++){
-                if(graphData2[i].name === "Surface Water") {
+                if(graphData2[i].name === "water") {
                   $scope.LCWater = (graphData2[i].y * 100 / totalArea).toFixed(2);
                   $scope.LCWaterColor = $scope.landCoverClassesColor[graphData2[i].name]
-                }else if (graphData2[i].name === "Urban and Built Up") {
+                }else if (graphData2[i].name === "urban") {
                   $scope.LCUrban = (graphData2[i].y * 100 / totalArea).toFixed(2);
                   $scope.LCUrbanColor = $scope.landCoverClassesColor[graphData2[i].name]
-                }else if (graphData2[i].name === "Forest") {
+                }else if (graphData2[i].name === "evergreen") {
                   $scope.LCForest = (graphData2[i].y * 100 / totalArea).toFixed(2);
                   $scope.LCForestColor = $scope.landCoverClassesColor[graphData2[i].name]
-                }else if (graphData2[i].name === "Cropland") {
+                }else if (graphData2[i].name === "cropland") {
                   $scope.LCCropland = (graphData2[i].y * 100 / totalArea).toFixed(2);
                   $scope.LCCroplandColor = $scope.landCoverClassesColor[graphData2[i].name]
                 }

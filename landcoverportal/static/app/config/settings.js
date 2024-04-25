@@ -118,7 +118,7 @@ var settings = {
             'alt': 'SERVIR-Mekong',
             'url': 'https://servir.adpc.net/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png',
-            'src': 'images/partners/servir-mekong.png',
+            'src': 'images/partners/servir-sea.png',
             'className': 'servir',
             'version1': true
         },
@@ -172,7 +172,7 @@ var settings = {
             'alt': 'SERVIR-Mekong',
             'url': 'https://servir.adpc.net/',
             //'src': 'https://servir.adpc.net/themes/svmk/images/optimized/Servir_Logo_Color.png',
-            'src': 'images/partners/servir-mekong.png',
+            'src': 'images/partners/servir-sea.png',
             'className': 'servir',
             'version1': true
         },
@@ -242,428 +242,116 @@ var settings = {
     // this list is generated from python script at /scripts/list-provience.py
     provinces: ['Amnat Charoen', 'An Giang', 'Ang Thong', 'Attapu', 'Ayeyarwady', 'Ba Ria - VTau', 'Bac Giang', 'Bac Kan', 'Bac Lieu', 'Bac Ninh', 'Bago', 'Bangkok Metropolis', 'Banteay Mean Cheay', 'Battambang', 'Ben Tre', 'Binh Dinh', 'Binh Duong', 'Binh Phuoc', 'Binh Thuan', 'Bokeo', 'Bolikhamxai', 'Bueng Kan', 'Buri Ram', 'Ca Mau', 'Can Tho', 'Cao Bang', 'Chachoengsao', 'Chai Nat', 'Chaiyaphum', 'Champasak', 'Chanthaburi', 'Chiang Mai', 'Chiang Rai', 'Chin', 'Chon Buri', 'Chumphon', 'Da Nang City', 'Dac Nong', 'Dak Lak', 'Dien Bien', 'Dong Nai', 'Dong Thap', 'Gia Lai', 'Ha Giang', 'Ha Nam', 'Ha Tay', 'Ha Tinh', 'Hai Duong', 'Haiphong', 'Hanoi', 'Hau Giang', 'Ho Chi Minh', 'Hoa Binh', 'Houaphan', 'Hung Yen', 'Kachin', 'Kalasin', 'Kamphaeng Nakhon Viang Chan', 'Kamphaeng Phet', 'Kampong Chaam', 'Kampong Speu', 'Kampong Thom', 'Kampot', 'Kanchanaburi', 'Kandaal', 'Kayah', 'Kayin', 'Keb', 'Khammouan', 'Khanh Hoa', 'Khon Kaen', 'Kien Giang', 'Koh Kong', 'Kompong Chnang', 'Kon Tum', 'Krabi', 'Kratie', 'Lai Chau', 'Lam Dong', 'Lampang', 'Lamphun', 'Lang Son', 'Lao Cai', 'Loei', 'Long An', 'Lop Buri', 'Louang Namtha', 'Louangphrabang', 'Mae Hong Son', 'Magway', 'Maha Sarakham', 'Mandalay', 'Mon', 'Mondul Kiri', 'Mukdahan', 'Nakhon Nayok', 'Nakhon Pathom', 'Nakhon Phanom', 'Nakhon Ratchasima', 'Nakhon Sawan', 'Nakhon Si Thammarat', 'Nam Dinh', 'Nan', 'Narathiwat', 'Naypyitaw', 'Nghe An', 'Ninh Binh', 'Ninh Thuan', 'Nong Bua Lam Phu', 'Nong Khai', 'Nonthaburi', 'Oddar Meanchey', 'Oudomxai', 'Pailin', 'Pathum Thani', 'Pattani', 'Phangnga', 'Phatthalung', 'Phayao', 'Phetchabun', 'Phetchaburi', 'Phichit', 'Phitsanulok', 'Phnum Penh', 'Phongsali', 'Phra Nakhon Si Ayutthaya', 'Phrae', 'Phu Tho', 'Phu Yen', 'Phuket', 'Prachin Buri', 'Prachuap Khiri Khan', 'Preah Vihear', 'Prey Veaeng', 'Pursat', 'Quang Binh', 'Quang Nam', 'Quang Ngai', 'Quang Ninh', 'Quang Tri', 'Rakhine', 'Ranong', 'Ratana Kiri', 'Ratchaburi', 'Rayong', 'Roi Et', 'Sa Kaeo', 'Sagaing', 'Sakon Nakhon', 'Samut Prakan', 'Samut Sakhon', 'Samut Songkhram', 'Saraburi', 'Saravan', 'Satun', 'Savannakhot', 'Shan', 'Si Sa Ket', 'Siem Reap', 'Sihanoukville', 'Sing Buri', 'Soairieng', 'Soc Trang', 'Son La', 'Songkhla', 'Stung Treng', 'Sukhothai', 'Suphan Buri', 'Surat Thani', 'Surin', 'Tak', 'Takeo', 'Tanintharyi', 'Tay Ninh', 'Tbong Khmum', 'Thai Binh', 'Thai Nguyen', 'Thanh Hoa', 'Thua Thien - Hue', 'Tien Giang', 'Tra Vinh', 'Trang', 'Trat', 'Tuyen Quang', 'Ubon Ratchathani', 'Udon Thani', 'Uthai Thani', 'Uttaradit', 'Vientiane', 'Vinh Long', 'Vinh Phuc', 'Xaignabouri', 'Xaisomboun', 'Xekong', 'Xiangkhoang', 'Yala', 'Yangon', 'Yasothon', 'Yen Bai'],
     myanmarProvinces: ['Ayeyarwady', 'Bago', 'Chin', 'Kachin', 'Kayah', 'Kayin', 'Magway', 'Mandalay', 'Mon', 'Naypyitaw', 'Rakhine', 'Sagaing', 'Shan', 'Tanintharyi', 'Yangon'],
-    landCoverClassesV1: [
-        {
-            'name': 'Unknown',
-            'value': '0',
-            'color': '#6f6f6f'
-        },
-        {
-            'name': 'Surface Water',
-            'value': '1',
-            'color': '#aec3d4'
-        },
-        {
-            'name': 'Snow and Ice',
-            'value': '2',
-            'color': '#b1f9ff'
-        },
-        {
-            'name': 'Mangroves',
-            'value': '3',
-            'color': '#111149'
-        },
-        {
-            'name': 'Flooded Forest',
-            'value': '4',
-            'color': '#287463'
-        },
-        {
-            'name': 'Deciduous Forest',
-            'value': '5',
-            'color': '#152106'
-        },
-        {
-            'name': 'Orchard or Plantation forest',
-            'value': '6',
-            'color': '#c3aa69'
-        },
-        {
-            'name': 'Evergreen Broadleaf Alpine',
-            'value': '7',
-            'color': '#9ad2a5'
-        },
-        {
-            'name': 'Evergreen Broadleaf',
-            'value': '8',
-            'color': '#7db087'
-        },
-        {
-            'name': 'Evergreen Needleleaf',
-            'value': '9',
-            'color': '#486f50'
-        },
-        {
-            'name': 'Evergreen Mixed Forest',
-            'value': '10',
-            'color': '#387242'
-        },
-        {
-            'name': 'Mixed Evergreen and Deciduous',
-            'value': '11',
-            'color': '#115420'
-        },
-        {
-            'name': 'Urban and Built Up',
-            'value': '12',
-            'color': '#cc0013'
-        },
-        {
-            'name': 'Cropland',
-            'value': '13',
-            'color': '#8dc33b'
-        },
-        {
-            'name': 'Rice Paddy',
-            'value': '14',
-            'color': '#ffff00'
-        },
-        {
-            'name': 'Mudflat and Intertidal',
-            'value': '15',
-            'color': '#a1843b'
-        },
-        {
-            'name': 'Mining',
-            'value': '16',
-            'color': '#cec2a5'
-        },
-        {
-            'name': 'Barren',
-            'value': '17',
-            'color': '#674c06'
-        },
-        {
-            'name': 'Wetlands',
-            'value': '18',
-            'color': '#3bc3b2'
-        },
-        {
-            'name': 'Grassland',
-            'value': '19',
-            'color': '#f4a460'
-        },
-        {
-            'name': 'Shrubland',
-            'value': '20',
-            'color': '#800080'
-        }
-    ],
-    landCoverClassesV2: [
-        {
-            'name': 'Unknown',
-            'value': '0',
-            'color': '#6f6f6f'
-        },
-        {
-            'name': 'Surface Water',
-            'value': '1',
-            'color': '#aec3d4'
-        },
-        {
-            'name': 'Snow and Ice',
-            'value': '2',
-            'color': '#b1f9ff'
-        },
-        {
-            'name': 'Mangroves',
-            'value': '3',
-            'color': '#111149'
-        },
-        {
-            'name': 'Flooded Forest',
-            'value': '4',
-            'color': '#287463'
-        },
-        {
-            'name': 'Deciduous Forest',
-            'value': '5',
-            'color': '#152106'
-        },
-        {
-            'name': 'Orchard or Plantation Forest',
-            'value': '6',
-            'color': '#c3aa69'
-        },
-        {
-            'name': 'Evergreen Broadleaf',
-            'value': '7',
-            'color': '#7db087'
-        },
-        {
-            'name': 'Mixed Forest',
-            'value': '8',
-            'color': '#387242'
-        },
-        {
-            'name': 'Urban and Built Up',
-            'value': '9',
-            'color': '#cc0013'
-        },
-        {
-            'name': 'Cropland',
-            'value': '10',
-            'color': '#8dc33b'
-        },
-        {
-            'name': 'Rice',
-            'value': '11',
-            'color': '#ffff00'
-        },
-        {
-            'name': 'Mining',
-            'value': '12',
-            'color': '#cec2a5'
-        },
-        {
-            'name': 'Barren',
-            'value': '13',
-            'color': '#674c06'
-        },
-        {
-            'name': 'Wetlands',
-            'value': '14',
-            'color': '#3bc3b2'
-        },
-        {
-            'name': 'Grassland',
-            'value': '15',
-            'color': '#f4a460'
-        },
-        {
-            'name': 'Shrubland',
-            'value': '16',
-            'color': '#800080'
-        },
-        {
-            'name': 'Aquaculture',
-            'value': '17',
-            'color': '#51768e'
-        }
-    ],
     landCoverClasses: [
         {
-            'name': 'Unknown',
+            'name': 'aquaculture',
             'value': '0',
-            'color': '#6f6f6f',
-            'caret': false
+            'color': '#29B6F6'
         },
         {
-            'name': 'Surface Water',
+            'name': 'barren',
             'value': '1',
-            'color': '#004DA8',
-            'caret': false
+            'color': '#CCCCCC'
         },
         {
-            'name': 'Snow and Ice',
+            'name': 'cropland',
             'value': '2',
-            'color': '#FFFFFF',
-            'caret': false
+            'color': '#F2E527'
         },
         {
-            'name': 'Mangroves',
+            'name': 'cropPlantation',
             'value': '3',
-            'color': '#00A884',
-            'caret': false
+            'color': '#F4CCCC'
         },
         {
-            'name': 'Flooded Forest',
+            'name': 'deciduous',
             'value': '4',
-            'color': '#B4D79E',
-            'caret': false
+            'color': '#70A800'
         },
         {
-            'name': 'Forest',
+            'name': 'evergreen',
             'value': '5',
-            'color': '#70A800',
-            'caret': true
+            'color': '#267300'
         },
         {
-            'name': 'Orchard or Plantation Forest',
+            'name': 'floodedForest',
             'value': '6',
-            'color': '#F5F57A',
-            'caret': false
+            'color': '#B4D79E'
         },
         {
-            'name': 'Evergreen Broadleaf',
+            'name': 'forestPlantation',
             'value': '7',
-            'color': '#267300',
-            'nestedUnder': '5',
-            'caret': false
+            'color': '#C49963'
         },
         {
-            'name': 'Mixed Forest',
+            'name': 'grass',
             'value': '8',
-            'color': '#AAFF00',
-            'nestedUnder': '5',
-            'caret': false
+            'color': '#D7C29E'
         },
         {
-            'name': 'Urban and Built Up',
+            'name': 'mangrove',
             'value': '9',
-            'color': '#E600A9',
-            'caret': false
+            'color': '#FF7FBF'
         },
         {
-            'name': 'Cropland',
+            'name': 'otherForest',
             'value': '10',
-            'color': '#FFD37F',
-            'caret': false
+            'color': '#AA66CD'
         },
         {
-            'name': 'Rice',
+            'name': 'palm',
             'value': '11',
-            'color': '#FFFFBE',
-            'caret': false
+            'color': '#F5F57A'
         },
         {
-            'name': 'Mining',
+            'name': 'rice',
             'value': '12',
-            'color': '#A900E6',
-            'caret': false
+            'color': '#FFFFBE'
         },
         {
-            'name': 'Barren',
+            'name': 'rubber',
             'value': '13',
-            'color': '#674c06',
-            'caret': false
+            'color': '#AAFF00'
         },
         {
-            'name': 'Wetlands',
+            'name': 'shrub',
             'value': '14',
-            'color': '#3bc3b2',
-            'caret': false
+            'color': '#89CD66'
         },
         {
-            'name': 'Grassland',
+            'name': 'urban',
             'value': '15',
-            'color': '#D7C29E',
-            'caret': false
+            'color': '#E600A9'
         },
         {
-            'name': 'Shrubland',
+            'name': 'water',
             'value': '16',
-            'color': '#89CD66',
-            'caret': false
+            'color': '#004DA8'
         },
         {
-            'name': 'Aquaculture',
+            'name': 'wetland',
             'value': '17',
-            'color': '#51768e',
-            'caret': false
-        }
-    ],
-
-    landCoverClassesV4: [
-        {
-            'name': 'Unknown',
-            'value': '0',
-            'color': '#dc0f0f',
-            'caret': false
+            'color': '#91E5A5'
         },
         {
-            'name': 'Surface Water',
-            'value': '1',
-            'color': '#518db4',
-            'caret': false
+            'name': 'sugarcane',
+            'value': '18',
+            'color': '#FFB752'
         },
         {
-            'name': 'Snow and Ice',
-            'value': '2',
-            'color': '#abe6ff',
-            'caret': false
+            'name': 'cassava',
+            'value': '19',
+            'color': '#A2C4C9'
         },
         {
-            'name': 'Mangroves',
-            'value': '3',
-            'color': '#325553',
-            'caret': false
+            'name': 'snow',
+            'value': '20',
+            'color': '#F4F4F4'
         },
         {
-            'name': 'Flooded Forest',
-            'value': '4',
-            'color': '#61adbe',
-            'caret': false
-        },
-        {
-            'name': 'Forest',
-            'value': '5',
-            'color': '#21884f',
-            'caret': true
-        },
-        {
-            'name': 'Orchard or Plantation Forest',
-            'value': '6',
-            'color': '#58b368',
-            'caret': false
-        },
-        {
-            'name': 'Evergreen Broadleaf',
-            'value': '7',
-            'color': '#164412',
-            'nestedUnder': '5',
-            'caret': false
-        },
-        {
-            'name': 'Mixed Forest',
-            'value': '8',
-            'color': '#33772b',
-            'nestedUnder': '5',
-            'caret': false
-        },
-        {
-            'name': 'Urban and Built Up',
-            'value': '9',
-            'color': '#f57873',
-            'caret': false
-        },
-        {
-            'name': 'Cropland',
-            'value': '10',
-            'color': '#a8da81',
-            'caret': false
-        },
-        {
-            'name': 'Rice',
-            'value': '11',
-            'color': '#fdf17e',
-            'caret': false
-        },
-        {
-            'name': 'Mining',
-            'value': '12',
-            'color': '#ff7f00',
-            'caret': false
-        },
-        {
-            'name': 'Barren',
-            'value': '13',
-            'color': '#fdbf6f',
-            'caret': false
-        },
-        {
-            'name': 'Wetlands',
-            'value': '14',
-            'color': '#d8f4ff',
-            'caret': false
-        },
-        {
-            'name': 'Grassland',
-            'value': '15',
-            'color': '#b2df8a',
-            'caret': false
-        },
-        {
-            'name': 'Shrubland',
-            'value': '16',
-            'color': '#b0cf30',
-            'caret': false
-        },
-        {
-            'name': 'Aquaculture',
-            'value': '17',
-            'color': '#3167a1',
-            'caret': false
+            'name': 'other',
+            'value': '21',
+            'color': '#6F6F6F'
         }
     ],
 
@@ -1073,7 +761,7 @@ var settings = {
                 '2000 to 2016. The uncertainty and accuracy data assessment is ' +
                 'integrated in the assemblage and map results.',
             'url': '/myanmar-national-portal/',
-            'imageURL': 'images/myanmar-national-portal.png'
+            'imageURL': 'images/myanmar-national-portal.jpg'
         },
         {
             'name': 'Myanmar National Classification',
@@ -1106,7 +794,7 @@ var settings = {
                 'categories will also be calculated in this application at different ' +
                 'administrative levels.',
             'url': '/myanmar-ipcc/',
-            'imageURL': 'images/myanmar-ipcc.png'
+            'imageURL': 'images/myanmar-ipcc.jpg'
         },
         {
             'name': 'Myanmar National FRA',

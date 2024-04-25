@@ -275,19 +275,10 @@
 
             $scope.sliderYear = year;
             $scope.sliderEndYear = year;
-            if (version === 'v1') {
-                $scope.typologyCSV = '/static/data/typology_value_v1.csv';
-                $scope.landCoverClasses = appSettings.landCoverClassesV1;
-                $scope.primitiveClasses = appSettings.primitiveClassesV1;
-            } else if (version === 'v2') {
-                $scope.typologyCSV = '/static/data/typology_value_v2.csv';
-                $scope.landCoverClasses = appSettings.landCoverClassesV2;
-                $scope.primitiveClasses = appSettings.primitiveClasses;
-            } else {
-                $scope.typologyCSV = '/static/data/typology_value.csv';
-                $scope.landCoverClasses = appSettings.landCoverClasses;
-                $scope.primitiveClasses = appSettings.primitiveClasses;
-            }
+
+            $scope.typologyCSV = '/static/data/typology_value.csv';
+            $scope.landCoverClasses = appSettings.landCoverClasses;
+            $scope.primitiveClasses = appSettings.primitiveClasses;
 
             if (typeof(firstLoad) === 'undefined') firstLoad = false;
             if (firstLoad) {
@@ -321,7 +312,7 @@
                 //addLayer(type, true);
             }, function (error) {
                 $scope.showLoader = false;
-                showErrorAlert(error.error);
+                // showErrorAlert(error.error);
                 console.log(error);
             });
         };
@@ -672,11 +663,11 @@
             $('#slider-year-selector').ionRangeSlider({
                 skin: 'round',
                 grid: true,
-                min: 1987,
+                min: 2000,
                 max: $scope.sliderEndYear,
                 from: $scope.sliderEndYear,
                 force_edges: true,
-                grid_num: $scope.sliderEndYear - 1987,
+                grid_num: $scope.sliderEndYear - 2000,
                 prettify_enabled: false,
                 onFinish: function (data) {
                     if ($scope.sliderYear !== data.from) {
@@ -883,7 +874,7 @@
                 //addLayer(type, true);
             }, function (error) {
                 $scope.showLoader = false;
-                showErrorAlert(error.error);
+                // showErrorAlert(error.error);
                 console.log(error);
             });
         };
@@ -920,7 +911,7 @@
                     }
                     //addLayer(type, false);
                 }, function (error) {
-                    showErrorAlert(error.error);
+                    // showErrorAlert(error.error);
                     console.log(error);
                 });
             }, 1000);
@@ -958,7 +949,7 @@
                     }
                     //addLayer(type, false);
                 }, function (error) {
-                    showErrorAlert(error.error);
+                    // showErrorAlert(error.error);
                     console.log(error);
                 });
             }, 1000);

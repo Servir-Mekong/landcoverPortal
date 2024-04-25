@@ -14,8 +14,8 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
 
     # image collection
-    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/UMD/tree_canopy')
-    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/tree_height')
+    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/UMD/TCC_C02')
+    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/TCH_C02')
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     

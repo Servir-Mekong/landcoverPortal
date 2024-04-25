@@ -28,13 +28,8 @@
 
 
           <!-- Map Container -->
-          {% if version1 %}
-              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2016, 'landcovermap', 'v1', true); showCompositeMap(); "></div>
-          {% elif version2 %}
-              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2017, 'landcovermap', 'v2', true); showCompositeMap(); showProbabilityMap();"></div>
-          {% else %}
-              <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2018, 'landcovermap', 'v3', true); showCompositeMap(); showProbabilityMap(); getStats('v3');">
-
+              {% comment %} <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2023, 'landcovermap', 'v3', true); showCompositeMap(); showProbabilityMap(); getStats('v3');"> {% endcomment %}
+                <div class="map [[ mapClass ]]" id="map" ng-init="initMap(2023, 'landcovermap', 'v3', true);  getStats('v3');">
               </div>
 
               <div class="control-panel map-component">
@@ -115,25 +110,16 @@
                 </ul>
 
               </div>
-          {% endif %}
+
 
           <!-- Toogle button container -->
           <div id="tool-control-container"></div>
 
           <!-- Time Slider -->
-          {% if version1 %}
-              <div class="slider-year-container">
-                  <input type="text" id="slider-year-selector-version1" name="slider-year-selector" value="" />
-              </div>
-          {% elif version2 %}
-              <div class="slider-year-container">
-                  <input type="text" id="slider-year-selector-version2" name="slider-year-selector" value="" />
-              </div>
-          {% else %}
-              <div class="slider-year-container">
-                  <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
-              </div>
-          {% endif %}
+          <div class="slider-year-container">
+              <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
+          </div>
+
 
           <!-- Tab Container -->
           <div class="tab-tool" ng-show="showTabContainer">
