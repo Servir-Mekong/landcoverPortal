@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" data-framework="angularjs">
 <head>
-
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
 	<script>
@@ -12,13 +11,11 @@
 
 		gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
 	</script>
-	<!-- Google Sign in -->
 	<script>
 		function start() {
 			gapi.load('auth2', function() {
 				auth2 = gapi.auth2.init({
 					client_id: '{{ GOOGLE_OAUTH2_CLIENT_ID }}',
-					// Scopes to request in addition to 'profile' and 'email'
 					scope: 'https://www.googleapis.com/auth/drive'
 				});
 			});
@@ -38,7 +35,6 @@
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 	<meta name="keywords" content="landcover, machine learning, vietnam, cambodia, laos, myanmar, thailand, google earth engine">
 	<meta name="viewport" content="width=1024">
 	<meta name="description" content="regional land cover monitoring system">
@@ -68,7 +64,6 @@
 
 		<!-- Mapping -->
 		<link href="{% static 'vendor/leaflet/dist/leaflet.css' %}" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.control.min.css" />
 
 		<!-- Load CSS -->
 		{% if debug %}
@@ -136,9 +131,6 @@
 		<!-- Leaflet -->
 		<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
 		<script src="{% static 'vendor/leaflet-side-by-side/leaflet-side-by-side.js' %}"></script>
-        <!--<script type="text/javascript" src="https://cdn.rawgit.com/nezasa/iso8601-js-period/master/iso8601.min.js"></script>
-        <script type="text/javascript" src="https://cdn.rawgit.com/socib/Leaflet.TimeDimension/master/dist/leaflet.timedimension.min.js"></script>-->
-
 		<!--  Load Angular  -->
 		<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
 
@@ -178,10 +170,7 @@
 		<script src="{% static 'app/controllers/myanmar-plantation-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/side-by-side-map-controller.js' %}"></script>
 		<script src="{% static 'app/controllers/analysis-controller.js' %}"></script>
-
-
 		<!-- Directives -->
-		<!--<script src="{% static 'app/directives/text-collapse.js' %}"></script>-->
 		<script src="{% static 'app/directives/validate-email.js' %}"></script>
 
 		{% else %}

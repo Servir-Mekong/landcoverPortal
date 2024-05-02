@@ -91,7 +91,7 @@
                     <span class="tooltipmap tooltipmap5 left"> Land Cover</span>
                   </li>
 
-                  <li class="pointer shadow" id="control-primitives">
+                  {% comment %} <li class="pointer shadow" id="control-primitives">
                     <svg class="panel-icon">
                       <svg width="2em" height="1.5em" viewBox="0 0 16 16" class="bi bi-circle-half" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M8 15V1a7 7 0 1 1 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
@@ -106,7 +106,7 @@
                     <path fill-rule="evenodd" d="M7.765 1.559a.5.5 0 0 1 .47 0l7.5 4a.5.5 0 0 1 0 .882l-7.5 4a.5.5 0 0 1-.47 0l-7.5-4a.5.5 0 0 1 0-.882l7.5-4zM1.563 6L8 9.433 14.438 6 8 2.567 1.562 6z"/>
                   </svg>
                     <span class="tooltipmap tooltipmap7 left"> More Layers</span>
-                  </li>
+                  </li> {% endcomment %}
                 </ul>
 
               </div>
@@ -114,20 +114,15 @@
 
           <!-- Toogle button container -->
           <div id="tool-control-container"></div>
-
           <!-- Time Slider -->
           <div class="slider-year-container">
               <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
           </div>
-
-
           <!-- Tab Container -->
           <div class="tab-tool" ng-show="showTabContainer">
             {% include "panels/area-selection-tab.html" %}
           </div>
-
           {% include "panels/side-panel-landcover.html" %}
-
       </div>
   </div>
 
