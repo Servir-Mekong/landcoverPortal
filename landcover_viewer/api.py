@@ -79,6 +79,7 @@ def api(request):
                                          classes = classes,
                                          index = index
                                          )
+            
             # dump to db if success
             if settings.USE_EMAIL_MODULE and isinstance(data, dict) and 'downloadUrl' in data:
                 try:

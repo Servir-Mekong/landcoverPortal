@@ -245,113 +245,98 @@ var settings = {
     landCoverClasses: [
         {
             'name': 'aquaculture',
-            'value': '0',
+            'value': '1',
             'color': '#29B6F6'
         },
         {
             'name': 'barren',
-            'value': '1',
+            'value': '2',
             'color': '#CCCCCC'
         },
         {
             'name': 'cropland',
-            'value': '2',
+            'value': '3',
             'color': '#F2E527'
         },
         {
             'name': 'cropPlantation',
-            'value': '3',
+            'value': '4',
             'color': '#F4CCCC'
         },
         {
             'name': 'deciduous',
-            'value': '4',
+            'value': '5',
             'color': '#70A800'
         },
         {
             'name': 'evergreen',
-            'value': '5',
+            'value': '6',
             'color': '#267300'
         },
         {
             'name': 'floodedForest',
-            'value': '6',
+            'value': '7',
             'color': '#B4D79E'
         },
         {
             'name': 'forestPlantation',
-            'value': '7',
+            'value': '8',
             'color': '#C49963'
         },
         {
             'name': 'grass',
-            'value': '8',
+            'value': '9',
             'color': '#D7C29E'
         },
         {
             'name': 'mangrove',
-            'value': '9',
+            'value': '10',
             'color': '#FF7FBF'
         },
         {
             'name': 'otherForest',
-            'value': '10',
+            'value': '11',
             'color': '#AA66CD'
         },
         {
             'name': 'palm',
-            'value': '11',
+            'value': '12',
             'color': '#F5F57A'
         },
         {
             'name': 'rice',
-            'value': '12',
+            'value': '13',
             'color': '#FFFFBE'
         },
         {
             'name': 'rubber',
-            'value': '13',
+            'value': '14',
             'color': '#AAFF00'
         },
         {
             'name': 'shrub',
-            'value': '14',
+            'value': '15',
             'color': '#89CD66'
         },
         {
             'name': 'urban',
-            'value': '15',
+            'value': '16',
             'color': '#E600A9'
         },
         {
             'name': 'water',
-            'value': '16',
+            'value': '17',
             'color': '#004DA8'
         },
         {
             'name': 'wetland',
-            'value': '17',
+            'value': '18',
             'color': '#91E5A5'
         },
         {
-            'name': 'sugarcane',
-            'value': '18',
-            'color': '#FFB752'
-        },
-        {
-            'name': 'cassava',
-            'value': '19',
-            'color': '#A2C4C9'
-        },
-        {
             'name': 'snow',
-            'value': '20',
+            'value': '19',
             'color': '#F4F4F4'
-        },
-        {
-            'name': 'other',
-            'value': '21',
-            'color': '#6F6F6F'
         }
     ],
 

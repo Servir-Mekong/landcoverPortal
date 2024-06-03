@@ -326,7 +326,7 @@
             } else if (serviceType === 'myanmar-plantation') {
                 url = '/api/myanmar-plantation/';
             }
-
+            console.log(type, year, index, classes.toString())
             var req = {
                 method: 'POST',
                 url: url,
