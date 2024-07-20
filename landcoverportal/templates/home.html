@@ -87,31 +87,6 @@
 
     <main id="main">
 
-      <!-- ======= Event Section ======= -->
-      <section class="counts section-bg">
-        <div class="container" ng-controller="EventsController">
-          <div class="section-title">
-            <h2>Latest Events</h2>
-          </div>
-          <div class="row justify-content-center">
-
-            <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" ng-repeat="event in EventListHome">
-              <div class="count-box">
-                <img src="[[event.FeaturedImage]]" alt="" style="width:100%;">
-                <a href="/event-detail/?eid=[[event.Order]]" target="_blank">[[event.Title]]</a>
-                <p>[[event.Date]]</p>
-              </div>
-            </div>
-
-          </div>
-          <div class="text-center">
-            <a class="btn-rounded" href="/library/events">SEE MORE EVENTS</a>
-          </div>
-        </div>
-      </section>
-      <!-- ======= End Event Section ======= -->
-
-
       <!-- ======= About Us Section ======= -->
       <section id="about" class="about portfolio">
         <div class="container">
@@ -149,16 +124,16 @@
                   <div class="portfolio-wrap">
                     <img src="/static/images/services-cat/mmr-1.jpg" class="img-fluid" alt="">
                     <div class="portfolio-info">
-                      <h4>Myanmar National Land Cover Partal</h4>
+                      <h4>Myanmar Landscape Monitoring Dashboard</h4>
                       <div class="portfolio-links">
                         <!-- <a href="/static/images/services-cat/mmr-1.jpg" data-gall="portfolioGallery" class="venobox" title="Myanmar National Land Cover Partal"><i class="icofont-eye"></i></a> -->
-                        <a href="/myanmar-national-portal/" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
+                        <a href="https://myanmar-me-servir.adpc.net/mapviewer" title="Browse Application" target="_blank"><i class="icofont-external-link"></i></a>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="col-lg-6 col-md-6 portfolio-item">
+                <div class="col-lg-6 col-md-6 portfolio-item" style="display: none">
                   <div class="portfolio-wrap">
                     <img src="/static/images/services-cat/mmr-2.jpg" class="img-fluid" alt="">
                     <div class="portfolio-info">
@@ -177,7 +152,7 @@
 
             <div class="col-lg-6 d-flex flex-column justify-content-center about-content">
               <div class="section-title">
-                <h2>SERVICE CATALOGUE</h2>
+                <h2><a href="/services">SERVICE CATALOGUE</a></h2>
                 <p>Our services are tailored to the needs of the region and developed through consultation and collaboration with partners from around the world to bring NASA’s satellite imagery, geospatial data, and Earth science research into decision-making processes to achieve meaningful and lasting development impact.
                   The co-developers of each service, as well as the broader users and stakeholders, can be found in each service entry.
                 </p>
@@ -195,6 +170,30 @@
         </div>
       </section><!-- End About Us Section -->
 
+
+      <!-- ======= Event Section ======= -->
+      <section class="counts section-bg">
+        <div class="container" ng-controller="EventsController">
+          <div class="section-title">
+            <h2>Latest Events</h2>
+          </div>
+          <div class="row justify-content-center">
+
+            <div class="col-lg-3 col-md-6 text-center" data-aos="fade-up" ng-repeat="event in EventListHome">
+              <div class="count-box">
+                <img src="[[event.FeaturedImage]]" alt="" style="width:100%;">
+                <a href="/event-detail/?eid=[[event.Order]]" target="_blank">[[event.Title]]</a>
+                <p>[[event.Date]]</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="text-center">
+            <a class="btn-rounded" href="/library/events">SEE MORE EVENTS</a>
+          </div>
+        </div>
+      </section>
+      <!-- ======= End Event Section ======= -->
 
             <!-- ======= Info Section ======= -->
 

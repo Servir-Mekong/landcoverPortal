@@ -6,7 +6,7 @@ var settings = {
             'show': true
         },
         {
-            'name': 'Services',
+            'name': 'Maps & Services',
             'url': '/services/',
             'show': true
         },
