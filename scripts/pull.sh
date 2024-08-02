@@ -2,7 +2,7 @@
 
 source /home/rlcms/landcover_env/bin/activate
 cd /home/rlcms/rlcms-v2
-git reset --hard HEAD
+#git reset --hard HEAD
 git pull
 python manage.py collectstatic
 sudo systemctl restart supervisor 

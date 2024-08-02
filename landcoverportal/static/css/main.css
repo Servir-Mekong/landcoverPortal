@@ -298,10 +298,19 @@ th {
 .btn-rounded{
   border: 1px solid #f89f1d;
   border-radius: 50px;
-  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   color: #354751;
   font-size: 12px;
-  background: rgba(255,255,255,0.9);
+  /* background: rgba(255,255,255,0.9); */
+  background: #fef9c3;
+}
+
+.btn-rounded:hover{
+  background-color: #fbbf24;
+  color: #212529;
 }
 
 .btn-rounded-sm{
@@ -2370,4 +2379,14 @@ Dashboard style */
     height: 20px;
     border-radius: 50px;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.list-group-item {
+  background-color: transparent;
+  border: none;
+  padding-left: 0; /* Optional: remove left padding */
+  padding-right: 0; /* Optional: remove right padding */
+}
+.list-group-item img {
+  margin-right: 10px; /* Optional: add space between icon and text */
 }
