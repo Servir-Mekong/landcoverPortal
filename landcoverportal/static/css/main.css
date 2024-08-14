@@ -298,10 +298,10 @@ th {
 .btn-rounded{
   border: 1px solid #f89f1d;
   border-radius: 50px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   color: #354751;
   font-size: 12px;
   /* background: rgba(255,255,255,0.9); */

@@ -53,7 +53,7 @@ def api(request):
         # sanitize
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
-
+        
         core = ForestMonitor(area_path, area_name, shape, geom, radius, center)
         if action == 'tree-canopy':
             data = core.tree_canopy(year = post('year', ''),

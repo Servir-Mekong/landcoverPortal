@@ -14,8 +14,8 @@ class ForestMonitor():
     ee.Initialize(settings.EE_CREDENTIALS)
 
     # image collection
-    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/UMD/TCC_C02')
-    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/UMD/TCH_C02')
+    TREE_CANOPY = ee.ImageCollection('projects/servir-mekong/TCC_SEA')#projects/servir-mekong/UMD/TCC_C02
+    TREE_HEIGHT = ee.ImageCollection('projects/servir-mekong/TCH_SEA') #projects/servir-mekong/UMD/TCH_C02
     PRIMARY_FOREST = ee.ImageCollection('projects/servir-mekong/yearly_primitives_smoothed/primary_forest')
 
     
@@ -23,14 +23,14 @@ class ForestMonitor():
     AVBDATA_ENDYEAR= ee.Date(TREE_CANOPY.sort('system:time_start',False).first().get('system:time_start')).get('year').getInfo()
 
     # geometries
-    MEKONG_BOUNDARY = ee.FeatureCollection('users/biplov/mekong-boundary')
+    MEKONG_BOUNDARY = ee.FeatureCollection('projects/servir-mekong/sea_administrative_boundaries/sea_region') # ee.FeatureCollection('users/biplov/mekong-boundary')
     MEKONG_FEATURE_COLLECTION = ee.FeatureCollection('users/biplov/Mekong')
     #COUNTRIES_GEOM = MEKONG_FEATURE_COLLECTION.filter(ee.Filter.inList('NAME_0',
     #                                                                   settings.COUNTRIES_NAME)).geometry()
 
     # -------------------------------------------------------------------------
     def __init__(self, area_path, area_name, shape, geom, radius, center):
-
+        
         self.geom = geom
         self.radius = radius
         self.center = center
@@ -38,9 +38,10 @@ class ForestMonitor():
             if (area_path == 'country'):
                 #if (area_name == 'Myanmar'):
                 #    area_name = 'Myanmar (Burma)'
-                self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
-                                    ee.Filter.inList('NAME_0', [area_name])).geometry()
+                # self.geometry = ForestMonitor.MEKONG_FEATURE_COLLECTION.filter(\
+                #                     ee.Filter.inList('NAME_0', [area_name])).geometry()
                 self.scale = 100
+                self.geometry = ee.FeatureCollection('projects/servir-mekong/sea_administrative_boundaries/sea_region').geometry()
             elif (area_path == 'province'):
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                     'static/data/',

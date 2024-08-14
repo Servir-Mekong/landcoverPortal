@@ -68,7 +68,7 @@ class LandCoverViewer():
         self.v2 = False
     
         self.v5 = True
-        self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/RLCMSV2/lc_rlcms_logical_v5_remap')
+        self.LANDCOVERMAP = ee.ImageCollection('projects/servir-mekong/RLCMSV2/lc_rlcms_logical_v6_remap')
         # Class and Index
     
         self.LANDCOVERCLASSES = [
