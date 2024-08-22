@@ -66,7 +66,19 @@
                     <span class="tooltipmap tooltipmap3 left"> Sign in with Google </span>
                   </li>
 
-                  <li class="pointer shadow" id="sign-in">
+                  <li class="pointer shadow" id="draw-polygon" ng-click="drawPolygon()">
+                    <svg class="panel-icon" style="padding-left: 4px; padding-top:1px;">
+                      <svg width="1.2em" height="1.5em" viewBox="0 0 24 24" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m21,18c-.221,0-.434.027-.642.072l-4.525-5.128c.1-.299.167-.612.167-.945s-.067-.646-.167-.945l4.525-5.128c.207.045.421.072.642.072,1.657,0,3-1.343,3-3s-1.343-3-3-3c-1.304,0-2.403.837-2.816,2H5.816c-.413-1.163-1.512-2-2.816-2C1.343,0,0,1.343,0,3c0,1.304.837,2.403,2,2.816v12.367c-1.163.413-2,1.512-2,2.816,0,1.657,1.343,3,3,3,1.304,0,2.403-.837,2.816-2h12.367c.413,1.163,1.512,2,2.816,2,1.657,0,3-1.343,3-3s-1.343-3-3-3Zm-16,.779V5.221c.078-.07.151-.143.221-.221h11.955l-3.582,4.06c-.192-.039-.39-.06-.594-.06-1.657,0-3,1.343-3,3s1.343,3,3,3c.203,0,.402-.021.594-.06l3.582,4.06H5.221c-.07-.078-.143-.151-.221-.221Z"/>
+                      </svg>
+                    </svg>                   
+                    <span class="tooltipmap tooltipmap3 left"> Draw Polygon </span>
+                </li>
+                
+                
+                
+
+                  <!-- <li class="pointer shadow" id="sign-in">
                     <a href="/landcover/analysis/"><svg class="panel-icon">
                       <svg width="2em" height="2em" viewBox="-4 -3 20 20" class="bi bi-bar-chart-line-fill" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
                       <rect width="4" height="5" x="1" y="10" rx="1"/>
@@ -77,11 +89,11 @@
                     </svg>
                     <span class="tooltipmap tooltipmap4 left"> Statistical Analysis </span></a>
 
-                  </li>
+                  </li> -->
 
                 </ul>
 
-                <ul class="map-data-content">
+                <ul class="map-data-content" style="display: none;">
                   <li class="pointer shadow" id="control-landcover">
                     <svg class="panel-icon">
                       <svg width="2em" height="1.5em" viewBox="0 0 16 16" class="bi bi-map" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
@@ -111,19 +123,25 @@
 
               </div>
 
-
+          <div class="legend-panel">
+            {% include "panels/landcover-legend.html" %}
+          </div>
           <!-- Toogle button container -->
           <div id="tool-control-container"></div>
           <!-- Time Slider -->
           <div class="slider-year-container">
               <input type="text" id="slider-year-selector" name="slider-year-selector" value="" />
           </div>
+          
+          {% include "panels/side-panel-landcover.html" %}
+          
           <!-- Tab Container -->
-          <div class="tab-tool" ng-show="showTabContainer">
+          <div class="draw-panel" ng-show="showTabContainer">
             {% include "panels/area-selection-tab.html" %}
           </div>
-          {% include "panels/side-panel-landcover.html" %}
+          
       </div>
+      
   </div>
 
 </div>

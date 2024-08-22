@@ -1,0 +1,67 @@
+<div class="legend-content" style="padding-left: 10px; padding-right: 5px;">
+    <h6 style="font-weight: bold;">Land Cover</h6>
+    <div>
+        <span class="opacity-slider" id="layer-opacity-slider-landcovermap"></span>
+        <div>
+            <p>Opacity:</p>
+            <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-landcovermap" style="width: 80%;">
+            <span>0%</span><span style="float:right;">100%</span>
+        </div>
+    </div>
+    
+    <!-- <ul class="toggles-list" style="margin-top: 10px;">
+        <li class="toggle" ng-repeat="class in landCoverClasses">
+            <label class="legend-lc-class" style="background: [[ class.color ]]">
+            </label>
+            <label>[[ class.name ]]</label>
+        </li>
+    </ul> -->
+    <div class="row">
+        <div class="col-xs-6">
+            <ul class="toggles-list list-unstyled">
+                <li class="toggle" ng-repeat="class in landCoverClasses.slice(0, landCoverClasses.length / 2)">
+                  <label class="legend-lc-class" style="background: [[ class.color ]]"></label>
+                  <label>[[ class.name ]]</label>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-6">
+            <ul class="toggles-list list-unstyled">
+                <li class="toggle" ng-repeat="class in landCoverClasses.slice(landCoverClasses.length / 2)">
+                  <label class="legend-lc-class" style="background: [[ class.color ]]"></label>
+                  <label>[[ class.name ]]</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div ng-show="showLegendPrimitivemap">
+        <label><b>Primitive Layer</b></label>
+        <div class="slidecontainer">
+          <p>Opacity:</p>
+          <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-primitivemap" style="width: 80%;">
+          <span>0%</span><span style="float:right;">100%</span>
+        </div>
+        <hr>
+    </div>
+
+    <div ng-show="showLegendProbabilitymap">
+        <label><b>Probability Map</b></label>
+        <div class="slidecontainer">
+            <p>Opacity:</p>
+            <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-probabilitymap" style="width: 80%;">
+            <span>0%</span><span style="float:right;">100%</span>
+        </div>
+        <hr>
+    </div>
+
+    <div ng-show="showLegendCompositemap">
+        <label><b>Composite Map</b></label>
+        <div class="slidecontainer">
+            <p>Opacity:</p>
+            <input type="range" min="1" max="100" value="100" class="slider" id="layer-opacity-slider-compositemap" style="width: 80%;">
+            <span>0%</span><span style="float:right;">100%</span>
+        </div>
+        <hr>
+    </div>
+</div>

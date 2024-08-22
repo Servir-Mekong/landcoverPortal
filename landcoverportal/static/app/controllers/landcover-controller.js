@@ -58,6 +58,10 @@
         // Typology CSV
         $scope.typologyCSV = null;
 
+        $scope.isDrawPanelVisible = false;
+        $scope.drawPolygon = function() {
+            $scope.isDrawPanelVisible = !$scope.isDrawPanelVisible;
+        };
         /**
          * Alert
          */
@@ -347,8 +351,8 @@
                   chart: {
                     type: 'pie',
                     // Explicitly tell the width and height of a chart
-                    width: 200,
-                    height: 400,
+                    // width: 200,
+                    // height: 400,
                     style: {
                         fontFamily: "sans-serif"
                     }
@@ -371,20 +375,19 @@
                       }
                   },
                   legend: {
-                    layout: 'vertical',
-                    verticalAlign: 'middle',
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    floating: false,
-                    itemMarginBottom: 3,
-                    itemStyle: {
-                        color: '#666666',
-                        fontWeight: 'normal',
-                        fontSize: '10px'
-                    },
+                    // layout: 'vertical',
+                    // verticalAlign: 'middle',
+                    // align: 'center',
+                    // verticalAlign: 'bottom',
+                    // floating: false,
+                    // itemMarginBottom: 3,
+                    
                     labelFormatter: function() {
                       return this.name + " (" + (this.y/totalArea*100).toFixed(2) + "%)";
-                   }
+                   },
+                   itemStyle: {
+                        fontSize: '10px' 
+                    }
                  },
                   exporting: {
                            enabled: true
@@ -467,7 +470,7 @@
         /**
          * Drawing Tool Manager
          **/
-
+        
         var drawingManager = new google.maps.drawing.DrawingManager();
 
         var stopDrawing = function () {
@@ -961,14 +964,14 @@
           $("#sidenav-landcover-class").css("width", "250px");
           $("#sidenav-primitives-class").css("width", "0");
           $("#sidenav-more-layers").css("width", "0");
-          $(".control-panel").css("right", "260px");
+          $(".control-panel").css("right", "20px");
         });
 
         $('#control-primitives').click(function() {
           $("#sidenav-landcover-class").css("width", "0");
           $("#sidenav-primitives-class").css("width", "250px");
           $("#sidenav-more-layers").css("width", "0");
-          $(".control-panel").css("right", "260px");
+          $(".control-panel").css("right", "20px"); // 260px
         });
 
         $('#control-layers').click(function() {

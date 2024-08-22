@@ -458,10 +458,11 @@ ul {
 }
 
 .sidenav-right{
-  right: 0;
+  /* right: 0; */
+  left: 0;
   overflow: auto;
-  padding-bottom: 100px;
-  top: 90px;
+  padding-bottom: 50px;
+  top: 50px;
   height: 100%;
   z-index: 98;
   background: rgb(0 0 0 / 75%);
@@ -470,7 +471,7 @@ ul {
 
 .sideanv-content{
   background-color: rgb(0 0 0 / 0%);
-  margin: 5px 15px;
+  margin: 5px 0px;
   padding: 10px 10px 10px 10px;
   color: #FFF;
 }
@@ -635,4 +636,31 @@ hr {
   border-radius: 30px;
   color: #FFF;
   padding: 5px;
+}
+.legend-panel {
+  height: auto;
+  max-width: 400px;
+  position: fixed;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 15px;
+  background-color: #FFF;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 0px;
+}
+.draw-panel {
+  height: auto;
+  max-width: 300px;
+  position: fixed;
+  z-index: 1;
+  right: 0;
+  margin-bottom: 15px;
+  background-color: #FFF;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 10px;
+  margin-top: 0px;
+  margin-right: 80px;
 }
