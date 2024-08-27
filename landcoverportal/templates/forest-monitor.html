@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
 
-  <div class="row" ng-controller="forestMonitorController">
+  <div class="row forest" ng-controller="forestMonitorController">
 
     <!-- Alert Container -->
     <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
@@ -28,9 +28,21 @@
 
     <!-- Map Container -->
     <div class="map [[ mapClass ]]" id="map"></div>
-
+    <div class="forest-tab">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-forest active" id="control-forest-extent">FOREST EXTENT</button>
+        <button type="button" class="btn btn-forest" id="control-primary-forest">PRIMARY FOREST</button>
+        <button type="button" class="btn btn-forest" id="control-forest-dynamics">FOREST DYNAMICS</button>
+      </div>
+    </div>
     <div class="control-panel map-component">
       <div class="scalebar-container"></div>
+      
+      <!-- <ul class="map-data-content2">
+        <li class="pointer shadow" id="control-forest-extent">FOREST EXTENT</li>
+        <li class="pointer shadow" id="control-primary-forest">PRIMARY FOREST</li>
+        <li class="pointer shadow" id="control-forest-dynamics">FOREST DYNAMICS</li>
+      </ul> -->
       <!-- Map Munu -->
       <ul>
         <li class="pointer shadow" id="zoom-in">
@@ -62,10 +74,17 @@
           </svg>
           <span class="tooltipmap tooltipmap3 left"> Sign in with Google </span>
         </li>
-
+        <li class="pointer shadow" id="draw-polygon" ng-click="drawPolygon()">
+          <svg class="panel-icon" style="padding-left: 4px; padding-top:1px;">
+            <svg width="1.2em" height="1.5em" viewBox="0 0 24 24" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
+              <path d="m21,18c-.221,0-.434.027-.642.072l-4.525-5.128c.1-.299.167-.612.167-.945s-.067-.646-.167-.945l4.525-5.128c.207.045.421.072.642.072,1.657,0,3-1.343,3-3s-1.343-3-3-3c-1.304,0-2.403.837-2.816,2H5.816c-.413-1.163-1.512-2-2.816-2C1.343,0,0,1.343,0,3c0,1.304.837,2.403,2,2.816v12.367c-1.163.413-2,1.512-2,2.816,0,1.657,1.343,3,3,3,1.304,0,2.403-.837,2.816-2h12.367c.413,1.163,1.512,2,2.816,2,1.657,0,3-1.343,3-3s-1.343-3-3-3Zm-16,.779V5.221c.078-.07.151-.143.221-.221h11.955l-3.582,4.06c-.192-.039-.39-.06-.594-.06-1.657,0-3,1.343-3,3s1.343,3,3,3c.203,0,.402-.021.594-.06l3.582,4.06H5.221c-.07-.078-.143-.151-.221-.221Z"/>
+            </svg>
+          </svg>                   
+          <span class="tooltipmap tooltipmap3 left"> Draw Polygon </span>
+        </li>
       </ul>
 
-      <ul class="map-data-content">
+      <!-- <ul class="map-data-content">
         <li class="pointer shadow" id="control-forest-extent">
           <svg class="panel-icon">
             <svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-tree" fill="#FFF" xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +140,7 @@
           </svg>
           <span class="tooltipmap tooltipmap7 left"> FOREST DYNAMICS</span>
         </li>
-      </ul>
+      </ul> -->
 
     </div>
 
@@ -130,7 +149,7 @@
 <div id="tool-control-container"></div>
 
 <!-- Tab Container -->
-<div class="tab-tool" ng-show="showTabContainer">
+<div class="draw-panel" ng-show="showTabContainer">
   {% include "panels/forest-area-selection-tab.html" %}
 </div>
 <!-- end of tab -->

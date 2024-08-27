@@ -69,7 +69,7 @@
                     maxZoom: service.MAX_ZOOM,
                     mapTypeControlOptions: {
                         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                        position: google.maps.ControlPosition.TOP_CENTER
+                        position: google.maps.ControlPosition.BOTTOM_CENTER
                     },
                     mapTypeId: 'terrain',
                     fullscreenControl: false,

@@ -24,6 +24,8 @@
                 arr.push({'year':year})
             };
             $scope.endYear = arr;
+            $scope.treeCanopyYear = $scope.endYear[$scope.endYear.length - 1].year;
+            $scope.treeCanopyYearChange($scope.treeCanopyYear);
         }, function (error) {
             showErrorAlert(error.error);
         });
@@ -67,6 +69,10 @@
             }
 
         });
+        $scope.isDrawPanelVisible = false;
+        $scope.drawPolygon = function() {
+            $scope.isDrawPanelVisible = !$scope.isDrawPanelVisible;
+        };
 
         /**
          * Alert
@@ -1091,24 +1097,33 @@
         });
 
         $('#control-forest-extent').click(function() {
+          $(this).addClass('active');
+          $('#control-primary-forest').removeClass('active');
+          $('#control-forest-dynamics').removeClass('active');
           $("#sidenav-forest-class").css("width", "250px");
-          $(".control-panel").css("right", "260px");
+          $(".control-panel").css("right", "20px");
           $("#forest-extent-panel").css("display", "block");
           $("#primary-forest-panel").css("display", "none");
           $("#forest-dynamics-panel").css("display", "none");
         });
 
         $('#control-primary-forest').click(function() {
+          $(this).addClass('active');
+          $('#control-forest-extent').removeClass('active');
+          $('#control-forest-dynamics').removeClass('active');
           $("#sidenav-forest-class").css("width", "250px");
-          $(".control-panel").css("right", "260px");
+          $(".control-panel").css("right", "20px");
           $("#forest-extent-panel").css("display", "none");
           $("#primary-forest-panel").css("display", "block");
           $("#forest-dynamics-panel").css("display", "none");
         });
 
         $('#control-forest-dynamics').click(function() {
+          $(this).addClass('active');
+          $('#control-forest-extent').removeClass('active');
+          $('#control-primary-forest').removeClass('active');
           $("#sidenav-forest-class").css("width", "250px");
-          $(".control-panel").css("right", "260px");
+          $(".control-panel").css("right", "20px");
           $("#forest-extent-panel").css("display", "none");
           $("#primary-forest-panel").css("display", "none");
           $("#forest-dynamics-panel").css("display", "block");

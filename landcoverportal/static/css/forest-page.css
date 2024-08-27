@@ -240,3 +240,41 @@
   border-radius: 50px;
   margin-bottom: 10px;
 }
+.forest-tab{
+    margin-top: 10px;
+    margin-left: 35%;
+    position: fixed;
+    z-index: 1000;
+}
+.forest-tab .btn-forest {
+    background: #000;
+    color: #fff;
+}
+.forest-tab .btn.active {
+    background-color: #115e59;  
+}
+.forest-tab .btn:hover {
+    background-color: #115e59;  
+}
+.forest-tab #control-primary-forest {
+    border-left: 1px solid #fff;
+}
+.forest-tab #control-forest-dynamics {
+    border-left: 1px solid #fff;
+}
+/* .forest-tab .btn {
+    border-radius: 20px; 
+}
+
+.forest-tab .btn-group .btn:first-child {
+    border-top-left-radius: 30px; 
+    border-bottom-left-radius: 30px;
+}
+
+.forest-tab .btn-group .btn:last-child {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+} */
+.forest .alert{
+    margin-top: 55px;
+}
