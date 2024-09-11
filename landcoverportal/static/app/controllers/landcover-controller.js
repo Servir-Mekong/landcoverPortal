@@ -653,7 +653,8 @@
                     $scope.assemblageLayers.push($(this).val());
                 }
             });
-            console.log(  $scope.assemblageLayers);
+            console.log(version);
+            console.log($scope.assemblageLayers);
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap', version);
             $scope.getStats();

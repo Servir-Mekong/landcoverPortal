@@ -8,7 +8,7 @@
         var service = this;
 
         service.getLandCoverMap = function (options) {
-
+            
             var classes = options.classes;
             var year = options.year;
             var shape = options.shape;

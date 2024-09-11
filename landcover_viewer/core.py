@@ -275,13 +275,13 @@ class LandCoverViewer():
         # image = ic.filterDate('2023-01-01', '2023-12-31').first()
         image = image.select('lc')
 
-        # # Start with creating false boolean image
-        # masked_image = image.eq(ee.Number(100))
+        # Start with creating false boolean image
+        masked_image = image.eq(ee.Number(100))
 
-        # # get the primitives
-        # for _class in classes:
-        #     _mask = image.eq(ee.Number(int(_class)))
-        #     masked_image = masked_image.add(_mask)
+        # get the primitives
+        for _class in classes:
+            _mask = image.eq(ee.Number(int(_class)))
+            masked_image = masked_image.add(_mask)
 
         #palette = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
         palette = []
@@ -289,8 +289,8 @@ class LandCoverViewer():
             palette.append(_class['color'])
 
         palette = ','.join(palette)
-        image = image.clip(self.geometry)
-        # image = image.updateMask(masked_image).clip(self.geometry)
+        # image = image.clip(self.geometry)
+        image = image.updateMask(masked_image).clip(self.geometry)
 
         if download:
             return image
