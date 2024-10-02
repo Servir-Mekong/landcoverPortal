@@ -750,34 +750,77 @@
         $scope.primitiveDownloadURL = '';
         $scope.probabilityDownloadURL = '';
         $scope.showProbabilityDownloadURL = false;
+        $scope.isModalOpen = false;
 
-        $scope.getDownloadURL = function (options) {
+        $scope.openModal = function() {
+            var type = 'landcover';
+            
+            // Verify before opening the modal
+            if (verifyBeforeDownload(type)) {
+                $scope.isModalOpen = true; // Open modal if verification passes
+                $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false; // Reset download URL visibility
+                showInfoAlert('Preparing Download Link...'); // Show information alert
+            } else {
+                showErrorAlert('Verification failed. Please check your inputs.'); // Show error alert if verification fails
+            }
+        };
+        
+        $scope.closeModal = function() {
+            $scope.isModalOpen = false; // Close modal
+        };
+        
+        $scope.submitDownloadForm = function() {
+            // Prepare the download parameters
+            var type = 'landcover'; // Set type, adjust if needed
+            var version = 'v3'; // Set version, can be dynamic
+        
+            // // Collect form data
+            // var formData = {
+            //     name: $scope.formData.name,
+            //     email: $scope.formData.email,
+            //     institution: $scope.formData.institution,
+            //     jobTitle: $scope.formData.jobTitle,
+            //     purpose: $scope.formData.purpose
+            // };
+            // console.log(formData);
+            // Prepare parameters for the download request
+            var parameters = {
+                classes: $scope.assemblageLayers,
+                year: $scope.sliderYear,
+                shape: $scope.shape,
+                areaSelectFrom: $scope.areaSelectFrom,
+                areaName: $scope.areaName,
+                version: version,
+                type: type,
+                index: $scope.primitiveIndex,
+                name: $scope.formData.name,
+                email: $scope.formData.email,
+                institution: $scope.formData.institution,
+                jobTitle: $scope.formData.jobTitle,
+                purpose: $scope.formData.purpose
+            };
+        
+            // Call getDownloadURL with the combined parameters
+            $scope.getDownloadURL(parameters);
+        
+            // Optionally close the modal after submission
+            $scope.closeModal();
+        };
+        
+        $scope.getDownloadURL = function(options) {
             var type = options.type || 'landcover';
             var version = options.version;
-            if (verifyBeforeDownload(type)) {
-                $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = false;
-                showInfoAlert('Preparing Download Link...');
-
-                var parameters = {
-                    classes: $scope.assemblageLayers,
-                    year: $scope.sliderYear,
-                    shape: $scope.shape,
-                    areaSelectFrom: $scope.areaSelectFrom,
-                    areaName: $scope.areaName,
-                    version: version,
-                    type: type,
-                    index: $scope.primitiveIndex
-                };
-                LandCoverService.getDownloadURL(parameters)
-                .then(function (data) {
+        
+            // Call the service to get the download URL
+            LandCoverService.getDownloadURL(options)
+                .then(function(data) {
                     showSuccessAlert('Your Download Link is ready!');
-                    $scope[type + 'DownloadURL'] = data.downloadUrl;
-                    $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true;
-                }, function (error) {
-                    showErrorAlert(error.error);
+                    $scope[type + 'DownloadURL'] = data.downloadUrl; // Store the download URL
+                    $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true; // Show the download URL
+                }, function(error) {
+                    showErrorAlert(error.error); // Handle error response
                     console.log(error);
                 });
-            }
         };
 
         // Google Download

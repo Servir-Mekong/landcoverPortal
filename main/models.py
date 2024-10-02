@@ -61,3 +61,17 @@ class ExportDownloadURL(models.Model):
         return '{} - {}'.format(self.name, self.email)
 
 # =============================================================================
+class DownloadRequest(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    institution = models.CharField(max_length=254)
+    job_title = models.CharField(max_length=100)
+    dataset = models.CharField(max_length=100)
+    purpose_of_download = models.TextField()
+    downloaded_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Downloaded User Info'
+
+    def __str__(self):
+        return self.name

@@ -315,6 +315,11 @@
             var type = options.type;
             var index = options.index;
             var serviceType = options.serviceType;
+            var name = options.name;
+            var email = options.email;
+            var institution = options.institution;
+            var jobTitle = options.jobTitle;
+            var purpose = options.purpose;
 
             var url = '/api/landcover/';
             if (serviceType === 'myanmar-fra') {
@@ -326,7 +331,7 @@
             } else if (serviceType === 'myanmar-plantation') {
                 url = '/api/myanmar-plantation/';
             }
-            console.log(type, year, index, classes.toString())
+            // console.log(type, year, index, classes.toString())
             var req = {
                 method: 'POST',
                 url: url,
@@ -334,7 +339,12 @@
                     year: year,
                     type: type,
                     classes: classes.toString(),
-                    index: index
+                    index: index,
+                    name: name,
+                    email: email,
+                    institution: institution,
+                    jobTitle: jobTitle,
+                    purpose: purpose
                 },
                 params: {
                     action: 'get-download-url'

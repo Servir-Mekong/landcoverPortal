@@ -6,7 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from main.models import Email, ExportDrive, ExportDownloadURL
+from main.models import Email, ExportDrive, ExportDownloadURL, DownloadRequest
 from .tasks import export_to_drive_task
 from utils import utils
 
@@ -34,7 +34,7 @@ def api(request):
     get = request.GET.get
     action = get('action', '')
     version = get('version', '')
-
+    
     if action and action in PUBLIC_METHODS:
         year = post('year', 2016)
         shape = post('shape', '')
@@ -47,6 +47,12 @@ def api(request):
         report_area = True if get('report-area') == 'true' else False
         classes = post('classes', range(0, 21))
         index = int(post('index', 0))
+        name = post('name', '')
+        email = post('email', '')
+        institution = post('institution', '')
+        jobTitle = post('jobTitle', '')
+        purpose = post('purpose', '')
+        
         if isinstance(classes, (unicode, str)):
             try:
                 classes = classes.split(',')
@@ -74,6 +80,16 @@ def api(request):
             data = core.get_probability(year=year)
 
         elif action == 'get-download-url':
+            download_request = DownloadRequest(
+                name=name,
+                email=email,
+                institution=institution,
+                job_title=jobTitle,
+                dataset='landcover',
+                purpose_of_download=purpose
+            )
+            download_request.save()
+
             data = core.get_download_url(type = type,
                                          year = year,
                                          classes = classes,

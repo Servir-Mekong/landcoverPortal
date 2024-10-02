@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from .models import Email, ExportDrive, ExportDownloadURL
+from .models import Email, ExportDrive, ExportDownloadURL, DownloadRequest
 
 admin.site.register(Email)
 admin.site.register(ExportDrive)
 admin.site.register(ExportDownloadURL)
+admin.site.register(DownloadRequest)
